@@ -45,7 +45,8 @@ class Cli extends Controller {
         if(
             !in_array(
                 $submodule,
-                $scan['submodule']
+                $scan['submodule'],
+                true
             )
         ){
             $submodule = false;
@@ -54,7 +55,8 @@ class Cli extends Controller {
         if(
             !in_array(
                 $command,
-                $scan['command']
+                $scan['command'],
+                true
             ) ||
             $module === Cli::MODULE_INFO ||
             $submodule === Cli::MODULE_INFO
@@ -65,7 +67,8 @@ class Cli extends Controller {
         if(
             !in_array(
                 $subcommand,
-                $scan['subcommand']
+                $scan['subcommand'],
+                true
             ) ||
             $module === Cli::MODULE_INFO ||
             $submodule === Cli::MODULE_INFO
@@ -177,7 +180,8 @@ class Cli extends Controller {
             if(
                 !in_array(
                     $module,
-                    $scan['module']
+                    $scan['module'],
+                    true
                 )
             ){
                 $scan['module'][] = $module;
@@ -186,7 +190,8 @@ class Cli extends Controller {
                 $submodule &&
                 !in_array(
                     $submodule,
-                    $scan['submodule']
+                    $scan['submodule'],
+                    true
                 )
             ){
                 $scan['submodule'][] = $submodule;
@@ -195,7 +200,8 @@ class Cli extends Controller {
                 $command  &&
                 !in_array(
                     $command,
-                    $scan['command']
+                    $scan['command'],
+                    true
                 )
             ){
                 $scan['command'][] = $command;
@@ -204,7 +210,8 @@ class Cli extends Controller {
                 $subcommand &&
                 !in_array(
                     $subcommand,
-                    $scan['subcommand']
+                    $scan['subcommand'],
+                    true
                 )
             ){
                 $scan['subcommand'][] = $subcommand;
