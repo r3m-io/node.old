@@ -27,14 +27,14 @@ class Cli extends Controller {
      * @throws Exception
      */
     public static function run(App $object){
-        ddd($object->config());
         $autoload = [];
         $data = new Data();
         $data->set('prefix', 'Node');
-        //$data->set('directory', $object->config('p'));
-
-
-        Cli::autoload($object);
+        $data->set('directory', $object->config('project.dir.vendor') . 'r3m-io/node/src/');
+        $autoload[] = $data->data();
+        $data->clear();
+        $data->set('autoload', $autoload);
+        Cli::autoload($object, $data);
         $priya = $object->request(0);
         $scan = Cli::scan($object);
         $module = $object->parameter($object, $priya, 1);
