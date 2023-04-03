@@ -30,7 +30,7 @@ class Cli extends Controller {
         $autoload = [];
         $data = new Data();
         $data->set('prefix', 'Node');
-        $data->set('directory', $object->config('project.dir.vendor') . 'r3m-io/node/src/');
+        $data->set('directory', $object->config('project.dir.vendor') . 'r3m-io/node/src/Trait/');
         $autoload[] = clone $data->data();
         $data->clear();
         $data->set('autoload', $autoload);
