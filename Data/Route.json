@@ -1,0 +1,10 @@
+{
+  "r3m-io-node": {
+    "path": "r3m-io/Node/",
+    "controller": "R3m.Io.Node.Controller.Cli.run",
+    "language": "en",
+    "method": [
+      "CLI"
+    ]
+  }
+}
