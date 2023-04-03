@@ -1,0 +1,21 @@
+{
+    "name" : "r3m-io/node",
+    "description" : "R3m-io/node see https://r3m.io for detailed usage",
+    "type" : "library",
+    "keywords" : ["node", "r3m", "library", "framework"],
+    "homepage": "https://r3m.io",
+    "require" : {
+        "r3m/framework": "dev-dev",
+        "ext-posix": "*"
+    },
+    "license" : "MIT",
+    "authors" : [{
+        "name" : "Remco van der Velde",
+        "email" : "remco@universeorange.com"
+    }],
+    "autoload" : {
+        "psr-4" : {
+            "R3m\\Io\\Node\\" : "src/"
+        }
+    }
+}

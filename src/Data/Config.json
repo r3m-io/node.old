@@ -1,0 +1,8 @@
+{
+  "autoload" : [
+    {
+      "prefix" : "Node",
+      "directory" : "{{config('controller.dir.root')}}Trait{{config('ds')}}"
+    }
+  ]
+}
