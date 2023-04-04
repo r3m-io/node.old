@@ -1,6 +1,6 @@
 <?php
 
-namespace Node;
+namespace R3m\Io\Node\Trait;
 
 use Exception;
 use R3m\Io\App;
