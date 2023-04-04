@@ -21,6 +21,23 @@ Trait Data {
         d($class);
         d($options);
         ddd('end');
+        /*
+object(stdClass)#426 (2) {
+  ["action"]=>
+  string(16) "cli.autoload.run"
+  ["options"]=>
+  object(stdClass)#431 (3) {
+    ["command"]=>
+    array(0) {
+    }
+    ["controller"]=>
+    array(0) {
+    }
+    ["priority"]=>
+    int(10)
+  }
+}
+         */
     }
 
 }
