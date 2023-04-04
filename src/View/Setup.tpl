@@ -10,10 +10,11 @@
 
 {{R3m.Io.Node:Data:create('Event', [
 'action' => 'cli.autoload.run',
-'options.command' => [],
-'options.controller' => [],
-'options.priority' => 10
-])}}
+'options' => [
+'command' => [],
+'controller' => [],
+'priority' => 10
+]])}}
 
 Utilising the Node namespace:
 
