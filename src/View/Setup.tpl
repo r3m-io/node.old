@@ -2,14 +2,13 @@
 /*
 {{R3m.Io.Node:Setup:install()}}
 */
-{{R3m.Io.Node:Data:create('Event', {
-"action" : "cli.autoload.run",
-"options" : {
-"command" : [],
-"controller" : [],
-"priority" : 10
-}
-})}}
+
+{{$event.action = 'cli.autoload.run'}}
+{{$event.options.command = []}}
+{{$event.options.controller = []}}
+{{$event.options.priority = 10}}
+
+{{R3m.Io.Node:Data:create('Event', $event)}}
 
 Utilising the Node namespace:
 
