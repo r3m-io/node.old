@@ -1,5 +1,5 @@
 {{R3M}}
-{{R3m.Io.Node.Trait:Setup:install()}}
+{{R3m.Io.Node:Setup:install()}}
 
 Utilising the Node namespace:
 
