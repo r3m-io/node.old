@@ -1,5 +1,15 @@
 {{R3M}}
+/*
 {{R3m.Io.Node:Setup:install()}}
+*/
+{{R3m.Io.Node:Data:create('Event', {
+"action" : "cli.autoload.run",
+"options" : {
+"command" : [],
+"controller" : [],
+"priority" : 10
+}
+})}}
 
 Utilising the Node namespace:
 

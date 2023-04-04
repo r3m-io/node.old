@@ -1,6 +1,6 @@
 <?php
 
-namespace Node;
+namespace R3m\Io\Node\Trait;
 
 use Exception;
 use R3m\Io\App;
@@ -16,10 +16,11 @@ use stdClass;
 Trait Data {
 
 
-    public function create($options=[]): void
+    public function create($class='', $options=[]): void
     {
-        $object = $this->object();
-        ddd($object->config());
+        d($class);
+        d($options);
+        ddd('end');
     }
 
 }
