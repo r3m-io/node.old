@@ -30,18 +30,18 @@ class Cli extends Controller {
         $autoload = [];
         $data = new Data();
         $data->set('prefix', 'Node');
-        $data->set('directory', $object->config('project.dir.vendor') . 'r3m-io/node/src/Trait/');
+        $data->set('directory', $object->config('project.dir.vendor') . 'r3m-io/node/src/');
         $autoload[] = clone $data->data();
         $data->clear();
         $data->set('autoload', $autoload);
         Cli::autoload($object, $data);
-        $priya = $object->request(0);
+        $node = $object->request(0);
         $scan = Cli::scan($object);
-        $module = $object->parameter($object, $priya, 1);
+        $module = $object->parameter($object, $node, 1);
         if(!in_array($module, $scan['module'])){
             $module = Cli::MODULE_INFO;
         }
-        $submodule = $object->parameter($object, $priya, 2);
+        $submodule = $object->parameter($object, $node, 2);
         if(
             !in_array(
                 $submodule,
@@ -51,7 +51,7 @@ class Cli extends Controller {
         ){
             $submodule = false;
         }
-        $command = $object->parameter($object, $priya, 3);
+        $command = $object->parameter($object, $node, 3);
         if(
             !in_array(
                 $command,
@@ -63,7 +63,7 @@ class Cli extends Controller {
         ){
             $command = false;
         }
-        $subcommand = $object->parameter($object, $priya, 4);
+        $subcommand = $object->parameter($object, $node, 4);
         if(
             !in_array(
                 $subcommand,
