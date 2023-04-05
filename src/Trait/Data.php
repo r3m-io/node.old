@@ -19,6 +19,7 @@ Trait Data {
     public function create($class='', $options=[]): void
     {
         $data = new Storage($options);
+        d($data->get('options.priority'));
         ddd($data);
         d($class);
         d($options);
