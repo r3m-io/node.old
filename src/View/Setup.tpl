@@ -8,7 +8,7 @@
 {{$event.options.controller = []}}
 {{$event.options.priority = 10}}
 
-
+/*
 {{$test = [
 'action' => 'cli.autoload.run',
 'options' => [
@@ -19,8 +19,9 @@
 
 
 {{R3m.Io.Node:Data:create('Event', $test)}}
+*/
 
-/*
+
 {{R3m.Io.Node:Data:create('Event', [
 'action' => 'cli.autoload.run',
 'options' => [
@@ -28,7 +29,6 @@
 'controller' => [],
 'priority' => 10
 ]])}}
-*/
 
 Utilising the Node namespace:
 
