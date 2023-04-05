@@ -28,6 +28,7 @@ Trait Data {
      */
     public function create($class='', $options=[], $as_void=false): null|false|array
     {
+        $function = __FUNCTION__;
         $name = Controller::name($class);
         $object = $this->object();
         $node = new Storage( (object) $options);
@@ -76,7 +77,7 @@ Trait Data {
                     $command = 'chown www-data:www-data ' . $url;
                     exec($command);
                 }
-                $function = 'create';
+
                 $expose = $this->getExpose(
                     $object,
                     $class,
@@ -95,13 +96,23 @@ Trait Data {
                     'class' => $class,
                     'options' => $options,
                     'url' => $url,
-                    'node' => $node,
+                    'node' => $node->data(),
                 ]);
             } else {
                 $response['error'] = $validate->test;
+                Event::trigger($object, 'r3m.io.node.data.create.error', [
+                    'class' => $class,
+                    'options' => $options,
+                    'url' => $url,
+                    'node' => $node->data(),
+                    'error' => $validate->test,
+                    'as_void' => $as_void,
+                ]);
             }
             if($as_void === false){
                 return $response;
+            } else {
+                return null;
             }
         } else {
             throw new Exception('Cannot validate node at: ' . $validate_url);
