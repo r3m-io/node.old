@@ -26,7 +26,7 @@ Trait Data {
      * @throws FileWriteException
      * @throws Exception
      */
-    public function create($class='', $options=[]): false|array
+    public function create($class='', $options=[], $as_void=false): null|false|array
     {
         $name = Controller::name($class);
         $object = $this->object();
@@ -100,11 +100,16 @@ Trait Data {
             } else {
                 $response['error'] = $validate->test;
             }
-            return $response;
+            if($as_void === false){
+                return $response;
+            }
         } else {
             throw new Exception('Cannot validate node at: ' . $validate_url);
         }
-        return false;
+        if($as_void === false){
+            return false;
+        }
+        return null;
     }
 
     /**
