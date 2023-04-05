@@ -21,10 +21,10 @@ use R3m\Io\Exception\ObjectException;
 
 Trait Data {
 
-
     /**
      * @throws ObjectException
      * @throws FileWriteException
+     * @throws Exception
      */
     public function create($class='', $options=[]): false|array
     {
@@ -76,12 +76,6 @@ Trait Data {
                     $command = 'chown www-data:www-data ' . $url;
                     exec($command);
                 }
-                Event::trigger($object, 'r3m.io.node.data.create', [
-                    'class' => $class,
-                    'options' => $options,
-                    'url' => $url,
-                    'node' => $node,
-                ]);
                 $function = 'create';
                 $expose = $this->getExpose(
                     $object,
@@ -97,10 +91,18 @@ Trait Data {
                     $function
                 );
                 $response['node'] = $record;
+                Event::trigger($object, 'r3m.io.node.data.create', [
+                    'class' => $class,
+                    'options' => $options,
+                    'url' => $url,
+                    'node' => $node,
+                ]);
             } else {
                 $response['error'] = $validate->test;
             }
             return $response;
+        } else {
+            throw new Exception('Cannot validate node at: ' . $validate_url);
         }
         return false;
     }
