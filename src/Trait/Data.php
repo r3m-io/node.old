@@ -26,7 +26,7 @@ Trait Data {
     {
         $name = Controller::name($class);
         $object = $this->object();
-        $record = new Storage($options);
+        $record = new Storage(Core::object($options, Core::OBJECT_OBJECT));
         $dir_node = $object->config('project.dir.data') .
             'Node' .
             $object->config('ds')
@@ -52,7 +52,6 @@ Trait Data {
             }
         }
         $record->set('uuid', Core::uuid());
-
         ddd($record);
         $list = $data->get($class);
         if(empty($list)){
