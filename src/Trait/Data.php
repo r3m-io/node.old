@@ -122,6 +122,7 @@ Trait Data {
             if(empty($validate)){
                 return false;
             }
+            ddd($validate);
             return Validate::validate($object, $validate);
         }
         return false;
