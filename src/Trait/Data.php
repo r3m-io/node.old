@@ -53,6 +53,7 @@ Trait Data {
         }
         $record->set('uuid', Core::uuid());
 
+        ddd($record);
         $list = $data->get($class);
         if(empty($list)){
             $list = [];
