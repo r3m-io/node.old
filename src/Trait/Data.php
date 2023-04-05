@@ -26,7 +26,7 @@ Trait Data {
     {
         $name = Controller::name($class);
         $object = $this->object();
-        $record = new Storage($options);
+        $record = new Storage( (object) $options);
         $dir_node = $object->config('project.dir.data') .
             'Node' .
             $object->config('ds')
