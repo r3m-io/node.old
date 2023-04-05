@@ -28,7 +28,7 @@
 'command' => [],
 'controller' => [],
 'priority' => 10
-]])}}
+]], true)}}
 
 Utilising the Node namespace:
 
