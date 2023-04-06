@@ -153,9 +153,9 @@ Trait Data {
         $response = [];
         d($list);
         if(array_key_exists('order', $options)){
-            $list = Sort::list($list)->with($options['order'], true);
+            $sort = Sort::list($list)->with($options['order'], true);
         }
-        ddd($list);
+        ddd($sort);
         if(array_key_exists('limit', $options)){
             $options['limit'] = 2;
             $list = Limit::list($list)->with([
