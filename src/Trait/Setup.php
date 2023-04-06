@@ -40,10 +40,11 @@ Trait Setup {
             $object->config('ds')
         ;
         $destination = $dir_destination . 'Validate.json';
-        if(!File::exist($destination)){
-            Dir::create($dir_destination, Dir::CHMOD);
-            File::copy($source, $destination);
+        Dir::create($dir_destination, Dir::CHMOD);
+        if(File::exist($destination)){
+            File::delete($destination);
         }
+        File::copy($source, $destination);
     }
 
 

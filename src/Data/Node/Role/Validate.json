@@ -14,7 +14,7 @@
           {
             "is.unique.json" : {
               "url" : "{{config('project.dir.data')}}Node/Role/Data.json",
-              "list" : "role",
+              "list" : "Role",
               "field" : "name"
             }
           }
