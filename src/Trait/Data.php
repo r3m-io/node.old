@@ -151,11 +151,9 @@ Trait Data {
             $list = [];
         }
         $response = [];
-        d($list);
         if(array_key_exists('order', $options)){
-            $sort = Sort::list($list)->with($options['order'], true);
+            $list = Sort::list($list)->with($options['order'], true);
         }
-        ddd($sort);
         if(array_key_exists('limit', $options)){
             $options['limit'] = 2;
             $list = Limit::list($list)->with([
