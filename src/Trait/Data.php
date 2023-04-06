@@ -12,6 +12,7 @@ use R3m\Io\Module\Dir;
 use R3m\Io\Module\Event;
 use R3m\Io\Module\File;
 use R3m\Io\Module\Limit;
+use R3m\Io\Module\Sort;
 use R3m\Io\Module\Validate;
 
 use Exception;
@@ -151,9 +152,12 @@ Trait Data {
         }
         $response = [];
         $response['list'] = [];
+        if(array_key_exists('order', $options)){
+            $response['list'] = Sort::list($list)->with($options['order'], true);
+        }
         if(array_key_exists('limit', $options)){
             $options['limit'] = 2;
-            $response['list'] = Limit::list($list)->with([
+            $response['list'] = Limit::list($response['list'])->with([
                 'limit' => $options['limit'],
                 'page' => $options['page'],
             ]);
