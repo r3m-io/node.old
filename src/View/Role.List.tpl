@@ -5,8 +5,8 @@ List Roles:
     'order' => [
     'name' => 'ASC'
     ],
-    'limit' => 20,
-    'page' => 2,
+    'limit' => 255,
+    'page' => 1,
 ])}}
 {{$list|json.encode:'JSON_PRETTY_PRINT'}}
 

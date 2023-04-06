@@ -157,8 +157,10 @@ Trait Data {
         if(array_key_exists('order', $options)){
             $list = Sort::list($list)->with($options['order'], true);
         }
-        if(array_key_exists('limit', $options)){
-            $options['limit'] = 2;
+        if(
+            array_key_exists('limit', $options) &&
+            array_key_exists('page', $options)
+        ){
             $list = Limit::list($list)->with([
                 'limit' => $options['limit'],
                 'page' => $options['page'],
