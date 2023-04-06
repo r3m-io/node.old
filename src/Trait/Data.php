@@ -11,6 +11,7 @@ use R3m\Io\Module\Data as Storage;
 use R3m\Io\Module\Dir;
 use R3m\Io\Module\Event;
 use R3m\Io\Module\File;
+use R3m\Io\Module\Limit;
 use R3m\Io\Module\Validate;
 
 use Exception;
@@ -125,6 +126,45 @@ Trait Data {
             return false;
         }
         return null;
+    }
+
+    public function list($class='', $options=[]): false|array
+    {
+        $options = Core::object($options, Core::OBJECT_ARRAY);
+        $function = __FUNCTION__;
+        $name = Controller::name($class);
+        $object = $this->object();
+        $dir_node = $object->config('project.dir.data') .
+            'Node' .
+            $object->config('ds');
+        $dir_class = $dir_node .
+            $name .
+            $object->config('ds');
+        $url = $dir_class . 'Data.json';
+        $data = $object->data_read($url);
+        if (!$data) {
+            return false;
+        }
+        $list = $data->get($class);
+        if (empty($list)) {
+            $list = [];
+        }
+        $response = [];
+        $response['list'] = [];
+        if(array_key_exists('limit', $options)){
+            $options['limit'] = 2;
+            $response['list'] = Limit::list($list)->with([
+                'limit' => $options['limit'],
+                'page' => $options['page'],
+            ]);
+        }
+        Event::trigger($object, 'r3m.io.node.data.list', [
+            'class' => $class,
+            'options' => $options,
+            'url' => $url,
+            'list' => $response['list'],
+        ]);
+        return $response;
     }
 
     /**
