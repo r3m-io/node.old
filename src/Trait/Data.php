@@ -78,20 +78,23 @@ Trait Data {
                     $command = 'chown www-data:www-data ' . $url;
                     exec($command);
                 }
-
-                $expose = $this->getExpose(
-                    $object,
-                    $class,
-                    $class . '.' . $function .'.expose'
-                );
-                ddd($expose);
-                $record = $this->expose(
-                    $object,
-                    $object->request('node'),
-                    $expose,
-                    $class,
-                    $function
-                );
+                if($object->config(Config::POSIX_ID) === 0){
+                    $record = $object->request('node');
+                } else {
+                    $expose = $this->getExpose(
+                        $object,
+                        $class,
+                        $class . '.' . $function .'.expose'
+                    );
+                    ddd($expose);
+                    $record = $this->expose(
+                        $object,
+                        $object->request('node'),
+                        $expose,
+                        $class,
+                        $function
+                    );
+                }
                 $response['node'] = $record;
                 Event::trigger($object, 'r3m.io.node.data.create', [
                     'class' => $class,
