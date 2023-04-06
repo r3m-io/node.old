@@ -151,17 +151,18 @@ Trait Data {
             $list = [];
         }
         $response = [];
-        $response['list'] = [];
         if(array_key_exists('order', $options)){
-            $response['list'] = Sort::list($list)->with($options['order'], true);
+            $list = Sort::list($list)->with($options['order'], true);
         }
+        ddd($list);
         if(array_key_exists('limit', $options)){
             $options['limit'] = 2;
-            $response['list'] = Limit::list($response['list'])->with([
+            $list = Limit::list($list)->with([
                 'limit' => $options['limit'],
                 'page' => $options['page'],
             ]);
         }
+        $response['list'] = $list;
         Event::trigger($object, 'r3m.io.node.data.list', [
             'class' => $class,
             'options' => $options,
