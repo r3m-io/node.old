@@ -1,5 +1,4 @@
 {{R3M}}
-
 Create Role:
 
 {{$name = terminal.readline('Role: ')}}
@@ -8,3 +7,4 @@ Create Role:
 ])}}
 
 {{$role|json.encode:'JSON_PRETTY_PRINT'}}
+
