@@ -2,7 +2,7 @@
 
 Create Role:
 
-{{$name = terminal.readline('Role:')}}
+{{$name = terminal.readline('Role: ')}}
 {{$role = R3m.Io.Node:Data:create('Role', [
     'name' => $name,
 ])}}

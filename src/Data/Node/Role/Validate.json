@@ -1,0 +1,25 @@
+{
+  "Role": {
+    "create" : {
+      "validate": {
+        "uuid" : [
+          {
+            "is.uuid": true
+          }
+        ],
+        "name" : [
+          {
+            "string.length": ">=1"
+          },
+          {
+            "is.unique.json" : {
+              "url" : "{{config('project.dir.data')}}Node/Role/Data.json",
+              "list" : "role",
+              "field" : "name"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

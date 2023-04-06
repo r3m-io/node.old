@@ -2,25 +2,49 @@
 
 namespace R3m\Io\Node\Trait;
 
-use Exception;
 use R3m\Io\App;
 use R3m\Io\Config;
-use R3m\Io\Exception\ObjectException;
-use R3m\Io\Module\Core;
-use R3m\Io\Module\Data;
+
 use R3m\Io\Module\Dir;
 use R3m\Io\Module\File;
-use R3m\Io\Module\Parse;
-use R3m\Io\Module\Sort;
-use stdClass;
+
+use Exception;
 
 Trait Setup {
 
-
+    /**
+     * @throws Exception
+     */
     public function install(): void
     {
-        $object = $this->object();
-        ddd($object->config());
+        $this->user();
     }
+
+    /**
+     * @throws Exception
+     */
+    public function user(): void
+    {
+        $object = $this->object();
+        $source = $object->config('controller.dir.data') .
+            'Node' .
+            $object->config('ds') .
+            'Role' .
+            $object->config('ds') .
+            'Validate.json'
+        ;
+        $dir_destination = $object->config('project.dir.data') .
+            'Node' .
+            $object->config('ds') .
+            'Role' .
+            $object->config('ds')
+        ;
+        $destination = $dir_destination . 'Validate.json';
+        if(!File::exist($destination)){
+            Dir::create($dir_destination, Dir::CHMOD);
+            File::copy($source, $destination);
+        }
+    }
+
 
 }

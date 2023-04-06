@@ -21,7 +21,7 @@
 {{R3m.Io.Node:Data:create('Event', $test, true)}}
 */
 
-
+/*
 {{R3m.Io.Node:Data:create('Event', [
 'action' => 'cli.autoload.run',
 'options' => [
@@ -29,23 +29,26 @@
 'controller' => [],
 'priority' => 10
 ]], true)}}
+*/
+
+{{R3m.Io.Node:Setup:install()}}
 
 Utilising the Node namespace:
 
 {{literal}}
-{{Node.Data.create($class, [
+{{R3m.Io.Node:Data:create($class, [
 'attribute': 'string'
 ])}}
-{{Node.Data.read($class, [
+{{R3m.Io.Node:Data:read($class, [
 'uuid': 'string'
 ])}}
-{{Node.Data.update($class, [
+{{R3m.Io.Node:Data:update($class, [
 'uuid': 'string'
 ])}}
-{{Node.Data.delete($class, [
+{{R3m.Io.Node:Data:delete($class, [
 'uuid': 'string'
 ])}}
-{{Node.Data.list($class, [
+{{R3m.Io.Node:Data:list($class, [
 'order' => [
     'id' => 'DESC'
 ],
@@ -55,29 +58,28 @@ Utilising the Node namespace:
 'limit' => 20,
 'page' => 1
 ])}}
-{{Node.Data.page($class, [
+{{R3m.Io.Node:Data:page($class, [
 'order' => [
     'id' => 'DESC'
 ],
 'filter' => [
     'property[partial]' => ...
 ],
-'limit' => 20,
-'page' => 1
+'limit' => 20
 ])}}
-{{Node.Data.import($class, [
-
-
-])}}
-{{Node.Data.export($class, [
+{{R3m.Io.Node:Data:import($class, [
 
 
 ])}}
-{{Node.Data.backup($class, [
+{{R3m.Io.Node:Data:export($class, [
 
 
 ])}}
-{{Node.Data.restore($class, [
+{{R3m.Io.Node:Data:backup($class, [
+
+
+])}}
+{{R3m.Io.Node:Data:restore($class, [
 
 
 ])}}
