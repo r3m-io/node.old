@@ -152,7 +152,6 @@ Trait Data {
         }
         $response = [];
         if(array_key_exists('order', $options)){
-            ddd($options);
             $list = Sort::list($list)->with($options['order'], true);
         }
         ddd($list);
