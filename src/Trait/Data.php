@@ -57,6 +57,7 @@ Trait Data {
             }
         }
         $node->set('uuid', Core::uuid());
+        $object->request('node', $node->data());
         $list = $data->get($class);
         if(empty($list)){
             $list = [];
@@ -86,7 +87,7 @@ Trait Data {
                 ddd($expose);
                 $record = $this->expose(
                     $object,
-                    $node,
+                    $object->request('node'),
                     $expose,
                     $class,
                     $function
