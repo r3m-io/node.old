@@ -129,6 +129,9 @@ Trait Data {
         return null;
     }
 
+    /**
+     * @throws ObjectException
+     */
     public function list($class='', $options=[]): false|array
     {
         $options = Core::object($options, Core::OBJECT_ARRAY);
@@ -166,7 +169,7 @@ Trait Data {
             'class' => $class,
             'options' => $options,
             'url' => $url,
-            'list' => $response['list'],
+            'list' => $list,
         ]);
         return $response;
     }
