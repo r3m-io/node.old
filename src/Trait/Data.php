@@ -183,6 +183,9 @@ Trait Data {
     public function list_attribute($list=[], $attribute=[]): array
     {
         $response = [];
+        if(!is_array($list)){
+            return $response;
+        }
         foreach($list as $nr => $record){
             foreach($attribute as $item){
                 if(
