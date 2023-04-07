@@ -11,13 +11,13 @@ Use ',' to separate users, 'All' for all users.
 {{if(is.array($response.list))}}
 {{for.each($response.list as $nr => $user)}}
 {{$selector = $nr + 1}}
-{{$user.role = []}}
+{{$user_role = []}}
 {{if(is.array($user.Role))}}
 {{for.each($user.Role as $role){
-{{$user.role[] = $role.name}}
+{{$user_role[] = $role.name}}
 {{/for.each}}
 {{/if}}
-[{{$selector}}] {{$user.email}} ({{implode(', ', $user.role)}})
+[{{$selector}}] {{$user.email}} ({{implode(', ', $user_role)}})
 
 
 {{/for.each}}
