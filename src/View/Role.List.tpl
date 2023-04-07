@@ -1,8 +1,10 @@
 {{R3M}}
 {{$options = options()}}
-{{dd($options)}}
+{{if($options.format === 'json')}}
+{{else}}
 List Roles:
 
+{{/if}}
 {{$list = R3m.Io.Node:Data:list('Role', [
     'order' => [
     'rank' => 'ASC',
