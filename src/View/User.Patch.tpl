@@ -8,7 +8,7 @@
 {{/if}}
 {{if($options.format === 'json')}}
 {{else}}
-Update Role:
+Update User:
 
 {{/if}}
 {{$response = R3m.Io.Node:Data:list('User', [
@@ -19,7 +19,7 @@ Update Role:
 'page' => (int) $options.page,
 ])}}
 {{if(is.array($response.list))}}
-{{for.each($response.list as $nr => $role)}}
+{{for.each($response.list as $nr => $user)}}
 {{$selector = $nr + 1}}
 {{$user_role = []}}
 {{if(is.array($user.Role))}}
