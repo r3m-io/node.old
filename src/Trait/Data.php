@@ -67,8 +67,6 @@ Trait Data {
         $validate_url =  $dir_class . 'Validate.json';
         $validate = $this->validate($object, $validate_url,  $class . '.create');
         $response = [];
-        d($validate_url);
-        ddd($validate);
         if($validate) {
             if($validate->success === true) {
                 $list[] = $node->data();

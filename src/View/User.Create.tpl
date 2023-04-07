@@ -43,12 +43,12 @@ Use ',' to separate roles, 'All' for all roles.
 {{/for.each}}
 {{/if}}
 
-{{$respones = R3m.Io.Node:Data:create('User', [
+{{$response = R3m.Io.Node:Data:create('User', [
 'email' => $email,
 'password' => password.hash($password, 13),
 'Role' => R3m.Io.Node:Data:list_attribute($roles, ['uuid', 'name', 'rank']),
 ])}}
 
 
-
+{{d($response)}}
 {{dd($roles)}}
