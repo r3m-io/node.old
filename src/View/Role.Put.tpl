@@ -25,7 +25,7 @@ Update Role:
 [{{$selector}}] {{$role.name}} ({{$role.rank}})
 {{/for.each}}
 {{/if}}
-{{$roles = $options.node}}
+{{$roles = $options.role}}
 {{if(is.empty($roles))}}
 {{$roles = terminal.readline('Role: ')}}
 {{/if}}

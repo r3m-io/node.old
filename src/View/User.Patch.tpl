@@ -30,7 +30,7 @@ Update User:
 [{{$selector}}] {{$user.email}} ({{implode(', ', $user_role)}})
 {{/for.each}}
 {{/if}}
-{{$users = $options.node}}
+{{$users = $options.user}}
 {{if(is.empty($users))}}
 {{$users = terminal.readline('User: ')}}
 {{/if}}
@@ -58,8 +58,8 @@ Update User:
 {{/if}}
 {{if(
 $options.password &&
-$options.password_repeat &&
-$options.password === $options.password_repeat
+$options.password-repeat &&
+$options.password === $options.password-repeat
 )}}
 {{$patch.password = password.hash($options.password, 13)}}
 {{/if}}
