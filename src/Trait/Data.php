@@ -152,6 +152,8 @@ Trait Data {
             $list = [];
         }
         $uuid = $node->get('uuid');
+        d($list);
+        ddd($uuid);
         foreach($list as $nr => $record){
             if(
                 is_array($record) &&
@@ -174,6 +176,7 @@ Trait Data {
         foreach($list as $record){
             $result[] = $record;
         }
+        ddd($result);
         $data->set($class, $result);
         $data->write($url);
         return true;
