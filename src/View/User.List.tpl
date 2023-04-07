@@ -8,13 +8,12 @@
 {{/if}}
 {{if($options.format === 'json')}}
 {{else}}
-List Roles:
+List Users:
 
 {{/if}}
-{{$list = R3m.Io.Node:Data:list('Role', [
+{{$list = R3m.Io.Node:Data:list('User', [
     'order' => [
-    'rank' => 'ASC',
-    'name' => 'ASC'
+    'email' => 'ASC',
     ],
     'limit' => (int) $options.limit,
     'page' => (int) $options.page,
