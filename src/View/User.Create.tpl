@@ -17,4 +17,4 @@ Use ',' to separate roles
 {{/for.each}}
 {{$roles = terminal.readline('Choose Role(s): ')}}
 
-{{ddd($roles)}}
+{{dd($roles)}}
