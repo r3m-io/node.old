@@ -82,22 +82,26 @@ $options.password === $options.password_repeat
 {{$roles = preg_replace('/\s+/', ' ', $roles)}}
 {{$roles = string.replace(', ', ',', $roles)}}
 {{if(string.contains.case.insensitive($roles, 'all'))}}
-{{$roles = $response.list}}
+    {{$roles = $response.list}}
 {{else}}
-{{$roles = explode(',', $roles)}}
-{{for.each($roles as $nr => $selector)}}
-{{$selector = (int) $selector}}
-{{if(array.key.exist($selector - 1, $response.list))}}
-{{$roles[$nr] = $response.list[$selector - 1]}}
+    {{$roles = explode(',', $roles)}}
+    {{for.each($roles as $nr => $selector)}}
+    {{$selector = (int) $selector}}
+    {{if(array.key.exist($selector - 1, $response.list))}}
+    {{$roles[$nr] = $response.list[$selector - 1]}}
+    {{/if}}
+    {{/for.each}}
 {{/if}}
-{{/for.each}}
-{{/if}}
+
 {{if(is.array($roles))}}
-{{$list = R3m.Io.Node:Data:list_attribute($roles, ['uuid', 'name', 'rank'])}}
-{{foreach($list as $nr => $role)}}
-{{$patch.Role[] = $role}}
-{{/foreach}}
-{{/if}}
+    {{$list = R3m.Io.Node:Data:list_attribute($roles, ['uuid', 'name', 'rank'])}}
+    {{for.each($list as $patch_nr => $patch_role)}}
+        {{for.each($patch.Role as $nr => $role)}}
+            {{if($role.uuid === $patch_role.uuid)}}
+                {{$patch.Role[$nr] = $patch_role}}
+            {{/if}}
+        {{/for.each}}
+    {{/for.each}}
 {{/if}}
 {{$response = R3m.Io.Node:Data:patch('User', $patch)}}
 {{/for.each}}
