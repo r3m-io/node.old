@@ -11,7 +11,7 @@
 List Roles:
 
 {{/if}}
-{{$list = R3m.Io.Node:Data:list('Role', [
+{{$response = R3m.Io.Node:Data:list('Role', [
     'order' => [
     'rank' => 'ASC',
     'name' => 'ASC'
@@ -19,5 +19,5 @@ List Roles:
     'limit' => (int) $options.limit,
     'page' => (int) $options.page,
 ])}}
-{{$list|json.encode:'JSON_PRETTY_PRINT'}}
+{{$response|json.encode:'JSON_PRETTY_PRINT'}}
 

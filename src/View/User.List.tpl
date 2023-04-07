@@ -11,12 +11,12 @@
 List Users:
 
 {{/if}}
-{{$list = R3m.Io.Node:Data:list('User', [
+{{$response = R3m.Io.Node:Data:list('User', [
     'order' => [
     'email' => 'ASC',
     ],
     'limit' => (int) $options.limit,
     'page' => (int) $options.page,
 ])}}
-{{$list|json.encode:'JSON_PRETTY_PRINT'}}
+{{$response|json.encode:'JSON_PRETTY_PRINT'}}
 
