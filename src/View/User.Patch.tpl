@@ -102,10 +102,6 @@ $options.password === $options.password_repeat
 {{/if}}
 {{/for.each}}
 {{/for.each}}
-{{$patch.Role = data.sort($patch.Role, [
-'rank' => 'ASC',
-'name' => 'ASC'
-], true)}}
 {{/if}}
 {{/if}}
 {{if($options.role_remove)}}
