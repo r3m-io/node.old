@@ -30,7 +30,10 @@ Update User:
 [{{$selector}}] {{$user.email}} ({{implode(', ', $user_role)}})
 {{/for.each}}
 {{/if}}
+{{$users = $options.node}}
+{{if(is.empty($users))}}
 {{$users = terminal.readline('User: ')}}
+{{/if}}
 {{$users = preg_replace('/\s+/', ' ', $users)}}
 {{$users = string.replace(', ', ',', $users)}}
 {{if(string.contains.case.insensitive($users, 'all'))}}
