@@ -99,13 +99,13 @@ $options.password === $options.password_repeat
 {{for.each($patch.Role as $nr => $role)}}
 {{if($role.uuid === $patch_role.uuid)}}
 {{$patch.Role[$nr] = $patch_role}}
+{{/if}}
+{{/for.each}}
+{{/for.each}}
 {{$patch.Role = data.sort($patch.Role, [
 'rank' => 'ASC',
 'name' => 'ASC'
 ], true)}}
-{{/if}}
-{{/for.each}}
-{{/for.each}}
 {{/if}}
 {{/if}}
 {{if($options.role_remove)}}
