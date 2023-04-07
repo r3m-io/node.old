@@ -24,5 +24,3 @@ List Roles:
 {{/for.each}}
 {{/if}}
 
-
-
