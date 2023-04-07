@@ -10,6 +10,7 @@ Create User:
 'limit' => 255,
 'page' => 1,
 ])}}
+{{dd($list)}}
 Roles:
 Use ',' to separate roles
 {{for.each($list as $nr => $role)}}
