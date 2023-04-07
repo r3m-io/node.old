@@ -99,6 +99,24 @@ $options.password === $options.password_repeat
 {{for.each($patch.Role as $nr => $role)}}
 {{if($role.uuid === $patch_role.uuid)}}
 {{$patch.Role[$nr] = $patch_role}}
+{{$patch.Role = data.sort($patch.Role, [
+'rank' => 'ASC',
+'name' => 'ASC'
+])}}
+{{/if}}
+{{/for.each}}
+{{/for.each}}
+{{/if}}
+{{/if}}
+{{if($options.role_remove)}}
+{{if(!$options.role_remove_page)}}
+{{$options.role_remove_page = 1}}
+{{/if}}
+{{if(!$options.role_remove_limit)}}
+{{$options.role_remove_limit = 255}}
+{{/if}}
+
+{{$response = R3m.Io.Node:Data:list('Role', [
 {{/if}}
 {{/for.each}}
 {{/for.each}}
