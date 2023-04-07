@@ -180,6 +180,28 @@ Trait Data {
         return $response;
     }
 
+    public function list_attribute($list[], $attribute=[]): array
+    {
+        $response = [];
+        foreach($list as $nr => $record){
+            foreach($attribute as $item){
+                if(
+                    is_array($record) &&
+                    array_key_exists($item, $record)
+                ){
+                    $response[$nr][$item] = $record[$item];
+                }
+                elseif(
+                    is_object($record) &&
+                    property_exists($record, $item)
+                ){
+                    $response[$nr][$item] = $record->{$item};
+                }
+            }
+        }
+        return $response;
+    }
+
     /**
      * @throws ObjectException
      * @throws FileWriteException
