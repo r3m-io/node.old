@@ -32,7 +32,8 @@ Update Role:
 {{$roles = $response.list}}
 {{else}}
 {{$roles = explode(',', $roles)}}
-{{for.each($roles as $nr => (int) $selector)}}
+{{for.each($roles as $nr => $selector)}}
+{{$selector = (int) $selector}}
 {{if(array.key.exist($selector - 1, $response.list))}}
 {{$roles[$nr] = $response.list[$selector - 1]}}
 {{/if}}
