@@ -9,9 +9,9 @@ Use ',' to separate users, 'All' for all users.
 'page' => 1,
 ])}}
 {{if(is.array($response.list))}}
-{{for.each($response.list as $nr => $role)}}
+{{for.each($response.list as $nr => $user)}}
 {{$selector = $nr + 1}}
-[{{$selector}}] {{$role.name}} ({{$role.rank}})
+[{{$selector}}] {{$user.email}} ({{implode(', ', $user.Role)}})
 {{/for.each}}
 {{/if}}
 
