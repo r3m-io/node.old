@@ -27,10 +27,12 @@ Update User:
 {{$user_role[] = $role.name}}
 {{/for.each}}
 {{/if}}
+{{$users = $options.user}}
+{{if(is.empty($users))}}
 [{{$selector}}] {{$user.email}} ({{implode(', ', $user_role)}})
+{{/if}}
 {{/for.each}}
 {{/if}}
-{{$users = $options.user}}
 {{if(is.empty($users))}}
 {{$users = terminal.readline('User: ')}}
 {{/if}}
