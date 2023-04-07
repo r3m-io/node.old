@@ -105,6 +105,7 @@ Update User:
         {{/if}}
         {{$response = R3m.Io.Node:Data:patch('User', $patch)}}
         {{$response|json.encode:'JSON_PRETTY_PRINT'}}
+    {{/if}}
     {{/for.each}}
 {{/if}}
 
