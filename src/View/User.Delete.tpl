@@ -18,10 +18,8 @@ Use ',' to separate users, 'All' for all users.
 {{/for.each}}
 {{/if}}
 [{{$selector}}] {{$user.email}} ({{implode(', ', $user_role)}})
-
 {{/for.each}}
 {{/if}}
-
 {{$users = terminal.readline('User: ')}}
 {{$users = preg_replace('/\s+/', ' ', $users)}}
 {{$users = string.replace(', ', ',', $users)}}
