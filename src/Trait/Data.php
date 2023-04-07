@@ -130,7 +130,7 @@ Trait Data {
         return null;
     }
 
-    public function read($class='', $options=[]): null|false|array
+    public function read($class='', $options=[]): false|array|object
     {
         $name = Controller::name($class);
         $object = $this->object();
