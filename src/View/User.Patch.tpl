@@ -23,9 +23,9 @@ Update User:
 {{$selector = $nr + 1}}
 {{$user_role = []}}
 {{if(is.array($user.Role))}}
-    {{for.each($user.Role as $role)}}
-        {{$user_role[] = $role.name}}
-    {{/for.each}}
+{{for.each($user.Role as $role)}}
+{{$user_role[] = $role.name}}
+{{/for.each}}
 {{/if}}
 [{{$selector}}] {{$user.email}} ({{implode(', ', $user_role)}})
 {{/for.each}}
@@ -70,7 +70,7 @@ $options.password === $options.password_repeat
 {{if(!$options.role_limit)}}
 {{$options.role_limit = 255}}
 {{/if}}
-
+{{dd('test')}}
 {{$response = R3m.Io.Node:Data:list('Role', [
 'order' => [
 'rank' => 'ASC',
