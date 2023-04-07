@@ -21,7 +21,7 @@ Use ',' to separate users, 'All' for all users.
 [{{$selector}}] {{$user.email}} ({{implode(', ', $user_role)}})
 {{/for.each}}
 {{/if}}
-{{$users = $options.user}}
+{{$users = $options.node}}
 {{if(is.empty($users))}}
 {{$users = terminal.readline('User: ')}}
 {{/if}}
