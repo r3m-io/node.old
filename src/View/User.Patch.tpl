@@ -71,6 +71,39 @@ Update User:
                 {{$options.role_limit = 255}}
             {{/if}}
         {{/if}}
+        {{$response = R3m.Io.Node:Data:list('Role', [
+'order' => [
+'rank' => 'ASC',
+'name' => 'ASC'
+],
+'limit' => (int) $options.role_limit,
+'page' => (int) $options.role_page,
+])}}
+{{$roles = $options.role}}
+{{$roles = preg_replace('/\s+/', ' ', $roles)}}
+{{$roles = string.replace(', ', ',', $roles)}}
+{{if(string.contains.case.insensitive($roles, 'all'))}}
+    {{$roles = $response.list}}
+{{else}}
+    {{$roles = explode(',', $roles)}}
+{{for.each($roles as $nr => $selector)}}
+    {{$selector = (int) $selector}}
+    {{if(array.key.exist($selector - 1, $response.list))}}
+        {{$roles[$nr] = $response.list[$selector - 1]}}
+    {{/if}}
+{{/for.each}}
+{{/if}}
+{{if(is.array($roles))}}
+    {{$list = R3m.Io.Node:Data:list_attribute($roles, ['uuid', 'name', 'rank'])}}
+    {{for.each($list as $patch_nr => $patch_role)}}
+        {{for.each($patch.Role as $nr => $role)}}
+            {{if($role.uuid === $patch_role.uuid)}}
+                {{$patch.Role[$nr] = $patch_role}}
+            {{/if}}
+        {{/for.each}}
+    {{/for.each}}
+{{/if}}
+{{/if}}
         {{$response = R3m.Io.Node:Data:patch('User', $patch)}}
         {{$response|json.encode:'JSON_PRETTY_PRINT'}}
     {{/for.each}}
