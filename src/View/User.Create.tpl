@@ -46,7 +46,7 @@ Use ',' to separate roles, 'All' for all roles.
 {{$respones = R3m.Io.Node:Data:create('User', [
 'email' => $email,
 'password' => password.hash($password, 13),
-'roles' => R3m.Io.Node:Data:list_attribute($roles, ['uuid']),
+'Role' => R3m.Io.Node:Data:list_attribute($roles, ['uuid', 'name', 'rank']),
 ])}}
 
 

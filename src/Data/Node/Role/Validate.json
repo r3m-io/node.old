@@ -9,13 +9,28 @@
         ],
         "name" : [
           {
-            "string.length": ">=1"
+            "string.length": ">=3"
           },
           {
             "is.unique.json" : {
               "url" : "{{config('project.dir.data')}}Node/Role/Data.json",
               "list" : "Role",
               "field" : "name"
+            }
+          }
+        ],
+        "rank" : [
+          {
+            "string.length": ">=1"
+          },
+          {
+            "integer": ">=1"
+          },
+          {
+            "is.unique.json" : {
+              "url" : "{{config('project.dir.data')}}Node/Role/Data.json",
+              "list" : "Role",
+              "field" : "rank"
             }
           }
         ]

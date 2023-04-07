@@ -1,0 +1,33 @@
+{
+  "User": {
+    "create" : {
+      "validate": {
+        "uuid" : [
+          {
+            "is.uuid": true
+          }
+        ],
+        "email" : [
+          {
+            "string.length": ">=3"
+          },
+          {
+            "is.email": true
+          },
+          {
+            "is.unique.json" : {
+              "url" : "{{config('project.dir.data')}}Node/User/Data.json",
+              "list" : "User",
+              "field" : "email"
+            }
+          }
+        ],
+        "roles" : [
+          {
+            "array.length": ">=1"
+          }
+        ]
+      }
+    }
+  }
+}
