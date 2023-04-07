@@ -25,10 +25,7 @@ Update Role:
 [{{$selector}}] {{$role.name}} ({{$role.rank}})
 {{/for.each}}
 {{/if}}
-{{$roles = $options.node}}
-{{if(is.empty($roles))}}
 {{$roles = terminal.readline('Role: ')}}
-{{/if}}
 {{$roles = preg_replace('/\s+/', ' ', $roles)}}
 {{$roles = string.replace(', ', ',', $roles)}}
 {{if(string.contains.case.insensitive($roles, 'all'))}}

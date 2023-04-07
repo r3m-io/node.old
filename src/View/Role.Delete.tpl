@@ -1,4 +1,11 @@
 {{R3M}}
+{{$options = options()}}
+{{if(!$options.page)}}
+{{$options.page = 1}}
+{{/if}}
+{{if(!$options.limit)}}
+{{$options.limit = 255}}
+{{/if}}
 Delete Role:
 Use ',' to separate roles, 'All' for all roles.
 {{$response = R3m.Io.Node:Data:list('Role', [
@@ -6,8 +13,8 @@ Use ',' to separate roles, 'All' for all roles.
 'rank' => 'ASC',
 'name' => 'ASC'
 ],
-'limit' => 255,
-'page' => 1,
+'limit' => $options.limit,
+'page' => $options.page,
 ])}}
 {{if(is.array($response.list))}}
 {{for.each($response.list as $nr => $role)}}
@@ -15,8 +22,10 @@ Use ',' to separate roles, 'All' for all roles.
 [{{$selector}}] {{$role.name}} ({{$role.rank}})
 {{/for.each}}
 {{/if}}
-
+{{$roles = $options.node}}
+{{if(is.empty($roles))}}
 {{$roles = terminal.readline('Role: ')}}
+{{/if}}
 {{$roles = preg_replace('/\s+/', ' ', $roles)}}
 {{$roles = string.replace(', ', ',', $roles)}}
 {{if(string.contains.case.insensitive($roles, 'all'))}}
