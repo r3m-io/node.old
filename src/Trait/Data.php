@@ -151,6 +151,7 @@ Trait Data {
         if(empty($list)){
             $list = [];
         }
+        ddd($node);
         $uuid = $node->get('uuid');
         d($list);
         ddd($uuid);
