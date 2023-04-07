@@ -23,7 +23,7 @@ Use ',' to separate roles
 {{/if}}
 
 {{$roles = terminal.readline('Choose Role(s): ')}}
-{{$roles = preg_replace('/\s+/', ' ', $roles);
+{{$roles = preg_replace('/\s+/', ' ', $roles)}}
 {{$roles = string.replace(', ', ',', $roles)}}
 {{$roles = string.split(',', $roles)}}
 {{for.each($roles as $nr => $selector)}}
