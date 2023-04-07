@@ -6,11 +6,6 @@
 {{if(!$options.limit)}}
 {{$options.limit = 255}}
 {{/if}}
-{{if($options.format === 'json')}}
-{{else}}
-List Roles:
-
-{{/if}}
 {{$response = R3m.Io.Node:Data:list('Role', [
     'order' => [
     'rank' => 'ASC',
@@ -19,5 +14,15 @@ List Roles:
     'limit' => (int) $options.limit,
     'page' => (int) $options.page,
 ])}}
+{{if($options.format === 'json')}}
 {{$response|json.encode:'JSON_PRETTY_PRINT'}}
+{{else}}
+List Roles:
+{{for.each($response.list as $nr => $role)}}
+{{$selector = $nr + 1}}
+[{{$selector}}] {{$role.name}} ({{$role.rank}})
+{{/for.each}}
+{{/if}}
+
+
 
