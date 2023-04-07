@@ -6,12 +6,12 @@ Create User:
 {{$password = terminal.readline('Password: ', 'input-hidden')}}
 
 {{$password_confirmation = terminal.readline('Password Confirmation: ', 'input-hidden')}}
+
 {{if($password === $password_confirmation)}}
 {{$is_password = true}}
 {{break()}}
 {{else}}
 Passwords do not match!
-
 {{/if}}
 {{/while}}
 {{$response = R3m.Io.Node:Data:list('Role', [
