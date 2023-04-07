@@ -168,6 +168,7 @@ Trait Data {
                     $list[$nr][$attribute] = $value;
                 }
                 $is_found = true;
+                $record = $list[$nr];
                 break;
             }
             elseif(
@@ -182,6 +183,7 @@ Trait Data {
                     $record->{$attribute} = $value;
                 }
                 $is_found = true;
+                $record = $list[$nr];
                 break;
             }
         }
@@ -225,6 +227,7 @@ Trait Data {
                 foreach($node->data() as $attribute => $value){
                     $list[$nr][$attribute] = $value;
                 }
+                $record = $list[$nr];
                 $is_found = true;
                 break;
             }
@@ -237,6 +240,7 @@ Trait Data {
                 foreach($node->data() as $attribute => $value){
                     $list[$nr]->{$attribute} = $value;
                 }
+                $record = $list[$nr];
                 $is_found = true;
                 break;
             }
