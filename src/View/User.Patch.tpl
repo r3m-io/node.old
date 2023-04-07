@@ -99,7 +99,7 @@ $options.password === $options.password_repeat
 {{/foreach}}
 {{/if}}
 {{/if}}
-{{$response = R3m.Io.Node:Data:patch('Role', $patch)}}
+{{$response = R3m.Io.Node:Data:patch('User', $patch)}}
 {{/for.each}}
 {{/if}}
 {{$response|json.encode:'JSON_PRETTY_PRINT'}}
