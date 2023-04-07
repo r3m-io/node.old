@@ -32,7 +32,7 @@ Use ',' to separate roles, 'All' for all roles.
 {{for.each($list as $role)}}
 {{if(!is.empty($role.uuid))}}
 {{$delete = R3m.Io.Node:Data:delete('Role', $role.uuid)}}
-{{if($delete) && !empty($role.name)}}
+{{if($delete) && !is.empty($role.name)}}
 {{$role.name}} deleted.
 
 {{/if}}
