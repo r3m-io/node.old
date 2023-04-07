@@ -23,5 +23,6 @@ Use ',' to separate roles
 {{/if}}
 
 {{$roles = terminal.readline('Choose Role(s): ')}}
-
+{{$roles = string.replace(', ', ',', $roles)}}
+{{$roles = string.split(',', $roles)}}
 {{dd($roles)}}
