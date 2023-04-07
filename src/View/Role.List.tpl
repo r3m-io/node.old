@@ -3,6 +3,7 @@ List Roles:
 
 {{$list = R3m.Io.Node:Data:list('Role', [
     'order' => [
+    'rank' => 'ASC',
     'name' => 'ASC'
     ],
     'limit' => 255,
