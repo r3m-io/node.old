@@ -64,13 +64,19 @@ $options.password === $options.password_repeat
 {{$patch.password = password.hash($options.password, 13)}}
 {{/if}}
 {{if($options.role)}}
+{{if(!$options.role_page)}}
+{{$options.role_page = 1}}
+{{/if}}
+{{if(!$options.role_limit)}}
+{{$options.role_limit = 255}}
+{{/if}}
 {{$response = R3m.Io.Node:Data:list('Role', [
 'order' => [
 'rank' => 'ASC',
 'name' => 'ASC'
 ],
-'limit' => (int) $options.limit,
-'page' => (int) $options.page,
+'limit' => (int) $options.role_limit,
+'page' => (int) $options.role_page,
 ])}}
 {{$roles = $options.role}}
 {{$roles = preg_replace('/\s+/', ' ', $roles)}}
