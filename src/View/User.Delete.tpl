@@ -13,7 +13,7 @@ Use ',' to separate users, 'All' for all users.
 {{$selector = $nr + 1}}
 {{$user_role = []}}
 {{if(is.array($user.Role))}}
-{{for.each($user.Role as $role){
+{{for.each($user.Role as $role)}}
 {{$user_role[] = $role.name}}
 {{/for.each}}
 {{/if}}
