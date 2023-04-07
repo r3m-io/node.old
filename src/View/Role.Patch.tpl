@@ -42,9 +42,10 @@ Update Role:
 {{for.each($roles as $nr => $role)}}
 {{$patch = (clone) $options}}
 {{$patch.uuid = $role.uuid}}
-{{unset($patch.format)}}
-{{unset($patch.page)}}
-{{unset($patch.limit)}}
+{{unset('$patch.format')}}
+{{unset('$patch.page')}}
+{{unset('$patch.limit')}}
+{{d($options)}}
 {{dd($patch)}}
 {{if($patch.rank)}}
 {{$patch.rank = (int) $patch.rank}}
