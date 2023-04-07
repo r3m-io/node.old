@@ -1,8 +1,8 @@
 Create User:
 
 {{$email = terminal.readline('Email: ')}}
-{{$password = terminal.readline('Password: ', 'hidden')}}
-{{$password_confirmation = terminal.readline('Password Confirmation: ', 'hidden')}}
+{{$password = terminal.readline('Password: ', 'input-hidden')}}
+{{$password_confirmation = terminal.readline('Password Confirmation: ', 'input-hidden')}}
 {{$list = R3m.Io.Node:Data:list('Role', [
 'order' => [
 'name' => 'ASC'
