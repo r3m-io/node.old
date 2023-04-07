@@ -174,7 +174,6 @@ Trait Data {
         foreach($list as $record){
             $result[] = $record;
         }
-        ddd($result);
         $data->set($class, $result);
         $data->write($url);
         return true;
