@@ -1,4 +1,6 @@
 {{R3M}}
+{{$options = options()}}
+{{dd($options)}}
 List Roles:
 
 {{$list = R3m.Io.Node:Data:list('Role', [
