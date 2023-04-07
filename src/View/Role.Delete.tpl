@@ -23,7 +23,9 @@ Use ',' to separate roles, 'All' for all roles.
 {{else}}
 {{$roles = explode(',', $roles)}}
 {{for.each($roles as $nr => $selector)}}
+{{if(array.key.exist($selector - 1, $response.list))}}
 {{$roles[$nr] = $response.list[$selector - 1]}}
+{{/if}}
 {{/for.each}}
 {{/if}}
 {{$list = R3m.Io.Node:Data:list_attribute($roles, ['uuid', 'name'])}}
