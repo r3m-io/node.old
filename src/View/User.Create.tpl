@@ -1,7 +1,6 @@
 Create User:
 
 {{$email = terminal.readline('Email: ')}}
-
 {{$password = terminal.readline('Password: ', 'input-hidden')}}
 
 {{$password_confirmation = terminal.readline('Password Confirmation: ', 'input-hidden')}}
@@ -19,6 +18,7 @@ Use ',' to separate roles
 {{for.each($response.list as $nr => $role)}}
 {{$selector = $nr + 1}}
 [{{$selector}}] {{$role.name}}
+
 {{/for.each}}
 {{/if}}
 
