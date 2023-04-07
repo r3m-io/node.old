@@ -16,6 +16,7 @@ Passwords do not match!
 {{/while}}
 {{$response = R3m.Io.Node:Data:list('Role', [
 'order' => [
+'rank' => 'ASC',
 'name' => 'ASC'
 ],
 'limit' => 255,
