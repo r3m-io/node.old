@@ -42,8 +42,6 @@ Update Role:
 {{for.each($roles as $nr => $role)}}
 {{$patch.uuid = $role.uuid}}
 {{$patch.rank = (int) $options.rank}}
-{{dd($patch)}}
-
 {{$response = R3m.Io.Node:Data:patch('Role', $patch)}}
 {{/for.each}}
 {{/if}}
