@@ -31,7 +31,7 @@ Use ',' to separate roles, 'All' for all roles.
 {{$list = R3m.Io.Node:Data:list_attribute($roles, ['uuid', 'name'])}}
 {{for.each($list as $role)}}
 {{if(!is.empty($role.uuid))}}
-{{$delete = R3m.Io.Node:Data:delete('Role', $role.uuid)}}
+{{$delete = R3m.Io.Node:Data:delete('Role', ['uuid' => $role.uuid])}}
 {{if(
 $delete &&
 !is.empty($role.name)
