@@ -51,6 +51,5 @@ Use ',' to separate roles, 'All' for all roles.
 'Role' => R3m.Io.Node:Data:list_attribute($roles, ['uuid', 'name', 'rank']),
 ])}}
 
+{{$response|json.encode:'JSON_PRETTY_PRINT'}}
 
-{{d($response)}}
-{{dd($roles)}}
