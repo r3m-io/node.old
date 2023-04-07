@@ -102,7 +102,7 @@ $options.password === $options.password_repeat
 {{$patch.Role = data.sort($patch.Role, [
 'rank' => 'ASC',
 'name' => 'ASC'
-])}}
+], true)}}
 {{/if}}
 {{/for.each}}
 {{/for.each}}
