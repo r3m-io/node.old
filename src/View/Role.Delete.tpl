@@ -3,6 +3,7 @@ Delete Role:
 Use ',' to separate roles, 'All' for all roles.
 {{$response = R3m.Io.Node:Data:list('Role', [
 'order' => [
+'rank' => 'ASC',
 'name' => 'ASC'
 ],
 'limit' => 255,

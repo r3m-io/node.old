@@ -45,7 +45,6 @@ Use ',' to separate roles, 'All' for all roles.
 {{/if}}
 {{/for.each}}
 {{/if}}
-
 {{$response = R3m.Io.Node:Data:create('User', [
 'email' => $email,
 'password' => password.hash($password, 13),
