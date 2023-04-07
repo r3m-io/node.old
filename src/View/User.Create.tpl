@@ -10,11 +10,11 @@ Create User:
 'limit' => 255,
 'page' => 1,
 ])}}
-{{dd($list)}}
 Roles:
 Use ',' to separate roles
 {{for.each($list as $nr => $role)}}
-[{{$nr + 1}}] {{$role.name}}
+{{$selector = $nr + 1}}
+[{{$selector}}] {{$role.name}}
 {{/for.each}}
 {{$roles = terminal.readline('Choose Role(s): ')}}
 
