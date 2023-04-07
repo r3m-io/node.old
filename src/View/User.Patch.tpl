@@ -102,6 +102,10 @@ Update User:
                     {{/if}}
                 {{/for.each}}
             {{/for.each}}
+            {{$patch.Role = data.sort($patch.Role, [
+                'rank' => 'ASC',
+                'name' => 'ASC'
+            ], true)}}
         {{/if}}
         {{$response = R3m.Io.Node:Data:patch('User', $patch)}}
         {{$response|json.encode:'JSON_PRETTY_PRINT'}}
