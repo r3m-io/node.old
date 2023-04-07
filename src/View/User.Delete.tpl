@@ -1,4 +1,5 @@
 {{R3M}}
+{{$options = options()}}
 Delete User:
 Use ',' to separate users, 'All' for all users.
 {{$response = R3m.Io.Node:Data:list('User', [
@@ -20,7 +21,10 @@ Use ',' to separate users, 'All' for all users.
 [{{$selector}}] {{$user.email}} ({{implode(', ', $user_role)}})
 {{/for.each}}
 {{/if}}
+{{$users = $options.user}}
+{{if(is.empty($users))}}
 {{$users = terminal.readline('User: ')}}
+{{/if}}
 {{$users = preg_replace('/\s+/', ' ', $users)}}
 {{$users = string.replace(', ', ',', $users)}}
 {{if(string.contains.case.insensitive($users, 'all'))}}
