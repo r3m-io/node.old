@@ -1,0 +1,38 @@
+{{R3M}}
+Delete Role:
+Use ',' to separate roles, 'All' for all roles.
+{{$list = R3m.Io.Node:Data:list('Role', [
+'order' => [
+'name' => 'ASC'
+],
+'limit' => 255,
+'page' => 1,
+])}}
+{{if(is.array($list.list))}}
+{{for.each($list.list as $nr => $role)}}
+{{$selector = $nr + 1}}
+[{{$selector}}] {{$role.name}} ({{$role.rank}})
+{{/for.each}}
+{{/if}}
+
+{{$roles = terminal.readline('Role: ')}}
+{{$roles = preg_replace('/\s+/', ' ', $roles)}}
+{{$roles = string.replace(', ', ',', $roles)}}
+{{if(string.contains.case.insensitive($roles, 'all'))}}
+{{$roles = $response.list}}
+{{else}}
+{{$roles = explode(',', $roles)}}
+{{for.each($roles as $nr => $selector)}}
+{{$roles[$nr] = $response.list[$selector - 1]}}
+{{/for.each}}
+{{/if}}
+{{$list = R3m.Io.Node:Data:list_attribute($roles, ['uuid', 'name'])}}
+{{for.each($list as $role)}}
+{{if(!is.empty($role.uuid))}}
+{{$delete = R3m.Io.Node:Data:delete('Role', $role.uuid)}}
+{{if($delete) && !empty($role.name)}}
+{{$role.name}} deleted.
+
+{{/if}}
+{{/if}}
+{{/for.each}}
