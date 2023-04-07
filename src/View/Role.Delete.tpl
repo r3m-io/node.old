@@ -1,15 +1,15 @@
 {{R3M}}
 Delete Role:
 Use ',' to separate roles, 'All' for all roles.
-{{$list = R3m.Io.Node:Data:list('Role', [
+{{$response = R3m.Io.Node:Data:list('Role', [
 'order' => [
 'name' => 'ASC'
 ],
 'limit' => 255,
 'page' => 1,
 ])}}
-{{if(is.array($list.list))}}
-{{for.each($list.list as $nr => $role)}}
+{{if(is.array($response.list))}}
+{{for.each($response.list as $nr => $role)}}
 {{$selector = $nr + 1}}
 [{{$selector}}] {{$role.name}} ({{$role.rank}})
 {{/for.each}}
