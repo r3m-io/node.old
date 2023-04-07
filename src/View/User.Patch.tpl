@@ -58,8 +58,8 @@ Update User:
 {{/if}}
 {{if(
 $options.password &&
-$options.password-repeat &&
-$options.password === $options.password-repeat
+$options['password-repeat'] &&
+$options.password === $options['password-repeat']
 )}}
 {{$patch.password = password.hash($options.password, 13)}}
 {{/if}}
