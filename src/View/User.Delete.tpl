@@ -19,6 +19,7 @@ Use ',' to separate users, 'All' for all users.
 {{/if}}
 [{{$selector}}] {{$user.email}} ({{implode(', ', $user.role)}})
 
+
 {{/for.each}}
 {{/if}}
 
