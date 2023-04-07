@@ -22,7 +22,6 @@ Use ',' to separate users, 'All' for all users.
 {{/for.each}}
 {{/if}}
 {{$users = $options.user}}
-{{dd($users)}}
 {{if(is.empty($users))}}
 {{$users = terminal.readline('User: ')}}
 {{/if}}
