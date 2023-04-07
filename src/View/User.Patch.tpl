@@ -53,7 +53,6 @@ Update User:
 {{$patch = R3m.Io.Node:Data:read('User', [
 'uuid' => $patch.uuid
 ])}}
-{{dd($patch)}}
 {{if($options.email)}}
 {{$patch.email = $options.email}}
 {{/if}}
@@ -65,6 +64,14 @@ $options.password === $options.password_repeat
 {{$patch.password = password.hash($options.password, 13)}}
 {{/if}}
 {{if($options.role)}}
+{{$response = R3m.Io.Node:Data:list('Role', [
+'order' => [
+'rank' => 'ASC',
+'name' => 'ASC'
+],
+'limit' => (int) $options.limit,
+'page' => (int) $options.page,
+])}}
 {{$roles = $options.role}}
 {{$roles = preg_replace('/\s+/', ' ', $roles)}}
 {{$roles = string.replace(', ', ',', $roles)}}
