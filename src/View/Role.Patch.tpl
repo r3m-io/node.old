@@ -40,17 +40,13 @@ Update Role:
 {{/if}}
 {{if(is.array($roles))}}
 {{for.each($roles as $nr => $role)}}
-{{if(!$options.name)}}
-{{$options.name = terminal.readline('Name: ')}}
-{{/if}}
-{{if(!$options.rank)}}
-{{$options.rank = (int) terminal.readline('Rank: ')}}
-{{/if}}
-{{$response = R3m.Io.Node:Data:update('Role', [
-'uuid' => $role.uuid,
-'name' => $options.name,
-'rank' => $options.rank,
-])}}
+{{$patch = (clone) $options}}
+{{$patch.uuid = $role.uuid}}
+{{unset($patch.format)}}
+{{unset($patch.page)}}
+{{unset($patch.limit)}}
+{{dd($patch)}}
+{{$response = R3m.Io.Node:Data:patch('Role', $patch)}}
 {{/for.each}}
 {{/if}}
 {{$response|json.encode:'JSON_PRETTY_PRINT'}}
