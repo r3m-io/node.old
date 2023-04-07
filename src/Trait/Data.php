@@ -167,6 +167,9 @@ Trait Data {
             ]);
         }
         $response['list'] = $list;
+        $response['limit'] = $options['limit'] ?? 0;
+        $response['page'] = $options['page'] ?? 1;
+        $response['order'] = $options['order'] ?? [];
         Event::trigger($object, 'r3m.io.node.data.list', [
             'class' => $class,
             'options' => $options,
