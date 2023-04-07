@@ -188,6 +188,7 @@ Trait Data {
             }
         }
         if($is_found){
+            $data->set($class, $list);
             $data->write($url);
             return $record;
         }
@@ -247,6 +248,7 @@ Trait Data {
             }
         }
         if($is_found){
+            $data->set($class, $list);
             $data->write($url);
             return $record;
         }
