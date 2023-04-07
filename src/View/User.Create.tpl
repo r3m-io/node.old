@@ -13,7 +13,7 @@ Create User:
 'page' => 1,
 ])}}
 Roles:
-Use ',' to separate roles
+Use ',' to separate roles, All for all roles.
 {{if($response.list)}}
 {{for.each($response.list as $nr => $role)}}
 {{$selector = $nr + 1}}
@@ -25,8 +25,12 @@ Use ',' to separate roles
 {{$roles = terminal.readline('Choose Role(s): ')}}
 {{$roles = preg_replace('/\s+/', ' ', $roles)}}
 {{$roles = string.replace(', ', ',', $roles)}}
+{{if(string.contains.case.insensetive($roles, 'All'))}}
+{{$roles = $response.list}}
+{{else}}
 {{$roles = explode(',', $roles)}}
 {{for.each($roles as $nr => $selector)}}
 {{$roles[$nr] = $response.list[$selector - 1]}}
 {{/for.each}}
+{{/if}}
 {{dd($roles)}}
