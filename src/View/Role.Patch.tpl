@@ -46,6 +46,8 @@ Update Role:
 {{unset($patch.page)}}
 {{unset($patch.limit)}}
 {{dd($patch)}}
+{{if($patch.rank)}}
+{{$patch.rank = (int) $patch.rank}}
 {{$response = R3m.Io.Node:Data:patch('Role', $patch)}}
 {{/for.each}}
 {{/if}}

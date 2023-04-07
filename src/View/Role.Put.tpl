@@ -45,6 +45,8 @@ Update Role:
 {{/if}}
 {{if(!$options.rank)}}
 {{$options.rank = (int) terminal.readline('Rank: ')}}
+{{else}}
+{{$options.rank = (int) $options.rank}}
 {{/if}}
 {{$response = R3m.Io.Node:Data:put('Role', [
 'uuid' => $role.uuid,
