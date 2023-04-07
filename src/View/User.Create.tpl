@@ -18,9 +18,3 @@ Use ',' to separate roles
 {{$roles = terminal.readline('Choose Role(s): ')}}
 
 {{ddd($roles)}}
-
-{{$user = User.create(email: $email, password: $password, password_confirmation: $password_confirmation, name: $name, role: $role)}}
-
-{{$user.save}}
-
-{{$user}}
