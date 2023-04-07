@@ -22,7 +22,7 @@
             }
           }
         ],
-        "roles" : [
+        "Role" : [
           {
             "array.length": ">=1"
           }
