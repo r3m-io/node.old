@@ -151,10 +151,7 @@ Trait Data {
         if(empty($list)){
             $list = [];
         }
-        ddd($node);
         $uuid = $node->get('uuid');
-        d($list);
-        ddd($uuid);
         foreach($list as $nr => $record){
             if(
                 is_array($record) &&
