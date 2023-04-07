@@ -130,6 +130,57 @@ Trait Data {
         return null;
     }
 
+    public function read($class='', $options=[]): null|false|array
+    {
+        $name = Controller::name($class);
+        $object = $this->object();
+        $node = new Storage( (object) $options);
+        $dir_node = $object->config('project.dir.data') .
+            'Node' .
+            $object->config('ds')
+        ;
+        $dir_class = $dir_node .
+            $name .
+            $object->config('ds')
+        ;
+        $url = $dir_class . 'Data.json';
+        $data = $object->data_read($url);
+        if(!$data){
+            return false;
+        }
+        $list = $data->get($class);
+        if(empty($list)){
+            $list = [];
+        }
+        foreach($list as $record){
+            $is_found = true;
+            foreach($node->data() as $attribute => $value){
+                if(
+                    is_array($record) &&
+                    array_key_exists($attribute, $record)
+                ){
+                    if($record[$attribute] !== $value){
+                        $is_found = false;
+                        break;
+                    }
+                }
+                elseif(
+                    is_object($record) &&
+                    property_exists($record, $attribute)
+                ){
+                    if($record->{$attribute} !== $value){
+                        $is_found = false;
+                        break;
+                    }
+                }
+            }
+            if($is_found){
+                return $record;
+            }
+        }
+        return false;
+    }
+
     public function patch($class, $options=[]): false|array|object
     {
         $name = Controller::name($class);
