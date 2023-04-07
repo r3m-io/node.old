@@ -180,7 +180,7 @@ Trait Data {
         return $response;
     }
 
-    public function list_attribute($list[], $attribute=[]): array
+    public function list_attribute($list=[], $attribute=[]): array
     {
         $response = [];
         foreach($list as $nr => $record){
