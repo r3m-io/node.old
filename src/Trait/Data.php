@@ -161,6 +161,14 @@ Trait Data {
                 unset($list[$nr]);
                 break;
             }
+            elseif(
+                is_object($record) &&
+                property_exists($record,'uuid') &&
+                $record->uuid === $uuid
+            ){
+                unset($list[$nr]);
+                break;
+            }
         }
         $result = [];
         foreach($list as $record){
