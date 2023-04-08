@@ -45,7 +45,7 @@ Update Role:
 {{if(is.array($roles))}}
 {{for.each($roles as $nr => $role)}}
 {{$patch.uuid = $role.uuid}}
-{{if($options.rank}}
+{{if($options.rank)}}
 {{$patch.rank = (int) $options.rank}}
 {{/if}}
 {{if($options.name}}
