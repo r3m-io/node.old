@@ -48,7 +48,7 @@ Update Role:
 {{if($options.rank)}}
 {{$patch.rank = (int) $options.rank}}
 {{/if}}
-{{if($options.name}}
+{{if($options.name)}}
 {{$patch.name =  $options.name}}
 {{/if}}
 {{$response = R3m.Io.Node:Data:patch('Role', $patch)}}
