@@ -47,10 +47,10 @@ Update Role:
 {{$patch.uuid = $role.uuid}}
 {{if($options.rank}}
 {{$patch.rank = (int) $options.rank}}
-{{/if})}
+{{/if}}
 {{if($options.name}}
 {{$patch.name =  $options.name}}
-{{/if})}
+{{/if}}
 {{$response = R3m.Io.Node:Data:patch('Role', $patch)}}
 {{/for.each}}
 {{/if}}
