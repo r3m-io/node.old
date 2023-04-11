@@ -190,14 +190,8 @@ Trait Data {
         }
         fseek($resource, 0.5 * $size);
         $data = [];
-        while (($buffer = fgets($resource, 4096)) !== false) {
-            $buffer = explode(PHP_EOL, $buffer);
-            foreach($buffer as $line){
-                $line = trim($line);
-                if(!empty($line)){
-                    $data[] = $line;
-                }
-            }
+        while(($line = stream_get_line($resource, 0, PHP_EOL)) !== false){
+            $data[] = $line;
         }
         fclose($resource);
         ddd($data);
