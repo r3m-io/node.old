@@ -212,14 +212,12 @@ Trait Data {
                 break;
             }
 //            d($file->key());
-            $line = str_replace(' ', '', $line);
-            $line = str_replace('"', '', $line);
-            d($line);
-            $explode = explode(':', $line);
+            $line_match = str_replace(' ', '', $line);
+            $line_match = str_replace('"', '', $line_match);
+            $explode = explode(':', $line_match);
             if(array_key_exists(1, $explode)){
                 if($explode[0] === 'uuid'){
                     if(strpos($explode[1], $uuid) !== false){
-//                        $file->fseek($seek);
                         $previous = $file->key() - 1;
                         if($previous < 0){
                             break;
@@ -238,6 +236,8 @@ Trait Data {
                 }
                 if($explode[0] === $uuid){
                     d($file->key());
+                    d($options);
+                    d($line);
                     ddd('found');
                 }
                 $line_uuid = explode('-', $explode[0]);
