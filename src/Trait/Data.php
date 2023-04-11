@@ -221,6 +221,7 @@ Trait Data {
             if(array_key_exists(1, $explode)){
                 if($explode[0] === 'uuid'){
                     if(strpos($explode[1], $uuid) !== false){
+                        ddd($counter);
                         $previous = $file->key() - 1;
                         if($previous < 0){
                             break;
