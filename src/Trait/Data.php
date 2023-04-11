@@ -181,10 +181,8 @@ Trait Data {
             'Data' .
             $object->config('extension.json')
         ;
-        $url = $dir_class . 'Data.json';
-
         $size = filesize($url);
-        $resource = @fopen($url, 'w');
+        $resource = fopen($url, 'w');
         if($resource === false){
             return false;
         }
