@@ -96,7 +96,6 @@ Trait Data {
                 ]);
                 $data->data($class, $list);
                 $data->write($url);
-                ddd($list);
                 if($object->config('framework.environment') === Config::MODE_DEVELOPMENT){
                     $command = 'chmod 666 ' . $url;
                     exec($command);
