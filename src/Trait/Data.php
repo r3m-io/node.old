@@ -97,7 +97,8 @@ Trait Data {
                 ]);
                 $data->delete($class);
                 $data->data($class, $list);
-                $data->write($url);
+                $lines = $data->write($url, 'lines');
+                ddd($lines);
                 if($object->config('framework.environment') === Config::MODE_DEVELOPMENT){
                     $command = 'chmod 666 ' . $url;
                     exec($command);
@@ -229,13 +230,13 @@ Trait Data {
                         $file->seek($previous);
                         $tmp = [];
                         while($previous > 0){
+                            $line = $file->current();
+                            $tmp[] = $line;
                             $previous = $file->key() - 1;
                             if($previous < 0){
                                 break;
                             }
                             $file->seek($previous);
-                            $line = $file->current();
-                            $tmp[] = $line;
                         }
                         ddd($tmp);
                     }
