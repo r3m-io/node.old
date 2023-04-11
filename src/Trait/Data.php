@@ -217,6 +217,11 @@ Trait Data {
             d($line);
             $explode = explode(':', $line);
             if(array_key_exists(1, $explode)){
+                if($explode[0] === 'uuid'){
+                    if($explode[1] === $uuid){
+                        ddd('found2');
+                    }
+                }
                 if($explode[0] === $uuid){
                     d($file->key());
                     ddd('found');
