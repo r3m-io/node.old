@@ -207,6 +207,7 @@ Trait Data {
         $data = $this->binary_search($file, [
             'uuid' => $uuid,
             'seek' => $seek,
+            'current' => $seek,
             'lines'=> $lines,
             'data' => $data,
             'direction' => 'next',
@@ -222,7 +223,7 @@ Trait Data {
         $data = $options['data'];
         $is_debug = $options['is_debug'] ?? false;
         $counter = $options['counter'] ?? 0;
-        $current = $lines;
+        $current = $options['current'];
         $direction = $options['direction'] ?? 'next';
         while($line = $file->current()){
             $counter++;
@@ -287,11 +288,12 @@ Trait Data {
                     }
                     if($is_smaller){
                         $seek = (int) (0.25 * $lines);
-                        $file->fseek($seek);
+                        $file->seek($seek);
                         $data = $this->binary_search($file, [
                             'uuid' => $uuid,
                             'lines' => $lines,
                             'seek' => $seek,
+                            'current' => $seek,
                             'data' => $data,
                             'is_debug' => true,
                             'counter' => $counter,
@@ -300,11 +302,12 @@ Trait Data {
                     }
                     if($is_greater){
                         $seek = (int) (0.75 * $lines);
-                        $file->fseek($seek);
+                        $file->seek($seek);
                         $data = $this->binary_search($file, [
                             'uuid' => $uuid,
                             'lines' => $lines,
                             'seek' => $seek,
+                            'current' => $seek,
                             'data' => $data,
                             'is_debug' => true,
                             'counter' => $counter,
