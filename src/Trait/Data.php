@@ -193,6 +193,7 @@ Trait Data {
             'size' => $size,
             'seek' => $seek,
             'data' => $data,
+            'direction' => 'next',
         ]);
         ddd($data);
         return false;
@@ -211,8 +212,9 @@ Trait Data {
             if($counter > 1024){
                 break;
             }
-            d($line);
+//            d($line);
 //            d($file->key());
+            echo $file->key() . PHP_EOL;
             $line_match = str_replace(' ', '', $line);
             $line_match = str_replace('"', '', $line_match);
             $explode = explode(':', $line_match);
@@ -241,6 +243,7 @@ Trait Data {
                     d($line);
                     ddd('found');
                 }
+                d($explode[0]);
                 $line_uuid = explode('-', $explode[0]);
                 $search_uuid = explode('-', $uuid);
                 if(count($line_uuid) === count($search_uuid)){
