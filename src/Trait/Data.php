@@ -211,6 +211,7 @@ Trait Data {
             if($counter > 1024){
                 break;
             }
+            d($line);
 //            d($file->key());
             $line_match = str_replace(' ', '', $line);
             $line_match = str_replace('"', '', $line_match);
