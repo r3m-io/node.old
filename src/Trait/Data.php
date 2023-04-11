@@ -157,9 +157,10 @@ Trait Data {
     {
         $name = Controller::name($class);
         $object = $this->object();
-        ddd($options);
-        $uuid = '';
-        $node = new Storage( (object) $options);
+        if(!array_key_exists('uuid', $options)){
+            return false;
+        }
+        $uuid = $options['uuid'];
         $dir_node = $object->config('project.dir.data') .
             'Node' .
             $object->config('ds')
@@ -181,40 +182,25 @@ Trait Data {
             $object->config('extension.json')
         ;
         $url = $dir_class . 'Data.json';
-        $data = $object->data_read($url);
-        if(!$data){
+
+        $size = filesize($url);
+        $resource = @fopen($url, 'w');
+        if($resource === false){
             return false;
         }
-        $list = $data->get($class);
-        if(empty($list)){
-            $list = [];
-        }
-        foreach($list as $record){
-            $is_found = true;
-            foreach($node->data() as $attribute => $value){
-                if(
-                    is_array($record) &&
-                    array_key_exists($attribute, $record)
-                ){
-                    if($record[$attribute] !== $value){
-                        $is_found = false;
-                        break;
-                    }
-                }
-                elseif(
-                    is_object($record) &&
-                    property_exists($record, $attribute)
-                ){
-                    if($record->{$attribute} !== $value){
-                        $is_found = false;
-                        break;
-                    }
+        fseek($resource, 0.5 * $size);
+        $data = [];
+        while (($buffer = fgets($resource, 4096)) !== false) {
+            $buffer = explode(PHP_EOL, $buffer);
+            foreach($buffer as $line){
+                $line = trim($line);
+                if(!empty($line)){
+                    $data[] = $line;
                 }
             }
-            if($is_found){
-                return $record;
-            }
         }
+        fclose($resource);
+        ddd($data);
         return false;
     }
 
