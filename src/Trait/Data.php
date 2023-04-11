@@ -260,6 +260,7 @@ Trait Data {
                 if($explode[0] === $uuid){
                     d($file->key());
                     d($options);
+                    d($current);
                     d($line);
                     ddd('found');
                 }
