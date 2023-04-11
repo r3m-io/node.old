@@ -230,8 +230,17 @@ Trait Data {
                             continue;
                         }
                         elseif($hex < $match){
-                            d('move 1/4');
-                            ddd('found');
+                            $seek = (int) (0.25 * $size);
+                            $file->fseek($seek);
+                            $data = $this->binary_search($file, [
+                                'uuid' => $uuid,
+                                'size' => $size,
+                                'seek' => $seek,
+                                'data' => $data,
+                                'is_debug' => true,
+                                'counter' => $counter,
+                            ]);
+                            ddd($data);
                         }
                         elseif($hex > $match){
                             $seek = (int) (0.75 * $size);
