@@ -246,7 +246,7 @@ Trait Data {
                     }
                 }
             }
-            if(strpos($line, '"' . $uuid . '":') !== false){
+            if(strpos($line, $uuid . ':') !== false){
                 $data[] = $line;
                 break;
             }
