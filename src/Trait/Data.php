@@ -91,9 +91,10 @@ Trait Data {
             if($validate->success === true) {
                 $data->set($class . '.' . $uuid, $object->request('node'));
 
-                $list = Sort::list($data->data())->with([
+                $list = Sort::list($data->data($class))->with([
                     'uuid' => 'ASC'
                 ]);
+                $data->data($class, $list);
                 $data->write($url);
                 ddd($list);
                 if($object->config('framework.environment') === Config::MODE_DEVELOPMENT){
