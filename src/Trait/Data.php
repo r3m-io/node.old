@@ -95,7 +95,7 @@ Trait Data {
                 $list = Sort::list($data->data($class))->with([
                     'uuid' => 'ASC'
                 ]);
-                d($list);
+                ddd($list);
                 $data->delete($class);
                 $data->data($class, $list);
                 $data->write($url);
