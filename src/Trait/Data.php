@@ -220,6 +220,11 @@ Trait Data {
                 if($explode[0] === 'uuid'){
                     if(strpos($explode[1], $uuid) !== false){
 //                        $file->fseek($seek);
+                        $previous = $file->key() - 1;
+                        if($previous < 0){
+                            break;
+                        }
+                        $file->seek($previous);
                         $data = $this->binary_search($file, [
                             'uuid' => $uuid,
                             'size' => $size,
@@ -282,7 +287,11 @@ Trait Data {
                     $file->next();
                     break;
                 case 'previous':
-                    $file->seek($file->key() - 1);
+                    $previous = $file->key() - 1;
+                    if($previous < 0){
+                        break 2;
+                    }
+                    $file->seek($previous);
                     break;
             }
         }
