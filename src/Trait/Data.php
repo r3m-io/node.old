@@ -56,7 +56,7 @@ Trait Data {
             'Data' .
             $object->config('extension.json')
         ;
-        $data = $object->data_read($url);
+        $data = $object->data_read($url, sha1($url));
         if(!$data){
             $data = new Storage();
             Dir::create($dir_uuid, Dir::CHMOD);
