@@ -185,6 +185,7 @@ Trait Data {
         $size = filesize($url);
 
         $seek = (int) 0.5 * $size;
+        ddd($seek);
         $file = new SplFileObject($url);
         $file->fseek($seek);
 
