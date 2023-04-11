@@ -43,35 +43,46 @@ Trait Data {
             $name .
             $object->config('ds')
         ;
-        $url = $dir_class . 'Data.json';
+        $uuid = Core::uuid();
+        $dir_uuid = $dir_class .
+            substr($uuid, 0, 1) .
+            $object->config('ds')
+        ;
+        $url = $dir_uuid .
+            'Data' .
+            $object->config('extension.json')
+        ;
         $data = $object->data_read($url);
         if(!$data){
             $data = new Storage();
-            Dir::create($dir_class, Dir::CHMOD);
+            Dir::create($dir_uuid, Dir::CHMOD);
             if($object->config('framework.environment') === Config::MODE_DEVELOPMENT){
+                $command = 'chmod 777 ' . $dir_uuid;
+                exec($command);
                 $command = 'chmod 777 ' . $dir_node;
                 exec($command);
                 $command = 'chmod 777 ' . $dir_class;
                 exec($command);
                 if($object->config(Config::POSIX_ID) === 0){
-                    $command = 'chown www-data:www-data ' . $dir_node . ' -R';
+                    $command = 'chown www-data:www-data ' . $dir_uuid . ' -R';
+                    exec($command);
+                    $command = 'chown www-data:www-data ' . $dir_class;
+                    exec($command);
+                    $command = 'chown www-data:www-data ' . $dir_node;
                     exec($command);
                 }
             }
         }
-        $node->set('uuid', Core::uuid());
+        $node->set('uuid', $uuid);
         $object->request('node', $node->data());
-        $list = $data->get($class);
-        if(empty($list)){
-            $list = [];
-        }
+
         $validate_url =  $dir_class . 'Validate.json';
         $validate = $this->validate($object, $validate_url,  $class . '.create');
         $response = [];
         if($validate) {
             if($validate->success === true) {
-                $list[] = $node->data();
-                $data->set($class, $list);
+                $data->set($class . '.' . $uuid, $object->request('node'));
+                ddd($data);
                 $data->write($url);
                 if($object->config('framework.environment') === Config::MODE_DEVELOPMENT){
                     $command = 'chmod 666 ' . $url;
