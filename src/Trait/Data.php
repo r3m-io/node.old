@@ -204,6 +204,7 @@ Trait Data {
         $seek = $options['seek'];
         $data = $options['data'];
         while($line = $file->current()){
+            d($file->key());
             $line = str_replace(' ', '', $line);
             $line = str_replace('"', '', $line);
             $explode = explode(':', $line);
