@@ -188,6 +188,21 @@ Trait Data {
         $file = new SplFileObject($url);
         $file->fseek($seek);
         $data = [];
+        $data = $this->binary_search($file, [
+            'uuid' => $uuid,
+            'size' => $size,
+            'seek' => $seek,
+            'data' => $data,
+        ]);
+        ddd($data);
+        return false;
+    }
+
+    private function binary_search($file, $options=[]){
+        $uuid = $options['uuid'];
+        $size = $options['size'];
+        $seek = $options['seek'];
+        $data = $options['data'];
         while($line = $file->current()){
             $line = str_replace(' ', '', $line);
             $line = str_replace('"', '', $line);
@@ -210,10 +225,16 @@ Trait Data {
                         ddd('found');
                     }
                     elseif($hex > $match){
-                        d('move 3/4');
-                        ddd('found');
+                        $seek = (int) (0.75 * $size);
+                        $file->fseek($seek);
+                        $data = $this->binary_search($file, [
+                            'uuid' => $uuid,
+                            'size' => $size,
+                            'seek' => $seek,
+                            'data' => $data,
+                        ]);
+                        ddd($data);
                     }
-
                 }
             }
             if(strpos($line, '"' . $uuid . '":') !== false){
@@ -222,8 +243,7 @@ Trait Data {
             }
             $file->next();
         }
-        ddd($data);
-        return false;
+        return $data;
     }
 
     public function patch($class, $options=[]): false|array|object
