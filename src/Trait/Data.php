@@ -190,6 +190,32 @@ Trait Data {
         $data = [];
         while($line = $file->current()){
             $line = str_replace(' ', '', $line);
+            $line = str_replace('"', '', $line);
+            $explode = explode(':', $line);
+            if(array_key_exist(1, $explode)){
+                if($explode[0] === $uuid){
+                    d($file->key());
+                    ddd('found');
+                }
+                $line_uuid = explode('-', $explode[0]);
+                $search_uuid = explode('-, $uuid');
+                foreach($search_uuid as $nr => $search){
+                    $hex = hexdec($search);
+                    $match = hexdec($line_uuid[$nr]);
+                    if($hex === $match){
+                        continue;
+                    }
+                    elseif($hex < $match){
+                        d('move 1/4');
+                        ddd('found');
+                    }
+                    elseif($hex > $match){
+                        d('move 3/4');
+                        ddd('found');
+                    }
+
+                }
+            }
             if(strpos($line, '"' . $uuid . '":') !== false){
                 $data[] = $line;
                 break;
