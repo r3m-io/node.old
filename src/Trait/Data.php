@@ -186,7 +186,7 @@ Trait Data {
         if($resource === false){
             return false;
         }
-        fseek($resource, 0.5 * $size);
+        fseek($resource, (int) 0.5 * $size);
         $data = [];
         while(($line = stream_get_line($resource, 0, PHP_EOL)) !== false){
             $data[] = $line;
