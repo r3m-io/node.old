@@ -35,6 +35,7 @@ Trait Data {
         $name = Controller::name($class);
         $object = $this->object();
         $node = new Storage( (object) $options);
+        ddd($node);
         $dir_node = $object->config('project.dir.data') .
             'Node' .
             $object->config('ds')
@@ -44,7 +45,11 @@ Trait Data {
             $object->config('ds')
         ;
         $uuid = Core::uuid();
-        $dir_uuid = $dir_class .
+        $dir_data = $dir_class .
+            'Data' .
+            $object->config('ds')
+        ;
+        $dir_uuid = $dir_data .
             substr($uuid, 0, 1) .
             $object->config('ds')
         ;
@@ -59,12 +64,16 @@ Trait Data {
             if($object->config('framework.environment') === Config::MODE_DEVELOPMENT){
                 $command = 'chmod 777 ' . $dir_uuid;
                 exec($command);
+                $command = 'chmod 777 ' . $dir_data;
+                exec($command);
                 $command = 'chmod 777 ' . $dir_node;
                 exec($command);
                 $command = 'chmod 777 ' . $dir_class;
                 exec($command);
                 if($object->config(Config::POSIX_ID) === 0){
                     $command = 'chown www-data:www-data ' . $dir_uuid . ' -R';
+                    exec($command);
+                    $command = 'chown www-data:www-data ' . $dir_data;
                     exec($command);
                     $command = 'chown www-data:www-data ' . $dir_class;
                     exec($command);
