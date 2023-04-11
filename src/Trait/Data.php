@@ -2,6 +2,7 @@
 
 namespace R3m\Io\Node\Trait;
 
+use SplFileObject;
 use stdClass;
 
 use R3m\Io\App;
@@ -182,17 +183,18 @@ Trait Data {
             $object->config('extension.json')
         ;
         $size = filesize($url);
-        $resource = fopen($url, 'r');
-        if($resource === false){
-            return false;
-        }
+
+        $seek = (int) 0.5 * $size;
+        $file = new SplFileObject($url);
+        $file->fseek($seek);
+
         d($url);
-        fseek($resource, (int) 0.5 * $size);
+
         $data = [];
-        while(($line = fgets($resource, null)) !== false){
+        while($line = $file->current()){
             $data[] = $line;
+            $file->next();
         }
-        fclose($resource);
         ddd($data);
         return false;
     }
