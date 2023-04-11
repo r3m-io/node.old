@@ -90,8 +90,12 @@ Trait Data {
         if($validate) {
             if($validate->success === true) {
                 $data->set($class . '.' . $uuid, $object->request('node'));
+
+                $list = Sort::list($data->data())->with([
+                    'uuid' => 'ASC'
+                ]);
                 $data->write($url);
-                ddd($data);
+                ddd($list);
                 if($object->config('framework.environment') === Config::MODE_DEVELOPMENT){
                     $command = 'chmod 666 ' . $url;
                     exec($command);
