@@ -247,19 +247,6 @@ Trait Data {
                                 'counter' => $counter,
                                 'direction' => 'next',
                             ]);
-                            if(!$data){
-                                $file->fseek($seek);
-                                $data = $this->binary_search($file, [
-                                    'uuid' => $uuid,
-                                    'size' => $size,
-                                    'seek' => $seek,
-                                    'data' => $data,
-                                    'is_debug' => true,
-                                    'counter' => $counter,
-                                    'direction' => 'previous',
-                                ]);
-                            }
-                            ddd($data);
                         }
                         elseif($hex > $match){
                             $seek = (int) (0.75 * $size);
@@ -273,19 +260,6 @@ Trait Data {
                                 'counter' => $counter,
                                 'direction' => 'next',
                             ]);
-                            if(!$data){
-                                $file->fseek($seek);
-                                $data = $this->binary_search($file, [
-                                    'uuid' => $uuid,
-                                    'size' => $size,
-                                    'seek' => $seek,
-                                    'data' => $data,
-                                    'is_debug' => true,
-                                    'counter' => $counter,
-                                    'direction' => 'previous',
-                                ]);
-                            }
-                            ddd($data);
                         }
                     }
                 }
