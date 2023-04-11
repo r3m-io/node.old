@@ -214,7 +214,7 @@ Trait Data {
             }
 //            d($line);
 //            d($file->key());
-            echo $file->key() . PHP_EOL;
+            echo $file->key() . ' ' . $line . PHP_EOL;
             $line_match = str_replace(' ', '', $line);
             $line_match = str_replace('"', '', $line_match);
             $explode = explode(':', $line_match);
