@@ -219,7 +219,16 @@ Trait Data {
             if(array_key_exists(1, $explode)){
                 if($explode[0] === 'uuid'){
                     if(strpos($explode[1], $uuid) !== false){
-                        ddd('found2');
+                        $file->fseek($seek);
+                        $data = $this->binary_search($file, [
+                            'uuid' => $uuid,
+                            'size' => $size,
+                            'seek' => $seek,
+                            'data' => $data,
+                            'is_debug' => true,
+                            'counter' => $counter,
+                            'direction' => 'previous',
+                        ]);
                     }
                 }
                 if($explode[0] === $uuid){
