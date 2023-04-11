@@ -198,7 +198,7 @@ Trait Data {
                     ddd('found');
                 }
                 $line_uuid = explode('-', $explode[0]);
-                $search_uuid = explode('-, $uuid');
+                $search_uuid = explode('-', $uuid);
                 foreach($search_uuid as $nr => $search){
                     $hex = hexdec($search);
                     $match = hexdec($line_uuid[$nr]);
