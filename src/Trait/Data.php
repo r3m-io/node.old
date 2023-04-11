@@ -270,7 +270,7 @@ Trait Data {
                     $file->next();
                     break;
                 case 'previous':
-                    $file->prev();
+                    $file->seek($file->key() - 1);
                     break;
             }
         }
