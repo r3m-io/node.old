@@ -194,15 +194,20 @@ Trait Data {
             'Data' .
             $object->config('extension.json')
         ;
-        $size = filesize($url);
-        $seek = (int) (0.5 * $size);
+        $meta_url = $dir_data . 'Meta.json';
+        $meta = $object->data_read($meta_url, sha1($meta_url));
+        if(!$meta){
+            return false;
+        }
+        $lines = $meta->get($class . '.' . substr($uuid, 0, 1));
+        $seek = (int) (0.5 * $lines);
         $file = new SplFileObject($url);
-        $file->fseek($seek);
+        $file->seek($seek);
         $data = [];
         $data = $this->binary_search($file, [
             'uuid' => $uuid,
-            'size' => $size,
             'seek' => $seek,
+            'lines'=> $lines,
             'data' => $data,
             'direction' => 'next',
         ]);
@@ -212,11 +217,12 @@ Trait Data {
 
     private function binary_search($file, $options=[]){
         $uuid = $options['uuid'];
-        $size = $options['size'];
+        $lines = $options['lines'];
         $seek = $options['seek'];
         $data = $options['data'];
         $is_debug = $options['is_debug'] ?? false;
         $counter = $options['counter'] ?? 0;
+        $current = $lines;
         $direction = $options['direction'] ?? 'next';
         while($line = $file->current()){
             $counter++;
@@ -225,14 +231,14 @@ Trait Data {
             }
 //            d($line);
 //            d($file->key());
-            echo $file->key() . ' ' . $line . PHP_EOL;
+            echo $current . ' ' . $line . PHP_EOL;
             $line_match = str_replace(' ', '', $line);
             $line_match = str_replace('"', '', $line_match);
             $explode = explode(':', $line_match);
             if(array_key_exists(1, $explode)){
                 if($explode[0] === 'uuid'){
                     if(strpos($explode[1], $uuid) !== false){
-                        d($counter);
+                        ddd($counter);
                         $previous = $file->key() - 1;
                         if($previous < 0){
                             break;
@@ -268,11 +274,11 @@ Trait Data {
                             continue;
                         }
                         elseif($hex < $match){
-                            $seek = (int) (0.25 * $size);
+                            $seek = (int) (0.25 * $lines);
                             $file->fseek($seek);
                             $data = $this->binary_search($file, [
                                 'uuid' => $uuid,
-                                'size' => $size,
+                                'lines' => $lines,
                                 'seek' => $seek,
                                 'data' => $data,
                                 'is_debug' => true,
@@ -281,11 +287,11 @@ Trait Data {
                             ]);
                         }
                         elseif($hex > $match){
-                            $seek = (int) (0.75 * $size);
+                            $seek = (int) (0.75 * $lines);
                             $file->fseek($seek);
                             $data = $this->binary_search($file, [
                                 'uuid' => $uuid,
-                                'size' => $size,
+                                'lines' => $lines,
                                 'seek' => $seek,
                                 'data' => $data,
                                 'is_debug' => true,
