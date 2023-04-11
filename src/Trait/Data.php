@@ -266,6 +266,8 @@ Trait Data {
                 d($explode[0]);
                 $line_uuid = explode('-', $explode[0]);
                 $search_uuid = explode('-', $uuid);
+                $is_smaller = false;
+                $is_greater = false;
                 if(count($line_uuid) === count($search_uuid)){
                     foreach($search_uuid as $nr => $search){
                         $hex = hexdec($search);
@@ -274,31 +276,39 @@ Trait Data {
                             continue;
                         }
                         elseif($hex < $match){
-                            $seek = (int) (0.25 * $lines);
-                            $file->fseek($seek);
-                            $data = $this->binary_search($file, [
-                                'uuid' => $uuid,
-                                'lines' => $lines,
-                                'seek' => $seek,
-                                'data' => $data,
-                                'is_debug' => true,
-                                'counter' => $counter,
-                                'direction' => 'next',
-                            ]);
+                            $is_smaller = true;
+                            break;
                         }
                         elseif($hex > $match){
-                            $seek = (int) (0.75 * $lines);
-                            $file->fseek($seek);
-                            $data = $this->binary_search($file, [
-                                'uuid' => $uuid,
-                                'lines' => $lines,
-                                'seek' => $seek,
-                                'data' => $data,
-                                'is_debug' => true,
-                                'counter' => $counter,
-                                'direction' => 'next',
-                            ]);
+                            $is_greater = true;
+                            break;
                         }
+                    }
+                    if($is_smaller){
+                        $seek = (int) (0.25 * $lines);
+                        $file->fseek($seek);
+                        $data = $this->binary_search($file, [
+                            'uuid' => $uuid,
+                            'lines' => $lines,
+                            'seek' => $seek,
+                            'data' => $data,
+                            'is_debug' => true,
+                            'counter' => $counter,
+                            'direction' => 'next',
+                        ]);
+                    }
+                    if($is_greater){
+                        $seek = (int) (0.75 * $lines);
+                        $file->fseek($seek);
+                        $data = $this->binary_search($file, [
+                            'uuid' => $uuid,
+                            'lines' => $lines,
+                            'seek' => $seek,
+                            'data' => $data,
+                            'is_debug' => true,
+                            'counter' => $counter,
+                            'direction' => 'next',
+                        ]);
                     }
                 }
             }
@@ -308,9 +318,11 @@ Trait Data {
             }
             switch($direction){
                 case 'next':
+                    $current++;
                     $file->next();
                     break;
                 case 'previous':
+                    $current--;
                     $previous = $file->key() - 1;
                     if($previous < 0){
                         break 2;
