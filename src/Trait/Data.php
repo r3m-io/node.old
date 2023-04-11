@@ -222,28 +222,30 @@ Trait Data {
                 }
                 $line_uuid = explode('-', $explode[0]);
                 $search_uuid = explode('-', $uuid);
-                foreach($search_uuid as $nr => $search){
-                    $hex = hexdec($search);
-                    $match = hexdec($line_uuid[$nr]);
-                    if($hex === $match){
-                        continue;
-                    }
-                    elseif($hex < $match){
-                        d('move 1/4');
-                        ddd('found');
-                    }
-                    elseif($hex > $match){
-                        $seek = (int) (0.75 * $size);
-                        $file->fseek($seek);
-                        $data = $this->binary_search($file, [
-                            'uuid' => $uuid,
-                            'size' => $size,
-                            'seek' => $seek,
-                            'data' => $data,
-                            'is_debug' => true,
-                            'counter' => $counter,
-                        ]);
-                        ddd($data);
+                if(count($line_uuid) === count($search_uuid)){
+                    foreach($search_uuid as $nr => $search){
+                        $hex = hexdec($search);
+                        $match = hexdec($line_uuid[$nr]);
+                        if($hex === $match){
+                            continue;
+                        }
+                        elseif($hex < $match){
+                            d('move 1/4');
+                            ddd('found');
+                        }
+                        elseif($hex > $match){
+                            $seek = (int) (0.75 * $size);
+                            $file->fseek($seek);
+                            $data = $this->binary_search($file, [
+                                'uuid' => $uuid,
+                                'size' => $size,
+                                'seek' => $seek,
+                                'data' => $data,
+                                'is_debug' => true,
+                                'counter' => $counter,
+                            ]);
+                            ddd($data);
+                        }
                     }
                 }
             }
