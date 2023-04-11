@@ -237,6 +237,7 @@ Trait Data {
             $line_match = str_replace('"', '', $line_match);
             $explode = explode(':', $line_match);
             if(array_key_exists(1, $explode)){
+                /*
                 if($explode[0] === 'uuid'){
                     if(strpos($explode[1], $uuid) !== false){
                         ddd($counter);
@@ -258,6 +259,7 @@ Trait Data {
                         ddd($tmp);
                     }
                 }
+                */
                 if($explode[0] === $uuid){
                     d($file->key());
                     d($options);
