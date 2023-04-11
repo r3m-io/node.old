@@ -98,13 +98,23 @@ Trait Data {
                 $data->delete($class);
                 $data->data($class, $list);
                 $lines = $data->write($url, 'lines');
-                ddd($lines);
+                $meta_url = $dir_data . 'Meta.json';
+                $meta = $object->data_read($meta_url, sha1($meta_url));
+                if(!$meta){
+                    $meta = new Storage();
+                }
+                $meta->set($class . '.' . substr($uuid, 0, 1), $lines);
+                $meta->write($meta_url);
                 if($object->config('framework.environment') === Config::MODE_DEVELOPMENT){
                     $command = 'chmod 666 ' . $url;
+                    exec($command);
+                    $command = 'chmod 666 ' . $meta_url;
                     exec($command);
                 }
                 if($object->config(Config::POSIX_ID) === 0){
                     $command = 'chown www-data:www-data ' . $url;
+                    exec($command);
+                    $command = 'chown www-data:www-data ' . $meta_url;
                     exec($command);
                 }
                 if($object->config(Config::POSIX_ID) === 0){
