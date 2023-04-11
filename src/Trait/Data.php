@@ -208,7 +208,7 @@ Trait Data {
         $direction = $options['direction'] ?? 'next';
         while($line = $file->current()){
             $counter++;
-            if($counter > 10241024){
+            if($counter > 1024){
                 break;
             }
 //            d($file->key());
