@@ -95,7 +95,8 @@ Trait Data {
                 $list = Sort::list($data->data($class))->with([
                     'uuid' => 'ASC'
                 ]);
-                ddd($list);
+                d($list);
+                $data->delete($class);
                 $data->data($class, $list);
                 $data->write($url);
                 if($object->config('framework.environment') === Config::MODE_DEVELOPMENT){
