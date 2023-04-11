@@ -35,7 +35,7 @@ Trait Data {
         $name = Controller::name($class);
         $object = $this->object();
         $node = new Storage( (object) $options);
-        ddd($node);
+        d($node);
         $dir_node = $object->config('project.dir.data') .
             'Node' .
             $object->config('ds')
