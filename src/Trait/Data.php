@@ -35,7 +35,6 @@ Trait Data {
         $name = Controller::name($class);
         $object = $this->object();
         $node = new Storage( (object) $options);
-        d($node);
         $dir_node = $object->config('project.dir.data') .
             'Node' .
             $object->config('ds')
@@ -91,8 +90,8 @@ Trait Data {
         if($validate) {
             if($validate->success === true) {
                 $data->set($class . '.' . $uuid, $object->request('node'));
-                ddd($data);
                 $data->write($url);
+                ddd($data);
                 if($object->config('framework.environment') === Config::MODE_DEVELOPMENT){
                     $command = 'chmod 666 ' . $url;
                     exec($command);
