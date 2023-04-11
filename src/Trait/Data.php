@@ -189,7 +189,7 @@ Trait Data {
         d($url);
         fseek($resource, (int) 0.5 * $size);
         $data = [];
-        while(($line = fgets($resource, null) !== false){
+        while(($line = fgets($resource, null) !== false)){
             $data[] = $line;
         }
         fclose($resource);
