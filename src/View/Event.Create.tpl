@@ -5,6 +5,7 @@ Create Event:
 {{$controllers = []}}
 {{$action = terminal.readline('Action: ')}}
 {{$command = terminal.readline('Command: ')}}
+{{dd($command)}}
 {{if(!is.empty($command))}}
 {{$commands[] = $command}}
 {{/if}}
