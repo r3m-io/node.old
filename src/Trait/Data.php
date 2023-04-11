@@ -218,7 +218,6 @@ Trait Data {
             $explode = explode(':', $line);
             if(array_key_exists(1, $explode)){
                 if($explode[0] === 'uuid'){
-                    ddd($explode);
                     if(strpos($explode[1], $uuid) !== false){
                         ddd('found2');
                     }
