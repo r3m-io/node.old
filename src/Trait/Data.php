@@ -204,8 +204,9 @@ Trait Data {
         $seek = $options['seek'];
         $data = $options['data'];
         $is_debug = $options['is_debug'] ?? false;
-        $counter = 0;
+        $counter = $options['counter'] ?? 0;
         while($line = $file->current()){
+            $counter++;
             if($counter > 1024){
                 break;
             }
@@ -238,7 +239,8 @@ Trait Data {
                             'size' => $size,
                             'seek' => $seek,
                             'data' => $data,
-                            'is_debug' => true
+                            'is_debug' => true,
+                            'counter' => $counter,
                         ]);
                         ddd($data);
                     }
