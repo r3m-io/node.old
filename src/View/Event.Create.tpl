@@ -31,8 +31,8 @@ Create Event:
 {{$response = R3m.Io.Node:Data:create('Event', [
 'action' => $action,
 'options' => [
-'commands' => $commands,
-'controllers' => $controllers,
+'command' => $commands,
+'controller' => $controllers,
 'priority' => $priority,
 ]
 ])}}
