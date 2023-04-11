@@ -5,11 +5,10 @@ Create Event:
 {{$controllers = []}}
 {{$action = terminal.readline('Action: ')}}
 {{$command = terminal.readline('Command: ')}}
-{{dd($command)}}
 {{if(!is.empty($command))}}
 {{$commands[] = $command}}
 {{/if}}
-{{while(is.empty($command))}}
+{{while(!is.empty($command))}}
 {{$command = terminal.readline('Command: ')}}
 {{if(!is.empty($command))}}
 {{$commands[] = $command}}
@@ -19,7 +18,7 @@ Create Event:
 {{if(!is.empty($controller))}}
 {{$controllers[] = $controller}}
 {{/if}}
-{{while(is.empty($controller))}}
+{{while(!is.empty($controller))}}
 {{$controller = terminal.readline('Controller: ')}}
 {{if(!is.empty($controller))}}
 {{$controller[] = $controller}}
