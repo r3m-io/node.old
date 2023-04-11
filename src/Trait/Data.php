@@ -233,6 +233,7 @@ Trait Data {
                             if($previous < 0){
                                 break;
                             }
+                            $file->seek($previous);
                             $line = $file->current();
                             $tmp[] = $line;
                         }
