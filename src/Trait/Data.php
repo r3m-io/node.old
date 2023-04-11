@@ -182,14 +182,14 @@ Trait Data {
             $object->config('extension.json')
         ;
         $size = filesize($url);
-        $resource = fopen($url, 'w');
+        $resource = fopen($url, 'r');
         if($resource === false){
             return false;
         }
         d($url);
         fseek($resource, (int) 0.5 * $size);
         $data = [];
-        while(($line = stream_get_line($resource, 0, PHP_EOL)) !== false){
+        while(($line = fgets($resource, null) !== false){
             $data[] = $line;
         }
         fclose($resource);
