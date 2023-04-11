@@ -227,15 +227,16 @@ Trait Data {
                             break;
                         }
                         $file->seek($previous);
-                        $data = $this->binary_search($file, [
-                            'uuid' => $uuid,
-                            'size' => $size,
-                            'seek' => $seek,
-                            'data' => $data,
-                            'is_debug' => true,
-                            'counter' => $counter,
-                            'direction' => 'previous',
-                        ]);
+                        $tmp = [];
+                        while($previous > 0){
+                            $previous = $file->key() - 1;
+                            if($previous < 0){
+                                break;
+                            }
+                            $line = $file->current();
+                            $tmp[] = $line;
+                        }
+                        ddd($tmp);
                     }
                 }
                 if($explode[0] === $uuid){
