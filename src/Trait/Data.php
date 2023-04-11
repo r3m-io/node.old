@@ -94,8 +94,6 @@ Trait Data {
 
                 $list = Sort::list($data->data($class))->with([
                     'uuid' => 'ASC'
-                ], [
-                    'flags' => SORT_STRING  //for uuid
                 ]);
                 $data->delete($class);
                 $data->data($class, $list);
@@ -189,12 +187,13 @@ Trait Data {
         $seek = (int) (0.5 * $size);
         $file = new SplFileObject($url);
         $file->fseek($seek);
-
-        d($url);
-
         $data = [];
         while($line = $file->current()){
-            $data[] = $line;
+            $line = str_replace(' ', '', $line);
+            if(strpos($line, '"' . $uuid . '":') !== false){
+                $data[] = $line;
+                break;
+            }
             $file->next();
         }
         ddd($data);
