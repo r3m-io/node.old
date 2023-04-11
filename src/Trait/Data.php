@@ -203,7 +203,12 @@ Trait Data {
         $size = $options['size'];
         $seek = $options['seek'];
         $data = $options['data'];
+        $is_debug = $options['is_debug'] ?? false;
+        $counter = 0;
         while($line = $file->current()){
+            if($counter > 1024){
+                break;
+            }
             d($file->key());
             $line = str_replace(' ', '', $line);
             $line = str_replace('"', '', $line);
@@ -233,6 +238,7 @@ Trait Data {
                             'size' => $size,
                             'seek' => $seek,
                             'data' => $data,
+                            'is_debug' => true
                         ]);
                         ddd($data);
                     }
