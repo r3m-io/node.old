@@ -250,6 +250,7 @@ Trait Data {
                 $data[] = $line;
                 break;
             }
+            d('next');
             $file->next();
         }
         return $data;
