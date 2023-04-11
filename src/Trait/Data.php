@@ -157,6 +157,8 @@ Trait Data {
     {
         $name = Controller::name($class);
         $object = $this->object();
+        ddd($options);
+        $uuid = '';
         $node = new Storage( (object) $options);
         $dir_node = $object->config('project.dir.data') .
             'Node' .
@@ -165,6 +167,18 @@ Trait Data {
         $dir_class = $dir_node .
             $name .
             $object->config('ds')
+        ;
+        $dir_data = $dir_class .
+            'Data' .
+            $object->config('ds')
+        ;
+        $dir_uuid = $dir_data .
+            substr($uuid, 0, 1) .
+            $object->config('ds')
+        ;
+        $url = $dir_uuid .
+            'Data' .
+            $object->config('extension.json')
         ;
         $url = $dir_class . 'Data.json';
         $data = $object->data_read($url);
