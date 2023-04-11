@@ -205,6 +205,7 @@ Trait Data {
         $data = $options['data'];
         $is_debug = $options['is_debug'] ?? false;
         $counter = $options['counter'] ?? 0;
+        $direction = $options['direction'] ?? 'next';
         while($line = $file->current()){
             $counter++;
             if($counter > 1024){
@@ -239,6 +240,7 @@ Trait Data {
                                 'data' => $data,
                                 'is_debug' => true,
                                 'counter' => $counter,
+                                'direction' => 'previous',
                             ]);
                             ddd($data);
                         }
@@ -252,6 +254,7 @@ Trait Data {
                                 'data' => $data,
                                 'is_debug' => true,
                                 'counter' => $counter,
+                                'direction' => 'next',
                             ]);
                             ddd($data);
                         }
@@ -262,8 +265,14 @@ Trait Data {
                 $data[] = $line;
                 break;
             }
-//            d('next');
-            $file->next();
+            switch($direction){
+                case 'next':
+                    $file->next();
+                    break;
+                case 'previous':
+                    $file->prev();
+                    break;
+            }
         }
         return $data;
     }
