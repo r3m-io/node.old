@@ -210,10 +210,10 @@ Trait Data {
             if($counter > 1024){
                 break;
             }
-            d($file->key());
+//            d($file->key());
             $line = str_replace(' ', '', $line);
             $line = str_replace('"', '', $line);
-            d($line);
+//            d($line);
             $explode = explode(':', $line);
             if(array_key_exists(1, $explode)){
                 if($explode[0] === $uuid){
@@ -262,7 +262,7 @@ Trait Data {
                 $data[] = $line;
                 break;
             }
-            d('next');
+//            d('next');
             $file->next();
         }
         return $data;
