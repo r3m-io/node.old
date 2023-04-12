@@ -1,5 +1,9 @@
 {{R3M}}
+{{if($options.format === 'json')}}
+{{else}}
 Read Event:
+
+{{/if}}
 {{$options = options()}}
 {{if(is.empty($options.uuid))}}
     {{$options.uuid = terminal.readline('Uuid: ')}}
