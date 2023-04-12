@@ -81,8 +81,6 @@ Trait Data {
         $name = Controller::name($class);
         $object = $this->object();
         $object->request('node', (object) $options);
-        ddd($object->request());
-        $node = new Storage( (object) $options);
         $dir_node = $object->config('project.dir.data') .
             'Node' .
             $object->config('ds')
@@ -111,10 +109,14 @@ Trait Data {
         if(File::exist($url)){
             return false;
         }
-        $this->dir($object, $dir_node, $dir_data, $dir_uuid, $dir_meta, $dir_validate);
-        $node->set('uuid', $uuid);
-        $object->request('node', clone $node->data());
-        $node->clear();
+        $this->dir($object,
+            $dir_node,
+            $dir_data,
+            $dir_uuid,
+            $dir_meta,
+            $dir_validate
+        );
+        $object->request('node.uuid', $uuid);
         $validate_url =
             $dir_validate .
             $name .
@@ -123,6 +125,7 @@ Trait Data {
         $response = [];
         if($validate) {
             if($validate->success === true) {
+                $node = new Storage();
                 $node->data($object->request('node'));
                 ddd($node);
                 $node->write($url);
@@ -132,7 +135,7 @@ Trait Data {
                     'class' => $class,
                     'options' => $options,
                     'url' => $url,
-                    'node' => $node->data(),
+                    'node' => $object->request('node'),
                     'error' => $validate->test,
                 ]);
             }
