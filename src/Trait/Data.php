@@ -338,9 +338,10 @@ Trait Data {
     }
 
     private function uuid_data($file, $options=[]){
+        $count_curly_open = 0;
         $start = $options['seek'];
         while($line = $file->current()){
-            $count_curly_open = substr_count($line, '{');
+            $count_curly_open += substr_count($line, '{');
             $file->next();
             $start++;
             if($start > $options['lines']){
