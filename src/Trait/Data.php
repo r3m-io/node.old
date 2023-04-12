@@ -267,23 +267,29 @@ Trait Data {
                     }
                 break;
                 case '>=' :
-                    if($dec >= $dec_compare){
+                    if($dec === $dec_compare){
+                        $result[$nr] = true;
+                        break;
+                    }
+                    if($dec > $dec_compare){
                         $result[$nr] = true;
                         break 2;
                     } else {
                         $result[$nr] = false;
                         break 2;
                     }
-                break;
                 case '<=' :
-                    if($dec <= $dec_compare){
+                    if($dec === $dec_compare){
+                        $result[$nr] = true;
+                        break;
+                    }
+                    if($dec < $dec_compare){
                         $result[$nr] = true;
                         break 2;
                     } else {
                         $result[$nr] = false;
                         break 2;
                     }
-                break;
                 case '>' :
                     if($dec > $dec_compare){
                         $result[$nr] = true;
@@ -295,7 +301,6 @@ Trait Data {
                         $result[$nr] = false;
                         break 2;
                     }
-                break;
                 case '<' :
                     if($dec < $dec_compare){
                         $result[$nr] = true;
@@ -307,7 +312,6 @@ Trait Data {
                         $result[$nr] = false;
                         break 2;
                     }
-                break;
                 case '!==' :
                     if($dec !== $dec_compare){
                         $result[$nr] = true;
@@ -326,7 +330,6 @@ Trait Data {
                 break;
             }
         }
-        d($result);
         if(in_array(false, $result, true)){
             return false;
         }
