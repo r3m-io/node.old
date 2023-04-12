@@ -921,14 +921,12 @@ Trait Data {
         }
         $list = new Storage();
         foreach($data->data($class) as $uuid => $node){
-            if(
-                property_exists($node, 'url') &&
-            ){
+            if(property_exists($node, 'url')){
                 $record = $object->data_read($node->url);
                 if($record){
                     $list->set($uuid, $record);
                 } else {
-                    //event
+                    //event out of sync, send mail
                 }
             }
         }
