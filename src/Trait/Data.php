@@ -338,17 +338,35 @@ Trait Data {
     }
 
     private function uuid_data($file, $options=[]){
-        $count_curly_open = 0;
         $start = $options['seek'];
+        $type = null;
         while($line = $file->current()){
-            $count_curly_open += substr_count($line, '{');
+            if(
+                $type === null &&
+                strpos($line, '{') !== false
+            ){
+                $type = 'object';
+            }
+            elseif(
+                $type === null &&
+                strpos($line, '[') !== false
+            ){
+                $type = 'array';
+            }
+            elseif($type === null) {
+                $type = 'scalar';
+            }
+            switch($type){
+                case 'object' :
+                    echo $line . PHP_EOL;
+                break;
+            }
             $file->next();
             $start++;
             if($start > $options['lines']){
                 break;
             }
         }
-        d($count_curly_open);
         d($line);
         ddd($options);
     }
