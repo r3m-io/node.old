@@ -905,6 +905,23 @@ Trait Data {
         $function = __FUNCTION__;
         $name = Controller::name($class);
         $object = $this->object();
+        $url = $object->config('project.dir.data') .
+            'Node' .
+            $object->config('ds') .
+            'BinarySearch' .
+            $name .
+            $object->config('ds') .
+            'Data' .
+            $object->config('extension.json')
+        ;
+        $data = $object->data_read($url);
+        ddd($data);
+
+        return false;
+
+
+
+        /*
         $dir_node = $object->config('project.dir.data') .
             'Node' .
             $object->config('ds');
@@ -945,6 +962,7 @@ Trait Data {
             'list' => $list,
         ]);
         return $response;
+        */
     }
 
     public function list_attribute($list=[], $attribute=[]): array
