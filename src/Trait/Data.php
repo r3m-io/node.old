@@ -196,12 +196,40 @@ Trait Data {
                     $command = 'chown www-data:www-data ' . $url;
                     exec($command);
                 }
+                if($object->config(Config::POSIX_ID) === 0){
+                    $record = $node->data();
+                } else {
+                    $expose = $this->getExpose(
+                        $object,
+                        $class,
+                        $class . '.' . $function .'.expose'
+                    );
+                    ddd($expose);
+                    $record = $this->expose(
+                        $object,
+                        $node->data(),
+                        $expose,
+                        $class,
+                        $function
+                    );
+                }
+                $response['node'] = $record;
+                Event::trigger($object, 'r3m.io.node.data.create', [
+                    'class' => $class,
+                    'options' => $options,
+                    'url' => $url,
+                    'binary_search_url' => $binary_search_url,
+                    'meta_url' => $meta_url,
+                    'node' => $node->data(),
+                ]);
             } else {
                 $response['error'] = $validate->test;
                 Event::trigger($object, 'r3m.io.node.data.create.error', [
                     'class' => $class,
                     'options' => $options,
                     'url' => $url,
+                    'binary_search_url' => $binary_search_url,
+                    'meta_url' => $meta_url,
                     'node' => $object->request('node'),
                     'error' => $validate->test,
                 ]);
