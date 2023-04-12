@@ -25,12 +25,57 @@ use R3m\Io\Exception\ObjectException;
 
 Trait Data {
 
+    private function dir(App $object, $dir_node, $dir_data, $dir_uuid, $dir_meta, $dir_validate){
+        if(!Dir::is($dir_uuid)){
+            Dir::create($dir_uuid, Dir::CHMOD);
+            if($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
+                $command = 'chmod 777 ' . $dir_uuid;
+                exec($command);
+                $command = 'chmod 777 ' . $dir_node;
+                exec($command);
+                $command = 'chmod 777 ' . $dir_data;
+                exec($command);
+            }
+            if($object->config(Config::POSIX_ID) === 0){
+                $command = 'chown www-data:www-data ' . $dir_uuid;
+                exec($command);
+                $command = 'chown www-data:www-data ' . $dir_node;
+                exec($command);
+                $command = 'chown www-data:www-data ' . $dir_data;
+                exec($command);
+            }
+        }
+        if(!Dir::is($dir_meta)) {
+            Dir::create($dir_meta, Dir::CHMOD);
+            if($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
+                $command = 'chmod 777 ' . $dir_meta;
+                exec($command);
+            }
+            if($object->config(Config::POSIX_ID) === 0){
+                $command = 'chown www-data:www-data ' . $dir_meta;
+                exec($command);
+            }
+        }
+        if(!Dir::is($dir_validate)) {
+            Dir::create($dir_validate, Dir::CHMOD);
+            if($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
+                $command = 'chmod 777 ' . $dir_validate;
+                exec($command);
+            }
+            if($object->config(Config::POSIX_ID) === 0){
+                $command = 'chown www-data:www-data ' . $dir_validate;
+                exec($command);
+            }
+        }
+    }
+
+
     /**
      * @throws ObjectException
      * @throws FileWriteException
      * @throws Exception
      */
-    public function create($class='', $options=[], $as_void=false): null|false|array
+    public function create($class='', $options=[]): false|array
     {
         $function = __FUNCTION__;
         $name = Controller::name($class);
@@ -40,53 +85,62 @@ Trait Data {
             'Node' .
             $object->config('ds')
         ;
-        $dir_class = $dir_node .
-            $name .
+        $dir_meta = $dir_node .
+            'Meta'.
+            $object->config('ds')
+        ;
+        $dir_validate = $dir_node .
+            'Validate'.
             $object->config('ds')
         ;
         $uuid = Core::uuid();
-        $dir_data = $dir_class .
-            'Data' .
+        $dir_data = $dir_node .
+            'Storage' .
             $object->config('ds')
         ;
         $dir_uuid = $dir_data .
-            substr($uuid, 0, 1) .
+            substr($uuid, 0, 2) .
             $object->config('ds')
         ;
         $url = $dir_uuid .
-            'Data' .
+            $uuid .
             $object->config('extension.json')
         ;
-        $data = $object->data_read($url, sha1($url));
-        if(!$data){
-            $data = new Storage();
-            Dir::create($dir_uuid, Dir::CHMOD);
-            if($object->config('framework.environment') === Config::MODE_DEVELOPMENT){
-                $command = 'chmod 777 ' . $dir_uuid;
-                exec($command);
-                $command = 'chmod 777 ' . $dir_data;
-                exec($command);
-                $command = 'chmod 777 ' . $dir_node;
-                exec($command);
-                $command = 'chmod 777 ' . $dir_class;
-                exec($command);
-                if($object->config(Config::POSIX_ID) === 0){
-                    $command = 'chown www-data:www-data ' . $dir_uuid . ' -R';
-                    exec($command);
-                    $command = 'chown www-data:www-data ' . $dir_data;
-                    exec($command);
-                    $command = 'chown www-data:www-data ' . $dir_class;
-                    exec($command);
-                    $command = 'chown www-data:www-data ' . $dir_node;
-                    exec($command);
-                }
-            }
+        if(File::exist($url)){
+            return false;
         }
+        $this->dir($object, $dir_node, $dir_data, $dir_uuid, $dir_meta, $dir_validate);
         $node->set('uuid', $uuid);
         $object->request('node', $node->data());
-
-        $validate_url =  $dir_class . 'Validate.json';
+        $node->clear();
+        $validate_url =
+            $dir_validate .
+            $name .
+            $object->config('extension.json');
         $validate = $this->validate($object, $validate_url,  $class . '.create');
+        $response = [];
+        if($validate) {
+            if($validate->success === true) {
+                $node->data($object->request('node'));
+                ddd($node);
+                $node->write($url);
+            } else {
+                $response['error'] = $validate->test;
+                Event::trigger($object, 'r3m.io.node.data.create.error', [
+                    'class' => $class,
+                    'options' => $options,
+                    'url' => $url,
+                    'node' => $node->data(),
+                    'error' => $validate->test,
+                ]);
+            }
+        }
+        return $response;
+
+
+
+
+        /*
         $response = [];
         if($validate) {
             if($validate->success === true) {
@@ -164,6 +218,7 @@ Trait Data {
             return false;
         }
         return null;
+        */
     }
 
     public function read($class='', $options=[]): false|array|object
@@ -373,11 +428,12 @@ Trait Data {
                     elseif($value === '}'){
                         $curly_count--;
                     }
-                    $data[] = $line;
                     if($curly_count === 0){
-
+                        $data[] = $line;
                         break 2;
-                    } 
+                    } else {
+                        $data[] = $line;
+                    }
                 break;
             }
             $file->next();
