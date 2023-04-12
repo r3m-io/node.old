@@ -316,6 +316,7 @@ Trait Data {
                 break;
             }
         }
+        d($result);
         if(in_array(false, $result, true)){
             return false;
         }
