@@ -342,7 +342,12 @@ Trait Data {
         $type = null;
         while($line = $file->current()){
             $explode = explode(':', $line);
-            d($explode);
+            if(array_key_exists(1, $explode)){
+                $symbol = trim($explode[1]);
+            } else {
+                $symbol = false;
+            }
+            d($symbol);
             if(
                 $type === null &&
                 strpos($line, '{') !== false
