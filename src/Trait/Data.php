@@ -186,6 +186,7 @@ Trait Data {
                     $count++;
                 }
                 $meta->set('count', $count);
+                $meta->write($meta_url);
                 $node->write($url);
                 if($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
                     $command = 'chmod 666 ' . $url;
