@@ -347,7 +347,7 @@ Trait Data {
             } else {
                 $symbol = false;
             }
-            d($symbol);
+            echo $symbol . PHP_EOL;
             if(
                 $type === null &&
                 strpos($line, '{') !== false
