@@ -80,7 +80,7 @@ Trait Data {
         $function = __FUNCTION__;
         $name = Controller::name($class);
         $object = $this->object();
-        $object->request('node', $options);
+        $object->request('node', (object) $options);
         ddd($object->request());
         $node = new Storage( (object) $options);
         $dir_node = $object->config('project.dir.data') .
