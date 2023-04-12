@@ -936,7 +936,7 @@ Trait Data {
             $mtime = File::mtime($url);
             if($options['order']){
                 foreach($options['order'] as $attribute => $direction) {
-                    $name .= $attribute . '.' . $direction . '.';
+                    $name .= '.' . $attribute . '.' . $direction . '.';
                 }
                 $name = substr($name, 0, -1);
             }
