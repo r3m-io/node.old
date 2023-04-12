@@ -332,7 +332,7 @@ Trait Data {
         }
         $uuid = $options['uuid'];
 
-        $url = $object->config('dir.data') .
+        $url = $object->config('project.dir.data') .
             'Node' .
             $object->config('ds') .
             'Storage' .
