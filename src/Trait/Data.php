@@ -207,6 +207,7 @@ Trait Data {
             'uuid' => $uuid,
             'seek' => $seek,
             'lines'=> $lines,
+            'counter' => 0,
             'data' => $data,
             'direction' => 'next',
         ]);
@@ -337,12 +338,14 @@ Trait Data {
     }
 
     private function bin_search($file, $options=[]){
+        if(!array_key_exists('counter', $options)){
+            $options['counter'] = 0;
+        }
         $file->seek($options['seek']);
         echo 'Status: ' . $options['seek'] . '/' . $options['lines'] . PHP_EOL;
-        $counter = 0;
         while($line = $file->current()){
-            $counter++;
-            if($counter > 1024){
+            $options['counter']++;
+            if($options['counter'] > 1024){
                 break;
             }
             $line_match = str_replace(' ', '', $line);
