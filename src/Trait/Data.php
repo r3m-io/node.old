@@ -161,6 +161,7 @@ Trait Data {
                     $binarySearch = new Storage();
                 }
                 $binarySearch->set($class . '.' . $uuid . '.url' , $url);
+                $binarySearch->set($class . '.' . $uuid . '.uuid' , $uuid);
                 ddd($binarySearch);
                 $list = Sort::list($binarySearch->data($class))->with([
                     'uuid' => 'ASC'
