@@ -242,6 +242,86 @@ Trait Data {
         return true;
     }
 
+    private function uuid_compare($uuid='', $compare='', $operator='==='){
+        $uuid = explode('-', $uuid);
+        $compare = explode('-', $compare);
+        $result = [];
+        foreach($uuid as $nr =>  $hex){
+            $dec = hexdec($hex);
+            $dec_compare = hexdec($compare[$nr]);
+            switch($operator){
+                case '===' :
+                    if($dec === $dec_compare){
+                        $result[$nr] = true;
+                    } else {
+                        $result[$nr] = false;
+                        break 2;
+                    }
+                break;
+                case '==' :
+                    if($dec == $dec_compare){
+                        $result[$nr] = true;
+                    } else {
+                        $result[$nr] = false;
+                        break 2;
+                    }
+                break;
+                case '>=' :
+                    if($dec >= $dec_compare){
+                        $result[$nr] = true;
+                    } else {
+                        $result[$nr] = false;
+                        break 2;
+                    }
+                break;
+                case '<=' :
+                    if($dec <= $dec_compare){
+                        $result[$nr] = true;
+                    } else {
+                        $result[$nr] = false;
+                        break 2;
+                    }
+                break;
+                case '>' :
+                    if($dec > $dec_compare){
+                        $result[$nr] = true;
+                    } else {
+                        $result[$nr] = false;
+                        break 2;
+                    }
+                break;
+                case '<' :
+                    if($dec < $dec_compare){
+                        $result[$nr] = true;
+                    } else {
+                        $result[$nr] = false;
+                        break 2;
+                    }
+                break;
+                case '!==' :
+                    if($dec !== $dec_compare){
+                        $result[$nr] = true;
+                    } else {
+                        $result[$nr] = false;
+                        break 2;
+                    }
+                break;
+                case '!=' :
+                    if($dec != $dec_compare){
+                        $result[$nr] = true;
+                    } else {
+                        $result[$nr] = false;
+                        break 2;
+                    }
+                break;
+            }
+        }
+        if(in_array(false, $result, true)){
+            return false;
+        }
+        return true;
+    }
+
     private function bin_search($file, $options=[]){
         $file->seek($options['seek']);
         echo 'Status: ' . $options['seek'] . '/' . $options['lines'] . PHP_EOL;
@@ -256,6 +336,16 @@ Trait Data {
             $explode = explode(':', $line_match);
             if(array_key_exists(1, $explode)){
                 if($this->is_uuid($explode[0])){
+                    $uuid_current = $explode[0];
+                    if($this->uuid_compare($options['uuid'], $uuid_current, '===')){
+                        ddd('found compare');
+                    }
+                    elseif($this->uuid_compare($options['uuid'], $uuid_current, '>')){
+                        d('greater');
+                    }
+                    elseif($this->uuid_compare($options['uuid'], $uuid_current, '<')){
+                        d('less');
+                    }
                     echo $explode[0] . PHP_EOL;
                 }
             }
