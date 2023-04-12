@@ -944,13 +944,13 @@ Trait Data {
                 array_key_exists('page', $options) &&
                 $options['page']
             ){
-                $name .= $options['page'];
+                $name .= 'Page' . '.' . $options['page'];
             }
             if(
                 array_key_exists('limit', $options) &&
                 $options['limit']
             ){
-                $name .= '.' . $options['limit'];
+                $name .= '.' . 'Limit' . '.' . $options['limit'];
             }
             if($object->config('ramdisk.url')){
                 $url = $object->config('ramdisk.url') .
