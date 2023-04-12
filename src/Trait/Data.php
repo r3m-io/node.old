@@ -924,7 +924,7 @@ Trait Data {
             if(property_exists($node, 'url')){
                 $record = $object->data_read($node->url);
                 if($record){
-                    $list->set($uuid, $record);
+                    $list->set($uuid, $record->data());
                 } else {
                     //event out of sync, send mail
                 }
