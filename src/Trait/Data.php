@@ -331,31 +331,23 @@ Trait Data {
             return false;
         }
         $uuid = $options['uuid'];
-        $dir_node = $object->config('project.dir.data') .
+
+        $url = $object->config('dir.data') .
             'Node' .
-            $object->config('ds')
-        ;
-        $dir_class = $dir_node .
-            $name .
-            $object->config('ds')
-        ;
-        $dir_data = $dir_class .
-            'Data' .
-            $object->config('ds')
-        ;
-        $dir_uuid = $dir_data .
-            substr($uuid, 0, 1) .
-            $object->config('ds')
-        ;
-        $url = $dir_uuid .
-            'Data' .
+            $object->config('ds') .
+            'Storage' .
+            $object->config('ds') .
+            substr($uuid, 0, 2) .
+            $object->config('ds') .
+            $uuid .
             $object->config('extension.json')
         ;
-        $meta_url = $dir_data . 'Meta.json';
-        $meta = $object->data_read($meta_url, sha1($meta_url));
-        if(!$meta){
+        if(!File::exist($url)){
             return false;
         }
+        return $object->data_read($url, sha1($url));
+
+        /*
         $lines = $meta->get($class . '.' . substr($uuid, 0, 1));
         $seek = (int) (0.5 * $lines);
         $file = new SplFileObject($url);
@@ -370,6 +362,7 @@ Trait Data {
         ]);
         ddd($data);
         return false;
+        */
     }
 
     private function is_uuid($string=''){
