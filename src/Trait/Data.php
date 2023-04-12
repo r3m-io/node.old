@@ -341,6 +341,15 @@ Trait Data {
         if(!array_key_exists('counter', $options)){
             $options['counter'] = 0;
         }
+        if(!array_key_exists('search', $options)){
+            $options['search'] = [];
+        }
+        if(!in_array($options['seek'], $options['search'], true)){
+            $options['search'][] = $options['seek'];
+        } else {
+            d($options);
+            ddd('not found');
+        }
         $file->seek($options['seek']);
         echo 'Status: ' . $options['seek'] . '/' . $options['lines'] . PHP_EOL;
         while($line = $file->current()){
