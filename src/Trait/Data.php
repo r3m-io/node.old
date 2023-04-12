@@ -948,12 +948,10 @@ Trait Data {
                 'preserve_keys' => true
             ]);
             $mtime = File::mtime($url);
-            if ($options['order']) {
-                foreach ($options['order'] as $attribute => $direction) {
-                    $name .= '-' . ucfirst($attribute) . '-' . ucfirst(strtolower($direction));
-                }
-                $name .= $object->config('ds');
+            foreach ($options['order'] as $attribute => $direction) {
+                $name .= '-' . ucfirst($attribute) . '-' . ucfirst(strtolower($direction));
             }
+            $name .= $object->config('ds');
         } else {
             $list = Limit::list($list->data())->with([
                 'limit' => $options['limit'],
@@ -963,6 +961,7 @@ Trait Data {
             ]);
             $name .= '-NoOrder' . $object->config('ds');
         }
+        $name .= $object->config('ds');
         if (
             array_key_exists('page', $options) &&
             $options['page']
@@ -1008,7 +1007,7 @@ Trait Data {
             exec($command);
         }
         $storage = new Storage();
-        $storage->data($list);
+        $storage->data($class, $list);
         $storage->write($url);
         $response['list'] = $list;
         $response['limit'] = $options['limit'];
