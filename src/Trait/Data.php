@@ -25,7 +25,7 @@ use R3m\Io\Exception\ObjectException;
 
 Trait Data {
 
-    private function dir(App $object, $dir_node, $dir_data, $dir_uuid, $dir_meta, $dir_validate){
+    private function dir(App $object, $dir_node, $dir_data, $dir_uuid, $dir_meta, $dir_validate, $dir_binary_search){
         if(!Dir::is($dir_uuid)){
             Dir::create($dir_uuid, Dir::CHMOD);
             if($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
@@ -67,6 +67,21 @@ Trait Data {
                 exec($command);
             }
         }
+        if(!Dir::is($dir_binary_search)) {
+            Dir::create($dir_binary_search, Dir::CHMOD);
+            if($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
+                $command = 'chmod 777 ' . $dir_binary_search;
+                exec($command);
+                $command = 'chmod 777 ' . Dir::name($dir_binary_search);
+                exec($command);
+            }
+            if($object->config(Config::POSIX_ID) === 0){
+                $command = 'chown www-data:www-data ' . $dir_binary_search;
+                exec($command);
+                $command = 'chown www-data:www-data ' . Dir::name($dir_binary_search);
+                exec($command);
+            }
+        }
     }
 
 
@@ -93,6 +108,12 @@ Trait Data {
             'Validate'.
             $object->config('ds')
         ;
+        $dir_binary_search = $dir_node .
+            'BinarySearch'.
+            $object->config('ds') .
+            $name .
+            $object->config('ds')
+        ;
         $uuid = Core::uuid();
         $dir_data = $dir_node .
             'Storage' .
@@ -114,12 +135,17 @@ Trait Data {
             $dir_data,
             $dir_uuid,
             $dir_meta,
-            $dir_validate
+            $dir_validate,
+            $dir_binary_search
         );
         $object->request('node.uuid', $uuid);
         $validate_url =
             $dir_validate .
             $name .
+            $object->config('extension.json');
+        $binary_search_url =
+            $dir_binary_search .
+            'Data' .
             $object->config('extension.json');
         $validate = $this->validate($object, $validate_url,  $class . '.create');
         $response = [];
@@ -127,6 +153,19 @@ Trait Data {
             if($validate->success === true) {
                 $node = new Storage();
                 $node->data($object->request('node'));
+
+                $binarySearch = $object->data_read($binary_search_url);
+                if(!$binarySearch){
+                    $binarySearch = new Storage();
+                }
+                $binarySearch->data($class . '.' . $uuid . '.url' , $url);
+                $list = Sort::list($binarySearch->data($class))->with([
+                    'uuid' => 'ASC'
+                ]);
+                $binarySearch->delete($class);
+                $binarySearch->data($class, $list);
+ddd($binarySearch);
+
                 d($url);
                 ddd($node);
                 $node->write($url);
