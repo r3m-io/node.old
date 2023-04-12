@@ -346,7 +346,7 @@ Trait Data {
             if(array_key_exists(1, $explode)){
                 $value = trim($explode[1]);
             } else {
-                $value = $explode[0];
+                $value = trim($explode[0], " \t\n\r\0\x0B,");
                 d($value);
             }
             if(
