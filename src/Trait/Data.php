@@ -214,6 +214,34 @@ Trait Data {
         return false;
     }
 
+    private function is_uuid($string=''){
+        //format: %s%s-%s-%s-%s-%s%s%s
+        $explode = explode('-', $string);
+        $result = false;
+        if(strlen($string) !== 36){
+            return $result;
+        }
+        if(count($explode) !== 5){
+            return $result;
+        }
+        if(strlen($explode[0]) !== 8){
+            return $result;
+        }
+        if(strlen($explode[1]) !== 4){
+            return $result;
+        }
+        if(strlen($explode[2]) !== 4){
+            return $result;
+        }
+        if(strlen($explode[3]) !== 4){
+            return $result;
+        }
+        if(strlen($explode[4]) !== 12){
+            return $result;
+        }
+        return true;
+    }
+
     private function bin_search($file, $options=[]){
         $file->seek($options['seek']);
         echo 'Status: ' . $options['seek'] . '/' . $options['lines'] . PHP_EOL;
@@ -227,7 +255,9 @@ Trait Data {
             $line_match = str_replace('"', '', $line_match);
             $explode = explode(':', $line_match);
             if(array_key_exists(1, $explode)){
-                echo $explode[0] . PHP_EOL;
+                if($this->is_uuid($explode[0])){
+                    echo $explode[0] . PHP_EOL;
+                }
             }
             $file->next();
         }
