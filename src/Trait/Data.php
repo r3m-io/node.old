@@ -341,6 +341,8 @@ Trait Data {
         $start = $options['seek'];
         $type = null;
         while($line = $file->current()){
+            $explode = explode(':', $line);
+            d($explode);
             if(
                 $type === null &&
                 strpos($line, '{') !== false
@@ -358,6 +360,8 @@ Trait Data {
             }
             switch($type){
                 case 'object' :
+                    $curly_count += substr_count($line, '{');
+                    $curly_count -= substr_count($line, '}');
                     echo $line . PHP_EOL;
                 break;
             }
