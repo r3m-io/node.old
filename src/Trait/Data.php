@@ -936,9 +936,9 @@ Trait Data {
             $mtime = File::mtime($url);
             if($options['order']){
                 foreach($options['order'] as $attribute => $direction) {
-                    $name .= '.' . ucfirst($attribute) . '.' . ucfirst(strtolower($direction)) . '.';
+                    $name .= '.' . ucfirst($attribute) . '.' . ucfirst(strtolower($direction));
                 }
-                $name = substr($name, 0, -1) . $object->config('ds');
+                $name .= $object->config('ds');
             }
             if(
                 array_key_exists('page', $options) &&
