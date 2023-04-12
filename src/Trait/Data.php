@@ -358,12 +358,12 @@ Trait Data {
                         ddd('found compare');
                     }
                     elseif($this->uuid_compare($options['uuid'], $uuid_current, '>')){
-                        $options['seek'] = (int) 1.5 * $options['seek'];
+                        $options['seek'] = (int) (1.5 * $options['seek']);
                         d('greater');
                         $this->bin_search($file, $options);
                     }
                     elseif($this->uuid_compare($options['uuid'], $uuid_current, '<')){
-                        $options['seek'] = (int) 0.5 * $options['seek'];
+                        $options['seek'] = (int) (0.5 * $options['seek']);
                         d('less');
                         $this->bin_search($file, $options);
                     }
