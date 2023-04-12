@@ -936,9 +936,9 @@ Trait Data {
         }
         $mtime = File::mtime($url);
         if($object->config('ramdisk.url')){
-            dd($object->config('project.dir.temp'));
+            ddd($object->config());
         } else {
-            dd($object->config('project.dir.temp'));
+            ddd($object->config('project.dir.temp'));
         }
         d($sort);
         d($options);
