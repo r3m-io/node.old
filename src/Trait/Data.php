@@ -909,12 +909,14 @@ Trait Data {
             'Node' .
             $object->config('ds') .
             'BinarySearch' .
+            $object->config('ds') .
             $name .
             $object->config('ds') .
             'Data' .
             $object->config('extension.json')
         ;
         $data = $object->data_read($url);
+        d($url);
         ddd($data);
 
         return false;
