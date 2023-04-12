@@ -920,6 +920,7 @@ Trait Data {
             return false;
         }
         $list = new Storage();
+        $sort = false;
         foreach($data->data($class) as $uuid => $node){
             if(property_exists($node, 'url')){
                 $record = $object->data_read($node->url);
@@ -930,6 +931,10 @@ Trait Data {
                 }
             }
         }
+        if(array_key_exists('order', $options)){
+            $sort = Sort::list($list->data())->with($options['order']);
+        }
+        ddd($sort);
         d($options);
         ddd($list);
         d($url);
