@@ -360,8 +360,8 @@ Trait Data {
             }
             switch($type){
                 case 'object' :
-                    $curly_count += substr_count($line, '{');
-                    $curly_count -= substr_count($line, '}');
+//                    $curly_count += substr_count($line, '{');
+//                    $curly_count -= substr_count($line, '}');
                     echo $line . PHP_EOL;
                 break;
             }
