@@ -950,7 +950,7 @@ Trait Data {
             $mtime = File::mtime($url);
             if ($options['order']) {
                 foreach ($options['order'] as $attribute => $direction) {
-                    $name .= '.' . ucfirst($attribute) . '.' . ucfirst(strtolower($direction));
+                    $name .= '-' . ucfirst($attribute) . '-' . ucfirst(strtolower($direction));
                 }
                 $name .= $object->config('ds');
             }
@@ -961,7 +961,7 @@ Trait Data {
             ], [
                 'preserve_keys' => true
             ]);
-            $name .= 'NoOrder' . $object->config('ds');
+            $name .= '-NoOrder' . $object->config('ds');
         }
         if (
             array_key_exists('page', $options) &&
@@ -994,7 +994,7 @@ Trait Data {
             ;
         }
         $dir = Dir::name($url);
-        Dir::create($url, Dir::CHMOD);
+        Dir::create($dir, Dir::CHMOD);
         if($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
             $command = 'chmod 777 ' . $dir;
             exec($command);
