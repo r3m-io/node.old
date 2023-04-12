@@ -935,6 +935,21 @@ Trait Data {
             $sort = Sort::list($list->data())->with($options['order']);
         }
         $mtime = File::mtime($url);
+        if($options['order']){
+            foreach($options['order'] as $attribute => $direction) {
+                $name .= $attribute . '.' . $direction . '.';
+            }
+            $name = substr($name, 0, -1);
+        }
+        if($options['limit']){
+            ddd($options);
+            /*
+            foreach($options['order'] as $attribute => $direction) {
+                $name .= $attribute . '.' . $direction . '.';
+            }
+            $name = substr($name, 0, -1);
+            */
+        }
         if($object->config('ramdisk.url')){
             $url = $object->config('ramdisk.url') .
                 $object->config(Config::POSIX_ID) .
@@ -948,12 +963,6 @@ Trait Data {
             ;
             ddd($url);
         } else {
-            if($options['order']){
-                foreach($options['order'] as $attribute => $direction) {
-                    $name .= $attribute . '.' . $direction . '.';
-                }
-                $name = substr($name, 0, -1);
-            }
             $url = $object->config('framework.dir.cache') .
                 $object->config(Config::POSIX_ID) .
                 $object->config('ds') .
