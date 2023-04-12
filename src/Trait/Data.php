@@ -898,6 +898,7 @@ Trait Data {
 
     /**
      * @throws ObjectException
+     * @throws FileWriteException
      */
     public function list($class='', $options=[]): false|array
     {
@@ -921,6 +922,7 @@ Trait Data {
         }
         $list = new Storage();
         $sort = false;
+        $response = [];
         foreach($data->data($class) as $uuid => $node){
             if(property_exists($node, 'url')){
                 $record = $object->data_read($node->url);
@@ -931,105 +933,86 @@ Trait Data {
                 }
             }
         }
-        if(array_key_exists('order', $options)){
-            if(!array_key_exists('limit', $options)){
-                $options['limit'] = 255;
-            }
-            if(!array_key_exists('page', $options)){
-                $options['page'] = 1;
-            }
-            $sort = Sort::list($list->data())->with($options['order']);
-            $sort = Limit::list($sort)->with([
+        if (!array_key_exists('limit', $options)) {
+            $options['limit'] = 255;
+        }
+        if (!array_key_exists('page', $options)) {
+            $options['page'] = 1;
+        }
+        if(array_key_exists('order', $options)) {
+            $list = Sort::list($list->data())->with($options['order']);
+            $list = Limit::list($list)->with([
                 'limit' => $options['limit'],
                 'page' => $options['page'],
-            ],[
+            ], [
                 'preserve_keys' => true
             ]);
             $mtime = File::mtime($url);
-            if($options['order']){
-                foreach($options['order'] as $attribute => $direction) {
+            if ($options['order']) {
+                foreach ($options['order'] as $attribute => $direction) {
                     $name .= '.' . ucfirst($attribute) . '.' . ucfirst(strtolower($direction));
                 }
                 $name .= $object->config('ds');
             }
-            if(
-                array_key_exists('page', $options) &&
-                $options['page']
-            ){
-                $name .= 'Page' . '.' . $options['page'];
-            }
-            if(
-                array_key_exists('limit', $options) &&
-                $options['limit']
-            ){
-                $name .= '.' . 'Limit' . '.' . $options['limit'];
-            }
-            if($object->config('ramdisk.url')){
-                $url = $object->config('ramdisk.url') .
-                    $object->config(Config::POSIX_ID) .
-                    $object->config('ds') .
-                    'Node' .
-                    $object->config('ds') .
-                    $name .
-                    $object->config('extension.json')
-                ;
-                ddd($sort);
-                $storage = new Storage();
-                $storage->data($sort);
-                $storage->write($url);
-            } else {
-                $url = $object->config('framework.dir.cache') .
-                    $object->config(Config::POSIX_ID) .
-                    $object->config('ds') .
-                    'Node' .
-                    $object->config('ds') .
-                    $name .
-                    $object->config('extension.json')
-                ;
-                ddd($url);
-            }
-        }
-
-        d($sort);
-        d($options);
-        ddd($url);
-
-        return false;
-
-
-
-        /*
-        $dir_node = $object->config('project.dir.data') .
-            'Node' .
-            $object->config('ds');
-        $dir_class = $dir_node .
-            $name .
-            $object->config('ds');
-        $url = $dir_class . 'Data.json';
-        $data = $object->data_read($url);
-        if (!$data) {
-            return false;
-        }
-        $list = $data->get($class);
-        if (empty($list)) {
-            $list = [];
-        }
-        $response = [];
-        if(array_key_exists('order', $options)){
-            $list = Sort::list($list)->with($options['order'], true);
-        }
-        if(
-            array_key_exists('limit', $options) &&
-            array_key_exists('page', $options)
-        ){
-            $list = Limit::list($list)->with([
+        } else {
+            $list = Limit::list($list->data())->with([
                 'limit' => $options['limit'],
                 'page' => $options['page'],
+            ], [
+                'preserve_keys' => true
             ]);
+            $name .= 'NoOrder' . $object->config('ds');
         }
+        if (
+            array_key_exists('page', $options) &&
+            $options['page']
+        ) {
+            $name .= 'Page' . '.' . $options['page'];
+        }
+        if (
+            array_key_exists('limit', $options) &&
+            $options['limit']
+        ) {
+            $name .= '.' . 'Limit' . '.' . $options['limit'];
+        }
+        $dir_node = $object->config(Config::POSIX_ID) .
+            $object->config('ds') .
+            'Node' .
+            $object->config('ds')
+        ;
+        if($object->config('ramdisk.url')){
+            $url = $object->config('ramdisk.url') .
+                $dir_node .
+                $name .
+                $object->config('extension.json')
+            ;
+        } else {
+            $url = $object->config('framework.dir.cache') .
+                $dir_node .
+                $name .
+                $object->config('extension.json')
+            ;
+        }
+        $dir = Dir::name($url);
+        Dir::create($url, Dir::CHMOD);
+        if($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
+            $command = 'chmod 777 ' . $dir;
+            exec($command);
+            $command = 'chmod 777 ' . $dir_node;
+            exec($command);
+        }
+        if($object->config(Config::POSIX_ID) === 0){
+            $command = 'chown www-data:www-data ' . $dir;
+            exec($command);
+            $command = 'chown www-data:www-data ' . $dir_node;
+            exec($command);
+        }
+        $storage = new Storage();
+        $storage->data($list);
+        $storage->write($url);
         $response['list'] = $list;
-        $response['limit'] = $options['limit'] ?? 0;
-        $response['page'] = $options['page'] ?? 1;
+        $response['limit'] = $options['limit'];
+        $response['page'] = $options['page'];
         $response['order'] = $options['order'] ?? [];
         $response['filter'] = $options['filter'] ?? [];
         Event::trigger($object, 'r3m.io.node.data.list', [
@@ -1039,7 +1022,6 @@ Trait Data {
             'list' => $list,
         ]);
         return $response;
-        */
     }
 
     public function list_attribute($list=[], $attribute=[]): array
