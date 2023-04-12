@@ -342,6 +342,7 @@ Trait Data {
             $uuid .
             $object->config('extension.json')
         ;
+        ddd($url);
         if(!File::exist($url)){
             return false;
         }
