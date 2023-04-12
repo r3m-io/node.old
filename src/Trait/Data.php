@@ -942,6 +942,8 @@ Trait Data {
             $sort = Limit::list($sort)->with([
                 'limit' => $options['limit'],
                 'page' => $options['page'],
+            ],[
+                'preserve_keys' => true
             ]);
             $mtime = File::mtime($url);
             if($options['order']){

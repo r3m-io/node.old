@@ -280,12 +280,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/like-it/r3m-framework.git",
-                "reference": "85da191644346eeae8965e8807743ff10c8dd6c7"
+                "reference": "3519e25637ead324cb8d9ef1fb3dd2e2f80fee8e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/like-it/r3m-framework/zipball/85da191644346eeae8965e8807743ff10c8dd6c7",
-                "reference": "85da191644346eeae8965e8807743ff10c8dd6c7",
+                "url": "https://api.github.com/repos/like-it/r3m-framework/zipball/3519e25637ead324cb8d9ef1fb3dd2e2f80fee8e",
+                "reference": "3519e25637ead324cb8d9ef1fb3dd2e2f80fee8e",
                 "shasum": ""
             },
             "require": {
@@ -331,7 +331,7 @@
                 "issues": "https://github.com/like-it/r3m-framework/issues",
                 "source": "https://github.com/like-it/r3m-framework/tree/dev"
             },
-            "time": "2023-04-11T22:50:27+00:00"
+            "time": "2023-04-12T23:25:09+00:00"
         }
     ],
     "packages-dev": [],
