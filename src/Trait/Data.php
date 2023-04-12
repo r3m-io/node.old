@@ -80,6 +80,8 @@ Trait Data {
         $function = __FUNCTION__;
         $name = Controller::name($class);
         $object = $this->object();
+        $object->request($options);
+        ddd($object->request());
         $node = new Storage( (object) $options);
         $dir_node = $object->config('project.dir.data') .
             'Node' .
@@ -111,7 +113,7 @@ Trait Data {
         }
         $this->dir($object, $dir_node, $dir_data, $dir_uuid, $dir_meta, $dir_validate);
         $node->set('uuid', $uuid);
-        $object->request('node', $node->data());
+        $object->request('node', clone $node->data());
         $node->clear();
         $validate_url =
             $dir_validate .
