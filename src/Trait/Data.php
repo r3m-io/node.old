@@ -169,7 +169,14 @@ Trait Data {
                 $binarySearch->delete($class);
                 $binarySearch->data($class, $list);
                 $lines = $binarySearch->write($binary_search_url, 'lines');
-
+                if($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
+                    $command = 'chmod 666 ' . $binary_search_url;
+                    exec($command);
+                }
+                if($object->config(Config::POSIX_ID) === 0){
+                    $command = 'chown www-data:www-data ' . $binary_search_url;
+                    exec($command);
+                }
                 $meta = $object->data_read($meta_url);
                 if(!$meta){
                     $meta = new Storage();
@@ -180,11 +187,15 @@ Trait Data {
                     $count++;
                 }
                 $meta->set('count', $count);
-                d($meta);
-                d($binarySearch);
-                d($url);
-                ddd($node);
                 $node->write($url);
+                if($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
+                    $command = 'chmod 666 ' . $url;
+                    exec($command);
+                }
+                if($object->config(Config::POSIX_ID) === 0){
+                    $command = 'chown www-data:www-data ' . $url;
+                    exec($command);
+                }
             } else {
                 $response['error'] = $validate->test;
                 Event::trigger($object, 'r3m.io.node.data.create.error', [
