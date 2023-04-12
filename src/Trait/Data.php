@@ -290,7 +290,7 @@ Trait Data {
                         break 2;
                     }
                     elseif($dec === $dec_compare){
-                        continue;
+                        break;
                     } else {
                         $result[$nr] = false;
                         break 2;
@@ -302,7 +302,7 @@ Trait Data {
                         break 2;
                     }
                     elseif($dec === $dec_compare){
-                        continue;
+                        break;
                     } else {
                         $result[$nr] = false;
                         break 2;
