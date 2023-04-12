@@ -182,7 +182,7 @@ Trait Data {
                 }
                 $meta->set('lines', $lines);
                 $count = 0;
-                foreach($binarySearch->data() as $unused){
+                foreach($binarySearch->data($class) as $unused){
                     $count++;
                 }
                 $meta->set('count', $count);
