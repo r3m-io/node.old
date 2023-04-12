@@ -337,6 +337,12 @@ Trait Data {
         return true;
     }
 
+    private function uuid_data($file, $options=[]){
+        $line = $file->current();
+        d($line);
+        ddd($options);
+    }
+
     private function bin_search($file, $options=[]){
         if(!array_key_exists('counter', $options)){
             $options['counter'] = 0;
@@ -347,8 +353,7 @@ Trait Data {
         if(!in_array($options['seek'], $options['search'], true)){
             $options['search'][] = $options['seek'];
         } else {
-            d($options);
-            ddd('not found');
+            return false;
         }
         $file->seek($options['seek']);
         echo 'Status: ' . $options['seek'] . '/' . $options['lines'] . PHP_EOL;
@@ -364,24 +369,21 @@ Trait Data {
                 if($this->is_uuid($explode[0])){
                     $uuid_current = $explode[0];
                     if($this->uuid_compare($options['uuid'], $uuid_current, '===')){
-                        ddd('found compare');
+                        return $this->uuid_data($file, $options);
                     }
                     elseif($this->uuid_compare($options['uuid'], $uuid_current, '>')){
                         $options['seek'] = (int) (1.5 * $options['seek']);
-                        d('greater');
-                        $this->bin_search($file, $options);
+                        return $this->bin_search($file, $options);
                     }
                     elseif($this->uuid_compare($options['uuid'], $uuid_current, '<')){
                         $options['seek'] = (int) (0.5 * $options['seek']);
-                        d('less');
-                        $this->bin_search($file, $options);
+                        return $this->bin_search($file, $options);
                     }
                     echo $explode[0] . PHP_EOL;
                 }
             }
             $file->next();
         }
-        die('test');
     }
 
     private function binary_search($file, $options=[]){
