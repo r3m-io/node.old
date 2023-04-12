@@ -344,7 +344,7 @@ Trait Data {
         while($line = $file->current()){
             $explode = explode(':', $line);
             if(array_key_exists(1, $explode)){
-                $value = trim($explode[1]);
+                $value = trim($explode[1], " \t\n\r\0\x0B,");
             } else {
                 $value = false;
             }
