@@ -916,6 +916,24 @@ Trait Data {
             $object->config('extension.json')
         ;
         $data = $object->data_read($url);
+        if(!$data){
+            return false;
+        }
+        $list = new Storage();
+        foreach($data->data($class) as $uuid => $node){
+            if(
+                property_exists($node, 'url') &&
+                File::exist($node->url)
+            ){
+                $record = $object->data_read($node->url);
+                if($record){
+                    $list->set($uuid, $record);
+                } else {
+                    //event
+                }
+            }
+        }
+        ddd($list);
         d($url);
         ddd($data);
 
