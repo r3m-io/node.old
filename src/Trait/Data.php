@@ -934,11 +934,9 @@ Trait Data {
         if(array_key_exists('order', $options)){
             $sort = Sort::list($list->data())->with($options['order']);
         }
-        ddd($sort);
+        d($sort);
         d($options);
-        ddd($list);
-        d($url);
-        ddd($data);
+        ddd($url);
 
         return false;
 
