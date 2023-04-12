@@ -345,7 +345,11 @@ Trait Data {
         if(!File::exist($url)){
             return false;
         }
-        return $object->data_read($url, sha1($url));
+        $data = $object->data_read($url, sha1($url));
+        if(!$data){
+            return false;
+        }
+        ddd($data);
 
         /*
         $lines = $meta->get($class . '.' . substr($uuid, 0, 1));
