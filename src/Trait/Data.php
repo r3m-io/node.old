@@ -923,7 +923,6 @@ Trait Data {
         foreach($data->data($class) as $uuid => $node){
             if(
                 property_exists($node, 'url') &&
-                File::exist($node->url)
             ){
                 $record = $object->data_read($node->url);
                 if($record){
