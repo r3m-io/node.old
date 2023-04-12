@@ -349,8 +349,7 @@ Trait Data {
         if(!$data){
             return false;
         }
-        ddd($data);
-
+        return $data->data();
         /*
         $lines = $meta->get($class . '.' . substr($uuid, 0, 1));
         $seek = (int) (0.5 * $lines);
