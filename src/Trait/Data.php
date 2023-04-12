@@ -269,6 +269,7 @@ Trait Data {
                 case '>=' :
                     if($dec >= $dec_compare){
                         $result[$nr] = true;
+                        break 2;
                     } else {
                         $result[$nr] = false;
                         break 2;
@@ -277,6 +278,7 @@ Trait Data {
                 case '<=' :
                     if($dec <= $dec_compare){
                         $result[$nr] = true;
+                        break 2;
                     } else {
                         $result[$nr] = false;
                         break 2;
@@ -285,6 +287,10 @@ Trait Data {
                 case '>' :
                     if($dec > $dec_compare){
                         $result[$nr] = true;
+                        break 2;
+                    }
+                    elseif($dec === $dec_compare){
+                        continue;
                     } else {
                         $result[$nr] = false;
                         break 2;
@@ -293,6 +299,10 @@ Trait Data {
                 case '<' :
                     if($dec < $dec_compare){
                         $result[$nr] = true;
+                        break 2;
+                    }
+                    elseif($dec === $dec_compare){
+                        continue;
                     } else {
                         $result[$nr] = false;
                         break 2;
