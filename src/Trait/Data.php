@@ -134,6 +134,8 @@ Trait Data {
                     'error' => $validate->test,
                 ]);
             }
+        } else {
+            throw new Exception('Cannot validate node at: ' . $validate_url);
         }
         return $response;
 
