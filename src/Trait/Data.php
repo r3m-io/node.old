@@ -127,6 +127,7 @@ Trait Data {
             if($validate->success === true) {
                 $node = new Storage();
                 $node->data($object->request('node'));
+                d($url);
                 ddd($node);
                 $node->write($url);
             } else {
