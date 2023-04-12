@@ -932,7 +932,17 @@ Trait Data {
             }
         }
         if(array_key_exists('order', $options)){
+            if(!array_key_exists('limit', $options)){
+                $options['limit'] = 255;
+            }
+            if(!array_key_exists('page', $options)){
+                $options['page'] = 1;
+            }
             $sort = Sort::list($list->data())->with($options['order']);
+            $sort = Limit::list($sort)->with([
+                'limit' => $options['limit'],
+                'page' => $options['page'],
+            ]);
             $mtime = File::mtime($url);
             if($options['order']){
                 foreach($options['order'] as $attribute => $direction) {
@@ -961,7 +971,10 @@ Trait Data {
                     $name .
                     $object->config('extension.json')
                 ;
-                ddd($url);
+                ddd($sort);
+                $storage = new Storage();
+                $storage->data($sort);
+                $storage->write($url);
             } else {
                 $url = $object->config('framework.dir.cache') .
                     $object->config(Config::POSIX_ID) .
