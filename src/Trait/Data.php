@@ -340,23 +340,24 @@ Trait Data {
     private function uuid_data($file, $options=[]){
         $start = $options['seek'];
         $type = null;
+        $data = [];
         while($line = $file->current()){
             $explode = explode(':', $line);
             if(array_key_exists(1, $explode)){
-                $symbol = trim($explode[1]);
+                $value = trim($explode[1]);
             } else {
-                $symbol = false;
+                $value = false;
             }
-            echo $symbol . PHP_EOL;
             if(
                 $type === null &&
-                strpos($line, '{') !== false
+                $value === '{'
             ){
                 $type = 'object';
+                $curly_count = 0;
             }
             elseif(
                 $type === null &&
-                strpos($line, '[') !== false
+                $value === '['
             ){
                 $type = 'array';
             }
@@ -365,9 +366,17 @@ Trait Data {
             }
             switch($type){
                 case 'object' :
-//                    $curly_count += substr_count($line, '{');
-//                    $curly_count -= substr_count($line, '}');
-                    echo $line . PHP_EOL;
+                    if($value === '{'){
+                        $curly_count++;
+                    }
+                    elseif($value === '}'){
+                        $curly_count--;
+                    }
+                    if($curly_count === 0){
+                        break 2;
+                    } else {
+                        $data[] = $line;
+                    }
                 break;
             }
             $file->next();
@@ -376,8 +385,7 @@ Trait Data {
                 break;
             }
         }
-        d($line);
-        ddd($options);
+        return $data;
     }
 
     private function bin_search($file, $options=[]){
