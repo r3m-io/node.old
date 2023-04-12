@@ -936,15 +936,15 @@ Trait Data {
             $mtime = File::mtime($url);
             if($options['order']){
                 foreach($options['order'] as $attribute => $direction) {
-                    $name .= '.' . $attribute . '.' . $direction . '.';
+                    $name .= '.' . ucfirst($attribute) . '.' . ucfirst(strtolower($direction)) . '.';
                 }
-                $name = substr($name, 0, -1);
+                $name = substr($name, 0, -1) . $object->config('ds');
             }
             if(
                 array_key_exists('page', $options) &&
                 $options['page']
             ){
-                $name .= '.' . $options['page'];
+                $name .= $options['page'];
             }
             if(
                 array_key_exists('limit', $options) &&
@@ -959,8 +959,6 @@ Trait Data {
                     'Node' .
                     $object->config('ds') .
                     $name .
-                    $object->config('ds') .
-                    'Data' .
                     $object->config('extension.json')
                 ;
                 ddd($url);
@@ -971,8 +969,6 @@ Trait Data {
                     'Node' .
                     $object->config('ds') .
                     $name .
-                    $object->config('ds') .
-                    'Data' .
                     $object->config('extension.json')
                 ;
                 ddd($url);
