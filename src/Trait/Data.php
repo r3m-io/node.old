@@ -933,48 +933,52 @@ Trait Data {
         }
         if(array_key_exists('order', $options)){
             $sort = Sort::list($list->data())->with($options['order']);
-        }
-        $mtime = File::mtime($url);
-        if($options['order']){
-            foreach($options['order'] as $attribute => $direction) {
-                $name .= $attribute . '.' . $direction . '.';
+            $mtime = File::mtime($url);
+            if($options['order']){
+                foreach($options['order'] as $attribute => $direction) {
+                    $name .= $attribute . '.' . $direction . '.';
+                }
+                $name = substr($name, 0, -1);
             }
-            $name = substr($name, 0, -1);
-        }
-        if($options['limit']){
-            ddd($options);
-            /*
-            foreach($options['order'] as $attribute => $direction) {
-                $name .= $attribute . '.' . $direction . '.';
+            if(
+                array_key_exists('page', $options) &&
+                $options['page']
+            ){
+                $name .= '.' . $options['page'];
             }
-            $name = substr($name, 0, -1);
-            */
+            if(
+                array_key_exists('limit', $options) &&
+                $options['limit']
+            ){
+                $name .= '.' . $options['limit'];
+            }
+            if($object->config('ramdisk.url')){
+                $url = $object->config('ramdisk.url') .
+                    $object->config(Config::POSIX_ID) .
+                    $object->config('ds') .
+                    'Node' .
+                    $object->config('ds') .
+                    $name .
+                    $object->config('ds') .
+                    'Data' .
+                    $object->config('extension.json')
+                ;
+                ddd($url);
+            } else {
+                $url = $object->config('framework.dir.cache') .
+                    $object->config(Config::POSIX_ID) .
+                    $object->config('ds') .
+                    'Node' .
+                    $object->config('ds') .
+                    $name .
+                    $object->config('ds') .
+                    'Data' .
+                    $object->config('extension.json')
+                ;
+                ddd($url);
+            }
         }
-        if($object->config('ramdisk.url')){
-            $url = $object->config('ramdisk.url') .
-                $object->config(Config::POSIX_ID) .
-                $object->config('ds') .
-                'Node' .
-                $object->config('ds') .
-                $name .
-                $object->config('ds') .
-                'Data' .
-                $object->config('extension.json')
-            ;
-            ddd($url);
-        } else {
-            $url = $object->config('framework.dir.cache') .
-                $object->config(Config::POSIX_ID) .
-                $object->config('ds') .
-                'Node' .
-                $object->config('ds') .
-                $name .
-                $object->config('ds') .
-                'Data' .
-                $object->config('extension.json')
-            ;
-            ddd($url);
-        }
+
         d($sort);
         d($options);
         ddd($url);
