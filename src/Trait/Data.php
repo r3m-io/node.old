@@ -934,6 +934,12 @@ Trait Data {
         if(array_key_exists('order', $options)){
             $sort = Sort::list($list->data())->with($options['order']);
         }
+        $mtime = File::mtime($url);
+        if($object->config('ramdisk.url')){
+            dd($object->config('project.dir.temp'));
+        } else {
+            dd($object->config('project.dir.temp'));
+        }
         d($sort);
         d($options);
         ddd($url);
