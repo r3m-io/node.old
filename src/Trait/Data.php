@@ -202,18 +202,29 @@ Trait Data {
         $lines = $meta->get($class . '.' . substr($uuid, 0, 1));
         $seek = (int) (0.5 * $lines);
         $file = new SplFileObject($url);
-        $file->seek($seek);
         $data = [];
-        $data = $this->binary_search($file, [
+        $data = $this->bin_search($file, [
             'uuid' => $uuid,
             'seek' => $seek,
-            'current' => $seek,
             'lines'=> $lines,
             'data' => $data,
             'direction' => 'next',
         ]);
         ddd($data);
         return false;
+    }
+
+    private function bin_search($file, $options=[]){
+        $file->seek($options['seek']);
+        echo 'Status: ' . $options['seek'] . '/' . $options['lines'] . PHP_EOL;
+        $counter = 0;
+        while($line = $file->current()){
+            $counter++;
+            if($counter > 1024){
+                break;
+            }
+        }
+        die('test');
     }
 
     private function binary_search($file, $options=[]){
