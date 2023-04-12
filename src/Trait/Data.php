@@ -373,11 +373,11 @@ Trait Data {
                     elseif($value === '}'){
                         $curly_count--;
                     }
+                    $data[] = $line;
                     if($curly_count === 0){
+
                         break 2;
-                    } else {
-                        $data[] = $line;
-                    }
+                    } 
                 break;
             }
             $file->next();
