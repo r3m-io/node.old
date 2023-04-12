@@ -225,6 +225,8 @@ Trait Data {
         $counter = $options['counter'] ?? 0;
         $current = $options['current'];
         $direction = $options['direction'] ?? 'next';
+        echo 'Lines: ' . $lines . PHP_EOL;
+        echo 'Seek: ' . $seek . PHP_EOL;
         while($line = $file->current()){
             $counter++;
             if($counter > 1024){
@@ -232,7 +234,7 @@ Trait Data {
             }
 //            d($line);
 //            d($file->key());
-            echo $current . ' ' . $line . PHP_EOL;
+//            echo $current . ' ' . $line . PHP_EOL;
             $line_match = str_replace(' ', '', $line);
             $line_match = str_replace('"', '', $line_match);
             $explode = explode(':', $line_match);
