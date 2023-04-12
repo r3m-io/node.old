@@ -147,25 +147,39 @@ Trait Data {
             $dir_binary_search .
             'Data' .
             $object->config('extension.json');
+        $meta_url = $dir_meta . $name . $object->config('extension.json');
         $validate = $this->validate($object, $validate_url,  $class . '.create');
         $response = [];
         if($validate) {
             if($validate->success === true) {
                 $node = new Storage();
                 $node->data($object->request('node'));
+                $node->set('#class', $class);
 
                 $binarySearch = $object->data_read($binary_search_url);
                 if(!$binarySearch){
                     $binarySearch = new Storage();
                 }
-                $binarySearch->data($class . '.' . $uuid . '.url' , $url);
+                $binarySearch->set($class . '.' . $uuid . '.url' , $url);
                 $list = Sort::list($binarySearch->data($class))->with([
                     'uuid' => 'ASC'
                 ]);
                 $binarySearch->delete($class);
                 $binarySearch->data($class, $list);
-ddd($binarySearch);
+                $lines = $binarySearch->write($binary_search_url, 'lines');
 
+                $meta = $object->data_read($meta_url);
+                if(!$meta){
+                    $meta = new Storage();
+                }
+                $meta->set('lines', $lines);
+                $count = 0;
+                foreach($binarySearch->data() as $unused){
+                    $count++;
+                }
+                $meta->set('count', $count);
+                d($meta);
+                d($binarySearch);
                 d($url);
                 ddd($node);
                 $node->write($url);
