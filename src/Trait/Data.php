@@ -452,6 +452,7 @@ Trait Data {
                 if(!$meta){
                     return false;
                 }
+                ddd($meta);
                 $lines = $meta->get('BinarySearch.' . $class . '.' . $property . '.lines');
                 ddd($lines);
                 $seek = (int) (0.5 * $lines);
