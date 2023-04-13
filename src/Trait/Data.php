@@ -472,7 +472,7 @@ Trait Data {
                 continue;
             }
             $url_property = $dir .
-                str_replace(':', '.', Controller::name($property)) .
+                Controller::name($property) .
                 $object->config('extension.json')
             ;
             $properties = explode(':', $property);
