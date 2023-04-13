@@ -429,15 +429,26 @@ Trait Data {
 
         if(array_key_exists('order', $options)){
             $name = [];
+            $property = [];
             $has_descending = false;
+
             foreach($options['order'] as $key => $order){
-                $name[] = Controller::name($key);
+                $property[] = $key;
                 if(strtolower($order) === 'desc'){
                     $has_descending = true;
                 }
             }
-            $property = implode('-', $name);
-            $name = Controller::name($property);
+            ddd($property);
+            $url_property = $dir .
+                Controller::name($property) .
+                $object->config('extension.json')
+            ;
+
+
+
+            $property = implode('-', $key);
+            $name = implode('-', $name);
+            $name = Controller::name($name);
             $url = $dir . $name . $object->config('extension.json');
             if(!$has_descending){
                 $meta_url = $object->config('project.dir.data') .
