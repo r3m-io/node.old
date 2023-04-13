@@ -428,7 +428,7 @@ Trait Data {
 
         if(array_key_exists('order', $options)){
             $name = [];
-            foreach($options as $key => $order){
+            foreach($options['order'] as $key => $order){
                 $name[] = $key;
             }
             $name = implode('.', $name);
