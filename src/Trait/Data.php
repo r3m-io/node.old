@@ -428,10 +428,8 @@ Trait Data {
         ;
 
         if(array_key_exists('order', $options)){
-            $name = [];
             $property = [];
             $has_descending = false;
-
             foreach($options['order'] as $key => $order){
                 $property[] = $key;
                 if(strtolower($order) === 'desc'){
@@ -439,12 +437,10 @@ Trait Data {
                 }
             }
             $property = implode('-', $property);
-            $url_property = $dir .
+            $url = $dir .
                 Controller::name($property) .
                 $object->config('extension.json')
             ;
-            d($url_property);
-            $url = $dir . $name . $object->config('extension.json');
             if(!$has_descending){
                 $meta_url = $object->config('project.dir.data') .
                     'Node' .
