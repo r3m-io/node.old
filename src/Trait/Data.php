@@ -457,8 +457,7 @@ Trait Data {
                 }
             }
         }
-        ddd($meta);
-        foreach($meta->get('BinarySeach.' . $class)  as $property => $record){
+        foreach($meta->get('BinarySearch.' . $class)  as $property => $record){
             if($property === 'Uuid'){
                 continue;
             }
