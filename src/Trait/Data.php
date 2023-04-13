@@ -473,6 +473,7 @@ Trait Data {
                 foreach($sublist as $nr => $node){
                     $item = $data->get($class . '.' . $node->uuid);
                     $item->index = $index;
+                    $nodelist[] = $item;
                     $index++;
                 }
                 if(empty($key)){
