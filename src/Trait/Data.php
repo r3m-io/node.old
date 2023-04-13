@@ -483,29 +483,48 @@ Trait Data {
                 ], [
                     'output' => 'raw'
                 ]);
-                ddd($sort);
+                $result = new Storage();
+                $index = 0;
+                foreach($sort as $key1 => $subList){
+                    foreach($subList as $key2 => $subSubList){
+                        $nodeList = [];
+                        foreach($subSubList as $nr => $node){
+                            $item = $data->get($class . '.' . $node->uuid);
+                            $item->index = $index;
+                            $nodeList[] = $item;
+                            $index++;
+                        }
+                        if(empty($key1)){
+                            $key1 = '""';
+                        }
+                        if(empty($key2)){
+                            $key2 = '""';
+                        }
+                        $result->set($class . '.' . $key1 . '.' . $key2, $nodeList);
+                    }
+
+                }
             } else {
                 $sort = Sort::list($list)->with([
                     $property => 'ASC'
                 ], [
                     'output' => 'raw'
                 ]);
-            }
-
-            $result = new Storage();
-            $index = 0;
-            foreach($sort as $key => $sublist){
-                $nodeList = [];
-                foreach($sublist as $nr => $node){
-                    $item = $data->get($class . '.' . $node->uuid);
-                    $item->index = $index;
-                    $nodeList[] = $item;
-                    $index++;
+                $result = new Storage();
+                $index = 0;
+                foreach($sort as $key => $subList){
+                    $nodeList = [];
+                    foreach($subList as $nr => $node){
+                        $item = $data->get($class . '.' . $node->uuid);
+                        $item->index = $index;
+                        $nodeList[] = $item;
+                        $index++;
+                    }
+                    if(empty($key)){
+                        $key = '""';
+                    }
+                    $result->set($class . '.' . $key, $nodeList);
                 }
-                if(empty($key)){
-                    $key = '""';
-                }
-                $result->set($class . '.' . $key, $nodeList);
             }
             $record->lines = $result->write($url_property, 'lines');
             $record->count = $index + 1;
