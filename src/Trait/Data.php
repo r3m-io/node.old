@@ -868,6 +868,13 @@ Trait Data {
             //not found
             return false;
         }
+        $match = 1;
+        if(
+            array_key_exists('page', $options) &&
+            array_key_exists('limit', $options)
+        ){
+            $match = $options['page'] * $options['limit'] - $options['limit'] + 1;
+        }
         $file->seek($options['seek']);
         echo 'Status: ' . $options['seek'] . '/' . $options['lines'] . PHP_EOL;
         while($line = $file->current()){
@@ -880,22 +887,19 @@ Trait Data {
             $explode = explode(':', $line_match);
             if(array_key_exists(1, $explode)){
                 if($explode[0] === 'index'){
-                    ddd($explode);
-                }
-                if($this->is_uuid($explode[0])){
-                    $uuid_current = $explode[0];
-                    if($this->uuid_compare($options['uuid'], $uuid_current, '===')){
-                        return $this->uuid_data($file, $options);
+                    $index = (int) trim($explode[1], " \t\n\r\0\x0B,");
+                    if($index === $match){
+                        d($options['counter']);
+                        ddd('find key and then object');
                     }
-                    elseif($this->uuid_compare($options['uuid'], $uuid_current, '>')){
+                    elseif($index > $match){
                         $options['seek'] = (int) (1.5 * $options['seek']);
-                        return $this->bin_search($file, $options);
+                        return $this->bin_search_page($file, $options);
                     }
-                    elseif($this->uuid_compare($options['uuid'], $uuid_current, '<')){
+                    elseif($index < $match){
                         $options['seek'] = (int) (0.5 * $options['seek']);
-                        return $this->bin_search($file, $options);
+                        return $this->bin_search_page($file, $options);
                     }
-                    echo $explode[0] . PHP_EOL;
                 }
             }
             $file->next();
