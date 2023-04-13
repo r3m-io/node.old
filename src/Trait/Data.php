@@ -896,6 +896,7 @@ Trait Data {
                             $object_match = str_replace(' ', '', $object);
                             $object_match = str_replace('"', '', $object_match);
                             $object_explode = explode(':', $object_match);
+                            d($object_explode);
                             if (array_key_exists(1, $object_explode)) {
                                 if ($object_explode[0] === 'url') {
                                     ddd($object_explode);
