@@ -417,10 +417,23 @@ Trait Data {
         $this->binary_search_list_create($object, $class, $options);
         d($options);
 
-        if(array_key_exists('order', $options)){
-            foreach($options as $key => $order){
+        $dir = $object->config('project.dir.data') .
+            'Node' .
+            $object->config('ds') .
+            'BinarySearch' .
+            $object->config('ds') .
+            $class .
+            $object->config('ds')
+        ;
 
+        if(array_key_exists('order', $options)){
+            $name = [];
+            foreach($options as $key => $order){
+                $name[] = $key;
             }
+            $name = implode('.', $name);
+            $url = $dir . Controller::name($name) . $object->config('extension.json');
+            ddd($url);
         }
 
         return false;
