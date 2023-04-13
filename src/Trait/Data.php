@@ -414,10 +414,6 @@ Trait Data {
         $options = Core::object($options, Core::OBJECT_ARRAY);
         $function = __FUNCTION__;
         $object = $this->object();
-
-        d($class);
-        ddd($options);
-
         $this->binary_search_list_create($object, $class, $options);
         return false;
     }
