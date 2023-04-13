@@ -889,7 +889,24 @@ Trait Data {
                 if($explode[0] === 'index'){
                     $index = (int) trim($explode[1], " \t\n\r\0\x0B,");
                     if($match === $index){
-                        d($options['counter']);
+                        $current = $index;
+                        $current--;
+                        $file->seek($current);
+                        while($object = $file->current()) {
+                            $object_match = str_replace(' ', '', $object);
+                            $object_match = str_replace('"', '', $object_match);
+                            $object_explode = explode(':', $object_match);
+                            if (array_key_exists(1, $object_explode)) {
+                                if ($object_explode[0] === 'url') {
+                                    ddd($object_explode);
+                                }
+                            }
+                            $current--;
+                            if($current < 0){
+                                break;
+                            }
+                            $file->seek($current);
+                        }
                         ddd('find key and then object');
                     }
                     elseif($match > $index){
