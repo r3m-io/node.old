@@ -859,7 +859,6 @@ Trait Data {
         $file->seek($options['seek']);
         echo 'Status: ' . $options['seek'] . '/' . $options['lines'] . PHP_EOL;
         while($line = $file->current()){
-            ddd($line);
             $options['counter']++;
             if($options['counter'] > 1024){
                 break;
