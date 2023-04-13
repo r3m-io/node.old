@@ -888,15 +888,15 @@ Trait Data {
             if(array_key_exists(1, $explode)){
                 if($explode[0] === 'index'){
                     $index = (int) trim($explode[1], " \t\n\r\0\x0B,");
-                    if($index === $match){
+                    if($match === $index){
                         d($options['counter']);
                         ddd('find key and then object');
                     }
-                    elseif($index > $match){
+                    elseif($match > $index){
                         $options['seek'] = (int) (1.5 * $options['seek']);
                         return $this->bin_search_page($file, $options);
                     }
-                    elseif($index < $match){
+                    elseif($match < $index){
                         $options['seek'] = (int) (0.5 * $options['seek']);
                         return $this->bin_search_page($file, $options);
                     }
