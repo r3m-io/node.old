@@ -466,7 +466,14 @@ Trait Data {
             ], [
                 'output' => 'raw'
             ]);
-            ddd($sort);
+            $result = new Storage();
+            foreach($sort as $key => $sublist){
+                foreach($sublist as $nr => $node){
+                    $result->set($key . '.' . $nr, $data->get($class . '.' . $node->uuid));
+                }
+
+            }
+            ddd($result);
             d($property);
             ddd($record);
         }
