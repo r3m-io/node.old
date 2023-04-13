@@ -126,8 +126,8 @@ Trait Data {
                 if(!$meta){
                     $meta = new Storage();
                 }
-                $meta->set('BinarySearch.' . $class . '.Uuid.lines', $lines);
-                $meta->set('BinarySearch.' . $class . '.Uuid.count', $count);
+                $meta->set('BinarySearch.' . $class . '.uuid.lines', $lines);
+                $meta->set('BinarySearch.' . $class . '.uuid.count', $count);
                 $meta->write($meta_url);
                 $node->write($url);
                 if($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
