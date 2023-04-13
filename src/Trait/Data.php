@@ -415,6 +415,7 @@ Trait Data {
         $function = __FUNCTION__;
         $object = $this->object();
         $this->binary_search_list_create($object, $class, $options);
+        d($options);
         return false;
     }
 
