@@ -468,10 +468,14 @@ Trait Data {
             ]);
             $result = new Storage();
             foreach($sort as $key => $sublist){
+                $nodelist = [];
                 foreach($sublist as $nr => $node){
-                    $result->set($key . '.' . $nr, $data->get($class . '.' . $node->uuid));
+                    $nodelist[] = $data->get($class . '.' . $node->uuid);
                 }
-
+                if(empty($key)){
+                    $key = '""';
+                }
+                $result->set($class . '.' . $key, $nodelist);
             }
             ddd($result);
             d($property);
