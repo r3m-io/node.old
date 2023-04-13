@@ -454,9 +454,6 @@ Trait Data {
                 if(!$meta){
                     return false;
                 }
-                d($class);
-                d($meta);
-
                 $lines = 0;
                 $sets = $meta->get('BinarySearch.' . $class);
                 foreach($sets as $key => $set){
@@ -468,7 +465,6 @@ Trait Data {
                         break;
                     }
                 }
-                ddd($lines);
                 $seek = (int) (0.5 * $lines);
                 $file = new SplFileObject($url);
                 $data = [];
