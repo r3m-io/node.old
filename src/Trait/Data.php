@@ -110,7 +110,7 @@ Trait Data {
                 $binarySearch->data($class, $list);
                 $count = 0;
                 foreach($binarySearch->data($class) as $record){
-                    $record->count = $count;
+                    $record->index = $count;
                     $count++;
                 }
                 $lines = $binarySearch->write($binary_search_url, 'lines');
