@@ -443,7 +443,7 @@ Trait Data {
                 Controller::name($property) .
                 $object->config('extension.json')
             ;
-            ddd($url_property);
+            d($url_property);
             $url = $dir . $name . $object->config('extension.json');
             if(!$has_descending){
                 $meta_url = $object->config('project.dir.data') .
