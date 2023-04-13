@@ -461,6 +461,10 @@ Trait Data {
             if($property === 'Uuid'){
                 continue;
             }
+            $sort = Sort::list($list)->with([
+                $property => 'ASC'
+            ]);
+            ddd($sort);
             d($property);
             ddd($record);
         }
