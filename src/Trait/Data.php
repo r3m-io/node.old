@@ -475,7 +475,7 @@ Trait Data {
                 Controller::name($property) .
                 $object->config('extension.json')
             ;
-            $properties = explode('.', $property);
+            $properties = explode(':', $property);
             if(array_key_exists(1, $properties)){
                 $sort = Sort::list($list)->with([
                     $properties[0] => 'ASC',
