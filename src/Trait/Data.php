@@ -438,17 +438,12 @@ Trait Data {
                     $has_descending = true;
                 }
             }
-            ddd($property);
+            $property = implode('-', $property);
             $url_property = $dir .
                 Controller::name($property) .
                 $object->config('extension.json')
             ;
-
-
-
-            $property = implode('-', $key);
-            $name = implode('-', $name);
-            $name = Controller::name($name);
+            ddd($url_property);
             $url = $dir . $name . $object->config('extension.json');
             if(!$has_descending){
                 $meta_url = $object->config('project.dir.data') .
