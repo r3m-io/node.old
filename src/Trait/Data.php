@@ -467,10 +467,13 @@ Trait Data {
                 'output' => 'raw'
             ]);
             $result = new Storage();
+            $index = 0;
             foreach($sort as $key => $sublist){
                 $nodelist = [];
                 foreach($sublist as $nr => $node){
-                    $nodelist[] = $data->get($class . '.' . $node->uuid);
+                    $item = $data->get($class . '.' . $node->uuid);
+                    $item->index = $index;
+                    $index++;
                 }
                 if(empty($key)){
                     $key = '""';
