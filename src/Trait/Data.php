@@ -458,6 +458,11 @@ Trait Data {
                 d($meta);
 
                 $sets = $meta->get('BinarySearch.' . $class);
+                foreach($sets as $key => $set){
+                    if($key === $property){
+                        ddd('found');
+                    }
+                }
                 ddd($sets);
 
 
