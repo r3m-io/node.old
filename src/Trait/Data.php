@@ -454,6 +454,8 @@ Trait Data {
                 if(!$meta){
                     return false;
                 }
+                d($class);
+                d($meta);
                 ddd($meta->get('BinarySearch.' . $class . '.options.priority-action'));
                 $lines = $meta->get('BinarySearch.' . $class . '.' . $property . '.lines');
                 ddd($lines);
