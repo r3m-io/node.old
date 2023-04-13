@@ -469,17 +469,17 @@ Trait Data {
             $result = new Storage();
             $index = 0;
             foreach($sort as $key => $sublist){
-                $nodelist = [];
+                $nodeList = [];
                 foreach($sublist as $nr => $node){
                     $item = $data->get($class . '.' . $node->uuid);
                     $item->index = $index;
-                    $nodelist[] = $item;
+                    $nodeList[] = $item;
                     $index++;
                 }
                 if(empty($key)){
                     $key = '""';
                 }
-                $result->set($class . '.' . $key, $nodelist);
+                $result->set($class . '.' . $key, $nodeList);
             }
             ddd($result);
             d($property);
