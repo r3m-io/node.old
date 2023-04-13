@@ -483,6 +483,7 @@ Trait Data {
                 ], [
                     'output' => 'raw'
                 ]);
+                ddd($sort);
             } else {
                 $sort = Sort::list($list)->with([
                     $property => 'ASC'
@@ -490,7 +491,7 @@ Trait Data {
                     'output' => 'raw'
                 ]);
             }
-            ddd($sort);
+
             $result = new Storage();
             $index = 0;
             foreach($sort as $key => $sublist){
