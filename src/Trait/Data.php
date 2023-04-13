@@ -415,6 +415,7 @@ Trait Data {
         $function = __FUNCTION__;
         $object = $this->object();
         $this->binary_search_list_create($object, $class, $options);
+        $options['limit'] = 2;
         d($options);
 
         $dir = $object->config('project.dir.data') .
@@ -428,11 +429,43 @@ Trait Data {
 
         if(array_key_exists('order', $options)){
             $name = [];
+            $has_descending = false;
             foreach($options['order'] as $key => $order){
                 $name[] = $key;
+                if(strtolower($order) === 'desc'){
+                    $has_descending = true;
+                }
             }
-            $name = implode('.', $name);
-            $url = $dir . Controller::name($name) . $object->config('extension.json');
+            $property = implode(':', $name);
+            $name = Controller::name($property);
+            $url = $dir . $name . $object->config('extension.json');
+            if(!$has_descending){
+                $meta_url = $object->config('project.dir.data') .
+                    'Node' .
+                    $object->config('ds') .
+                    'Meta' .
+                    $object->config('ds') .
+                    $name .
+                    $object->config('extension.json')
+                ;
+                $meta = $object->data_read($meta_url, sha1($meta_url));
+                if(!$meta){
+                    return false;
+                }
+                $lines = $meta->get('BinarySearch.' . $property . '.lines');
+                $seek = (int) (0.5 * $lines);
+                $file = new SplFileObject($url);
+                $data = [];
+                $data = $this->bin_search_page($file, [
+                    'page' => $options['page'],
+                    'limit' => $options['limit'],
+                    'seek' => $seek,
+                    'lines'=> $lines,
+                    'counter' => 0,
+                    'data' => $data,
+                    'direction' => 'next',
+                ]);
+            }
             ddd($url);
         }
 
@@ -471,7 +504,7 @@ Trait Data {
         if(!$data){
             return;
         }
-        $meta = $object->data_read($meta_url);
+        $meta = $object->data_read($meta_url, sha1($meta_url));
         if(!$meta){
             return;
         }
@@ -808,6 +841,51 @@ Trait Data {
             }
         }
         return $data;
+    }
+
+    private function bin_search_page($file, $options=[]){
+        if(!array_key_exists('counter', $options)){
+            $options['counter'] = 0;
+        }
+        if(!array_key_exists('search', $options)){
+            $options['search'] = [];
+        }
+        if(!in_array($options['seek'], $options['search'], true)){
+            $options['search'][] = $options['seek'];
+        } else {
+            //not found
+            return false;
+        }
+        $file->seek($options['seek']);
+        echo 'Status: ' . $options['seek'] . '/' . $options['lines'] . PHP_EOL;
+        while($line = $file->current()){
+            $options['counter']++;
+            if($options['counter'] > 1024){
+                break;
+            }
+            $line_match = str_replace(' ', '', $line);
+            $line_match = str_replace('"', '', $line_match);
+            $explode = explode(':', $line_match);
+            if(array_key_exists(1, $explode)){
+                ddd($explode);
+                if($this->is_uuid($explode[0])){
+                    $uuid_current = $explode[0];
+                    if($this->uuid_compare($options['uuid'], $uuid_current, '===')){
+                        return $this->uuid_data($file, $options);
+                    }
+                    elseif($this->uuid_compare($options['uuid'], $uuid_current, '>')){
+                        $options['seek'] = (int) (1.5 * $options['seek']);
+                        return $this->bin_search($file, $options);
+                    }
+                    elseif($this->uuid_compare($options['uuid'], $uuid_current, '<')){
+                        $options['seek'] = (int) (0.5 * $options['seek']);
+                        return $this->bin_search($file, $options);
+                    }
+                    echo $explode[0] . PHP_EOL;
+                }
+            }
+            $file->next();
+        }
     }
 
     private function bin_search($file, $options=[]){
