@@ -25,6 +25,7 @@ use R3m\Io\Exception\ObjectException;
 
 Trait Data {
 
+
     /**
      * @throws ObjectException
      * @throws FileWriteException
@@ -283,6 +284,7 @@ Trait Data {
                     $record->{$attribute} = $value;
                 }
                 $is_found = true;
+                $record = $list[$nr];
                 break;
             }
         }
@@ -489,7 +491,149 @@ Trait Data {
             $record->count = $index + 1;
         }
         $meta->write($meta_url);
-        return false;
+
+
+
+
+
+
+
+
+        /*
+        if (!array_key_exists('limit', $options)) {
+            $options['limit'] = 255;
+        }
+        if (!array_key_exists('page', $options)) {
+            $options['page'] = 1;
+        }
+        $page = 1;
+        $meta_url = $object->config('project.dir.data') .
+            'Node' .
+            $object->config('ds') .
+            'Meta' .
+            $object->config('ds') .
+            $name .
+            $object->config('extension.json')
+        ;
+        $meta = $object->data_read($meta_url);
+        $max_page = false;
+        if($meta){
+            $max_page = ceil($meta->get('count') / $options['limit']);
+        }
+        for($i = $page; $i <= $max_page; $i++){
+            if(array_key_exists('order', $options)) {
+                /*
+                $list = Sort::list($list->data())->with($options['order']);
+                $list = Limit::list($list)->with([
+                    'limit' => $options['limit'],
+                    'page' => $i,
+                ], [
+                    'preserve_keys' => true
+                ]);
+                */
+                $mtime = File::mtime($url);
+                foreach ($options['order'] as $attribute => $direction) {
+                    $name .= '-' . ucfirst($attribute) . '-' . ucfirst(strtolower($direction));
+                }
+                $name .= $object->config('ds');
+            } else {
+                /*
+                $list = Limit::list($list->data())->with([
+                    'limit' => $options['limit'],
+                    'page' => $i,
+                ], [
+                    'preserve_keys' => true
+                ]);
+                */
+                $name .= '-Uuid-Asc' . $object->config('ds');
+            }
+            $name .= $object->config('ds');
+            $name .= 'Page' . '.' . $i;
+            if (
+                array_key_exists('limit', $options) &&
+                $options['limit']
+            ) {
+                $name .= '.' . 'Limit' . '.' . $options['limit'];
+            }
+            if($object->config('ramdisk.url')){
+                $dir_node = $object->config('ramdisk.url') .
+                    $object->config(Config::POSIX_ID) .
+                    $object->config('ds') .
+                    'Node' .
+                    $object->config('ds')
+                ;
+                $url = $dir_node .
+                    $name .
+                    $object->config('extension.json')
+                ;
+            } else {
+                $dir_node = $object->config('framework.dir.cache') .
+                    $object->config(Config::POSIX_ID) .
+                    $object->config('ds') .
+                    'Node' .
+                    $object->config('ds')
+                ;
+                $url = $dir_node .
+                    $name .
+                    $object->config('extension.json')
+                ;
+            }
+            if(File::exist($url) && File::mtime($url) === $mtime){
+                $storage = $object->data_read($url);
+                $list = $storage->data($class);
+            } else {
+                $dir = Dir::name($url);
+                Dir::create($dir, Dir::CHMOD);
+                if($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
+                    $command = 'chmod 777 ' . $dir;
+                    exec($command);
+                    $command = 'chmod 777 ' . $dir_node;
+                    exec($command);
+                }
+                if($object->config(Config::POSIX_ID) === 0){
+                    $command = 'chown www-data:www-data ' . $dir;
+                    exec($command);
+                    $command = 'chown www-data:www-data ' . $dir_node;
+                    exec($command);
+                }
+                if(array_key_exists('order', $options)){
+                    $list = Sort::list($list->data())->with($options['order']);
+                    $list = Limit::list($list)->with([
+                        'limit' => $options['limit'],
+                        'page' => $i,
+                    ], [
+                        'preserve_keys' => true
+                    ]);
+                } else {
+                    $list = Limit::list($list->data())->with([
+                        'limit' => $options['limit'],
+                        'page' => $i,
+                    ], [
+                        'preserve_keys' => true
+                    ]);
+                }
+                $storage = new Storage();
+                $storage->data($class, $list);
+                $storage->write($url);
+                File::touch($url, $mtime);
+            }
+            $response['list'] = $list;
+            $response['limit'] = $options['limit'];
+            $response['page'] = $options['page'];
+            $response['order'] = $options['order'] ?? [];
+            $response['filter'] = $options['filter'] ?? [];
+            Event::trigger($object, 'r3m.io.node.data.list', [
+                'class' => $class,
+                'options' => $options,
+                'url' => $url,
+                'list' => $list,
+            ]);
+        }
+
+
+        ddd($meta);
+
+        return $response;
     }
 
     public function list_attribute($list=[], $attribute=[]): array
