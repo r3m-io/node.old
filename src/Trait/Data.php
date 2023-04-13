@@ -431,7 +431,7 @@ Trait Data {
             $name = [];
             $has_descending = false;
             foreach($options['order'] as $key => $order){
-                $name[] = $key;
+                $name[] = Controller::name($key);
                 if(strtolower($order) === 'desc'){
                     $has_descending = true;
                 }
