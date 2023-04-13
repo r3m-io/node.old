@@ -867,7 +867,9 @@ Trait Data {
             $line_match = str_replace('"', '', $line_match);
             $explode = explode(':', $line_match);
             if(array_key_exists(1, $explode)){
-                ddd($explode);
+                if($explode[0] === 'index'){
+                    ddd($explode);
+                }
                 if($this->is_uuid($explode[0])){
                     $uuid_current = $explode[0];
                     if($this->uuid_compare($options['uuid'], $uuid_current, '===')){
