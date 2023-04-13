@@ -921,7 +921,7 @@ Trait Data {
             return false;
         }
         $list = new Storage();
-        $sort = false;
+        $mtime = File::mtime($url);
         $response = [];
         foreach($data->data($class) as $uuid => $node){
             if(property_exists($node, 'url')){
@@ -992,23 +992,29 @@ Trait Data {
                 $object->config('extension.json')
             ;
         }
-        $dir = Dir::name($url);
-        Dir::create($dir, Dir::CHMOD);
-        if($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
-            $command = 'chmod 777 ' . $dir;
-            exec($command);
-            $command = 'chmod 777 ' . $dir_node;
-            exec($command);
+        if(File::exist($url) && File::mtime($url) === $mtime){
+            $storage = $object->data_read($url);
+            $list = $storage->data($class);
+        } else {
+            $dir = Dir::name($url);
+            Dir::create($dir, Dir::CHMOD);
+            if($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
+                $command = 'chmod 777 ' . $dir;
+                exec($command);
+                $command = 'chmod 777 ' . $dir_node;
+                exec($command);
+            }
+            if($object->config(Config::POSIX_ID) === 0){
+                $command = 'chown www-data:www-data ' . $dir;
+                exec($command);
+                $command = 'chown www-data:www-data ' . $dir_node;
+                exec($command);
+            }
+            $storage = new Storage();
+            $storage->data($class, $list);
+            $storage->write($url);
+            File::touch($url, $mtime);
         }
-        if($object->config(Config::POSIX_ID) === 0){
-            $command = 'chown www-data:www-data ' . $dir;
-            exec($command);
-            $command = 'chown www-data:www-data ' . $dir_node;
-            exec($command);
-        }
-        $storage = new Storage();
-        $storage->data($class, $list);
-        $storage->write($url);
         $response['list'] = $list;
         $response['limit'] = $options['limit'];
         $response['page'] = $options['page'];
