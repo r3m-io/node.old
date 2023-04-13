@@ -413,8 +413,22 @@ Trait Data {
     {
         $options = Core::object($options, Core::OBJECT_ARRAY);
         $function = __FUNCTION__;
-        $name = Controller::name($class);
         $object = $this->object();
+
+        d($class);
+        ddd($options);
+
+        $this->binary_search_list_create($object, $class, $options);
+        return false;
+    }
+
+    /**
+     * @throws ObjectException
+     * @throws FileWriteException
+     */
+    private function binary_search_list_create(App $object, $class, $options=[]): void
+    {
+        $name = Controller::name($class);
         $dir = $object->config('project.dir.data') .
             'Node' .
             $object->config('ds') .
@@ -438,11 +452,11 @@ Trait Data {
 
         $data = $object->data_read($url);
         if(!$data){
-            return false;
+            return;
         }
         $meta = $object->data_read($meta_url);
         if(!$meta){
-            return false;
+            return;
         }
         $list = new Storage();
         $mtime = File::mtime($url);
@@ -489,7 +503,6 @@ Trait Data {
             $record->count = $index + 1;
         }
         $meta->write($meta_url);
-        return false;
     }
 
     public function list_attribute($list=[], $attribute=[]): array
