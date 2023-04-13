@@ -873,8 +873,9 @@ Trait Data {
             array_key_exists('page', $options) &&
             array_key_exists('limit', $options)
         ){
-            $match = $options['page'] * $options['limit'] - $options['limit'] + 1;
+            $match = ($options['page'] * $options['limit']) - $options['limit'] + 1;
         }
+        ddd($match);
         $file->seek($options['seek']);
         echo 'Status: ' . $options['seek'] . '/' . $options['lines'] . PHP_EOL;
         while($line = $file->current()){
