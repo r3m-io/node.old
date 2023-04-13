@@ -461,6 +461,7 @@ Trait Data {
             if($property === 'Uuid'){
                 continue;
             }
+            d($property);
             ddd($record);
         }
 
