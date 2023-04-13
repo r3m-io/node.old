@@ -458,7 +458,7 @@ Trait Data {
             }
         }
         foreach($meta->get('BinarySearch.' . $class)  as $property => $record){
-            if($property === 'Uuid'){
+            if($property === 'uuid'){
                 continue;
             }
             $sort = Sort::list($list)->with([
