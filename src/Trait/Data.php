@@ -463,6 +463,8 @@ Trait Data {
             }
             $sort = Sort::list($list)->with([
                 $property => 'ASC'
+            ], [
+                'output' => 'raw'
             ]);
             ddd($sort);
             d($property);
