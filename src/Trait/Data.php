@@ -25,65 +25,6 @@ use R3m\Io\Exception\ObjectException;
 
 Trait Data {
 
-    private function dir(App $object, $dir_node, $dir_data, $dir_uuid, $dir_meta, $dir_validate, $dir_binary_search){
-        if(!Dir::is($dir_uuid)){
-            Dir::create($dir_uuid, Dir::CHMOD);
-            if($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
-                $command = 'chmod 777 ' . $dir_uuid;
-                exec($command);
-                $command = 'chmod 777 ' . $dir_node;
-                exec($command);
-                $command = 'chmod 777 ' . $dir_data;
-                exec($command);
-            }
-            if($object->config(Config::POSIX_ID) === 0){
-                $command = 'chown www-data:www-data ' . $dir_uuid;
-                exec($command);
-                $command = 'chown www-data:www-data ' . $dir_node;
-                exec($command);
-                $command = 'chown www-data:www-data ' . $dir_data;
-                exec($command);
-            }
-        }
-        if(!Dir::is($dir_meta)) {
-            Dir::create($dir_meta, Dir::CHMOD);
-            if($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
-                $command = 'chmod 777 ' . $dir_meta;
-                exec($command);
-            }
-            if($object->config(Config::POSIX_ID) === 0){
-                $command = 'chown www-data:www-data ' . $dir_meta;
-                exec($command);
-            }
-        }
-        if(!Dir::is($dir_validate)) {
-            Dir::create($dir_validate, Dir::CHMOD);
-            if($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
-                $command = 'chmod 777 ' . $dir_validate;
-                exec($command);
-            }
-            if($object->config(Config::POSIX_ID) === 0){
-                $command = 'chown www-data:www-data ' . $dir_validate;
-                exec($command);
-            }
-        }
-        if(!Dir::is($dir_binary_search)) {
-            Dir::create($dir_binary_search, Dir::CHMOD);
-            if($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
-                $command = 'chmod 777 ' . $dir_binary_search;
-                exec($command);
-                $command = 'chmod 777 ' . Dir::name($dir_binary_search);
-                exec($command);
-            }
-            if($object->config(Config::POSIX_ID) === 0){
-                $command = 'chown www-data:www-data ' . $dir_binary_search;
-                exec($command);
-                $command = 'chown www-data:www-data ' . Dir::name($dir_binary_search);
-                exec($command);
-            }
-        }
-    }
-
 
     /**
      * @throws ObjectException
@@ -145,7 +86,7 @@ Trait Data {
             $object->config('extension.json');
         $binary_search_url =
             $dir_binary_search .
-            'Data' .
+            'Uuid' .
             $object->config('extension.json');
         $meta_url = $dir_meta . $name . $object->config('extension.json');
         $validate = $this->validate($object, $validate_url,  $class . '.create');
@@ -160,13 +101,18 @@ Trait Data {
                 if(!$binarySearch){
                     $binarySearch = new Storage();
                 }
-                $binarySearch->set($class . '.' . $uuid . '.url' , $url);
-                $binarySearch->set($class . '.' . $uuid . '.uuid' , $uuid);
+                $binarySearch->set($class . '.' . $uuid . '.url', $url);
+                $binarySearch->set($class . '.' . $uuid . '.uuid', $uuid);
                 $list = Sort::list($binarySearch->data($class))->with([
                     'uuid' => 'ASC'
                 ]);
                 $binarySearch->delete($class);
                 $binarySearch->data($class, $list);
+                $count = 0;
+                foreach($binarySearch->data($class) as $record){
+                    $record->count = $count;
+                    $count++;
+                }
                 $lines = $binarySearch->write($binary_search_url, 'lines');
                 if($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
                     $command = 'chmod 666 ' . $binary_search_url;
@@ -180,20 +126,20 @@ Trait Data {
                 if(!$meta){
                     $meta = new Storage();
                 }
-                $meta->set('lines', $lines);
-                $count = 0;
-                foreach($binarySearch->data($class) as $unused){
-                    $count++;
-                }
-                $meta->set('count', $count);
+                $meta->set('BinarySearch.' . $class . '.Uuid.lines', $lines);
+                $meta->set('BinarySearch.' . $class . '.Uuid.count', $count);
                 $meta->write($meta_url);
                 $node->write($url);
                 if($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
                     $command = 'chmod 666 ' . $url;
                     exec($command);
+                    $command = 'chmod 666 ' . $meta_url;
+                    exec($command);
                 }
                 if($object->config(Config::POSIX_ID) === 0){
                     $command = 'chown www-data:www-data ' . $url;
+                    exec($command);
+                    $command = 'chown www-data:www-data ' . $meta_url;
                     exec($command);
                 }
                 if($object->config(Config::POSIX_ID) === 0){
@@ -238,89 +184,6 @@ Trait Data {
             throw new Exception('Cannot validate node at: ' . $validate_url);
         }
         return $response;
-
-
-
-
-        /*
-        $response = [];
-        if($validate) {
-            if($validate->success === true) {
-                $data->set($class . '.' . $uuid, $object->request('node'));
-
-                $list = Sort::list($data->data($class))->with([
-                    'uuid' => 'ASC'
-                ]);
-                $data->delete($class);
-                $data->data($class, $list);
-                $lines = $data->write($url, 'lines');
-                $meta_url = $dir_data . 'Meta.json';
-                $meta = $object->data_read($meta_url, sha1($meta_url));
-                if(!$meta){
-                    $meta = new Storage();
-                }
-                $meta->set($class . '.' . substr($uuid, 0, 1), $lines);
-                $meta->write($meta_url);
-                if($object->config('framework.environment') === Config::MODE_DEVELOPMENT){
-                    $command = 'chmod 666 ' . $url;
-                    exec($command);
-                    $command = 'chmod 666 ' . $meta_url;
-                    exec($command);
-                }
-                if($object->config(Config::POSIX_ID) === 0){
-                    $command = 'chown www-data:www-data ' . $url;
-                    exec($command);
-                    $command = 'chown www-data:www-data ' . $meta_url;
-                    exec($command);
-                }
-                if($object->config(Config::POSIX_ID) === 0){
-                    $record = $object->request('node');
-                } else {
-                    $expose = $this->getExpose(
-                        $object,
-                        $class,
-                        $class . '.' . $function .'.expose'
-                    );
-                    ddd($expose);
-                    $record = $this->expose(
-                        $object,
-                        $object->request('node'),
-                        $expose,
-                        $class,
-                        $function
-                    );
-                }
-                $response['node'] = $record;
-                Event::trigger($object, 'r3m.io.node.data.create', [
-                    'class' => $class,
-                    'options' => $options,
-                    'url' => $url,
-                    'node' => $node->data(),
-                ]);
-            } else {
-                $response['error'] = $validate->test;
-                Event::trigger($object, 'r3m.io.node.data.create.error', [
-                    'class' => $class,
-                    'options' => $options,
-                    'url' => $url,
-                    'node' => $node->data(),
-                    'error' => $validate->test,
-                    'as_void' => $as_void,
-                ]);
-            }
-            if($as_void === false){
-                return $response;
-            } else {
-                return null;
-            }
-        } else {
-            throw new Exception('Cannot validate node at: ' . $validate_url);
-        }
-        if($as_void === false){
-            return false;
-        }
-        return null;
-        */
     }
 
     public function read($class='', $options=[]): false|array|object
@@ -366,358 +229,6 @@ Trait Data {
         ddd($data);
         return false;
         */
-    }
-
-    private function is_uuid($string=''){
-        //format: %s%s-%s-%s-%s-%s%s%s
-        $explode = explode('-', $string);
-        $result = false;
-        if(strlen($string) !== 36){
-            return $result;
-        }
-        if(count($explode) !== 5){
-            return $result;
-        }
-        if(strlen($explode[0]) !== 8){
-            return $result;
-        }
-        if(strlen($explode[1]) !== 4){
-            return $result;
-        }
-        if(strlen($explode[2]) !== 4){
-            return $result;
-        }
-        if(strlen($explode[3]) !== 4){
-            return $result;
-        }
-        if(strlen($explode[4]) !== 12){
-            return $result;
-        }
-        return true;
-    }
-
-    private function uuid_compare($uuid='', $compare='', $operator='==='){
-        $uuid = explode('-', $uuid);
-        $compare = explode('-', $compare);
-        $result = [];
-        foreach($uuid as $nr =>  $hex){
-            $dec = hexdec($hex);
-            $dec_compare = hexdec($compare[$nr]);
-            switch($operator){
-                case '===' :
-                    if($dec === $dec_compare){
-                        $result[$nr] = true;
-                    } else {
-                        $result[$nr] = false;
-                        break 2;
-                    }
-                break;
-                case '==' :
-                    if($dec == $dec_compare){
-                        $result[$nr] = true;
-                    } else {
-                        $result[$nr] = false;
-                        break 2;
-                    }
-                break;
-                case '>=' :
-                    if($dec === $dec_compare){
-                        $result[$nr] = true;
-                        break;
-                    }
-                    if($dec > $dec_compare){
-                        $result[$nr] = true;
-                        break 2;
-                    } else {
-                        $result[$nr] = false;
-                        break 2;
-                    }
-                case '<=' :
-                    if($dec === $dec_compare){
-                        $result[$nr] = true;
-                        break;
-                    }
-                    if($dec < $dec_compare){
-                        $result[$nr] = true;
-                        break 2;
-                    } else {
-                        $result[$nr] = false;
-                        break 2;
-                    }
-                case '>' :
-                    if($dec > $dec_compare){
-                        $result[$nr] = true;
-                        break 2;
-                    }
-                    elseif($dec === $dec_compare){
-                        break;
-                    } else {
-                        $result[$nr] = false;
-                        break 2;
-                    }
-                case '<' :
-                    if($dec < $dec_compare){
-                        $result[$nr] = true;
-                        break 2;
-                    }
-                    elseif($dec === $dec_compare){
-                        break;
-                    } else {
-                        $result[$nr] = false;
-                        break 2;
-                    }
-                case '!==' :
-                    if($dec !== $dec_compare){
-                        $result[$nr] = true;
-                    } else {
-                        $result[$nr] = false;
-                        break 2;
-                    }
-                break;
-                case '!=' :
-                    if($dec != $dec_compare){
-                        $result[$nr] = true;
-                    } else {
-                        $result[$nr] = false;
-                        break 2;
-                    }
-                break;
-            }
-        }
-        if(in_array(false, $result, true)){
-            return false;
-        }
-        return true;
-    }
-
-    private function uuid_data($file, $options=[]){
-        $start = $options['seek'];
-        $type = null;
-        $data = [];
-        while($line = $file->current()){
-            $explode = explode(':', $line);
-            if(array_key_exists(1, $explode)){
-                $value = trim($explode[1]);
-            } else {
-                $value = trim($explode[0], " \t\n\r\0\x0B,");
-                d($value);
-            }
-            if(
-                $type === null &&
-                $value === '{'
-            ){
-                $type = 'object';
-                $curly_count = 0;
-            }
-            elseif(
-                $type === null &&
-                $value === '['
-            ){
-                $type = 'array';
-            }
-            elseif($type === null) {
-                $type = 'scalar';
-            }
-            switch($type){
-                case 'object' :
-                    if($value === '{'){
-                        $curly_count++;
-                    }
-                    elseif($value === '}'){
-                        $curly_count--;
-                    }
-                    if($curly_count === 0){
-                        $data[] = $line;
-                        break 2;
-                    } else {
-                        $data[] = $line;
-                    }
-                break;
-            }
-            $file->next();
-            $start++;
-            if($start > $options['lines']){
-                break;
-            }
-        }
-        return $data;
-    }
-
-    private function bin_search($file, $options=[]){
-        if(!array_key_exists('counter', $options)){
-            $options['counter'] = 0;
-        }
-        if(!array_key_exists('search', $options)){
-            $options['search'] = [];
-        }
-        if(!in_array($options['seek'], $options['search'], true)){
-            $options['search'][] = $options['seek'];
-        } else {
-            return false;
-        }
-        $file->seek($options['seek']);
-        echo 'Status: ' . $options['seek'] . '/' . $options['lines'] . PHP_EOL;
-        while($line = $file->current()){
-            $options['counter']++;
-            if($options['counter'] > 1024){
-                break;
-            }
-            $line_match = str_replace(' ', '', $line);
-            $line_match = str_replace('"', '', $line_match);
-            $explode = explode(':', $line_match);
-            if(array_key_exists(1, $explode)){
-                if($this->is_uuid($explode[0])){
-                    $uuid_current = $explode[0];
-                    if($this->uuid_compare($options['uuid'], $uuid_current, '===')){
-                        return $this->uuid_data($file, $options);
-                    }
-                    elseif($this->uuid_compare($options['uuid'], $uuid_current, '>')){
-                        $options['seek'] = (int) (1.5 * $options['seek']);
-                        return $this->bin_search($file, $options);
-                    }
-                    elseif($this->uuid_compare($options['uuid'], $uuid_current, '<')){
-                        $options['seek'] = (int) (0.5 * $options['seek']);
-                        return $this->bin_search($file, $options);
-                    }
-                    echo $explode[0] . PHP_EOL;
-                }
-            }
-            $file->next();
-        }
-    }
-
-    private function binary_search($file, $options=[]){
-        $uuid = $options['uuid'];
-        $lines = $options['lines'];
-        $seek = $options['seek'];
-        $data = $options['data'];
-        $is_debug = $options['is_debug'] ?? false;
-        $counter = $options['counter'] ?? 0;
-        $current = $options['current'];
-        $direction = $options['direction'] ?? 'next';
-        echo 'Lines: ' . $lines . PHP_EOL;
-        echo 'Seek: ' . $seek . PHP_EOL;
-        while($line = $file->current()){
-            $counter++;
-            if($counter > 1024){
-                break;
-            }
-//            d($line);
-//            d($file->key());
-//            echo $current . ' ' . $line . PHP_EOL;
-            $line_match = str_replace(' ', '', $line);
-            $line_match = str_replace('"', '', $line_match);
-            $explode = explode(':', $line_match);
-            if(array_key_exists(1, $explode)){
-                if($explode[0] === $uuid){
-                    d($file->key());
-                    d($options);
-                    d($current);
-                    d($line);
-                    ddd('found');
-                }
-                /*
-                if($explode[0] === 'uuid'){
-                    if(strpos($explode[1], $uuid) !== false){
-                        d($current);
-                        ddd($counter);
-                        $previous = $current - 1;
-                        if($previous < 0){
-                            break;
-                        }
-                        $file->seek($previous);
-                        $tmp = [];
-                        while($previous > 0){
-                            $line = $file->current();
-                            $tmp[] = $line;
-                            $previous = $file->key() - 1;
-                            if($previous < 0){
-                                break;
-                            }
-                            $file->seek($previous);
-                        }
-                        ddd($tmp);
-                    }
-                }
-                */
-                if($explode[0] === $uuid){
-                    d($file->key());
-                    d($options);
-                    d($current);
-                    d($line);
-                    ddd('found');
-                }
-                d($explode[0]);
-                $line_uuid = explode('-', $explode[0]);
-                $search_uuid = explode('-', $uuid);
-                $is_smaller = false;
-                $is_greater = false;
-                if(count($line_uuid) === count($search_uuid)){
-                    foreach($search_uuid as $nr => $search){
-                        $hex = hexdec($search);
-                        $match = hexdec($line_uuid[$nr]);
-                        if($hex === $match){
-                            continue;
-                        }
-                        elseif($hex < $match){
-                            $is_smaller = true;
-                            break;
-                        }
-                        elseif($hex > $match){
-                            $is_greater = true;
-                            break;
-                        }
-                    }
-                    if($is_smaller){
-                        $seek = (int) (0.25 * $lines);
-                        $file->seek($seek);
-                        $data = $this->binary_search($file, [
-                            'uuid' => $uuid,
-                            'lines' => $lines,
-                            'seek' => $seek,
-                            'current' => $seek,
-                            'data' => $data,
-                            'is_debug' => true,
-                            'counter' => $counter,
-                            'direction' => 'next',
-                        ]);
-                    }
-                    if($is_greater){
-                        $seek = (int) (0.75 * $lines);
-                        $file->seek($seek);
-                        $data = $this->binary_search($file, [
-                            'uuid' => $uuid,
-                            'lines' => $lines,
-                            'seek' => $seek,
-                            'current' => $seek,
-                            'data' => $data,
-                            'is_debug' => true,
-                            'counter' => $counter,
-                            'direction' => 'next',
-                        ]);
-                    }
-                }
-            }
-            if(strpos($line, $uuid . ':') !== false){
-                $data[] = $line;
-                break;
-            }
-            switch($direction){
-                case 'next':
-                    $current++;
-                    $file->next();
-                    break;
-                case 'previous':
-                    $current--;
-                    $previous = $file->key() - 1;
-                    if($previous < 0){
-                        break 2;
-                    }
-                    $file->seek($previous);
-                    break;
-            }
-        }
-        return $data;
     }
 
     public function patch($class, $options=[]): false|array|object
@@ -913,16 +424,39 @@ Trait Data {
             $object->config('ds') .
             $name .
             $object->config('ds') .
-            'Data' .
+            'Uuid' .
             $object->config('extension.json')
         ;
+        $meta_url = $object->config('project.dir.data') .
+            'Node' .
+            $object->config('ds') .
+            'Meta' .
+            $object->config('ds') .
+            $name .
+            $object->config('extension.json')
+        ;
+
         $data = $object->data_read($url);
         if(!$data){
+            return false;
+        }
+        $meta = $object->data_read($meta_url);
+        if(!$meta){
             return false;
         }
         $list = new Storage();
         $mtime = File::mtime($url);
         $response = [];
+
+        ddd($meta);
+
+        $batch_size = 1000;
+        $batch_nr = 0;
+//        $batch_pages
+//        for($i = 0; $i)
+
+
+
         foreach($data->data($class) as $uuid => $node){
             if(property_exists($node, 'url')){
                 $record = $object->data_read($node->url);
@@ -933,6 +467,11 @@ Trait Data {
                 }
             }
         }
+
+
+
+
+
         if (!array_key_exists('limit', $options)) {
             $options['limit'] = 255;
         }
@@ -949,99 +488,123 @@ Trait Data {
             $object->config('extension.json')
         ;
         $meta = $object->data_read($meta_url);
-        ddd($meta);
-        if(array_key_exists('order', $options)) {
-            $list = Sort::list($list->data())->with($options['order']);
-            $list = Limit::list($list)->with([
-                'limit' => $options['limit'],
-                'page' => $options['page'],
-            ], [
-                'preserve_keys' => true
-            ]);
-            $mtime = File::mtime($url);
-            foreach ($options['order'] as $attribute => $direction) {
-                $name .= '-' . ucfirst($attribute) . '-' . ucfirst(strtolower($direction));
+        $max_page = false;
+        if($meta){
+            $max_page = ceil($meta->get('count') / $options['limit']);
+        }
+        for($i = $page; $i <= $max_page; $i++){
+            if(array_key_exists('order', $options)) {
+                /*
+                $list = Sort::list($list->data())->with($options['order']);
+                $list = Limit::list($list)->with([
+                    'limit' => $options['limit'],
+                    'page' => $i,
+                ], [
+                    'preserve_keys' => true
+                ]);
+                */
+                $mtime = File::mtime($url);
+                foreach ($options['order'] as $attribute => $direction) {
+                    $name .= '-' . ucfirst($attribute) . '-' . ucfirst(strtolower($direction));
+                }
+                $name .= $object->config('ds');
+            } else {
+                /*
+                $list = Limit::list($list->data())->with([
+                    'limit' => $options['limit'],
+                    'page' => $i,
+                ], [
+                    'preserve_keys' => true
+                ]);
+                */
+                $name .= '-Uuid-Asc' . $object->config('ds');
             }
             $name .= $object->config('ds');
-        } else {
-            $list = Limit::list($list->data())->with([
-                'limit' => $options['limit'],
-                'page' => $options['page'],
-            ], [
-                'preserve_keys' => true
+            $name .= 'Page' . '.' . $i;
+            if (
+                array_key_exists('limit', $options) &&
+                $options['limit']
+            ) {
+                $name .= '.' . 'Limit' . '.' . $options['limit'];
+            }
+            if($object->config('ramdisk.url')){
+                $dir_node = $object->config('ramdisk.url') .
+                    $object->config(Config::POSIX_ID) .
+                    $object->config('ds') .
+                    'Node' .
+                    $object->config('ds')
+                ;
+                $url = $dir_node .
+                    $name .
+                    $object->config('extension.json')
+                ;
+            } else {
+                $dir_node = $object->config('framework.dir.cache') .
+                    $object->config(Config::POSIX_ID) .
+                    $object->config('ds') .
+                    'Node' .
+                    $object->config('ds')
+                ;
+                $url = $dir_node .
+                    $name .
+                    $object->config('extension.json')
+                ;
+            }
+            if(File::exist($url) && File::mtime($url) === $mtime){
+                $storage = $object->data_read($url);
+                $list = $storage->data($class);
+            } else {
+                $dir = Dir::name($url);
+                Dir::create($dir, Dir::CHMOD);
+                if($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
+                    $command = 'chmod 777 ' . $dir;
+                    exec($command);
+                    $command = 'chmod 777 ' . $dir_node;
+                    exec($command);
+                }
+                if($object->config(Config::POSIX_ID) === 0){
+                    $command = 'chown www-data:www-data ' . $dir;
+                    exec($command);
+                    $command = 'chown www-data:www-data ' . $dir_node;
+                    exec($command);
+                }
+                if(array_key_exists('order', $options)){
+                    $list = Sort::list($list->data())->with($options['order']);
+                    $list = Limit::list($list)->with([
+                        'limit' => $options['limit'],
+                        'page' => $i,
+                    ], [
+                        'preserve_keys' => true
+                    ]);
+                } else {
+                    $list = Limit::list($list->data())->with([
+                        'limit' => $options['limit'],
+                        'page' => $i,
+                    ], [
+                        'preserve_keys' => true
+                    ]);
+                }
+                $storage = new Storage();
+                $storage->data($class, $list);
+                $storage->write($url);
+                File::touch($url, $mtime);
+            }
+            $response['list'] = $list;
+            $response['limit'] = $options['limit'];
+            $response['page'] = $options['page'];
+            $response['order'] = $options['order'] ?? [];
+            $response['filter'] = $options['filter'] ?? [];
+            Event::trigger($object, 'r3m.io.node.data.list', [
+                'class' => $class,
+                'options' => $options,
+                'url' => $url,
+                'list' => $list,
             ]);
-            $name .= '-NoOrder' . $object->config('ds');
         }
-        $name .= $object->config('ds');
-        if (
-            array_key_exists('page', $options) &&
-            $options['page']
-        ) {
-            $name .= 'Page' . '.' . $options['page'];
-        }
-        if (
-            array_key_exists('limit', $options) &&
-            $options['limit']
-        ) {
-            $name .= '.' . 'Limit' . '.' . $options['limit'];
-        }
-        if($object->config('ramdisk.url')){
-            $dir_node = $object->config('ramdisk.url') .
-                $object->config(Config::POSIX_ID) .
-                $object->config('ds') .
-                'Node' .
-                $object->config('ds')
-            ;
-            $url = $dir_node .
-                $name .
-                $object->config('extension.json')
-            ;
-        } else {
-            $dir_node = $object->config('framework.dir.cache') .
-                $object->config(Config::POSIX_ID) .
-                $object->config('ds') .
-                'Node' .
-                $object->config('ds')
-            ;
-            $url = $dir_node .
-                $name .
-                $object->config('extension.json')
-            ;
-        }
-        if(File::exist($url) && File::mtime($url) === $mtime){
-            $storage = $object->data_read($url);
-            $list = $storage->data($class);
-        } else {
-            $dir = Dir::name($url);
-            Dir::create($dir, Dir::CHMOD);
-            if($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
-                $command = 'chmod 777 ' . $dir;
-                exec($command);
-                $command = 'chmod 777 ' . $dir_node;
-                exec($command);
-            }
-            if($object->config(Config::POSIX_ID) === 0){
-                $command = 'chown www-data:www-data ' . $dir;
-                exec($command);
-                $command = 'chown www-data:www-data ' . $dir_node;
-                exec($command);
-            }
-            $storage = new Storage();
-            $storage->data($class, $list);
-            $storage->write($url);
-            File::touch($url, $mtime);
-        }
-        $response['list'] = $list;
-        $response['limit'] = $options['limit'];
-        $response['page'] = $options['page'];
-        $response['order'] = $options['order'] ?? [];
-        $response['filter'] = $options['filter'] ?? [];
-        Event::trigger($object, 'r3m.io.node.data.list', [
-            'class' => $class,
-            'options' => $options,
-            'url' => $url,
-            'list' => $list,
-        ]);
+
+
+        ddd($meta);
+
         return $response;
     }
 
@@ -1124,6 +687,417 @@ Trait Data {
                 throw new Exception('Cannot find attribute (' . $attribute .') in class: ' . $name);
             }
             return $get;
+        }
+    }
+
+    private function is_uuid($string=''){
+        //format: %s%s-%s-%s-%s-%s%s%s
+        $explode = explode('-', $string);
+        $result = false;
+        if(strlen($string) !== 36){
+            return $result;
+        }
+        if(count($explode) !== 5){
+            return $result;
+        }
+        if(strlen($explode[0]) !== 8){
+            return $result;
+        }
+        if(strlen($explode[1]) !== 4){
+            return $result;
+        }
+        if(strlen($explode[2]) !== 4){
+            return $result;
+        }
+        if(strlen($explode[3]) !== 4){
+            return $result;
+        }
+        if(strlen($explode[4]) !== 12){
+            return $result;
+        }
+        return true;
+    }
+
+    private function uuid_compare($uuid='', $compare='', $operator='==='){
+        $uuid = explode('-', $uuid);
+        $compare = explode('-', $compare);
+        $result = [];
+        foreach($uuid as $nr =>  $hex){
+            $dec = hexdec($hex);
+            $dec_compare = hexdec($compare[$nr]);
+            switch($operator){
+                case '===' :
+                    if($dec === $dec_compare){
+                        $result[$nr] = true;
+                    } else {
+                        $result[$nr] = false;
+                        break 2;
+                    }
+                    break;
+                case '==' :
+                    if($dec == $dec_compare){
+                        $result[$nr] = true;
+                    } else {
+                        $result[$nr] = false;
+                        break 2;
+                    }
+                    break;
+                case '>=' :
+                    if($dec === $dec_compare){
+                        $result[$nr] = true;
+                        break;
+                    }
+                    if($dec > $dec_compare){
+                        $result[$nr] = true;
+                        break 2;
+                    } else {
+                        $result[$nr] = false;
+                        break 2;
+                    }
+                case '<=' :
+                    if($dec === $dec_compare){
+                        $result[$nr] = true;
+                        break;
+                    }
+                    if($dec < $dec_compare){
+                        $result[$nr] = true;
+                        break 2;
+                    } else {
+                        $result[$nr] = false;
+                        break 2;
+                    }
+                case '>' :
+                    if($dec > $dec_compare){
+                        $result[$nr] = true;
+                        break 2;
+                    }
+                    elseif($dec === $dec_compare){
+                        break;
+                    } else {
+                        $result[$nr] = false;
+                        break 2;
+                    }
+                case '<' :
+                    if($dec < $dec_compare){
+                        $result[$nr] = true;
+                        break 2;
+                    }
+                    elseif($dec === $dec_compare){
+                        break;
+                    } else {
+                        $result[$nr] = false;
+                        break 2;
+                    }
+                case '!==' :
+                    if($dec !== $dec_compare){
+                        $result[$nr] = true;
+                    } else {
+                        $result[$nr] = false;
+                        break 2;
+                    }
+                    break;
+                case '!=' :
+                    if($dec != $dec_compare){
+                        $result[$nr] = true;
+                    } else {
+                        $result[$nr] = false;
+                        break 2;
+                    }
+                    break;
+            }
+        }
+        if(in_array(false, $result, true)){
+            return false;
+        }
+        return true;
+    }
+
+    private function uuid_data($file, $options=[]){
+        $start = $options['seek'];
+        $type = null;
+        $data = [];
+        while($line = $file->current()){
+            $explode = explode(':', $line);
+            if(array_key_exists(1, $explode)){
+                $value = trim($explode[1]);
+            } else {
+                $value = trim($explode[0], " \t\n\r\0\x0B,");
+                d($value);
+            }
+            if(
+                $type === null &&
+                $value === '{'
+            ){
+                $type = 'object';
+                $curly_count = 0;
+            }
+            elseif(
+                $type === null &&
+                $value === '['
+            ){
+                $type = 'array';
+            }
+            elseif($type === null) {
+                $type = 'scalar';
+            }
+            switch($type){
+                case 'object' :
+                    if($value === '{'){
+                        $curly_count++;
+                    }
+                    elseif($value === '}'){
+                        $curly_count--;
+                    }
+                    if($curly_count === 0){
+                        $data[] = $line;
+                        break 2;
+                    } else {
+                        $data[] = $line;
+                    }
+                    break;
+            }
+            $file->next();
+            $start++;
+            if($start > $options['lines']){
+                break;
+            }
+        }
+        return $data;
+    }
+
+    private function bin_search($file, $options=[]){
+        if(!array_key_exists('counter', $options)){
+            $options['counter'] = 0;
+        }
+        if(!array_key_exists('search', $options)){
+            $options['search'] = [];
+        }
+        if(!in_array($options['seek'], $options['search'], true)){
+            $options['search'][] = $options['seek'];
+        } else {
+            return false;
+        }
+        $file->seek($options['seek']);
+        echo 'Status: ' . $options['seek'] . '/' . $options['lines'] . PHP_EOL;
+        while($line = $file->current()){
+            $options['counter']++;
+            if($options['counter'] > 1024){
+                break;
+            }
+            $line_match = str_replace(' ', '', $line);
+            $line_match = str_replace('"', '', $line_match);
+            $explode = explode(':', $line_match);
+            if(array_key_exists(1, $explode)){
+                if($this->is_uuid($explode[0])){
+                    $uuid_current = $explode[0];
+                    if($this->uuid_compare($options['uuid'], $uuid_current, '===')){
+                        return $this->uuid_data($file, $options);
+                    }
+                    elseif($this->uuid_compare($options['uuid'], $uuid_current, '>')){
+                        $options['seek'] = (int) (1.5 * $options['seek']);
+                        return $this->bin_search($file, $options);
+                    }
+                    elseif($this->uuid_compare($options['uuid'], $uuid_current, '<')){
+                        $options['seek'] = (int) (0.5 * $options['seek']);
+                        return $this->bin_search($file, $options);
+                    }
+                    echo $explode[0] . PHP_EOL;
+                }
+            }
+            $file->next();
+        }
+    }
+
+    private function binary_search($file, $options=[]){
+        $uuid = $options['uuid'];
+        $lines = $options['lines'];
+        $seek = $options['seek'];
+        $data = $options['data'];
+        $is_debug = $options['is_debug'] ?? false;
+        $counter = $options['counter'] ?? 0;
+        $current = $options['current'];
+        $direction = $options['direction'] ?? 'next';
+        echo 'Lines: ' . $lines . PHP_EOL;
+        echo 'Seek: ' . $seek . PHP_EOL;
+        while($line = $file->current()){
+            $counter++;
+            if($counter > 1024){
+                break;
+            }
+//            d($line);
+//            d($file->key());
+//            echo $current . ' ' . $line . PHP_EOL;
+            $line_match = str_replace(' ', '', $line);
+            $line_match = str_replace('"', '', $line_match);
+            $explode = explode(':', $line_match);
+            if(array_key_exists(1, $explode)){
+                if($explode[0] === $uuid){
+                    d($file->key());
+                    d($options);
+                    d($current);
+                    d($line);
+                    ddd('found');
+                }
+                /*
+                if($explode[0] === 'uuid'){
+                    if(strpos($explode[1], $uuid) !== false){
+                        d($current);
+                        ddd($counter);
+                        $previous = $current - 1;
+                        if($previous < 0){
+                            break;
+                        }
+                        $file->seek($previous);
+                        $tmp = [];
+                        while($previous > 0){
+                            $line = $file->current();
+                            $tmp[] = $line;
+                            $previous = $file->key() - 1;
+                            if($previous < 0){
+                                break;
+                            }
+                            $file->seek($previous);
+                        }
+                        ddd($tmp);
+                    }
+                }
+                */
+                if($explode[0] === $uuid){
+                    d($file->key());
+                    d($options);
+                    d($current);
+                    d($line);
+                    ddd('found');
+                }
+                d($explode[0]);
+                $line_uuid = explode('-', $explode[0]);
+                $search_uuid = explode('-', $uuid);
+                $is_smaller = false;
+                $is_greater = false;
+                if(count($line_uuid) === count($search_uuid)){
+                    foreach($search_uuid as $nr => $search){
+                        $hex = hexdec($search);
+                        $match = hexdec($line_uuid[$nr]);
+                        if($hex === $match){
+                            continue;
+                        }
+                        elseif($hex < $match){
+                            $is_smaller = true;
+                            break;
+                        }
+                        elseif($hex > $match){
+                            $is_greater = true;
+                            break;
+                        }
+                    }
+                    if($is_smaller){
+                        $seek = (int) (0.25 * $lines);
+                        $file->seek($seek);
+                        $data = $this->binary_search($file, [
+                            'uuid' => $uuid,
+                            'lines' => $lines,
+                            'seek' => $seek,
+                            'current' => $seek,
+                            'data' => $data,
+                            'is_debug' => true,
+                            'counter' => $counter,
+                            'direction' => 'next',
+                        ]);
+                    }
+                    if($is_greater){
+                        $seek = (int) (0.75 * $lines);
+                        $file->seek($seek);
+                        $data = $this->binary_search($file, [
+                            'uuid' => $uuid,
+                            'lines' => $lines,
+                            'seek' => $seek,
+                            'current' => $seek,
+                            'data' => $data,
+                            'is_debug' => true,
+                            'counter' => $counter,
+                            'direction' => 'next',
+                        ]);
+                    }
+                }
+            }
+            if(strpos($line, $uuid . ':') !== false){
+                $data[] = $line;
+                break;
+            }
+            switch($direction){
+                case 'next':
+                    $current++;
+                    $file->next();
+                    break;
+                case 'previous':
+                    $current--;
+                    $previous = $file->key() - 1;
+                    if($previous < 0){
+                        break 2;
+                    }
+                    $file->seek($previous);
+                    break;
+            }
+        }
+        return $data;
+    }
+
+    private function dir(App $object, $dir_node, $dir_data, $dir_uuid, $dir_meta, $dir_validate, $dir_binary_search){
+        if(!Dir::is($dir_uuid)){
+            Dir::create($dir_uuid, Dir::CHMOD);
+            if($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
+                $command = 'chmod 777 ' . $dir_uuid;
+                exec($command);
+                $command = 'chmod 777 ' . $dir_node;
+                exec($command);
+                $command = 'chmod 777 ' . $dir_data;
+                exec($command);
+            }
+            if($object->config(Config::POSIX_ID) === 0){
+                $command = 'chown www-data:www-data ' . $dir_uuid;
+                exec($command);
+                $command = 'chown www-data:www-data ' . $dir_node;
+                exec($command);
+                $command = 'chown www-data:www-data ' . $dir_data;
+                exec($command);
+            }
+        }
+        if(!Dir::is($dir_meta)) {
+            Dir::create($dir_meta, Dir::CHMOD);
+            if($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
+                $command = 'chmod 777 ' . $dir_meta;
+                exec($command);
+            }
+            if($object->config(Config::POSIX_ID) === 0){
+                $command = 'chown www-data:www-data ' . $dir_meta;
+                exec($command);
+            }
+        }
+        if(!Dir::is($dir_validate)) {
+            Dir::create($dir_validate, Dir::CHMOD);
+            if($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
+                $command = 'chmod 777 ' . $dir_validate;
+                exec($command);
+            }
+            if($object->config(Config::POSIX_ID) === 0){
+                $command = 'chown www-data:www-data ' . $dir_validate;
+                exec($command);
+            }
+        }
+        if(!Dir::is($dir_binary_search)) {
+            Dir::create($dir_binary_search, Dir::CHMOD);
+            if($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
+                $command = 'chmod 777 ' . $dir_binary_search;
+                exec($command);
+                $command = 'chmod 777 ' . Dir::name($dir_binary_search);
+                exec($command);
+            }
+            if($object->config(Config::POSIX_ID) === 0){
+                $command = 'chown www-data:www-data ' . $dir_binary_search;
+                exec($command);
+                $command = 'chown www-data:www-data ' . Dir::name($dir_binary_search);
+                exec($command);
+            }
         }
     }
 }
