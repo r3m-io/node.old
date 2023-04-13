@@ -447,26 +447,26 @@ Trait Data {
         $list = new Storage();
         $mtime = File::mtime($url);
         $response = [];
-
-        ddd($meta);
-
-        $batch_size = 1000;
-        $batch_nr = 0;
-//        $batch_pages
-//        for($i = 0; $i)
-
-
-
-        foreach($data->data($class) as $uuid => $node){
-            if(property_exists($node, 'url')){
+        foreach($data->data($class) as $uuid => $node) {
+            if (property_exists($node, 'url')) {
                 $record = $object->data_read($node->url);
-                if($record){
+                if ($record) {
                     $list->set($uuid, $record->data());
                 } else {
                     //event out of sync, send mail
                 }
             }
         }
+        foreach($meta->get('BinarySeach.' . $class)  as $property => $record){
+            if($property === 'Uuid'){
+                continue;
+            }
+            ddd($record);
+        }
+
+
+
+
 
 
 
