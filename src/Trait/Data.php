@@ -457,17 +457,17 @@ Trait Data {
                 d($class);
                 d($meta);
 
+                $lines = 0;
                 $sets = $meta->get('BinarySearch.' . $class);
                 foreach($sets as $key => $set){
-                    if($key === $property){
-                        ddd('found');
+                    if(
+                        $key === $property &&
+                        property_exists($set, 'lines')
+                    ){
+                        $lines = $set->lines;
+                        break;
                     }
                 }
-                ddd($sets);
-
-
-                ddd($meta->get('BinarySearch.' . $class . '.options[\'priority-action\']'));
-                $lines = $meta->get('BinarySearch.' . $class . '.' . $property . '.lines');
                 ddd($lines);
                 $seek = (int) (0.5 * $lines);
                 $file = new SplFileObject($url);
