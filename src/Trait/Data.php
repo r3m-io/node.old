@@ -452,7 +452,7 @@ Trait Data {
                 if(!$meta){
                     return false;
                 }
-                $lines = $meta->get('BinarySearch.' . $property . '.lines');
+                $lines = $meta->get('BinarySearch.' . $class . '.' . $property . '.lines');
                 ddd($lines);
                 $seek = (int) (0.5 * $lines);
                 $file = new SplFileObject($url);
