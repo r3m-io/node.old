@@ -479,11 +479,22 @@ Trait Data {
                 Controller::name($property) .
                 $object->config('extension.json')
             ;
-            $sort = Sort::list($list)->with([
-                $property => 'ASC'
-            ], [
-                'output' => 'raw'
-            ]);
+            $properties = explode('.', $property);
+            if(array_key_exists(1, $properties)){
+                $sort = Sort::list($list)->with([
+                    $properties[0] => 'ASC',
+                    $properties[1] => 'ASC'
+                ], [
+                    'output' => 'raw'
+                ]);
+            } else {
+                $sort = Sort::list($list)->with([
+                    $property => 'ASC'
+                ], [
+                    'output' => 'raw'
+                ]);
+            }
+            ddd($sort);
             $result = new Storage();
             $index = 0;
             foreach($sort as $key => $sublist){
