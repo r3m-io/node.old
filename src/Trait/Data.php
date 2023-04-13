@@ -416,6 +416,13 @@ Trait Data {
         $object = $this->object();
         $this->binary_search_list_create($object, $class, $options);
         d($options);
+
+        if(array_key_exists('order', $options)){
+            foreach($options as $key => $order){
+
+            }
+        }
+
         return false;
     }
 

@@ -13,7 +13,7 @@ Update Event:
 {{/if}}
 {{$response = R3m.Io.Node:Data:list('Event', [
 'order' => [
-'priority' => 'ASC',
+'options.priority' => 'ASC',
 'action' => 'ASC'
 ],
 'limit' => (int) $options.limit,
