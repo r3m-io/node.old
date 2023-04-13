@@ -939,6 +939,17 @@ Trait Data {
         if (!array_key_exists('page', $options)) {
             $options['page'] = 1;
         }
+        $page = 1;
+        $meta_url = $object->config('project.dir.data') .
+            'Node' .
+            $object->config('ds') .
+            'Meta' .
+            $object->config('ds') .
+            $name .
+            $object->config('extension.json')
+        ;
+        $meta = $object->data_read($meta_url);
+        ddd($meta);
         if(array_key_exists('order', $options)) {
             $list = Sort::list($list->data())->with($options['order']);
             $list = Limit::list($list)->with([
@@ -974,20 +985,25 @@ Trait Data {
         ) {
             $name .= '.' . 'Limit' . '.' . $options['limit'];
         }
-        $dir_node = $object->config(Config::POSIX_ID) .
-            $object->config('ds') .
-            'Node' .
-            $object->config('ds')
-        ;
         if($object->config('ramdisk.url')){
-            $url = $object->config('ramdisk.url') .
-                $dir_node .
+            $dir_node = $object->config('ramdisk.url') .
+                $object->config(Config::POSIX_ID) .
+                $object->config('ds') .
+                'Node' .
+                $object->config('ds')
+            ;
+            $url = $dir_node .
                 $name .
                 $object->config('extension.json')
             ;
         } else {
-            $url = $object->config('framework.dir.cache') .
-                $dir_node .
+            $dir_node = $object->config('framework.dir.cache') .
+                $object->config(Config::POSIX_ID) .
+                $object->config('ds') .
+                'Node' .
+                $object->config('ds')
+            ;
+            $url = $dir_node .
                 $name .
                 $object->config('extension.json')
             ;
