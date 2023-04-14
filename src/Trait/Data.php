@@ -924,7 +924,7 @@ Trait Data {
                                     $is_parent = false;
                                     break;
                                 } else {
-                                    $data[] = $object;
+                                    $data[] = ltrim($object, " \t");
                                 }
                                 $seek++;
                             } else {
