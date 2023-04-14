@@ -902,6 +902,7 @@ Trait Data {
                                 $depth++;
                             }
                             if($depth === 1){
+                                d($line);
                                 d($line_nr);
                                 ddd('parent');
                                 break;
