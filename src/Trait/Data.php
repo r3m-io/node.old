@@ -896,10 +896,10 @@ Trait Data {
                             $object_explode = explode(':', $object_match);
                             $symbol = trim($object_explode[0], " \t\n\r\0\x0B,");
                             if($symbol === '}'){
-                                $depth++;
+                                $depth--;
                             }
                             elseif($symbol === '{'){
-                                $depth--;
+                                $depth++;
                             }
                             if($depth === 0){
                                 d($current);
