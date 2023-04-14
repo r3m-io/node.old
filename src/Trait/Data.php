@@ -456,7 +456,7 @@ Trait Data {
                 }
                 $lines = 0;
                 $property = 'event.options.priority-action';
-                $lines = $meta->get2('BinarySearch.' . $class . '.' . $property . '.lines');
+                $lines = $meta->get('BinarySearch.' . $class . '.' . $property . '.lines');
                 ddd($lines);
                 $sets = $meta->get('BinarySearch.' . $class);
                 foreach($sets as $key => $set){
