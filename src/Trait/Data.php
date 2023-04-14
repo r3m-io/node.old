@@ -889,7 +889,7 @@ Trait Data {
                         $current = $options['seek'];
                         $current--;
                         $file->seek($current);
-                        $depth = 1;
+                        $depth = 0;
                         while($object = $file->current()) {
                             $object_match = str_replace(' ', '', $object);
                             $object_match = str_replace('"', '', $object_match);
@@ -901,7 +901,7 @@ Trait Data {
                             elseif($symbol === '{'){
                                 $depth++;
                             }
-                            if($depth === 0){
+                            if($depth === 1){
                                 d($current);
                                 ddd('parent');
                                 break;
