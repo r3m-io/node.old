@@ -906,6 +906,7 @@ Trait Data {
                         $seek--;
                         $file->seek($seek);
                         $depth = 0;
+                        $is_parent = false;
                         while($object = $file->current()) {
                             $object_match = str_replace(' ', '', $object);
                             $object_match = str_replace('"', '', $object_match);
@@ -918,26 +919,25 @@ Trait Data {
                                 $depth++;
                             }
                             if($depth === 1){
-                                d($object);
-                                d($seek);
-                                ddd('parent');
-                                break;
+                                $depth = 0;
+                                $is_parent = true;
                             }
-
-                            /*
-                            d($object_explode);
-                            if (array_key_exists(1, $object_explode)) {
-                                if ($object_explode[0] === 'url') {
-                                    d($object_explode);
+                            if($is_parent){
+                                $data[] = $object;
+                                if($depth === 0){
+                                    break;
+                                }
+                                $seek++;
+                            } else {
+                                $seek--;
+                                if($seek < 0){
+                                    break;
                                 }
                             }
-                            */
-                            $seek--;
-                            if($seek < 0){
-                                break;
-                            }
+
                             $file->seek($seek);
                         }
+                        ddd($data);
                         ddd('find key and then object');
                     }
                     elseif($match > $index){
