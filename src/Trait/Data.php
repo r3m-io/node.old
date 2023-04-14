@@ -918,13 +918,9 @@ Trait Data {
                             elseif($symbol === '{'){
                                 $depth++;
                             }
-                            if($depth === 1){
-                                $depth = 0;
-                                $is_parent = true;
-                            }
                             if($is_parent){
                                 $data[] = $object;
-                                if($depth === 0){
+                                if($depth === 0 && $symbol === '}'){
                                     break;
                                 }
                                 $seek++;
@@ -933,8 +929,12 @@ Trait Data {
                                 if($seek < 0){
                                     break;
                                 }
+                                if($depth === 1){
+                                    $depth = 0;
+                                    $is_parent = true;
+                                    continue;
+                                }
                             }
-
                             $file->seek($seek);
                         }
                         ddd($data);
