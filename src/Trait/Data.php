@@ -454,20 +454,7 @@ Trait Data {
                 if(!$meta){
                     return false;
                 }
-                $lines = 0;
-                $property = 'event.options.priority-action';
                 $lines = $meta->get('BinarySearch.' . $class . '.' . $property . '.lines');
-                ddd($lines);
-                $sets = $meta->get('BinarySearch.' . $class);
-                foreach($sets as $key => $set){
-                    if(
-                        $key === $property &&
-                        property_exists($set, 'lines')
-                    ){
-                        $lines = $set->lines;
-                        break;
-                    }
-                }
                 $seek = (int) (0.5 * $lines);
                 $file = new SplFileObject($url);
                 $data = [];
