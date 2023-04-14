@@ -865,6 +865,64 @@ Trait Data {
         return $data;
     }
 
+    private function bin_search_node($file, $options=[]){
+        $seek = $options['seek'];
+        $seek--;
+        $file->seek($seek);
+        $depth = 0;
+        $is_parent = false;
+        while($object = $file->current()) {
+            $object_match = str_replace(' ', '', $object);
+            $object_match = str_replace('"', '', $object_match);
+            $object_explode = explode(':', $object_match);
+            $symbol = trim($object_explode[0], " \t\n\r\0\x0B,");
+            $symbol_right = null;
+            if(array_key_exists(1, $object_explode)){
+                $symbol_right = trim($object_explode[1], " \t\n\r\0\x0B,");
+            }
+            if(
+                $symbol === '}' ||
+                $symbol_right === '}'
+            ){
+                $depth--;
+            }
+            elseif(
+                $symbol === '{' ||
+                $symbol_right === '{'
+            ){
+                $depth++;
+            }
+            if($is_parent){
+                d($depth);
+                if($depth === 0 && $symbol === '}'){
+                    $data[] = $symbol;
+                    $is_parent = false;
+                    break;
+                } else {
+                    $data[] = ltrim($object, " \t");
+                }
+                $seek++;
+            } else {
+                if($depth === 1){
+                    $depth = 0;
+                    $is_parent = true;
+                    continue;
+                }
+                $seek--;
+                if($seek < 0){
+                    break;
+                }
+            }
+            $file->seek($seek);
+        }
+        if(!empty($data)){
+            $record  = json_decode(implode('', $data), true);
+            d($seek);
+            ddd($record);
+            return $record;
+        }
+    }
+
     private function bin_search_page($file, $options=[]){
         if(!array_key_exists('counter', $options)){
             $options['counter'] = 0;
@@ -899,67 +957,16 @@ Trait Data {
             $explode = explode(':', $line_match);
             $data = [];
             if(array_key_exists(1, $explode)){
-                if($explode[0] === 'index'){
-                    $index = (int) trim($explode[1], " \t\n\r\0\x0B,");
-                    if($match === $index){
-                        d($match);
-                        d($explode);
-                        $seek--;
-                        $file->seek($seek);
-                        $depth = 0;
-                        $is_parent = false;
-                        while($object = $file->current()) {
-                            $object_match = str_replace(' ', '', $object);
-                            $object_match = str_replace('"', '', $object_match);
-                            $object_explode = explode(':', $object_match);
-                            $symbol = trim($object_explode[0], " \t\n\r\0\x0B,");
-                            $symbol_right = null;
-                            if(array_key_exists(1, $object_explode)){
-                                $symbol_right = trim($object_explode[1], " \t\n\r\0\x0B,");
-                            }
-                            if(
-                                $symbol === '}' ||
-                                $symbol_right === '}'
-                            ){
-                                $depth--;
-                            }
-                            elseif(
-                                $symbol === '{' ||
-                                $symbol_right === '{'
-                            ){
-                                $depth++;
-                            }
-                            if($is_parent){
-                                d($depth);
-                                if($depth === 0 && $symbol === '}'){
-                                    $data[] = $symbol;
-                                    $is_parent = false;
-                                    break;
-                                } else {
-                                    $data[] = ltrim($object, " \t");
-                                }
-                                $seek++;
-                            } else {
-                                if($depth === 1){
-                                    $depth = 0;
-                                    $is_parent = true;
-                                    continue;
-                                }
-                                $seek--;
-                                if($seek < 0){
-                                    break;
-                                }
-                            }
-                            $file->seek($seek);
-                        }
-                        if(!empty($data)){
-                            $record  = json_decode(implode('', $data), true);
-                            d($seek);
-                            ddd($record);
-                        }
-
-                        ddd($data);
-                        ddd('find key and then object');
+                if($explode[0] === 'index') {
+                    $index = (int)trim($explode[1], " \t\n\r\0\x0B,");
+                    if ($match >= $index && $match <= $index + $options['limit']) {
+                        $record = $this->bin_search_node($file, [
+                            'seek' => $seek,
+                            'lines' => $options['lines'],
+                            'match' => $match,
+                            'index' => $index
+                        ]);
+                        d($record);
                     }
                     elseif($match > $index){
                         $options['seek'] = (int) (1.5 * $options['seek']);
