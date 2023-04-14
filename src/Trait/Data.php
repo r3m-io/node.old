@@ -890,7 +890,7 @@ Trait Data {
                     $index = (int) trim($explode[1], " \t\n\r\0\x0B,");
                     if($match === $index){
                         d($match);
-                        $current = $index;
+                        $current = $options['seek'];
                         $current--;
                         $file->seek($current);
                         while($object = $file->current()) {
