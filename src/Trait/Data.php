@@ -871,6 +871,7 @@ Trait Data {
         }
         $match = 5;
         $file->seek($options['seek']);
+        $line_nr = $options['seek'];
         echo 'Status: ' . $options['seek'] . '/' . $options['lines'] . PHP_EOL;
         while($line = $file->current()){
             $options['counter']++;
@@ -886,9 +887,8 @@ Trait Data {
                     if($match === $index){
                         d($match);
                         d($explode);
-                        $current = $options['seek'];
-                        $current--;
-                        $file->seek($current);
+                        $line_nr--;
+                        $file->seek($line_nr);
                         $depth = 0;
                         while($object = $file->current()) {
                             $object_match = str_replace(' ', '', $object);
@@ -902,7 +902,7 @@ Trait Data {
                                 $depth++;
                             }
                             if($depth === 1){
-                                d($current);
+                                d($line_nr);
                                 ddd('parent');
                                 break;
                             }
@@ -915,11 +915,11 @@ Trait Data {
                                 }
                             }
                             */
-                            $current--;
-                            if($current < 0){
+                            $line_nr--;
+                            if($line_nr < 0){
                                 break;
                             }
-                            $file->seek($current);
+                            $file->seek($line_nr);
                         }
                         ddd('find key and then object');
                     }
@@ -934,6 +934,7 @@ Trait Data {
                 }
             }
             $file->next();
+            $line_nr++;
         }
     }
 
