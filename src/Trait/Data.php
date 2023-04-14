@@ -887,8 +887,8 @@ Trait Data {
                     if($match === $index){
                         d($match);
                         d($explode);
-                        $line_nr--;
-                        $file->seek($line_nr);
+                        $seek--;
+                        $file->seek($seek);
                         $depth = 0;
                         while($object = $file->current()) {
                             $object_match = str_replace(' ', '', $object);
