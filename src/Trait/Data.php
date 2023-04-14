@@ -547,6 +547,9 @@ Trait Data {
                         foreach($subSubList as $nr => $node){
                             $item = $data->get($class . '.' . $node->uuid);
                             $item->index = $index;
+                            $item->sort = new stdClass();
+                            $item->sort->{$properties[0]} = $key1;
+                            $item->sort->{$properties[1]} = $key2;
                             $nodeList[] = $item;
                             $index++;
                         }
@@ -558,7 +561,6 @@ Trait Data {
                         }
                         $result->set($class . '.' . $key1 . '.' . $key2, $nodeList);
                     }
-
                 }
             } else {
                 $sort = Sort::list($list)->with([
@@ -573,6 +575,8 @@ Trait Data {
                     foreach($subList as $nr => $node){
                         $item = $data->get($class . '.' . $node->uuid);
                         $item->index = $index;
+                        $item->sort = new stdClass();
+                        $item->sort->{$property} = $key;
                         $nodeList[] = $item;
                         $index++;
                     }
