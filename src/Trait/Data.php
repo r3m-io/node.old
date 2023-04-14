@@ -890,6 +890,7 @@ Trait Data {
                     $index = (int) trim($explode[1], " \t\n\r\0\x0B,");
                     if($match === $index){
                         d($match);
+                        d($explode);
                         $current = $options['seek'];
                         $current--;
                         $file->seek($current);
@@ -900,7 +901,7 @@ Trait Data {
                             d($object_explode);
                             if (array_key_exists(1, $object_explode)) {
                                 if ($object_explode[0] === 'url') {
-                                    ddd($object_explode);
+                                    d($object_explode);
                                 }
                             }
                             $current--;
