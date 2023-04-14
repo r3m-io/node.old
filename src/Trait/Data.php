@@ -964,8 +964,8 @@ Trait Data {
                     d($options['limit']);
                     if (
                         $is_match &&
-                        $match >= $index &&
-                        $match <= ($index + $options['limit'])
+                        $index >= $match &&
+                        $index <= ($match + $options['limit'])
                     ) {
                         $page[] = $this->bin_search_node($file, [
                             'seek' => $seek,
