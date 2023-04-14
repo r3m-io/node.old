@@ -897,6 +897,7 @@ Trait Data {
             $line_match = str_replace(' ', '', $line);
             $line_match = str_replace('"', '', $line_match);
             $explode = explode(':', $line_match);
+            $data = [];
             if(array_key_exists(1, $explode)){
                 if($explode[0] === 'index'){
                     $index = (int) trim($explode[1], " \t\n\r\0\x0B,");
@@ -916,7 +917,6 @@ Trait Data {
                             if(array_key_exists(1, $object_explode)){
                                 $symbol_right = trim($object_explode[1], " \t\n\r\0\x0B,");
                             }
-
                             if(
                                 $symbol === '}' ||
                                 $symbol_right === '}'
@@ -952,6 +952,11 @@ Trait Data {
                             }
                             $file->seek($seek);
                         }
+                        if(!empty($data)){
+                            $json  = json_decode(implode('', $data), true);
+                            ddd($json);
+                        }
+
                         ddd($data);
                         ddd('find key and then object');
                     }
