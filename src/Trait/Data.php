@@ -893,7 +893,6 @@ Trait Data {
                 $depth++;
             }
             if($is_parent){
-                d($depth);
                 if($depth === 0 && $symbol === '}'){
                     $data[] = $symbol;
                     $is_parent = false;
@@ -917,8 +916,6 @@ Trait Data {
         }
         if(!empty($data)){
             $record  = json_decode(implode('', $data), true);
-            d($seek);
-            ddd($record);
             return $record;
         }
     }
@@ -948,6 +945,7 @@ Trait Data {
         $seek = $options['seek'];
         echo 'Status: ' . $options['seek'] . '/' . $options['lines'] . PHP_EOL;
         $is_match = false;
+        $page = [];
         while($line = $file->current()){
             $options['counter']++;
             if($options['counter'] > 1024){
@@ -965,23 +963,25 @@ Trait Data {
                         $match >= $index &&
                         $match <= $index + $options['limit']
                     ) {
-                        $record = $this->bin_search_node($file, [
+                        $page[] = $this->bin_search_node($file, [
                             'seek' => $seek,
                             'lines' => $options['lines'],
                             'match' => $match,
                             'index' => $index
                         ]);
-                        d($record);
+                    }
+                    elseif($is_match === true){
+                        $is_match = false;
+                        break;
                     }
                     if ($match === $index) {
-                        $record = $this->bin_search_node($file, [
+                        $page[] = $this->bin_search_node($file, [
                             'seek' => $seek,
                             'lines' => $options['lines'],
                             'match' => $match,
                             'index' => $index
                         ]);
                         $is_match = true;
-                        d($record);
                     }
                     elseif(
                         $is_match === false &&
@@ -1002,6 +1002,7 @@ Trait Data {
             $file->next();
             $seek++;
         }
+        ddd($page);
     }
 
     private function bin_search($file, $options=[]){
