@@ -919,6 +919,7 @@ Trait Data {
                                 $depth++;
                             }
                             if($is_parent){
+                                d($depth);
                                 if($depth === 0 && $symbol === '}'){
                                     $data[] = $symbol;
                                     $is_parent = false;
