@@ -919,20 +919,23 @@ Trait Data {
                                 $depth++;
                             }
                             if($is_parent){
-                                $data[] = $object;
                                 if($depth === 0 && $symbol === '}'){
+                                    $data[] = $symbol;
+                                    $is_parent = false;
                                     break;
+                                } else {
+                                    $data[] = $object;
                                 }
                                 $seek++;
                             } else {
-                                $seek--;
-                                if($seek < 0){
-                                    break;
-                                }
                                 if($depth === 1){
                                     $depth = 0;
                                     $is_parent = true;
                                     continue;
+                                }
+                                $seek--;
+                                if($seek < 0){
+                                    break;
                                 }
                             }
                             $file->seek($seek);
