@@ -912,10 +912,17 @@ Trait Data {
                             $object_match = str_replace('"', '', $object_match);
                             $object_explode = explode(':', $object_match);
                             $symbol = trim($object_explode[0], " \t\n\r\0\x0B,");
-                            if($symbol === '}'){
+                            $symbol_right = trim($object_explode[1], " \t\n\r\0\x0B,");
+                            if(
+                                $symbol === '}' ||
+                                $symbol_right === '}'
+                            ){
                                 $depth--;
                             }
-                            elseif($symbol === '{'){
+                            elseif(
+                                $symbol === '{' ||
+                                $symbol_right === '{'
+                            ){
                                 $depth++;
                             }
                             if($is_parent){
