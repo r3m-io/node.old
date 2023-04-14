@@ -455,6 +455,7 @@ Trait Data {
                     return false;
                 }
                 $lines = 0;
+                $lines = $meta->get2('BinarySearch.' . $class . '.' . $property . '.lines');
                 $sets = $meta->get('BinarySearch.' . $class);
                 foreach($sets as $key => $set){
                     if(
