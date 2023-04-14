@@ -947,6 +947,7 @@ Trait Data {
         $file->seek($options['seek']);
         $seek = $options['seek'];
         echo 'Status: ' . $options['seek'] . '/' . $options['lines'] . PHP_EOL;
+        $is_match = false;
         while($line = $file->current()){
             $options['counter']++;
             if($options['counter'] > 1024){
@@ -959,7 +960,11 @@ Trait Data {
             if(array_key_exists(1, $explode)){
                 if($explode[0] === 'index') {
                     $index = (int)trim($explode[1], " \t\n\r\0\x0B,");
-                    if ($match >= $index && $match <= $index + $options['limit']) {
+                    if (
+                        $is_match &&
+                        $match >= $index &&
+                        $match <= $index + $options['limit']
+                    ) {
                         $record = $this->bin_search_node($file, [
                             'seek' => $seek,
                             'lines' => $options['lines'],
@@ -968,11 +973,27 @@ Trait Data {
                         ]);
                         d($record);
                     }
-                    elseif($match > $index){
+                    if ($match === $index) {
+                        $record = $this->bin_search_node($file, [
+                            'seek' => $seek,
+                            'lines' => $options['lines'],
+                            'match' => $match,
+                            'index' => $index
+                        ]);
+                        $is_match = true;
+                        d($record);
+                    }
+                    elseif(
+                        $is_match === false &&
+                        $match > $index
+                    ){
                         $options['seek'] = (int) (1.5 * $options['seek']);
                         return $this->bin_search_page($file, $options);
                     }
-                    elseif($match < $index){
+                    elseif(
+                        $is_match === false &&
+                        $match < $index
+                    ){
                         $options['seek'] = (int) (0.5 * $options['seek']);
                         return $this->bin_search_page($file, $options);
                     }
