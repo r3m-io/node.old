@@ -588,8 +588,24 @@ Trait Data {
             }
             $record->lines = $result->write($url_property, 'lines');
             $record->count = $index + 1;
+            if($object->config(Config::POSIX_ID) === 0){
+                $command = 'chown www-data:www-data ' . $url_property;
+                exec($command);
+            }
+            if($object->config('framework.environment') === Config::MODE_DEVELOPMENT){
+                $command = 'chmod 666 ' . $url_property;
+                exec($command);
+            }
         }
         $meta->write($meta_url);
+        if($object->config(Config::POSIX_ID) === 0){
+            $command = 'chown www-data:www-data ' . $meta_url;
+            exec($command);
+        }
+        if($object->config('framework.environment') === Config::MODE_DEVELOPMENT){
+            $command = 'chmod 666 ' . $meta_url;
+            exec($command);
+        }
     }
 
     public function list_attribute($list=[], $attribute=[]): array
