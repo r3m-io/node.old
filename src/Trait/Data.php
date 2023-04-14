@@ -889,16 +889,32 @@ Trait Data {
                         $current = $options['seek'];
                         $current--;
                         $file->seek($current);
+                        $depth = 1;
                         while($object = $file->current()) {
                             $object_match = str_replace(' ', '', $object);
                             $object_match = str_replace('"', '', $object_match);
                             $object_explode = explode(':', $object_match);
+                            $symbol = trim($object_explode[0], " \t\n\r\0\x0B,");
+                            if($symbol === '}'){
+                                $depth++;
+                            }
+                            elseif($symbol === '{'){
+                                $depth--;
+                            }
+                            if($depth === 0){
+                                d($current);
+                                ddd('parent');
+                                break;
+                            }
+
+                            /*
                             d($object_explode);
                             if (array_key_exists(1, $object_explode)) {
                                 if ($object_explode[0] === 'url') {
                                     d($object_explode);
                                 }
                             }
+                            */
                             $current--;
                             if($current < 0){
                                 break;
