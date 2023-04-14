@@ -871,7 +871,7 @@ Trait Data {
         }
         $match = 5;
         $file->seek($options['seek']);
-        $line_nr = $options['seek'];
+        $seek = $options['seek'];
         echo 'Status: ' . $options['seek'] . '/' . $options['lines'] . PHP_EOL;
         while($line = $file->current()){
             $options['counter']++;
@@ -903,7 +903,7 @@ Trait Data {
                             }
                             if($depth === 1){
                                 d($object);
-                                d($line_nr);
+                                d($seek);
                                 ddd('parent');
                                 break;
                             }
@@ -916,11 +916,11 @@ Trait Data {
                                 }
                             }
                             */
-                            $line_nr--;
-                            if($line_nr < 0){
+                            $seek--;
+                            if($seek < 0){
                                 break;
                             }
-                            $file->seek($line_nr);
+                            $file->seek($seek);
                         }
                         ddd('find key and then object');
                     }
@@ -935,7 +935,7 @@ Trait Data {
                 }
             }
             $file->next();
-            $line_nr++;
+            $seek++;
         }
     }
 
