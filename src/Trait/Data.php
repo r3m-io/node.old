@@ -875,6 +875,7 @@ Trait Data {
         ){
             $match = ($options['page'] * $options['limit']) - $options['limit'];
         }
+        $match = 5;
         $file->seek($options['seek']);
         echo 'Status: ' . $options['seek'] . '/' . $options['lines'] . PHP_EOL;
         while($line = $file->current()){
