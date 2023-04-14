@@ -953,8 +953,9 @@ Trait Data {
                             $file->seek($seek);
                         }
                         if(!empty($data)){
-                            $json  = json_decode(implode('', $data), true);
-                            ddd($json);
+                            $record  = json_decode(implode('', $data), true);
+                            d($seek);
+                            ddd($record);
                         }
 
                         ddd($data);
