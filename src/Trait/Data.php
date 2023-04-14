@@ -958,6 +958,10 @@ Trait Data {
             if(array_key_exists(1, $explode)){
                 if($explode[0] === 'index') {
                     $index = (int)trim($explode[1], " \t\n\r\0\x0B,");
+                    d($match);
+                    d($is_match);
+                    d($index);
+                    d($options['limit']);
                     if (
                         $is_match &&
                         $match >= $index &&
