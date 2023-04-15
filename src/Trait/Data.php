@@ -921,6 +921,24 @@ Trait Data {
     }
 
     private function bin_search_page($file, $options=[]){
+        $index = 0;
+        if(
+            array_key_exists('page', $options) &&
+            array_key_exists('limit', $options)
+        ){
+            $index = ($options['page'] * $options['limit']) - $options['limit'];
+        }
+        $start = $index;
+        $end = $start + $options['limit'];
+        $page = [];
+        for($i = $start; $i < $end; $i++){
+            $options['index'] = $i;
+            $page[] = $this->bin_search_index($file, $options);
+        }
+        ddd($page);
+}
+
+    private function bin_search_index($file, $options=[]){
         if(!array_key_exists('counter', $options)){
             $options['counter'] = 0;
         }
@@ -933,19 +951,12 @@ Trait Data {
             //not found
             return false;
         }
-        $match = 0;
-        if(
-            array_key_exists('page', $options) &&
-            array_key_exists('limit', $options)
-        ){
-            $match = ($options['page'] * $options['limit']) - $options['limit'];
+        if(!array_key_exists('index', $options)){
+            return false;
         }
-        $match = 5;
         $file->seek($options['seek']);
         $seek = $options['seek'];
         echo 'Status: ' . $options['seek'] . '/' . $options['lines'] . PHP_EOL;
-        $is_match = false;
-        $page = [];
         while($line = $file->current()){
             $options['counter']++;
             if($options['counter'] > 1024){
@@ -954,61 +965,34 @@ Trait Data {
             $line_match = str_replace(' ', '', $line);
             $line_match = str_replace('"', '', $line_match);
             $explode = explode(':', $line_match);
-            $data = [];
             if(array_key_exists(1, $explode)){
                 if($explode[0] === 'index') {
                     $index = (int)trim($explode[1], " \t\n\r\0\x0B,");
-                    d($match);
-                    d($is_match);
-                    d($index);
-                    d($options['limit']);
-                    if (
-                        $is_match &&
-                        $index >= $match &&
-                        $index <= ($match + $options['limit'])
-                    ) {
-                        $page[] = $this->bin_search_node($file, [
+                    if ($options['index'] === $index) {
+                        return $this->bin_search_node($file, [
                             'seek' => $seek,
                             'lines' => $options['lines'],
-                            'match' => $match,
                             'index' => $index
                         ]);
-                        d($index);
-                        ddd($page);
-                    }
-                    elseif($is_match === true){
-                        $is_match = false;
-                        break;
-                    }
-                    if ($match === $index) {
-                        $page[] = $this->bin_search_node($file, [
-                            'seek' => $seek,
-                            'lines' => $options['lines'],
-                            'match' => $match,
-                            'index' => $index
-                        ]);
-                        $is_match = true;
                     }
                     elseif(
-                        $is_match === false &&
-                        $match > $index
+                        $options['index'] > $index
                     ){
                         $options['seek'] = (int) (1.5 * $options['seek']);
-                        return $this->bin_search_page($file, $options);
+                        return $this->bin_search_index($file, $options);
                     }
                     elseif(
-                        $is_match === false &&
-                        $match < $index
+                        $options['index'] < $index
                     ){
                         $options['seek'] = (int) (0.5 * $options['seek']);
-                        return $this->bin_search_page($file, $options);
+                        return $this->bin_search_index($file, $options);
                     }
                 }
             }
             $file->next();
             $seek++;
         }
-        ddd($page);
+        return false;
     }
 
     private function bin_search($file, $options=[]){
