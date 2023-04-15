@@ -998,7 +998,7 @@ Trait Data {
                     }
                 }
             }
-            $key = (int)trim($explode[0], " \t\n\r\0\x0B,");
+            $key = trim($explode[0], " \t\n\r\0\x0B,");
             d($index);
             d($key);
             $file->next();
