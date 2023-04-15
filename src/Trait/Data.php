@@ -957,6 +957,7 @@ Trait Data {
             return false;
         }
         if(!array_key_exists('index', $options)){
+            d('no index');
             return false;
         }
         $file->seek($options['seek']);
