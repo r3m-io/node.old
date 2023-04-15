@@ -971,7 +971,7 @@ Trait Data {
         } else {
             //not found
             d($options);
-            d('not found 1');
+            ddd('not found 1');
             return false;
         }
         if(!array_key_exists('index', $options)){
