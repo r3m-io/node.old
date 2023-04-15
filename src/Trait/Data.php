@@ -996,10 +996,11 @@ Trait Data {
                     }
                 }
             }
+            d($line);
             $file->next();
             $seek++;
         }
-        d('here');
+        ddd('here');
         return false;
     }
 
