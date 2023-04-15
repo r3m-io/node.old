@@ -520,7 +520,8 @@ Trait Data {
         $mtime = File::mtime($url);
         $response = [];
         foreach($data->data($class) as $uuid => $node) {
-            if (property_exists($node, 'url')) {
+            if (property_exists($node, 'uuid')) {
+                ddd($node);
                 $record = $object->data_read($node->url);
                 if ($record) {
                     $list->set($uuid, $record->data());
