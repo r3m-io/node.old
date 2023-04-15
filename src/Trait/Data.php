@@ -871,6 +871,7 @@ Trait Data {
         $file->seek($seek);
         $depth = 0;
         $is_parent = false;
+        $data = [];
         while($object = $file->current()) {
             $object_match = str_replace(' ', '', $object);
             $object_match = str_replace('"', '', $object_match);
@@ -915,6 +916,7 @@ Trait Data {
             $file->seek($seek);
         }
         if(!empty($data)){
+            d($data);
             $record  = json_decode(implode('', $data), true);
             return $record;
         }
