@@ -526,6 +526,8 @@ Trait Data {
                     $object->config('ds') .
                     'Storage' .
                     $object->config('ds') .
+                    substr($node->uuid, 0, 2) .
+                    $object->config('ds') .
                     $node->uuid .
                     $object->config('extension.json')
                 ;
