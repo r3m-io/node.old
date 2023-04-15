@@ -999,6 +999,7 @@ Trait Data {
             $file->next();
             $seek++;
         }
+        d('here');
         return false;
     }
 
