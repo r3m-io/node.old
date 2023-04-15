@@ -963,7 +963,7 @@ Trait Data {
         $file->seek($options['seek']);
         $seek = $options['seek'];
         echo 'Status: ' . $options['seek'] . '/' . $options['lines'] . PHP_EOL;
-        $depth = 0;
+        $direction = 'down';
         while($line = $file->current()){
             $options['counter']++;
             if($options['counter'] > 1024){
@@ -975,6 +975,7 @@ Trait Data {
             $index = false;
             if(array_key_exists(1, $explode)){
                 if($explode[0] === 'index') {
+                    $direction = 'down';
                     $index = (int)trim($explode[1], " \t\n\r\0\x0B,");
                     if ($options['index'] === $index) {
 //                        d($index);
@@ -999,11 +1000,16 @@ Trait Data {
                 }
             }
             $key = trim($explode[0], " \t\n\r\0\x0B,");
-            d($index);
-            d($key);
-            $file->next();
-
-            $seek++;
+            if($key === '}') {
+                $direction = 'up';
+            }
+            if($direction === 'up'){
+                $seek--;
+                $file->seek($seek);
+            } else {
+                $seek++;
+                $file->next();
+            }
         }
         ddd('here');
         return false;
