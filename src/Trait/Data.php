@@ -916,7 +916,6 @@ Trait Data {
             $file->seek($seek);
         }
         if(!empty($data)){
-            d($data);
             $record  = json_decode(implode('', $data), true);
             return $record;
         }
@@ -1011,6 +1010,7 @@ Trait Data {
                 $file->next();
             }
         }
+        d($direction);
         ddd('here');
         return false;
     }
