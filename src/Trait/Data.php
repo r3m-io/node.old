@@ -980,7 +980,6 @@ Trait Data {
         $seek = $options['seek'];
         $direction = 'down';
         while($line = $file->current()){
-            d($line);
             $options['counter']++;
             if($options['counter'] > 1024){
                 //log error with filesize of view
@@ -1020,6 +1019,8 @@ Trait Data {
                     }
                 }
             }
+            d($explode[0]);
+            d($explode[1]);
             if($direction === 'up'){
                 $seek--;
                 if($seek < 0){
