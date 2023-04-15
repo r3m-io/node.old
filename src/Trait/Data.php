@@ -415,8 +415,6 @@ Trait Data {
         $function = __FUNCTION__;
         $object = $this->object();
         $this->binary_search_list_create($object, $class, $options);
-        d($options);
-
         $dir = $object->config('project.dir.data') .
             'Node' .
             $object->config('ds') .
@@ -594,7 +592,6 @@ Trait Data {
                         $item->sort = new stdClass();
                         $item->sort->{$property} = $key;
                         $nodeList[] = $item;
-                        d($index);
                         $index++;
                     }
                     if(empty($key)){
@@ -605,7 +602,6 @@ Trait Data {
             }
             $record->lines = $result->write($url_property, 'lines');
             $record->count = $index;
-            d($record);
             if($object->config(Config::POSIX_ID) === 0){
                 $command = 'chown www-data:www-data ' . $url_property;
                 exec($command);
