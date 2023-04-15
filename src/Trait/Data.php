@@ -604,6 +604,7 @@ Trait Data {
             }
             $record->lines = $result->write($url_property, 'lines');
             $record->count = $index + 1;
+            d($record);
             if($object->config(Config::POSIX_ID) === 0){
                 $command = 'chown www-data:www-data ' . $url_property;
                 exec($command);
