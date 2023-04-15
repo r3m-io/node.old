@@ -1023,6 +1023,7 @@ Trait Data {
                 $file->next();
             }
         }
+        d($line);
         d($direction);
         ddd($options);
         ddd('here');
