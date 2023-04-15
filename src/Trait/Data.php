@@ -1010,6 +1010,7 @@ Trait Data {
                     }
                 }
             }
+            /*
             $key = trim($explode[0], " \t\n\r\0\x0B,");
             if($key === '}') {
                 d('up');
@@ -1019,9 +1020,10 @@ Trait Data {
                 $seek--;
                 $file->seek($seek);
             } else {
-                $seek++;
-                $file->next();
-            }
+            */
+            $seek++;
+            $file->next();
+//            }
         }
         d($line);
         d($direction);
