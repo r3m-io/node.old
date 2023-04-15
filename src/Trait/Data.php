@@ -980,7 +980,7 @@ Trait Data {
         $seek = $options['seek'];
         if(!array_key_exists('direction', $options)){
             $options['direction'] = 'down';
-        } 
+        }
         while($line = $file->current()){
             $options['counter']++;
             if($options['counter'] > 1024){
@@ -1023,7 +1023,9 @@ Trait Data {
                 }
             }
             d($explode[0]);
-            d($explode[1]);
+            if(array_key_exists(1, $explode)){
+                d($explode[1]);
+            }
             if($options['direction'] === 'up'){
                 $seek--;
                 if($seek < 0){
