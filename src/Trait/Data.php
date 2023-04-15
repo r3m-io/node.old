@@ -427,10 +427,10 @@ Trait Data {
             $object->config('ds')
         ;
 
-        if(array_key_exists('order', $options)){
+        if(array_key_exists('sort', $options)){
             $property = [];
             $has_descending = false;
-            foreach($options['order'] as $key => $order){
+            foreach($options['sort'] as $key => $order){
                 $property[] = $key;
                 if(strtolower($order) === 'desc'){
                     $has_descending = true;
@@ -1021,10 +1021,6 @@ Trait Data {
                 }
             }
         }
-        d($line);
-        d($direction);
-        ddd($options);
-        ddd('here');
         return false;
     }
 

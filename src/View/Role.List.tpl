@@ -7,7 +7,7 @@
 {{$options.limit = 255}}
 {{/if}}
 {{$response = R3m.Io.Node:Data:list('Role', [
-    'order' => [
+    'sort' => [
     'rank' => 'ASC',
     'name' => 'ASC'
     ],
