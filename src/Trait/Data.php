@@ -966,12 +966,14 @@ Trait Data {
         if(!array_key_exists('search', $options)){
             $options['search'] = [];
         }
-        if(!in_array($options['seek'], $options['search'], true)){
+        if(
+            $options['direction'] === 'down' &&
+            !in_array($options['seek'], $options['search'], true)
+        ){
             $options['search'][] = $options['seek'];
-        } elseif($options['direction'] === 'down') {
+        }
+        elseif($options['direction'] === 'down') {
             //not found
-            d($options);
-            ddd('not found 1');
             return false;
         }
         if(!array_key_exists('index', $options)){
@@ -997,7 +999,6 @@ Trait Data {
                     $direction = 'down';
                     $index = (int)trim($explode[1], " \t\n\r\0\x0B,");
                     if ($options['index'] === $index) {
-                        d($index);
                         return $this->bin_search_node($file, [
                             'seek' => $seek,
                             'lines' => $options['lines'],
@@ -1023,10 +1024,6 @@ Trait Data {
                     }
                 }
             }
-            d($explode[0]);
-            if(array_key_exists(1, $explode)){
-                d($explode[1]);
-            }
             if($options['direction'] === 'up'){
                 $seek--;
                 if($seek < 0){
@@ -1042,8 +1039,6 @@ Trait Data {
                 }
             }
         }
-        //not found
-        d('not found 2');
         return false;
     }
 
