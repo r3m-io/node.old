@@ -100,7 +100,7 @@ Trait Data {
                 if(!$binarySearch){
                     $binarySearch = new Storage();
                 }
-                $binarySearch->set($class . '.' . $uuid . '.url', $url);
+//                $binarySearch->set($class . '.' . $uuid . '.url', $url);
                 $binarySearch->set($class . '.' . $uuid . '.uuid', $uuid);
                 $list = Sort::list($binarySearch->data($class))->with([
                     'uuid' => 'ASC'
@@ -457,7 +457,7 @@ Trait Data {
                 $seek = (int) (0.5 * $lines);
                 $file = new SplFileObject($url);
                 $data = [];
-                $list = $this->bin_search_page($file, [
+                $list = $this->binary_search_page($file, [
                     'page' => $options['page'],
                     'limit' => $options['limit'],
                     'seek' => $seek,
@@ -871,7 +871,7 @@ Trait Data {
         return $data;
     }
 
-    private function bin_search_node($file, $options=[]){
+    private function binary_search_node($file, $options=[]){
         $seek = $options['seek'];
         $seek--;
         $file->seek($seek);
@@ -923,12 +923,17 @@ Trait Data {
         }
         if(!empty($data)){
             $record  = json_decode(implode('', $data), true);
+            if(!is_array($record)){
+                return false;
+            }
             $record['counter'] = $options['counter'];
             return $record;
         }
+        return false;
     }
 
-    private function bin_search_page($file, $options=[]){
+    private function binary_search_page($file, $options=[]): array
+    {
         $index = 0;
         if(
             array_key_exists('page', $options) &&
@@ -942,7 +947,7 @@ Trait Data {
         $seek = (int) (0.5 * $options['lines']);
         for($i = $start; $i < $end; $i++){
             $data = [];
-            $record = $this->bin_search_index($file, [
+            $record = $this->binary_search_index($file, [
                 'page' => $options['page'],
                 'limit' => $options['limit'],
                 'seek' => $seek,
@@ -959,7 +964,7 @@ Trait Data {
         return $page;
     }
 
-    private function bin_search_index($file, $options=[]){
+    private function binary_search_index($file, $options=[]){
         if(!array_key_exists('counter', $options)){
             $options['counter'] = 0;
         }
@@ -1000,7 +1005,7 @@ Trait Data {
                     $direction = 'down';
                     $index = (int)trim($explode[1], " \t\n\r\0\x0B,");
                     if ($options['index'] === $index) {
-                        return $this->bin_search_node($file, [
+                        return $this->binary_search_node($file, [
                             'seek' => $seek,
                             'lines' => $options['lines'],
                             'index' => $index,
@@ -1015,13 +1020,13 @@ Trait Data {
                             $options['seek'] = $options['lines'] - 1;
                             $options['direction'] = 'up';
                         }
-                        return $this->bin_search_index($file, $options);
+                        return $this->binary_search_index($file, $options);
                     }
                     elseif(
                         $options['index'] < $index
                     ){
                         $options['seek'] = (int) (0.5 * $options['seek']);
-                        return $this->bin_search_index($file, $options);
+                        return $this->binary_search_index($file, $options);
                     }
                 }
             }
@@ -1043,7 +1048,8 @@ Trait Data {
         return false;
     }
 
-    private function bin_search($file, $options=[]){
+    /* old no usage?
+    private function binary_search($file, $options=[]){
         if(!array_key_exists('counter', $options)){
             $options['counter'] = 0;
         }
@@ -1085,140 +1091,7 @@ Trait Data {
             $file->next();
         }
     }
-
-    private function binary_search($file, $options=[]){
-        $uuid = $options['uuid'];
-        $lines = $options['lines'];
-        $seek = $options['seek'];
-        $data = $options['data'];
-        $is_debug = $options['is_debug'] ?? false;
-        $counter = $options['counter'] ?? 0;
-        $current = $options['current'];
-        $direction = $options['direction'] ?? 'next';
-        echo 'Lines: ' . $lines . PHP_EOL;
-        echo 'Seek: ' . $seek . PHP_EOL;
-        while($line = $file->current()){
-            $counter++;
-            if($counter > 1024){
-                break;
-            }
-//            d($line);
-//            d($file->key());
-//            echo $current . ' ' . $line . PHP_EOL;
-            $line_match = str_replace(' ', '', $line);
-            $line_match = str_replace('"', '', $line_match);
-            $explode = explode(':', $line_match);
-            if(array_key_exists(1, $explode)){
-                if($explode[0] === $uuid){
-                    d($file->key());
-                    d($options);
-                    d($current);
-                    d($line);
-                    ddd('found');
-                }
-                /*
-                if($explode[0] === 'uuid'){
-                    if(strpos($explode[1], $uuid) !== false){
-                        d($current);
-                        ddd($counter);
-                        $previous = $current - 1;
-                        if($previous < 0){
-                            break;
-                        }
-                        $file->seek($previous);
-                        $tmp = [];
-                        while($previous > 0){
-                            $line = $file->current();
-                            $tmp[] = $line;
-                            $previous = $file->key() - 1;
-                            if($previous < 0){
-                                break;
-                            }
-                            $file->seek($previous);
-                        }
-                        ddd($tmp);
-                    }
-                }
-                */
-                if($explode[0] === $uuid){
-                    d($file->key());
-                    d($options);
-                    d($current);
-                    d($line);
-                    ddd('found');
-                }
-                d($explode[0]);
-                $line_uuid = explode('-', $explode[0]);
-                $search_uuid = explode('-', $uuid);
-                $is_smaller = false;
-                $is_greater = false;
-                if(count($line_uuid) === count($search_uuid)){
-                    foreach($search_uuid as $nr => $search){
-                        $hex = hexdec($search);
-                        $match = hexdec($line_uuid[$nr]);
-                        if($hex === $match){
-                            continue;
-                        }
-                        elseif($hex < $match){
-                            $is_smaller = true;
-                            break;
-                        }
-                        elseif($hex > $match){
-                            $is_greater = true;
-                            break;
-                        }
-                    }
-                    if($is_smaller){
-                        $seek = (int) (0.25 * $lines);
-                        $file->seek($seek);
-                        $data = $this->binary_search($file, [
-                            'uuid' => $uuid,
-                            'lines' => $lines,
-                            'seek' => $seek,
-                            'current' => $seek,
-                            'data' => $data,
-                            'is_debug' => true,
-                            'counter' => $counter,
-                            'direction' => 'next',
-                        ]);
-                    }
-                    if($is_greater){
-                        $seek = (int) (0.75 * $lines);
-                        $file->seek($seek);
-                        $data = $this->binary_search($file, [
-                            'uuid' => $uuid,
-                            'lines' => $lines,
-                            'seek' => $seek,
-                            'current' => $seek,
-                            'data' => $data,
-                            'is_debug' => true,
-                            'counter' => $counter,
-                            'direction' => 'next',
-                        ]);
-                    }
-                }
-            }
-            if(strpos($line, $uuid . ':') !== false){
-                $data[] = $line;
-                break;
-            }
-            switch($direction){
-                case 'next':
-                    $current++;
-                    $file->next();
-                    break;
-                case 'previous':
-                    $current--;
-                    $previous = $file->key() - 1;
-                    if($previous < 0){
-                        break 2;
-                    }
-                    $file->seek($previous);
-                    break;
-            }
-        }
-        return $data;
-    }
+    */
 
     private function dir(App $object, $dir_node, $dir_data, $dir_uuid, $dir_meta, $dir_validate, $dir_binary_search){
         if(!Dir::is($dir_uuid)){
