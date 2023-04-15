@@ -1010,9 +1010,9 @@ Trait Data {
                     }
                 }
             }
-            d($explode[0]);
             $key = trim($explode[0], " \t\n\r\0\x0B,");
             if($key === '}') {
+                d('up');
                 $direction = 'up';
             }
             if($direction === 'up'){
