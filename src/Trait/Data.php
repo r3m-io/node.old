@@ -531,7 +531,6 @@ Trait Data {
                     $node->uuid .
                     $object->config('extension.json')
                 ;
-                ddd($storage_url);
                 $record = $object->data_read($storage_url);
                 if ($record) {
                     $list->set($uuid, $record->data());
