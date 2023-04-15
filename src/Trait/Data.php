@@ -1011,6 +1011,7 @@ Trait Data {
             }
         }
         d($direction);
+        ddd($options);
         ddd('here');
         return false;
     }
