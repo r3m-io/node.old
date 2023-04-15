@@ -968,7 +968,7 @@ Trait Data {
         }
         if(!in_array($options['seek'], $options['search'], true)){
             $options['search'][] = $options['seek'];
-        } else {
+        } elseif($options['direction'] === 'down') {
             //not found
             d($options);
             ddd('not found 1');
