@@ -960,6 +960,7 @@ Trait Data {
     }
 
     private function bin_search_index($file, $options=[]){
+        d($options['index']);
         if(!array_key_exists('counter', $options)){
             $options['counter'] = 0;
         }
