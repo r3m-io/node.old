@@ -458,7 +458,7 @@ Trait Data {
                 $seek = (int) (0.5 * $lines);
                 $file = new SplFileObject($url);
                 $data = [];
-                $data = $this->bin_search_page($file, [
+                $list = $this->bin_search_page($file, [
                     'page' => $options['page'],
                     'limit' => $options['limit'],
                     'seek' => $seek,
@@ -467,6 +467,14 @@ Trait Data {
                     'data' => $data,
                     'direction' => 'next',
                 ]);
+                $result = [];
+                $result['page'] = $options['page'];
+                $result['limit'] = $options['limit'];
+                $result['list'] = $list;
+                $result['sort'] = $options['sort'];
+                //add filter
+                return $result;
+
             }
             ddd($url);
         }
