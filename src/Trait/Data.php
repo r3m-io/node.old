@@ -932,13 +932,23 @@ Trait Data {
         $start = $index;
         $end = $start + $options['limit'];
         $page = [];
+        $seek = (int) (0.5 * $options['lines']);
         for($i = $start; $i < $end; $i++){
-            $options['index'] = $i;
-            $options['search'] = [];
+            $data = [];
+            $data = $this->bin_search_index($file, [
+                'page' => $options['page'],
+                'limit' => $options['limit'],
+                'seek' => $seek,
+                'lines'=> $options['lines'],
+                'counter' => 0,
+                'data' => $data,
+                'index' => $i,
+                'search' => [],
+            ]);
             $page[] = $this->bin_search_index($file, $options);
         }
         ddd($page);
-}
+    }
 
     private function bin_search_index($file, $options=[]){
         if(!array_key_exists('counter', $options)){
