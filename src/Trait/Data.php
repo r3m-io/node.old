@@ -978,7 +978,9 @@ Trait Data {
         }
         $file->seek($options['seek']);
         $seek = $options['seek'];
-        $direction = 'down';
+        if(!array_key_exists('direction', $options)){
+            $options['direction'] = 'down';
+        } 
         while($line = $file->current()){
             $options['counter']++;
             if($options['counter'] > 1024){
@@ -1008,7 +1010,7 @@ Trait Data {
                         $options['seek'] = (int) (1.5 * $options['seek']);
                         if($options['seek'] > $options['lines']){
                             $options['seek'] = $options['lines'] - 1;
-                            $direction = 'up';
+                            $options['direction'] = 'up';
                         }
                         return $this->bin_search_index($file, $options);
                     }
@@ -1022,10 +1024,10 @@ Trait Data {
             }
             d($explode[0]);
             d($explode[1]);
-            if($direction === 'up'){
+            if($options['direction'] === 'up'){
                 $seek--;
                 if($seek < 0){
-                    $direction = 'down';
+                    $options['direction'] = 'down';
                     $seek = 0;
                 }
                 $file->seek($seek);
@@ -1033,7 +1035,7 @@ Trait Data {
                 $seek++;
                 $file->next();
                 if($seek === $options['lines'] - 1){
-                    $direction = 'up';
+                    $options['direction'] = 'up';
                 }
             }
         }
