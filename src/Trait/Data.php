@@ -966,6 +966,9 @@ Trait Data {
         if(!array_key_exists('search', $options)){
             $options['search'] = [];
         }
+        if(!array_key_exists('direction', $options)){
+            $options['direction'] = 'down';
+        }
         if(
             $options['direction'] === 'down' &&
             !in_array($options['seek'], $options['search'], true)
@@ -981,9 +984,7 @@ Trait Data {
         }
         $file->seek($options['seek']);
         $seek = $options['seek'];
-        if(!array_key_exists('direction', $options)){
-            $options['direction'] = 'down';
-        }
+
         while($line = $file->current()){
             $options['counter']++;
             if($options['counter'] > 1024){
