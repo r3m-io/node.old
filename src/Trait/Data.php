@@ -968,26 +968,19 @@ Trait Data {
         if(!in_array($options['seek'], $options['search'], true)){
             $options['search'][] = $options['seek'];
         } else {
-            d($options['seek']);
-            d($options['search']);
-            d($options['counter']);
             //not found
             return false;
         }
         if(!array_key_exists('index', $options)){
-            d('no index');
             return false;
         }
         $file->seek($options['seek']);
         $seek = $options['seek'];
-        echo 'Status: ' . $options['seek'] . '/' . $options['lines'] . PHP_EOL;
         $direction = 'down';
         while($line = $file->current()){
-            if($seek < 0){
-                break;
-            }
             $options['counter']++;
             if($options['counter'] > 1024){
+                //log error with filesize of view
                 break;
             }
             $line_match = str_replace(' ', '', $line);
@@ -1026,6 +1019,10 @@ Trait Data {
             }
             if($direction === 'up'){
                 $seek--;
+                if($seek < 0){
+                    $direction = 'down';
+                    $seek = 0;
+                }
                 $file->seek($seek);
             } else {
                 $seek++;
@@ -1035,8 +1032,7 @@ Trait Data {
                 }
             }
         }
-        d('not found');
-        d($options['counter']);
+        //not found
         return false;
     }
 
