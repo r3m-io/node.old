@@ -998,7 +998,7 @@ Trait Data {
                     ){
                         $options['seek'] = (int) (1.5 * $options['seek']);
                         if($options['seek'] > $options['lines']){
-                            $options['seek'] = $options['lines'];
+                            $options['seek'] = $options['lines'] - 1;
                         }
                         return $this->bin_search_index($file, $options);
                     }
