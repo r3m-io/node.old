@@ -935,7 +935,7 @@ Trait Data {
         $seek = (int) (0.5 * $options['lines']);
         for($i = $start; $i < $end; $i++){
             $data = [];
-            $data = $this->bin_search_index($file, [
+            $page[] = $this->bin_search_index($file, [
                 'page' => $options['page'],
                 'limit' => $options['limit'],
                 'seek' => $seek,
@@ -945,7 +945,6 @@ Trait Data {
                 'index' => $i,
                 'search' => [],
             ]);
-            $page[] = $this->bin_search_index($file, $options);
         }
         ddd($page);
     }
