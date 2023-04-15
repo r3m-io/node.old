@@ -917,6 +917,7 @@ Trait Data {
         }
         if(!empty($data)){
             $record  = json_decode(implode('', $data), true);
+            $record['counter'] = $options['counter'];
             return $record;
         }
     }
@@ -946,7 +947,7 @@ Trait Data {
                 'search' => [],
             ]);
         }
-        ddd($page);
+        return $page;
     }
 
     private function bin_search_index($file, $options=[]){
@@ -990,7 +991,8 @@ Trait Data {
                         return $this->bin_search_node($file, [
                             'seek' => $seek,
                             'lines' => $options['lines'],
-                            'index' => $index
+                            'index' => $index,
+                            'counter' => $options['counter']
                         ]);
                     }
                     elseif(
