@@ -594,6 +594,7 @@ Trait Data {
                         $item->sort = new stdClass();
                         $item->sort->{$property} = $key;
                         $nodeList[] = $item;
+                        d($index);
                         $index++;
                     }
                     if(empty($key)){
