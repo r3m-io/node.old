@@ -935,6 +935,7 @@ Trait Data {
         $page = [];
         for($i = $start; $i < $end; $i++){
             $options['index'] = $i;
+            $options['search'] = [];
             $page[] = $this->bin_search_index($file, $options);
         }
         ddd($page);
