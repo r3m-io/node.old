@@ -1010,20 +1010,16 @@ Trait Data {
                     }
                 }
             }
-            /*
-            $key = trim($explode[0], " \t\n\r\0\x0B,");
-            if($key === '}') {
-                d('up');
-                $direction = 'up';
-            }
             if($direction === 'up'){
                 $seek--;
                 $file->seek($seek);
             } else {
-            */
-            $seek++;
-            $file->next();
-//            }
+                $seek++;
+                $file->next();
+                if($seek === $options['lines'] - 1){
+                    $direction = 'up';
+                }
+            }
         }
         d($line);
         d($direction);
