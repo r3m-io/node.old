@@ -970,6 +970,7 @@ Trait Data {
         } else {
             d($options['seek']);
             d($options['search']);
+            d($options['counter']);
             //not found
             return false;
         }
@@ -1031,6 +1032,8 @@ Trait Data {
                 }
             }
         }
+        d('not found');
+        d($options['counter']);
         return false;
     }
 
