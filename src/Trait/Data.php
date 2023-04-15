@@ -970,6 +970,7 @@ Trait Data {
             $options['search'][] = $options['seek'];
         } else {
             //not found
+            d('not found 1');
             return false;
         }
         if(!array_key_exists('index', $options)){
@@ -1034,6 +1035,7 @@ Trait Data {
             }
         }
         //not found
+        d('not found 2');
         return false;
     }
 
