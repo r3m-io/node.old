@@ -521,8 +521,16 @@ Trait Data {
         $response = [];
         foreach($data->data($class) as $uuid => $node) {
             if (property_exists($node, 'uuid')) {
-                ddd($node);
-                $record = $object->data_read($node->url);
+                $storage_url = $object->config('project.dir.data') .
+                    'Node' .
+                    $object->config('ds') .
+                    'Storage' .
+                    $object->config('ds') .
+                    $node->uuid .
+                    $object->config('extension.json')
+                ;
+                ddd($storage_url);
+                $record = $object->data_read($storage_url);
                 if ($record) {
                     $list->set($uuid, $record->data());
                 } else {
