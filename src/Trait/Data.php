@@ -963,6 +963,7 @@ Trait Data {
         $file->seek($options['seek']);
         $seek = $options['seek'];
         echo 'Status: ' . $options['seek'] . '/' . $options['lines'] . PHP_EOL;
+        $depth = 0;
         while($line = $file->current()){
             $options['counter']++;
             if($options['counter'] > 1024){
@@ -996,8 +997,9 @@ Trait Data {
                     }
                 }
             }
-            d($line);
+            d($explode);
             $file->next();
+
             $seek++;
         }
         ddd('here');
