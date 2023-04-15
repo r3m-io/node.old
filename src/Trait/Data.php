@@ -983,6 +983,9 @@ Trait Data {
         echo 'Status: ' . $options['seek'] . '/' . $options['lines'] . PHP_EOL;
         $direction = 'down';
         while($line = $file->current()){
+            if($seek < 0){
+                break;
+            }
             $options['counter']++;
             if($options['counter'] > 1024){
                 break;
