@@ -970,6 +970,7 @@ Trait Data {
             $options['search'][] = $options['seek'];
         } else {
             //not found
+            d($options);
             d('not found 1');
             return false;
         }
