@@ -415,7 +415,6 @@ Trait Data {
         $function = __FUNCTION__;
         $object = $this->object();
         $this->binary_search_list_create($object, $class, $options);
-        $options['limit'] = 2;
         d($options);
 
         $dir = $object->config('project.dir.data') .
@@ -478,7 +477,6 @@ Trait Data {
             }
             ddd($url);
         }
-
         return false;
     }
 
@@ -944,7 +942,7 @@ Trait Data {
         $seek = (int) (0.5 * $options['lines']);
         for($i = $start; $i < $end; $i++){
             $data = [];
-            $page[] = $this->bin_search_index($file, [
+            $record = $this->bin_search_index($file, [
                 'page' => $options['page'],
                 'limit' => $options['limit'],
                 'seek' => $seek,
@@ -954,6 +952,9 @@ Trait Data {
                 'index' => $i,
                 'search' => [],
             ]);
+            if($record){
+                $page[] = $record;
+            }
         }
         return $page;
     }
