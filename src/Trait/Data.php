@@ -976,7 +976,7 @@ Trait Data {
                 if($explode[0] === 'index') {
                     $index = (int)trim($explode[1], " \t\n\r\0\x0B,");
                     if ($options['index'] === $index) {
-                        d($index);
+//                        d($index);
                         return $this->bin_search_node($file, [
                             'seek' => $seek,
                             'lines' => $options['lines'],
@@ -997,7 +997,9 @@ Trait Data {
                     }
                 }
             }
-            d($explode);
+            $key = (int)trim($explode[0], " \t\n\r\0\x0B,");
+            d($index);
+            d($key);
             $file->next();
 
             $seek++;
