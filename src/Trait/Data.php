@@ -951,6 +951,8 @@ Trait Data {
         if(!in_array($options['seek'], $options['search'], true)){
             $options['search'][] = $options['seek'];
         } else {
+            d($options['seek']);
+            d($options['search']);
             //not found
             return false;
         }
