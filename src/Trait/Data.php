@@ -1064,6 +1064,12 @@ Trait Data {
         if(!array_key_exists('direction', $options)){
             $options['direction'] = 'down';
         }
+        if(!array_key_exists('lines', $options)){
+            return false;
+        }
+        if(!array_key_exists('seek', $options)){
+            $options['seek'] = (int) (0.5 * $options['lines'] - 1);
+        }
         if(
             $options['direction'] === 'down' &&
             !in_array($options['seek'], $options['search'], true)
