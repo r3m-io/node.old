@@ -1042,7 +1042,7 @@ Trait Data {
                 if($options['direction'] === 'up'){
                     $seek--;
                     if($seek < 0){
-                        $options['direction'] = 'down';
+                       $direction = 'down';
                         $seek = 0;
                     }
                     $file->seek($seek);
@@ -1050,7 +1050,7 @@ Trait Data {
                     $seek++;
                     $file->next();
                     if($seek === $options['max']){
-                        $options['direction'] = 'up';
+                        $direction = 'up';
                     }
                 }
             }
