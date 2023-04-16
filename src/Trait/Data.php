@@ -955,7 +955,7 @@ Trait Data {
         $time_start = microtime(true);
         for($i = $start; $i < $end; $i++){
             $data = [];
-            $record = $this->bin_search_index($file, [
+            $record = $this->binary_search_index($file, [
                 'page' => $options['page'],
                 'limit' => $options['limit'],
                 'lines'=> $options['lines'],
