@@ -994,7 +994,7 @@ Trait Data {
                 $options['counter']++;
                 if($options['counter'] > 10){
                     //log error with filesize of view
-                    break;
+                    break 2;
                 }
                 $line_match = str_replace(' ', '', $line);
                 $line_match = str_replace('"', '', $line_match);
@@ -1016,11 +1016,13 @@ Trait Data {
                             $options['index'] < $index
                         ){
                             $options['max'] = $seek - 1;
+                            break;
                         }
                         elseif(
                             $options['index'] > $index
                         ){
                             $options['min'] = $seek + 1;
+                            break;
                         }
                     }
                 }
