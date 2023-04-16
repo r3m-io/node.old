@@ -974,20 +974,6 @@ Trait Data {
         if(!array_key_exists('counter', $options)){
             $options['counter'] = 0;
         }
-        /*
-        if(!array_key_exists('search', $options)){
-            $options['search'] = [];
-        }
-        if(
-            !in_array($options['seek'], $options['search'], true)
-        ){
-            $options['search'][] = $options['seek'];
-        }
-        elseif($options['direction'] === 'down') {
-            //not found
-            return false;
-        }
-        */
         if(!array_key_exists('lines', $options)){
             return false;
         }
@@ -1039,7 +1025,7 @@ Trait Data {
                         }
                     }
                 }
-                if($options['direction'] === 'up'){
+                if($direction === 'up'){
                     $seek--;
                     if($seek < 0){
                        $direction = 'down';
