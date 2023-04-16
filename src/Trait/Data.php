@@ -936,6 +936,7 @@ Trait Data {
             $record['read']['seek'] = $options['seek'];
             $record['read']['lines'] = $options['lines'];
             $record['read']['percentage'] = round(($options['counter'] / $options['lines']) * 100, 2);
+            $object = $this->object();
             $record['read']['url'] = $object->config('project.dir.data') .
                 'Node' .
                 $object->config('ds') .
