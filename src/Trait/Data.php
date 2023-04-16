@@ -452,13 +452,11 @@ Trait Data {
                     return false;
                 }
                 $lines = $meta->get('BinarySearch.' . $class . '.' . $property . '.lines');
-                $seek = (int) (0.5 * $lines);
                 $file = new SplFileObject($url);
                 $data = [];
                 $list = $this->binary_search_page($file, [
                     'page' => $options['page'],
                     'limit' => $options['limit'],
-                    'seek' => $seek,
                     'lines'=> $lines,
                     'counter' => 0,
                     'data' => $data,
@@ -1004,6 +1002,7 @@ Trait Data {
         while($options['min'] <= $options['max']){
             $seek = $options['min'] + floor(($options['max'] - $options['min']) / 2);
             $file->seek($seek);
+            $options['search'][] = $options['seek'];
             while($line = $file->current()){
                 $options['counter']++;
                 if($options['counter'] > 1024){
