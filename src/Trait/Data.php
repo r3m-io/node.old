@@ -990,10 +990,9 @@ Trait Data {
         while($options['min'] <= $options['max']){
             $seek = $options['min'] + floor(($options['max'] - $options['min']) / 2);
             $file->seek($seek);
-            $options['seek'] = $seek;
             while($line = $file->current()){
                 $options['counter']++;
-                if($options['counter'] > 1024){
+                if($options['counter'] > 10){
                     //log error with filesize of view
                     break;
                 }
