@@ -933,7 +933,7 @@ Trait Data {
                 return false;
             }
             $record['search']['load'] = $options['counter'];
-            $record['search']['list'] = $options['search'];
+            $record['search']['seek'] = $options['seek'];
             return $record;
         }
         return false;
@@ -1002,7 +1002,6 @@ Trait Data {
         while($options['min'] <= $options['max']){
             $seek = $options['min'] + floor(($options['max'] - $options['min']) / 2);
             $file->seek($seek);
-            $options['search'][] = $seek;
             while($line = $file->current()){
                 $options['counter']++;
                 if($options['counter'] > 1024){
@@ -1022,7 +1021,6 @@ Trait Data {
                                 'seek' => $seek,
                                 'lines' => $options['lines'],
                                 'index' => $index,
-                                'search' => $options['search'],
                                 'counter' => $options['counter']
                             ]);
                         }
