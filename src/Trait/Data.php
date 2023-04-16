@@ -936,6 +936,16 @@ Trait Data {
             $record['read']['seek'] = $options['seek'];
             $record['read']['lines'] = $options['lines'];
             $record['read']['percentage'] = round(($options['counter'] / $options['lines']) * 100, 2);
+            $record['read']['url'] = $object->config('project.dir.data') .
+                'Node' .
+                $object->config('ds') .
+                'Storage' .
+                $object->config('ds') .
+                substr($record['uuid'], 0, 2) .
+                $object->config('ds') .
+                $record['uuid'] .
+                $object->config('extension.json')
+            ;
             return $record;
         }
         return false;
