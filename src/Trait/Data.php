@@ -1035,7 +1035,7 @@ Trait Data {
                 } else {
                     $seek++;
                     $file->next();
-                    if($seek === $options['max']){
+                    if($seek === $options['lines'] - 1){
                         $direction = 'up';
                     }
                 }
