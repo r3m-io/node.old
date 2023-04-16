@@ -955,7 +955,7 @@ Trait Data {
         $time_start = microtime(true);
         for($i = $start; $i < $end; $i++){
             $data = [];
-            $record = $this->binary_search_index($file, [
+            $record = $this->bin_search_index($file, [
                 'page' => $options['page'],
                 'limit' => $options['limit'],
                 'lines'=> $options['lines'],
@@ -1053,8 +1053,8 @@ Trait Data {
         return false;
     }
 
-    /*
-    private function binary_search_index($file, $options=[]){
+
+    private function bin_search_index($file, $options=[]){
         if(!array_key_exists('counter', $options)){
             $options['counter'] = 0;
         }
@@ -1110,13 +1110,13 @@ Trait Data {
                             $options['seek'] = $options['lines'] - 1;
                             $options['direction'] = 'up';
                         }
-                        return $this->binary_search_index($file, $options);
+                        return $this->bin_search_index($file, $options);
                     }
                     elseif(
                         $options['index'] < $index
                     ){
                         $options['seek'] = (int) (0.5 * $options['seek']);
-                        return $this->binary_search_index($file, $options);
+                        return $this->bin_search_index($file, $options);
                     }
                 }
             }
@@ -1137,7 +1137,6 @@ Trait Data {
         }
         return false;
     }
-    */
 
     /* old no usage?
     private function binary_search($file, $options=[]){
