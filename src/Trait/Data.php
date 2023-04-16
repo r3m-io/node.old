@@ -932,9 +932,10 @@ Trait Data {
             if(!is_array($record)){
                 return false;
             }
-            $record['search']['load'] = $options['counter'];
-            $record['search']['seek'] = $options['seek'];
-            $record['search']['lines'] = $options['lines'];
+            $record['read']['load'] = $options['counter'];
+            $record['read']['seek'] = $options['seek'];
+            $record['read']['lines'] = $options['lines'];
+            $record['read']['percentage'] = round(($options['counter'] / $options['lines']) * 100, 2);
             return $record;
         }
         return false;
