@@ -952,13 +952,11 @@ Trait Data {
         $start = $index;
         $end = $start + $options['limit'];
         $page = [];
-        $seek = (int) (0.5 * $options['lines']);
         for($i = $start; $i < $end; $i++){
             $data = [];
-            $record = $this->binary_search_index($file, [
+            $record = $this->bin_search_index($file, [
                 'page' => $options['page'],
                 'limit' => $options['limit'],
-                'seek' => $seek,
                 'lines'=> $options['lines'],
                 'counter' => 0,
                 'data' => $data,
@@ -970,6 +968,94 @@ Trait Data {
             }
         }
         return $page;
+    }
+
+    private function bin_search_index($file, $options=[]){
+        if(!array_key_exists('counter', $options)){
+            $options['counter'] = 0;
+        }
+        /*
+        if(!array_key_exists('search', $options)){
+            $options['search'] = [];
+        }
+        if(
+            !in_array($options['seek'], $options['search'], true)
+        ){
+            $options['search'][] = $options['seek'];
+        }
+        elseif($options['direction'] === 'down') {
+            //not found
+            return false;
+        }
+        */
+        if(!array_key_exists('lines', $options)){
+            return false;
+        }
+        if(!array_key_exists('index', $options)){
+            return false;
+        }
+        if(!array_key_exists('min', $options)){
+            $options['min'] = 0;
+        }
+        if(!array_key_exists('max', $options)){
+            $options['max'] = $options['lines'] - 1;
+        }
+        $direction = 'down';
+        while($options['min'] <= $options['max']){
+            $seek = $options['min'] + floor(($options['max'] - $options['min']) / 2);
+            $file->seek($seek);
+            $options['seek'] = $seek;
+            while($line = $file->current()){
+                $options['counter']++;
+                if($options['counter'] > 1024){
+                    //log error with filesize of view
+                    break;
+                }
+                $line_match = str_replace(' ', '', $line);
+                $line_match = str_replace('"', '', $line_match);
+                $explode = explode(':', $line_match);
+                $index = false;
+                if(array_key_exists(1, $explode)){
+                    if($explode[0] === 'index') {
+                        $direction = 'down';
+                        $index = (int)trim($explode[1], " \t\n\r\0\x0B,");
+                        if ($options['index'] === $index) {
+                            return $this->binary_search_node($file, [
+                                'seek' => $seek,
+                                'lines' => $options['lines'],
+                                'index' => $index,
+                                'counter' => $options['counter']
+                            ]);
+                        }
+                        elseif(
+                            $options['index'] < $index
+                        ){
+                            $options['max'] = $seek - 1;
+                        }
+                        elseif(
+                            $options['index'] > $index
+                        ){
+                            $options['min'] = $seek + 1;
+                        }
+                    }
+                }
+                if($options['direction'] === 'up'){
+                    $seek--;
+                    if($seek < 0){
+                        $options['direction'] = 'down';
+                        $seek = 0;
+                    }
+                    $file->seek($seek);
+                } else {
+                    $seek++;
+                    $file->next();
+                    if($seek === $options['max']){
+                        $options['direction'] = 'up';
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     private function binary_search_index($file, $options=[]){
