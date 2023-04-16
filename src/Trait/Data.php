@@ -935,6 +935,7 @@ Trait Data {
                 return false;
             }
             $record['search']['load'] = $options['counter'];
+            $record['search']['list'] = $options['search'];
             return $record;
         }
         return false;
@@ -990,6 +991,9 @@ Trait Data {
         if(!array_key_exists('index', $options)){
             return false;
         }
+        if(!array_key_exists('search', $options)){
+            return false;
+        }
         if(!array_key_exists('min', $options)){
             $options['min'] = 0;
         }
@@ -1019,6 +1023,7 @@ Trait Data {
                                 'seek' => $seek,
                                 'lines' => $options['lines'],
                                 'index' => $index,
+                                'search' => $options['search'],
                                 'counter' => $options['counter']
                             ]);
                         }
