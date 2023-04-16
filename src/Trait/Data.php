@@ -934,7 +934,7 @@ Trait Data {
             if(!is_array($record)){
                 return false;
             }
-            $record['counter'] = $options['counter'];
+            $record['search']['load'] = $options['counter'];
             return $record;
         }
         return false;
