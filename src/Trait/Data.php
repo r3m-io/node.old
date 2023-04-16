@@ -992,7 +992,7 @@ Trait Data {
             $file->seek($seek);
             while($line = $file->current()){
                 $options['counter']++;
-                if($options['counter'] > 10){
+                if($options['counter'] > 1024){
                     //log error with filesize of view
                     break 2;
                 }
