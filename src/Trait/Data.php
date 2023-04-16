@@ -970,7 +970,11 @@ Trait Data {
         }
         $time_end = microtime(true);
         $duration = $time_end - $time_start;
-        ddd($duration);
+        if($duration < 1) {
+            echo 'Duration: ' . round($duration * 1000, 2) . ' msec' . PHP_EOL;
+        } else {
+            echo 'Duration: ' . round($duration, 2) . ' sec' . PHP_EOL;
+        }
         return $page;
     }
 
