@@ -1002,7 +1002,7 @@ Trait Data {
         while($options['min'] <= $options['max']){
             $seek = $options['min'] + floor(($options['max'] - $options['min']) / 2);
             $file->seek($seek);
-            $options['search'][] = $options['seek'];
+            $options['search'][] = $seek;
             while($line = $file->current()){
                 $options['counter']++;
                 if($options['counter'] > 1024){
@@ -1047,8 +1047,10 @@ Trait Data {
                         $seek = 0;
                     }
                     $file->seek($seek);
+                    $options['search'][] = $seek;
                 } else {
                     $seek++;
+                    $options['search'][] = $seek;
                     $file->next();
                     if($seek === $options['lines'] - 1){
                         $direction = 'up';
