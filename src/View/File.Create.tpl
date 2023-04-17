@@ -14,6 +14,7 @@ Create Node File from directory:
 {{/if}}
 {{if($options.recursive)}}
     {{$recursive = $options.recursive}}
+    {{dd($recursive)}}
 {{else}}
     {{$recursive = terminal.readline('recursive (y/n) : ')}}
     {{while(is.empty($recursive))}}
