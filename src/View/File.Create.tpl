@@ -26,7 +26,7 @@ Create Node File from directory:
 {{if(
 $recursive === 'y' ||
 $recursive === 'Y' ||
-$recursive == 'true' ||
+$recursive === 'true' ||
 $recursive === true
 )}}
 {{$recursive = true}}
