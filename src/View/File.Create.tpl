@@ -2,32 +2,36 @@
 Create Node File from directory:
 {{$options = options()}}
 {{if($options.directory)}}
-    {{$directory = $options.directory}}
+{{$directory = $options.directory}}
 {{else}}
-    {{$directory = terminal.readline('Directory: ')}}
-    {{while(is.empty($directory))}}
-    {{$directory = terminal.readline('Directory: ')}}
-    {{if(!is.empty($directory))}}
-        {{break()}}
-    {{/if}}
-    {{/while}}
+{{$directory = terminal.readline('Directory: ')}}
+{{while(is.empty($directory))}}
+{{$directory = terminal.readline('Directory: ')}}
+{{if(!is.empty($directory))}}
+{{break()}}
+{{/if}}
+{{/while}}
 {{/if}}
 {{if($options.recursive)}}
-    {{$recursive = $options.recursive}}
-    {{dd($recursive)}}
+{{$recursive = $options.recursive}}
+{{dd($recursive)}}
 {{else}}
-    {{$recursive = terminal.readline('recursive (y/n) : ')}}
-    {{while(is.empty($recursive))}}
-    {{$recursive = terminal.readline('recursive (y/n) : ')}}
-    {{if(!is.empty($directory))}}
-        {{break()}}
-    {{/if}}
-    {{/while}}
+{{$recursive = terminal.readline('recursive (y/n) : ')}}
+{{while(is.empty($recursive))}}
+{{$recursive = terminal.readline('recursive (y/n) : ')}}
+{{if(!is.empty($directory))}}
+{{break()}}
 {{/if}}
-{{if($recursive === 'y' || $recursive === true)}}
-    {{$recursive = true}}
+{{/while}}
+{{/if}}
+{{if(
+$recursive === 'y' ||
+$recursive == 'true' ||
+$recursive === true
+)}}
+{{$recursive = true}}
 {{else}}
-    {{$recursive = false}}
+{{$recursive = false}}
 {{/if}}
 {{$response = R3m.Io.Node:Data:file_create_many([
 'directory' => $directory,
