@@ -12,7 +12,6 @@ Create Node File from directory:
     {{/if}}
     {{/while}}
 {{/if}}
-/*
 {{if($options.recursive)}}
     {{$recursive = $options.recursive}}
 {{else}}
@@ -29,7 +28,6 @@ Create Node File from directory:
 {{else}}
     {{$recursive = false}}
 {{/if}}
-*/
 {{$response = R3m.Io.Node:Data:file_create_many([
 'directory' => $directory,
 'recursive' => $recursive
