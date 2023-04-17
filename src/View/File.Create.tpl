@@ -11,7 +11,7 @@ Create Node File from directory:
         {{break()}}
     {{/if}}
     {{/while}}
-{/if}
+{{/if}}
 /*
 {{if($options.recursive)}}
     {{$recursive = $options.recursive}}
