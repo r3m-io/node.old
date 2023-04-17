@@ -185,6 +185,24 @@ Trait Data {
         return $response;
     }
 
+    public function file_create_many($options=[]){
+        $directory = false;
+        if(array_key_exists('directory', $options)){
+            $directory = $options['directory'];
+        }
+        if(empty($directory)){
+            return false;
+        }
+        if(array_key_exists('recursive', $options)){
+            $recursive = $options['recursive'];
+        } else {
+            $recursive = false;
+        }
+        $dir = new Dir();
+        $files = $dir->read($directory, $recursive);
+        ddd($files);
+    }
+
     public function read($class='', $options=[]): false|array|object
     {
         $name = Controller::name($class);
