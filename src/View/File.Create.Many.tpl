@@ -1,6 +1,9 @@
 {{R3M}}
 Create Node File from directory:
-
+{{$options = options()}}
+{{if($options.directory)}}
+{{$directory = $options.directory}}
+{{else}}
 {{$directory = terminal.readline('Directory: ')}}
 {{while(is.empty($directory))}}
 {{$directory = terminal.readline('Directory: ')}}
@@ -8,6 +11,10 @@ Create Node File from directory:
 {{break()}}
 {{/if}}
 {{/while}}
+{/if}
+{{if($options.recursive)}}
+{{$recursive = $options.recursive}}
+{{else}}
 {{$recursive = terminal.readline('recursive (y/n) : ')}}
 {{while(is.empty($recursive))}}
 {{$recursive = terminal.readline('recursive (y/n) : ')}}
@@ -15,6 +22,7 @@ Create Node File from directory:
 {{break()}}
 {{/if}}
 {{/while}}
+{{/if}}
 {{if($recursive === 'y')}}
 {{$recursive = true}}
 {{else}}
