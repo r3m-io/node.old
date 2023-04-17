@@ -23,7 +23,7 @@ Create Node File from directory:
     {{/if}}
     {{/while}}
 {{/if}}
-{{if($recursive === 'y')}}
+{{if($recursive === 'y' || $recursive === true}}
     {{$recursive = true}}
 {{else}}
     {{$recursive = false}}
