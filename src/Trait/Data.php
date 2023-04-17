@@ -198,6 +198,7 @@ Trait Data {
         } else {
             $recursive = false;
         }
+        ddd($options);
         $dir = new Dir();
         $files = $dir->read($directory, $recursive);
         ddd($files);
