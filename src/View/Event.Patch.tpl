@@ -33,7 +33,7 @@ Update Event:
         'value' => 11,
         'operator' => '==='
         ],
-        ')',
+        ')'
     ]
 ],
 'action' => [
