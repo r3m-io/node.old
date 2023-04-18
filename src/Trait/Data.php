@@ -1132,6 +1132,7 @@ Trait Data {
 
     private function binary_search_page($file, $options=[]): array
     {
+        $object = $this->object();
         $index = 0;
         if(
             array_key_exists('page', $options) &&
@@ -1155,7 +1156,7 @@ Trait Data {
                 'search' => [],
             ]);
             if($record){
-                $record->node = File::read($record->read->url);
+                $record->node = $object->data_read($record->read->url, sha1($record->read->url));
                 $record = $this->filter($record, $options['filter']);
                 if($record){
                     $page[] = $record;
