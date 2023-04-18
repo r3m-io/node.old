@@ -1083,6 +1083,10 @@ Trait Data {
             d($key);
             d($set);
             if(count($set) === 3 && strtolower($set[1]) === 'or'){
+                if($set[0] === true || $set[2] === true){
+                    $where[$key] = true;
+                    continue;
+                }
                 $list = [];
                 $list[] = $record;
                 $filter_where = [
