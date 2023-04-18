@@ -17,24 +17,24 @@ Update Event:
 'action' => 'ASC'
 ],
 'filter' => [
-'where' => [
-'(',
-'options.priority' => [
-'value' => 1,
-'operator' => '==='
-],
-'or',
-'options.priority' => [
-'value' => 10,
-'operator' => '==='
-],
-'or',
-'options.priority' => [
-'value' => 11,
-'operator' => '==='
-],
-')',
-]
+    'where' => [
+        '(',
+        'options.priority' => [
+        'value' => 1,
+        'operator' => '==='
+        ],
+        'or',
+        'options.priority' => [
+        'value' => 10,
+        'operator' => '==='
+        ],
+        'or',
+        'options.priority' => [
+        'value' => 11,
+        'operator' => '==='
+        ],
+        ')',
+    ]
 ],
 'action' => [
 'value' => 'yyy',
