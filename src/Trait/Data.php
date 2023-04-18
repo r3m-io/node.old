@@ -1144,6 +1144,8 @@ Trait Data {
                 } else {
                     $where[$key] = false;
                 }
+            } else {
+                ddd($set);
             }
             d($key);
             d($set);
