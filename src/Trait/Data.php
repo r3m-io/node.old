@@ -1107,6 +1107,7 @@ Trait Data {
             if($deepest === 0){
                 break;
             }
+            ksort($where, SORT_NATURAL);
             ddd($where);
             $deepest = $this->filter_where_get_depth($where);
             unset($key);
