@@ -1145,6 +1145,10 @@ Trait Data {
                     $where[$key] = false;
                 }
             } elseif(count($set) === 5 && strtolower($set[1]) === 'or' && strtolower($set[3]) === 'or'){
+                if($set[0] === true || $set[2] === true || $set[4] === true){
+                    $where[$key] = true;
+                    continue;
+                }
                 if($set[0] === false){
                     $left = $set[0];
                 } else {
