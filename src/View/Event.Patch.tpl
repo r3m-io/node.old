@@ -25,6 +25,7 @@ Update Event:
         'operator' => '==='
         ],
         'or',
+        '(',
         [
         'attribute' => 'options.priority',
         'value' => 10,
@@ -36,6 +37,7 @@ Update Event:
         'value' => 11,
         'operator' => '==='
         ],
+        ')'
         ')'
     ],
     'action' => [
