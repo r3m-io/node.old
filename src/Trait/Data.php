@@ -1041,6 +1041,7 @@ Trait Data {
             if($value === ')'){
                 if($depth === $deep){
                     unset($where[$nr]);
+                    d($where);
                 }
                 $depth--;
                 if(
