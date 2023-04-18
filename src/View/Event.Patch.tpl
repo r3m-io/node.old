@@ -20,19 +20,19 @@ Update Event:
     'where' => [
         '(',
         [
-        'attribute' => 'options.priority'
+        'attribute' => 'options.priority',
         'value' => 1,
         'operator' => '==='
         ],
         'or',
         [
-        'attribute' => 'options.priority'
+        'attribute' => 'options.priority',
         'value' => 10,
         'operator' => '==='
         ],
         'or',
         [
-        'attribute' => 'options.priority'
+        'attribute' => 'options.priority',
         'value' => 11,
         'operator' => '==='
         ],
