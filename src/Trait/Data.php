@@ -1152,6 +1152,7 @@ Trait Data {
                 'search' => [],
             ]);
             if($record){
+                $record->node = File::read($record->read->url);
                 $record = $this->filter($record, $options['filter']);
                 if($record){
                     $page[] = $record;
