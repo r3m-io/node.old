@@ -28,10 +28,10 @@ Update Event:
         '(',
         [
         'attribute' => 'options.priority',
-        'value' => 11,
+        'value' => 10,
         'operator' => '==='
         ],
-        'and',
+        'or',
         [
         'attribute' => 'action',
         'value' => 'yyy',
