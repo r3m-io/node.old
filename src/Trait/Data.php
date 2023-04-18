@@ -1035,9 +1035,11 @@ Trait Data {
         foreach($where as $key => $value){
             if($value === '('){
                 $depth++;
+                continue;
             }
             if($value === ')'){
                 $depth--;
+                continue;
             }
             if($depth === $deep){
                 $set[] = $value;
