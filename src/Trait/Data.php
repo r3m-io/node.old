@@ -1038,7 +1038,7 @@ Trait Data {
             }
             if($value === ')'){
                 if($depth === $deep){
-                    unset($where[$nr]]);
+                    unset($where[$nr]);
                 }
                 $depth--;
                 if(
