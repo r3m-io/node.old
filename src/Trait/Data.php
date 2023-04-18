@@ -1107,6 +1107,7 @@ Trait Data {
             if($deepest === 0){
                 break;
             }
+            d($where);
             $deepest = $this->filter_where_get_depth($where);
             unset($key);
             $counter++;
