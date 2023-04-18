@@ -28,13 +28,27 @@ Update Event:
         '(',
         [
         'attribute' => 'options.priority',
-        'value' => 10,
+        'value' => 11,
         'operator' => '==='
         ],
-        'or',
+        'and',
         [
         'attribute' => 'action',
         'value' => 'yyy',
+        'operator' => '==='
+        ],
+        ')',
+        'or',
+        '(',
+        [
+        'attribute' => 'options.priority',
+        'value' => 10,
+        'operator' => '==='
+        ],
+        'and',
+        [
+        'attribute' => 'action',
+        'value' => 'utyrrt',
         'operator' => '==='
         ],
         ')',
