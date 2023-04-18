@@ -1029,7 +1029,7 @@ Trait Data {
         return $deepest;
     }
 
-    private function filter_where_get_set(&$where=[], &$key=-1, $deep=0){
+    private function filter_where_get_set(&$where=[], &$key=null, $deep=0){
         $set = [];
         $depth = 0;
         foreach($where as $nr => $value){
@@ -1049,8 +1049,7 @@ Trait Data {
                 }
             }
             if($depth === $deep){
-                ddd($key);
-                if($key < 0){
+                if($key === null){
                     $key = $nr;
                 }
                 if(!in_array($value, [
