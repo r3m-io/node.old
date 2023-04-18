@@ -1015,7 +1015,21 @@ Trait Data {
     private function filter($record=[], $filter=[]){
         d($record);
         ddd($filter);
+        if(
+            array_key_exists('where', $filter) &&
+            is_array($filter['where'])
+        ){
+            $depth = 0;
+            foreach($filter['where'] as $key => $value){
+                if($value === '('){
+                    $depth++;
+                }
+                if($value === ')'){
+                    $depth--;
+                }
 
+            }
+        }
     }
 
     private function binary_search_page($file, $options=[]): array
