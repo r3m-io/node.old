@@ -1086,9 +1086,6 @@ Trait Data {
             if(empty($set)){
                 break;
             }
-            d($key);
-            d($set);
-            d($where);
             if(count($set) === 3 && strtolower($set[1]) === 'or'){
                 if($set[0] === true || $set[2] === true){
                     $where[$key] = true;
@@ -1148,6 +1145,9 @@ Trait Data {
                     $where[$key] = false;
                 }
             }
+            d($key);
+            d($set);
+            d($where);
             if($deepest === 0){
                 break;
             }
