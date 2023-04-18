@@ -1156,7 +1156,10 @@ Trait Data {
                 'search' => [],
             ]);
             if($record){
-                $record->node = $object->data_read($record->read->url, sha1($record->read->url));
+                $read = $object->data_read($record->read->url, sha1($record->read->url));
+                if($read){
+                    $record->node = $read->data();
+                }
                 $record = $this->filter($record, $options['filter']);
                 if($record){
                     $page[] = $record;
