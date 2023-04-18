@@ -1035,17 +1035,20 @@ Trait Data {
         foreach($where as $key => $value){
             if($value === '('){
                 $depth++;
-                continue;
             }
             if($value === ')'){
                 $depth--;
                 if(!empty($set)){
                     break;
                 }
-                continue;
             }
             if($depth === $deep){
-                $set[] = $value;
+                if(!in_array($value, [
+                    '(',
+                    ')'
+                ], true)) {
+                    $set[] = $value;
+                }
                 unset($where[$key]);
             }
         }
