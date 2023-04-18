@@ -1032,7 +1032,7 @@ Trait Data {
     private function filter_where_get_set(&$where=[], &$key=-1, $deep=0){
         $set = [];
         $depth = 0;
-        foreach($where as $key => $value){
+        foreach($where as $nr => $value){
             if($value === '('){
                 $depth++;
             }
@@ -1042,18 +1042,19 @@ Trait Data {
                     $depth === $deep &&
                     !empty($set)
                 ){
-                    unset($where[$key]);
+                    unset($where[$nr]);
                     break;
                 }
             }
             if($depth === $deep){
+                $key = $nr;
                 if(!in_array($value, [
                     '(',
                     ')'
                 ], true)) {
                     $set[] = $value;
                 }
-                unset($where[$key]);
+                unset($where[$nr]);
             }
         }
         return $set;
