@@ -1084,20 +1084,20 @@ Trait Data {
             if(count($set) === 3 && strtolower($set[1]) === 'or'){
                 $list = [];
                 $list[] = $record;
-                $where = [
+                $filter_where = [
                     'node.' . $set[0]['attribute'] => [
                         'value' => $set[0]['value'],
                         'operator' => $set[0]['operator']
                     ]
                 ];
-                $left = Filter::list($list)->where($where);
-                $where = [
+                $left = Filter::list($list)->where($filter_where);
+                $filter_where = [
                     'node.' . $set[2]['attribute'] => [
                         'value' => $set[2]['value'],
                         'operator' => $set[2]['operator']
                     ]
                 ];
-                $right = Filter::list($list)->where($where);
+                $right = Filter::list($list)->where($filter_where);
                 if(!empty($left) || !empty($right)){
                     $where[$key] = true;
                 } else {
