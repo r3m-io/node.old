@@ -34,7 +34,7 @@ Update Event:
         'and',
         [
         'attribute' => 'action',
-        'value' => 'utyrrt',
+        'value' => 'yyy',
         'operator' => '==='
         ],
         ')',
