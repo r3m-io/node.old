@@ -1079,7 +1079,7 @@ Trait Data {
             $list = [];
             $list[] = $record;
             $where = [
-                $set[0]['attribute'] => [
+                'node.' . $set[0]['attribute'] => [
                     'value' => $set[0]['value'],
                     'operator' => $set[0]['operator']
                 ]
@@ -1087,7 +1087,7 @@ Trait Data {
             d($list);
             $left = Filter::list($list)->where($where);
             $where = [
-                $set[2]['attribute'] => [
+                'node.' . $set[2]['attribute'] => [
                     'value' => $set[2]['value'],
                     'operator' => $set[2]['operator']
                 ]
