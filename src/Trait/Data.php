@@ -1012,6 +1012,43 @@ Trait Data {
         return false;
     }
 
+    private function filter_set_get_deepest($set=[]){
+        $depth = 0;
+        $deepest = 0;
+        foreach($set as $key => $value){
+            if($value === '('){
+                $depth++;
+            }
+            if($value === ')'){
+                $depth--;
+            }
+            if($depth > $deepest){
+                $deepest = $depth;
+            }
+        }
+        return $deepest;
+    }
+
+    private function filter_set($set=[]){
+        $result = [];
+        $depth = 0;
+
+        $deepest = $this->filter_set_get_deepest($set);
+        ddd($deepest);
+        foreach($set as $key => $value){
+            if($value === '('){
+                $depth++;
+            }
+            if($value === ')'){
+                $depth--;
+            }
+            if($depth === 0){
+                $result[] = $value;
+            }
+        }
+        return $result;
+    }
+
     private function filter($record=[], $filter=[]){
         d($record);
         ddd($filter);
@@ -1019,6 +1056,9 @@ Trait Data {
             array_key_exists('where', $filter) &&
             is_array($filter['where'])
         ){
+            $set = $this->filter_set($filter['where']);
+
+
             $depth = 0;
             foreach($filter['where'] as $key => $value){
                 if($value === '('){
