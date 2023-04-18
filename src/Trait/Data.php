@@ -1080,6 +1080,7 @@ Trait Data {
                 break;
             }
             $set = $this->filter_where_get_set($where, $key, $deepest);
+            d($key);
             d($set);
             if(count($set) === 3 && strtolower($set[1]) === 'or'){
                 $list = [];
