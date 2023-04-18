@@ -1072,7 +1072,7 @@ Trait Data {
     private function filter_where($record=[], $where=[]){
         $result = [];
         $depth = 0;
-
+        $set = [];
         $deepest = $this->filter_where_get_depth($where);
         $counter =0;
         while($deepest >= 0){
@@ -1142,25 +1142,16 @@ Trait Data {
         return $record;
     }
 
+    /**
+     * @throws Exception
+     */
     private function filter($record=[], $filter=[]){
         if(
             array_key_exists('where', $filter) &&
             is_array($filter['where'])
         ){
             $record = $this->filter_where($record, $filter['where']);
-            ddd($record);
-
-
-            $depth = 0;
-            foreach($filter['where'] as $key => $value){
-                if($value === '('){
-                    $depth++;
-                }
-                if($value === ')'){
-                    $depth--;
-                }
-
-            }
+            return $record;
         }
     }
 
