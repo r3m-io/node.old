@@ -1074,30 +1074,46 @@ Trait Data {
         $depth = 0;
 
         $deepest = $this->filter_where_get_depth($where);
-        $set = $this->filter_where_get_set($where, $key, $deepest);
-        if(count($set) === 3 && strtolower($set[1]) === 'or'){
-            $list = [];
-            $list[] = $record;
-            $where = [
-                'node.' . $set[0]['attribute'] => [
-                    'value' => $set[0]['value'],
-                    'operator' => $set[0]['operator']
-                ]
-            ];
-            d($where);
-            d($list);
-            $left = Filter::list($list)->where($where);
-            $where = [
-                'node.' . $set[2]['attribute'] => [
-                    'value' => $set[2]['value'],
-                    'operator' => $set[2]['operator']
-                ]
-            ];
-            d($where);
-            $right = Filter::list($list)->where($where);
-            d($left);
-            d($right);
+        $counter =0;
+        while($deepest >= 0){
+            if($counter > 1024){
+                break;
+            }
+            $set = $this->filter_where_get_set($where, $key, $deepest);
+            d($set);
+            if(count($set) === 3 && strtolower($set[1]) === 'or'){
+                $list = [];
+                $list[] = $record;
+                $where = [
+                    'node.' . $set[0]['attribute'] => [
+                        'value' => $set[0]['value'],
+                        'operator' => $set[0]['operator']
+                    ]
+                ];
+                $left = Filter::list($list)->where($where);
+                $where = [
+                    'node.' . $set[2]['attribute'] => [
+                        'value' => $set[2]['value'],
+                        'operator' => $set[2]['operator']
+                    ]
+                ];
+                $right = Filter::list($list)->where($where);
+                if(!empty($left) || !empty($right)){
+                    $where[$key] = true;
+                }
+                $where[$key] = false;
+            }
+            if($deepest === 0){
+                break;
+            }
+            $deepest = $this->filter_where_get_depth($where);
+            unset($key);
+            $counter++;
         }
+
+
+
+
 
 
         d($key);
