@@ -1008,7 +1008,7 @@ Trait Data {
                 $record['uuid'] .
                 $object->config('extension.json')
             ;
-            return $record;
+            return (object) $record;
         }
         return false;
     }
