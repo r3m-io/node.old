@@ -1092,20 +1092,28 @@ Trait Data {
                 }
                 $list = [];
                 $list[] = $record;
-                $filter_where = [
-                    'node.' . $set[0]['attribute'] => [
-                        'value' => $set[0]['value'],
-                        'operator' => $set[0]['operator']
-                    ]
-                ];
-                $left = Filter::list($list)->where($filter_where);
-                $filter_where = [
-                    'node.' . $set[2]['attribute'] => [
-                        'value' => $set[2]['value'],
-                        'operator' => $set[2]['operator']
-                    ]
-                ];
-                $right = Filter::list($list)->where($filter_where);
+                if($set[0] === false){
+                    $left = $set[0];
+                } else {
+                    $filter_where = [
+                        'node.' . $set[0]['attribute'] => [
+                            'value' => $set[0]['value'],
+                            'operator' => $set[0]['operator']
+                        ]
+                    ];
+                    $left = Filter::list($list)->where($filter_where);
+                }
+                if($set[2] === false){
+                    $right = $set[2];
+                } else {
+                    $filter_where = [
+                        'node.' . $set[2]['attribute'] => [
+                            'value' => $set[2]['value'],
+                            'operator' => $set[2]['operator']
+                        ]
+                    ];
+                    $right = Filter::list($list)->where($filter_where);
+                }
                 if(!empty($left) || !empty($right)){
                     $where[$key] = true;
                 } else {
