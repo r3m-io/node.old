@@ -1082,14 +1082,14 @@ Trait Data {
                     'value' => $set[0]['value'],
                     'operator' => $set[0]['operator']
                 ]
-            ]
+            ];
             $left = Filter::list($list)->where($where);
             $where = [
                 $set[2]['attribute'] => [
                     'value' => $set[2]['value'],
                     'operator' => $set[2]['operator']
                 ]
-            ]
+            ];
             $right = Filter::list($list)->where($where);
             d($left);
             d($right);
