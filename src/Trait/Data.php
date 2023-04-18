@@ -2,6 +2,7 @@
 
 namespace R3m\Io\Node\Trait;
 
+use R3m\Io\Module\Filter;
 use SplFileObject;
 use stdClass;
 
@@ -1064,29 +1065,43 @@ Trait Data {
         return $set;
     }
 
-    private function filter_where($where=[]){
+    /**
+     * @throws Exception
+     */
+    private function filter_where($record=[], $where=[]){
         $result = [];
         $depth = 0;
 
         $deepest = $this->filter_where_get_depth($where);
         $set = $this->filter_where_get_set($where, $key, $deepest);
+        if(count($set) === 3 && strtolower($set[1]) === 'or'){
+            $list = [];
+            $list[] = $record;
+            $where = [
+                $set[0]['attribute'] => [
+                    'value' => $set[0]['value'],
+                    'operator' => $set[0]['operator']
+                ]
+            ]
+            $left = Filter::list($list)->where($where);
+            $where = [
+                $set[2]['attribute'] => [
+                    'value' => $set[2]['value'],
+                    'operator' => $set[2]['operator']
+                ]
+            ]
+            $right = Filter::list($list)->where($where);
+            d($left);
+            d($right);
+        }
+
+
         d($key);
         d($where);
         ddd($set);
 
         ddd($deepest);
-        foreach($set as $key => $value){
-            if($value === '('){
-                $depth++;
-            }
-            if($value === ')'){
-                $depth--;
-            }
-            if($depth === 0){
-                $result[] = $value;
-            }
-        }
-        return $result;
+        return $record;
     }
 
     private function filter($record=[], $filter=[]){
@@ -1094,8 +1109,8 @@ Trait Data {
             array_key_exists('where', $filter) &&
             is_array($filter['where'])
         ){
-            $where = $this->filter_where($filter['where']);
-            ddd($where);
+            $record = $this->filter_where($record, $filter['where']);
+            ddd($record);
 
 
             $depth = 0;
