@@ -1137,6 +1137,7 @@ Trait Data {
                         'operator' => $set[2]['operator']
                     ]
                 ];
+                d($record);
                 $and = Filter::list($list)->where($filter_where);
                 ddd($and);
             }
