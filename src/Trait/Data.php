@@ -1101,8 +1101,9 @@ Trait Data {
                 $right = Filter::list($list)->where($where);
                 if(!empty($left) || !empty($right)){
                     $where[$key] = true;
+                } else {
+                    $where[$key] = false;
                 }
-                $where[$key] = false;
             }
             if($deepest === 0){
                 break;
