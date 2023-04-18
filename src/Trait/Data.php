@@ -1041,6 +1041,7 @@ Trait Data {
                 if(
                     $depth === $deep &&
                     !empty($set)){
+                    unset($where[$key]);
                     break;
                 }
             }
