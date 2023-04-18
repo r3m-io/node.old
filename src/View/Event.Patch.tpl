@@ -34,6 +34,7 @@ Update Event:
 'operator' => '==='
 ],
 ')',
+]
 ],
 'action' => [
 'value' => 'yyy',
