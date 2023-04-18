@@ -200,6 +200,45 @@ Trait Data {
         }
         $dir = new Dir();
         $files = $dir->read($directory, $recursive);
+        foreach($files as $file){
+            $file->extension = File::extension($file->url);
+            switch($file->extension){
+                case 'php':
+                    $file->read = explode(PHP_EOL, File::read($file->url));
+//                    $file->class = Php::false;
+
+
+                    /*
+                     * #class
+                     * #namespace
+                     * #trait
+                     * #function
+                     * #controller
+                     */
+                break;
+                case 'tpl':
+                    /*
+                     * #module
+                     * #submodule
+                     * #command
+                     * #subcommand
+                     * #controller
+                     */
+                break;
+                case 'js':
+                    /*
+                     * #module
+                     * #prototype
+                     */
+                break;
+                case 'json':
+                    /*
+                     * #function
+                     * #controller
+                     */
+                break;
+            }
+        }
         ddd($files);
     }
 
