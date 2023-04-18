@@ -34,14 +34,14 @@ Update Event:
         'operator' => '==='
         ],
         ')'
+    ],
+    'action' => [
+    'value' => 'yyy',
+    'operator' => '==='
     ]
 ],
-'action' => [
-'value' => 'yyy',
-'operator' => '==='
-]
 'limit' => (int) $options.limit,
-'page' => (int) $options.page,
+'page' => (int) $options.page
 ])}}
 {{dd($response)}}
 
