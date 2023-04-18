@@ -1049,6 +1049,7 @@ Trait Data {
                 }
             }
             if($depth === $deep){
+                ddd($key);
                 if($key < 0){
                     $key = $nr;
                 }
