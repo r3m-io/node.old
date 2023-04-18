@@ -1144,12 +1144,46 @@ Trait Data {
                 } else {
                     $where[$key] = false;
                 }
-            } else {
-                ddd($set);
+            } elseif(count($set) === 5 && strtolower($set[1]) === 'or' && strtolower($set[3]) === 'or'){
+                if($set[0] === false){
+                    $left = $set[0];
+                } else {
+                    $filter_where = [
+                        'node.' . $set[0]['attribute'] => [
+                            'value' => $set[0]['value'],
+                            'operator' => $set[0]['operator']
+                        ]
+                    ];
+                    $left = Filter::list($list)->where($filter_where);
+                }
+                if($set[2] === false){
+                    $middle = $set[2];
+                } else {
+                    $filter_where = [
+                        'node.' . $set[2]['attribute'] => [
+                            'value' => $set[2]['value'],
+                            'operator' => $set[2]['operator']
+                        ]
+                    ];
+                    $middle = Filter::list($list)->where($filter_where);
+                }
+                if($set[4] === false){
+                    $right = $set[4];
+                } else {
+                    $filter_where = [
+                        'node.' . $set[4]['attribute'] => [
+                            'value' => $set[4]['value'],
+                            'operator' => $set[4]['operator']
+                        ]
+                    ];
+                    $right = Filter::list($list)->where($filter_where);
+                }
+                if(!empty($left) || !empty($middle) || !empty($right)){
+                    $where[$key] = true;
+                } else {
+                    $where[$key] = false;
+                }
             }
-            d($key);
-            d($set);
-            d($where);
             if($deepest === 0){
                 break;
             }
