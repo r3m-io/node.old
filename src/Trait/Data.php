@@ -1012,10 +1012,10 @@ Trait Data {
         return false;
     }
 
-    private function filter_set_get_deepest($set=[]){
+    private function filter_where_get_depth($where=[]){
         $depth = 0;
         $deepest = 0;
-        foreach($set as $key => $value){
+        foreach($where as $key => $value){
             if($value === '('){
                 $depth++;
             }
@@ -1029,11 +1029,31 @@ Trait Data {
         return $deepest;
     }
 
-    private function filter_set($set=[]){
+    private function filter_where_get_set($where=[], $deep=0){
+        $set = [];
+        $depth = 0;
+        foreach($where as $key => $value){
+            if($value === '('){
+                $depth++;
+            }
+            if($value === ')'){
+                $depth--;
+            }
+            if($depth === $deep){
+                $set[] = $value;
+            }
+        }
+        return $set;
+    }
+
+    private function filter_where($where=[]){
         $result = [];
         $depth = 0;
 
-        $deepest = $this->filter_set_get_deepest($set);
+        $deepest = $this->filter_where_get_depth($where);
+        $set = $this->filter_where_get_set($where, $deepest);
+        ddd($set);
+
         ddd($deepest);
         foreach($set as $key => $value){
             if($value === '('){
@@ -1054,8 +1074,8 @@ Trait Data {
             array_key_exists('where', $filter) &&
             is_array($filter['where'])
         ){
-            $set = $this->filter_set($filter['where']);
-            ddd($set);
+            $where = $this->filter_where($filter['where']);
+            ddd($where);
 
 
             $depth = 0;
