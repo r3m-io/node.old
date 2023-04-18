@@ -989,26 +989,27 @@ Trait Data {
             $file->seek($seek);
         }
         if(!empty($data)){
-            $record  = json_decode(implode('', $data), true);
-            if(!is_array($record)){
+            $record  = json_decode(implode('', $data));
+            if(!is_object($record)){
                 return false;
             }
-            $record['read']['load'] = $options['counter'];
-            $record['read']['seek'] = $options['seek'];
-            $record['read']['lines'] = $options['lines'];
-            $record['read']['percentage'] = round(($options['counter'] / $options['lines']) * 100, 2);
+            $record->read = new stdClass();
+            $record->read->load = $options['counter'];
+            $record->read->seek = $options['seek'];
+            $record->read->lines = $options['lines'];
+            $record->read->percentage = round(($options['counter'] / $options['lines']) * 100, 2);
             $object = $this->object();
-            $record['read']['url'] = $object->config('project.dir.data') .
+            $record->read->url = $object->config('project.dir.data') .
                 'Node' .
                 $object->config('ds') .
                 'Storage' .
                 $object->config('ds') .
-                substr($record['uuid'], 0, 2) .
+                substr($record->uuid, 0, 2) .
                 $object->config('ds') .
-                $record['uuid'] .
+                $record->uuid .
                 $object->config('extension.json')
             ;
-            return (object) $record;
+            return $record;
         }
         return false;
     }
