@@ -1038,7 +1038,9 @@ Trait Data {
             }
             if($value === ')'){
                 $depth--;
-                if(!empty($set)){
+                if(
+                    $depth === $deep &&
+                    !empty($set)){
                     break;
                 }
             }
