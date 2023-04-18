@@ -16,6 +16,30 @@ Update Event:
 'options.priority' => 'ASC',
 'action' => 'ASC'
 ],
+'filter' => [
+    'where' => [
+        '(',
+        'options.priority' => [
+            'value' => 1,
+            'operator' => '==='
+        ],
+        'or',
+        'options.priority' => [
+            'value' => 10,
+            'operator' => '==='
+        ],
+        'or',
+        'options.priority' => [
+            'value' => 11,
+            'operator' => '==='
+        ],
+        ')',
+    ],
+    'action' => [
+        'value' => 'yyy',
+        'operator' => '==='
+    ]
+]
 'limit' => (int) $options.limit,
 'page' => (int) $options.page,
 ])}}

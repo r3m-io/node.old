@@ -480,7 +480,9 @@ Trait Data {
             $class .
             $object->config('ds')
         ;
-
+        if(!array_key_exists('filter', $options)){
+            $options['filter'] = [];
+        }
         if(array_key_exists('sort', $options)){
             $property = [];
             $has_descending = false;
@@ -512,6 +514,7 @@ Trait Data {
                 $file = new SplFileObject($url);
                 $data = [];
                 $list = $this->binary_search_page($file, [
+                    'filter' => $options['filter'],
                     'page' => $options['page'],
                     'limit' => $options['limit'],
                     'lines'=> $lines,
@@ -1009,6 +1012,12 @@ Trait Data {
         return false;
     }
 
+    private function filter($record=[], $filter=[]){
+        d($record);
+        ddd($filter);
+
+    }
+
     private function binary_search_page($file, $options=[]): array
     {
         $index = 0;
@@ -1034,7 +1043,12 @@ Trait Data {
                 'search' => [],
             ]);
             if($record){
-                $page[] = $record;
+                $record = $this->filter($record, $options['filter']);
+                if($record){
+                    $page[] = $record;
+                } else {
+                    $end++;
+                }
             } else {
                 break;
             }
