@@ -1037,17 +1037,21 @@ Trait Data {
                 $depth++;
             }
             if($value === ')'){
+                if($depth === $deep){
+                    unset($where[$nr]]);
+                }
                 $depth--;
                 if(
                     $depth === $deep &&
                     !empty($set)
                 ){
-                    unset($where[$nr]);
                     break;
                 }
             }
             if($depth === $deep){
-                $key = $nr;
+                if($key === -1){
+                    $key = $nr;
+                }
                 if(!in_array($value, [
                     '(',
                     ')'
