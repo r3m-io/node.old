@@ -1128,17 +1128,17 @@ Trait Data {
             unset($key);
             $counter++;
         }
-
-
-
-
-
-
-        d($key);
-        d($where);
-        ddd($set);
-
-        ddd($deepest);
+        if(
+            count($set) === 1 &&
+            empty($where) &&
+            $set[0] === false
+        ){
+            return false;
+        }
+        elseif(count($set) > 1){
+            d($where);
+            ddd($set);
+        }
         return $record;
     }
 
