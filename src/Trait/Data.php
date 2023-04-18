@@ -1049,7 +1049,7 @@ Trait Data {
                 }
             }
             if($depth === $deep){
-                if($key === -1){
+                if($key < 0){
                     $key = $nr;
                 }
                 if(!in_array($value, [
