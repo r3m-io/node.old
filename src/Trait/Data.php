@@ -1084,6 +1084,7 @@ Trait Data {
                     'operator' => $set[0]['operator']
                 ]
             ];
+            d($where);
             d($list);
             $left = Filter::list($list)->where($where);
             $where = [
@@ -1092,6 +1093,7 @@ Trait Data {
                     'operator' => $set[2]['operator']
                 ]
             ];
+            d($where);
             $right = Filter::list($list)->where($where);
             d($left);
             d($right);
