@@ -1137,9 +1137,12 @@ Trait Data {
                         'operator' => $set[2]['operator']
                     ]
                 ];
-                d($record);
                 $and = Filter::list($list)->where($filter_where);
-                ddd($and);
+                if(!empty($and)){
+                    $where[$key] = true;
+                } else {
+                    $where[$key] = false;
+                }
             }
             if($deepest === 0){
                 break;
