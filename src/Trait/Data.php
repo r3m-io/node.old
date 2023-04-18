@@ -1081,8 +1081,6 @@ Trait Data {
             }
             $set = $this->filter_where_get_set($where, $key, $deepest);
             d($key);
-            ddd($where);
-            d($set);
             if(count($set) === 3 && strtolower($set[1]) === 'or'){
                 $list = [];
                 $list[] = $record;
@@ -1109,7 +1107,7 @@ Trait Data {
             if($deepest === 0){
                 break;
             }
-            d($where);
+            ddd($where);
             $deepest = $this->filter_where_get_depth($where);
             unset($key);
             $counter++;
