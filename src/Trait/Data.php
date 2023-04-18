@@ -1120,6 +1120,26 @@ Trait Data {
                     $where[$key] = false;
                 }
             }
+            elseif(count($set) === 3 && strtolower($set[1]) === 'and'){
+                if($set[0] === false && $set[2] === false){
+                    $where[$key] = false;
+                    continue;
+                }
+                $list = [];
+                $list[] = $record;
+                $filter_where = [
+                    'node.' . $set[0]['attribute'] => [
+                        'value' => $set[0]['value'],
+                        'operator' => $set[0]['operator']
+                    ],
+                    'node.' . $set[2]['attribute'] => [
+                        'value' => $set[2]['value'],
+                        'operator' => $set[2]['operator']
+                    ]
+                ];
+                $and = Filter::list($list)->where($filter_where);
+                ddd($and);
+            }
             if($deepest === 0){
                 break;
             }
