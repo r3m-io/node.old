@@ -1050,13 +1050,12 @@ Trait Data {
     }
 
     private function filter($record=[], $filter=[]){
-        d($record);
-        ddd($filter);
         if(
             array_key_exists('where', $filter) &&
             is_array($filter['where'])
         ){
             $set = $this->filter_set($filter['where']);
+            ddd($set);
 
 
             $depth = 0;
