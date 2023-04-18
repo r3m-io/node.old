@@ -1083,6 +1083,7 @@ Trait Data {
                     'operator' => $set[0]['operator']
                 ]
             ];
+            d($list);
             $left = Filter::list($list)->where($where);
             $where = [
                 $set[2]['attribute'] => [
