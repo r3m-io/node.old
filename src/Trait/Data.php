@@ -1058,6 +1058,7 @@ Trait Data {
 
         $deepest = $this->filter_where_get_depth($where);
         $set = $this->filter_where_get_set($where, $deepest);
+        d($where);
         ddd($set);
 
         ddd($deepest);
