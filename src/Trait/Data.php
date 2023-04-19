@@ -685,7 +685,6 @@ Trait Data {
                     'data' => $data,
                     'direction' => 'next',
                 ]);
-                ddd($list);
                 if(!empty($list)){
                     $where = [];
                     foreach($list as $index => $node){
