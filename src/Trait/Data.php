@@ -682,7 +682,7 @@ Trait Data {
                 $key = sha1(Core::object($key, Core::OBJECT_JSON));
                 $file = new SplFileObject($url_property);
                 $data = [];
-                $list = $this->binary_search_list($file, [
+                $list = $this->binary_search_list($file, $meta, [
                     'where' => $options['where'],
                     'limit' => $meta->get('Where.' . $class . '.' . $key . '.limit'),
                     'lines'=> $record->lines,
@@ -713,6 +713,7 @@ Trait Data {
                     $count = $index + 1;
                     $meta->set('Where.' . $class . '.' . $key . '.lines', $lines);
                     $meta->set('Where.' . $class . '.' . $key . '.count', $count);
+                    $meta->set('Where.' . $class . '.' . $key . '.limit', $count);
                     $meta->set('Where.' . $class . '.' . $key . '.mtime', time());
                     $meta->set('Where.' . $class . '.' . $key . '.atime', null);
                     d($meta);
@@ -1364,7 +1365,7 @@ Trait Data {
     /**
      * @throws Exception
      */
-    private function binary_search_list($file, $options=[]): array
+    private function binary_search_list($file, $meta, $options=[]): array
     {
         if(!array_key_exists('limit', $options)){
             return [];
@@ -1375,7 +1376,7 @@ Trait Data {
         $object = $this->object();
         $index = 0;
         $start = $index;
-        $end = $start + $options['limit'];
+        $end = $start + (int) $options['limit'];
         $page = [];
         $time_start = microtime(true);
         for($i = $start; $i < $end; $i++){
