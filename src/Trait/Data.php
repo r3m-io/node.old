@@ -712,7 +712,7 @@ Trait Data {
                     $lines = $storage->write($where_url, 'lines');
                     $count = $index + 1;
                     $meta->set('Where.' . $class . '.' . $key . '.lines', $lines);
-                    $meta->set('Where.' . $class . '.' . $key . '.count', $lines);
+                    $meta->set('Where.' . $class . '.' . $key . '.count', $count);
                     $meta->set('Where.' . $class . '.' . $key . '.mtime', time());
                     $meta->set('Where.' . $class . '.' . $key . '.atime', null);
                     d($meta);
