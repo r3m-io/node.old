@@ -712,7 +712,11 @@ Trait Data {
                     $storage = new Storage($where);
                     $lines = $storage->write($where_url, 'lines');
                     $count = $index + 1;
-                    d($lines);
+                    $meta->set('Where.' . $class . '.' . $key . '.lines', $lines);
+                    $meta->set('Where.' . $class . '.' . $key . '.count', $lines);
+                    $meta->set('Where.' . $class . '.' . $key . '.mtime', time());
+                    $meta->set('Where.' . $class . '.' . $key . '.atime', null);
+                    d($meta);
                     ddd($count);
                     if($object->config(Config::POSIX_ID) === 0){
                         $command = 'chown www-data:www-data ' . $where_url;
