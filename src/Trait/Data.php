@@ -685,6 +685,25 @@ Trait Data {
                     'data' => $data,
                     'direction' => 'next',
                 ]);
+                if(!empty($list)){
+                    $where = [];
+                    foreach($list as $index => $node){
+                        /*
+                        $key = [
+                            'where' => $options['where'],
+                            'sort'
+                        ]
+                        */
+                        $key = false;
+                        $where[$index] = [
+                            'uuid' => $node->uuid,
+                            'index' => $index,
+                            'key' => $key
+                        ];
+                    }
+                }
+                d($where);
+                d($options);
                 ddd($list);
 
 
