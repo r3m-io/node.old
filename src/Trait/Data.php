@@ -682,9 +682,10 @@ Trait Data {
                 $key = sha1(Core::object($key, Core::OBJECT_JSON));
                 $file = new SplFileObject($url_property);
                 $data = [];
+                $limit = $meta->get('Where.' . $class . '.' . $key . '.limit') ?? 1000;
                 $list = $this->binary_search_list($file, $meta, [
                     'where' => $options['where'],
-                    'limit' => $meta->get('Where.' . $class . '.' . $key . '.limit'),
+                    'limit' => $limit,
                     'lines'=> $record->lines,
                     'counter' => 0,
                     'data' => $data,
@@ -713,7 +714,7 @@ Trait Data {
                     $count = $index + 1;
                     $meta->set('Where.' . $class . '.' . $key . '.lines', $lines);
                     $meta->set('Where.' . $class . '.' . $key . '.count', $count);
-                    $meta->set('Where.' . $class . '.' . $key . '.limit', $count);
+                    $meta->set('Where.' . $class . '.' . $key . '.limit', $limit);
                     $meta->set('Where.' . $class . '.' . $key . '.mtime', time());
                     $meta->set('Where.' . $class . '.' . $key . '.atime', null);
                     d($meta);
