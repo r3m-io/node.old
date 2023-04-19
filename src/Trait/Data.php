@@ -502,6 +502,7 @@ Trait Data {
                 Controller::name($property) .
                 $object->config('extension.json')
             ;
+            $mtime = File::mtime($url);
             if(!$has_descending){
                 $meta_url = $object->config('project.dir.data') .
                     'Node' .
@@ -521,17 +522,22 @@ Trait Data {
                 ];
                 $key = sha1(Core::object($key, Core::OBJECT_JSON));
                 $lines = $meta->get('Where.' . $name . '.' . $key . '.lines');
-                if($lines >= 0){
-                    $where_url = $object->config('project.dir.data') .
-                        'Node' .
-                        $object->config('ds') .
-                        'Where' .
-                        $object->config('ds') .
-                        $name .
-                        $object->config('ds') .
-                        $key .
-                        $object->config('extension.json')
-                    ;
+                $where_url = $object->config('project.dir.data') .
+                    'Node' .
+                    $object->config('ds') .
+                    'Where' .
+                    $object->config('ds') .
+                    $name .
+                    $object->config('ds') .
+                    $key .
+                    $object->config('extension.json')
+                ;
+                $where_mtime = File::mtime($where_url);
+                if(
+                    File::exist($where_url) &&
+                    $mtime === $where_mtime &&
+                    $lines >= 0
+                ){
                     $file = new SplFileObject($where_url);
                     $data = [];
                     $where = [];
@@ -722,14 +728,12 @@ Trait Data {
                 ];
                 $key = sha1(Core::object($key, Core::OBJECT_JSON));
                 $file = new SplFileObject($url_property);
-                $data_list = [];
                 $limit = $meta->get('Where.' . $class . '.' . $key . '.limit') ?? 1000;
                 $where_list = $this->binary_search_list($file, [
                     'where' => $options['where'],
                     'limit' => $limit,
                     'lines'=> $record->lines,
                     'counter' => 0,
-                    'data' => $data_list,
                     'direction' => 'next',
                 ]);
                 if(!empty($where_list)){
@@ -760,7 +764,7 @@ Trait Data {
                     $meta->set('Where.' . $class . '.' . $key . '.lines', $lines);
                     $meta->set('Where.' . $class . '.' . $key . '.count', $count);
                     $meta->set('Where.' . $class . '.' . $key . '.limit', $limit);
-                    $meta->set('Where.' . $class . '.' . $key . '.mtime', time());
+                    $meta->set('Where.' . $class . '.' . $key . '.mtime', $mtime);
                     $meta->set('Where.' . $class . '.' . $key . '.atime', null);;
                     if($object->config(Config::POSIX_ID) === 0){
                         $command = 'chown www-data:www-data ' . $where_url;
