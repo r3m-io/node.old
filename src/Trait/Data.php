@@ -688,13 +688,13 @@ Trait Data {
                 if(!empty($list)){
                     $where = [];
                     foreach($list as $index => $node){
-                        /*
+
                         $key = [
                             'where' => $options['where'],
-                            'sort'
-                        ]
-                        */
-                        $key = false;
+                            'sort' => $options['sort']
+                        ];
+
+                        $key = sha1(Core::object($key, Core::OBJECT_JSON));
                         $where[$index] = [
                             'uuid' => $node->uuid,
                             'index' => $index,
