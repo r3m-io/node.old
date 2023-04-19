@@ -670,6 +670,7 @@ Trait Data {
                 exec($command);
             }
         }
+        ddd($meta);
         $meta->write($meta_url);
         if($object->config(Config::POSIX_ID) === 0){
             $command = 'chown www-data:www-data ' . $meta_url;
