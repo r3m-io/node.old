@@ -683,7 +683,7 @@ Trait Data {
                 $file = new SplFileObject($url_property);
                 $data_list = [];
                 $limit = $meta->get('Where.' . $class . '.' . $key . '.limit') ?? 1000;
-                $list = $this->binary_search_list($file, $meta, [
+                $wher_list = $this->binary_search_list($file, $meta, [
                     'where' => $options['where'],
                     'limit' => $limit,
                     'lines'=> $record->lines,
@@ -691,9 +691,9 @@ Trait Data {
                     'data' => $data_list,
                     'direction' => 'next',
                 ]);
-                if(!empty($list)){
+                if(!empty($where_list)){
                     $where = [];
-                    foreach($list as $index => $node){
+                    foreach($where_list as $index => $node){
                         $where[$key][$index] = [
                             'uuid' => $node->uuid,
                             'index' => $index,
