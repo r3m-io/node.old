@@ -727,7 +727,6 @@ Trait Data {
                         exec($command);
                     }
                 }
-                d($where);
                 d($options);
                 ddd($list);
 
