@@ -481,6 +481,9 @@ Trait Data {
             $class .
             $object->config('ds')
         ;
+        if(!array_key_exists('where', $options)){
+            $options['where'] = [];
+        }
         if(!array_key_exists('filter', $options)){
             $options['filter'] = [];
         }
@@ -515,6 +518,7 @@ Trait Data {
                 $file = new SplFileObject($url);
                 $data = [];
                 $list = $this->binary_search_page($file, [
+                    'where' => $options['where'],
                     'filter' => $options['filter'],
                     'page' => $options['page'],
                     'limit' => $options['limit'],
@@ -540,6 +544,7 @@ Trait Data {
     /**
      * @throws ObjectException
      * @throws FileWriteException
+     * @throws Exception
      */
     private function binary_search_list_create(App $object, $class, $options=[]): void
     {
@@ -669,9 +674,48 @@ Trait Data {
                 $command = 'chmod 666 ' . $url_property;
                 exec($command);
             }
+            if(array_key_exists('where', $options)){
+                $file = new SplFileObject($url_property);
+                $data = [];
+                $list = $this->binary_search_list($file, [
+                    'where' => $options['where'],
+                    'limit' => 1000,
+                    'lines'=> $record->lines,
+                    'counter' => 0,
+                    'data' => $data,
+                    'direction' => 'next',
+                ]);
+                ddd($list);
+
+
+                d($options);
+                ddd($meta);
+            }
+
         }
-        d($options);
-        ddd($meta);
+        if(array_key_exists('where', $options)){
+            /*
+            $lines = $meta->get('BinarySearch.' . $class . '.' . $property . '.lines');
+            $file = new SplFileObject($url);
+            $data = [];
+            $list = $this->binary_search_list($file, [
+                'where' => $options['where'],
+                'limit' => 1000,
+                'lines'=> $lines,
+                'counter' => 0,
+                'data' => $data,
+                'direction' => 'next',
+            ]);
+            ddd($list);
+
+
+            d($options);
+            ddd($meta);
+            */
+        }
+
+
+
         $meta->write($meta_url);
         if($object->config(Config::POSIX_ID) === 0){
             $command = 'chown www-data:www-data ' . $meta_url;
@@ -1215,14 +1259,10 @@ Trait Data {
     /**
      * @throws Exception
      */
-    private function filter($record=[], $filter=[]){
-        if(
-            array_key_exists('where', $filter) &&
-            is_array($filter['where'])
-        ){
-            $record = $this->filter_where($record, $filter['where']);
-            return $record;
-        }
+    private function filter($record=[], $where=[]){
+        $record = $this->filter_where($record, $where);
+        return $record;
+
     }
 
     private function binary_search_page($file, $options=[]): array
@@ -1255,7 +1295,60 @@ Trait Data {
                 if($read){
                     $record->node = $read->data();
                 }
-                $record = $this->filter($record, $options['filter']);
+                $record = $this->filter($record, $options['where']);
+                if($record){
+                    $page[] = $record;
+                } else {
+                    $end++;
+                }
+            } else {
+                break;
+            }
+        }
+        $time_end = microtime(true);
+        $duration = $time_end - $time_start;
+        if($duration < 1) {
+            echo 'Duration: ' . round($duration * 1000, 2) . ' msec' . PHP_EOL;
+        } else {
+            echo 'Duration: ' . round($duration, 2) . ' sec' . PHP_EOL;
+        }
+        return $page;
+    }
+
+    /**
+     * @throws Exception
+     */
+    private function binary_search_list($file, $options=[]): array
+    {
+        if(!array_key_exists('limit', $options)){
+            return [];
+        }
+        if(!array_key_exists('lines', $options)){
+            return [];
+        }
+        $object = $this->object();
+        $index = 0;
+        $start = $index;
+        $end = $start + $options['limit'];
+        $page = [];
+        $time_start = microtime(true);
+        for($i = $start; $i < $end; $i++){
+            $data = [];
+            $record = $this->binary_search_index($file, [
+                'lines'=> $options['lines'],
+                'counter' => 0,
+                'data' => $data,
+                'index' => $i,
+                'search' => [],
+            ]);
+            if($record){
+                $read = $object->data_read($record->read->url, sha1($record->read->url));
+                if($read){
+                    $record->node = $read->data();
+                }
+                if(array_key_exists('where', $options) && !empty($options['where'])){
+                    $record = $this->filter($record, $options['where']);
+                }
                 if($record){
                     $page[] = $record;
                 } else {
