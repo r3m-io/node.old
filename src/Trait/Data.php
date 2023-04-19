@@ -688,18 +688,39 @@ Trait Data {
                 if(!empty($list)){
                     $where = [];
                     foreach($list as $index => $node){
-
                         $key = [
                             'where' => $options['where'],
                             'sort' => $options['sort']
                         ];
-
                         $key = sha1(Core::object($key, Core::OBJECT_JSON));
-                        $where[$index] = [
+                        $where[$key][$index] = [
                             'uuid' => $node->uuid,
                             'index' => $index,
                             'key' => $key
                         ];
+                    }
+                    $where_dir = $dir .
+                        'Where' .
+                        $object->config('ds')
+                    ;
+                    Dir::create($where_dir, Dir::CHMOD);
+                    $where_url = $where_dir .
+                        Controller::name($property) .
+                        $object->config('extension.json')
+                    ;
+                    $storage = new Storage($where);
+                    $storage->write($where_url, 'lines');
+                    if($object->config(Config::POSIX_ID) === 0){
+                        $command = 'chown www-data:www-data ' . $where_url;
+                        exec($command);
+                        $command = 'chown www-data:www-data ' . $where_dir;
+                        exec($command);
+                    }
+                    if($object->config('framework.environment') === Config::MODE_DEVELOPMENT){
+                        $command = 'chmod 666 ' . $where_url;
+                        exec($command);
+                        $command = 'chmod 777 ' . $where_dir;
+                        exec($command);
                     }
                 }
                 d($where);
