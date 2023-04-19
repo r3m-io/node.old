@@ -469,6 +469,7 @@ Trait Data {
      */
     public function list($class='', $options=[]): false|array
     {
+        $name = Controller::name($class);
         $options = Core::object($options, Core::OBJECT_ARRAY);
         $function = __FUNCTION__;
         $object = $this->object();
@@ -514,19 +515,59 @@ Trait Data {
                 if(!$meta){
                     return false;
                 }
-                $lines = $meta->get('BinarySearch.' . $class . '.' . $property . '.lines');
-                $file = new SplFileObject($url);
-                $data = [];
-                $list = $this->binary_search_page($file, [
+                $key = [
                     'where' => $options['where'],
-                    'filter' => $options['filter'],
-                    'page' => $options['page'],
-                    'limit' => $options['limit'],
-                    'lines'=> $lines,
-                    'counter' => 0,
-                    'data' => $data,
-                    'direction' => 'next',
-                ]);
+                    'sort' => $options['sort']
+                ];
+                $key = sha1(Core::object($key, Core::OBJECT_JSON));
+                $lines = $meta->get('Where.' . $name . '.' . $key . '.lines');
+                if($lines >= 0){
+                    $where_url = $object->config('project.dir.data') .
+                        'Node' .
+                        $object->config('ds') .
+                        'Where' .
+                        $object->config('ds') .
+                        $name .
+                        $object->config('ds') .
+                        'Where' .
+                        $object->config('ds') .
+                        $key .
+                        $object->config('extension.json')
+                    ;
+                    $file = new SplFileObject($where_url);
+                    $data = [];
+                    $where = [];
+                    $where[] = [
+                        'attribute' => 'key',
+                        'value' => $key,
+                        'operator' => '==='
+                    ];
+                    $list = $this->binary_search_page($file, [
+                        'where' => $where,
+                        'filter' => $options['filter'],
+                        'page' => $options['page'],
+                        'limit' => $options['limit'],
+                        'lines'=> $lines,
+                        'counter' => 0,
+                        'data' => $data,
+                        'direction' => 'next',
+                    ]);
+                    ddd($where);
+                } else {
+                    $lines = $meta->get('BinarySearch.' . $class . '.' . $property . '.lines');
+                    $file = new SplFileObject($url);
+                    $data = [];
+                    $list = $this->binary_search_page($file, [
+                        'where' => $options['where'],
+                        'filter' => $options['filter'],
+                        'page' => $options['page'],
+                        'limit' => $options['limit'],
+                        'lines'=> $lines,
+                        'counter' => 0,
+                        'data' => $data,
+                        'direction' => 'next',
+                    ]);
+                }
                 $result = [];
                 $result['page'] = $options['page'];
                 $result['limit'] = $options['limit'];
@@ -684,7 +725,7 @@ Trait Data {
                 $file = new SplFileObject($url_property);
                 $data_list = [];
                 $limit = $meta->get('Where.' . $class . '.' . $key . '.limit') ?? 1000;
-                $where_list = $this->binary_search_list($file, $meta, [
+                $where_list = $this->binary_search_list($file, [
                     'where' => $options['where'],
                     'limit' => $limit,
                     'lines'=> $record->lines,
@@ -1343,7 +1384,7 @@ Trait Data {
     /**
      * @throws Exception
      */
-    private function binary_search_list($file, $meta, $options=[]): array
+    private function binary_search_list($file, $options=[]): array
     {
         if(!array_key_exists('limit', $options)){
             return [];
