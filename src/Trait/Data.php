@@ -705,7 +705,7 @@ Trait Data {
                         'Where' .
                         $object->config('ds')
                     ;
-                    $where_name_dir = $where_url = $where_dir .
+                    $where_name_dir = $where_dir .
                         $name .
                         $object->config('ds')
                     ;
