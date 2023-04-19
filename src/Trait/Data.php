@@ -716,9 +716,7 @@ Trait Data {
                     $meta->set('Where.' . $class . '.' . $key . '.count', $count);
                     $meta->set('Where.' . $class . '.' . $key . '.limit', $limit);
                     $meta->set('Where.' . $class . '.' . $key . '.mtime', time());
-                    $meta->set('Where.' . $class . '.' . $key . '.atime', null);
-                    d($meta);
-                    ddd($count);
+                    $meta->set('Where.' . $class . '.' . $key . '.atime', null);;
                     if($object->config(Config::POSIX_ID) === 0){
                         $command = 'chown www-data:www-data ' . $where_url;
                         exec($command);
@@ -732,38 +730,9 @@ Trait Data {
                         exec($command);
                     }
                 }
-                d($options);
-                ddd($list);
-
-
-                d($options);
-                ddd($meta);
             }
 
         }
-        if(array_key_exists('where', $options)){
-            /*
-            $lines = $meta->get('BinarySearch.' . $class . '.' . $property . '.lines');
-            $file = new SplFileObject($url);
-            $data = [];
-            $list = $this->binary_search_list($file, [
-                'where' => $options['where'],
-                'limit' => 1000,
-                'lines'=> $lines,
-                'counter' => 0,
-                'data' => $data,
-                'direction' => 'next',
-            ]);
-            ddd($list);
-
-
-            d($options);
-            ddd($meta);
-            */
-        }
-
-
-
         $meta->write($meta_url);
         if($object->config(Config::POSIX_ID) === 0){
             $command = 'chown www-data:www-data ' . $meta_url;
