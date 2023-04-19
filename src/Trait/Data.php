@@ -670,6 +670,7 @@ Trait Data {
                 exec($command);
             }
         }
+        d($options);
         ddd($meta);
         $meta->write($meta_url);
         if($object->config(Config::POSIX_ID) === 0){
