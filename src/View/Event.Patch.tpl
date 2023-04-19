@@ -16,44 +16,44 @@ Update Event:
 'options.priority' => 'ASC',
 'action' => 'ASC'
 ],
-'filter' => [
-    'where' => [
-        '(',
-        [
-        'attribute' => 'options.priority',
-        'value' => 1,
-        'operator' => '==='
-        ],
-        'or',
-        '(',
-        [
-        'attribute' => 'options.priority',
-        'value' => 11,
-        'operator' => '==='
-        ],
-        'and',
-        [
-        'attribute' => 'action',
-        'value' => 'yyy',
-        'operator' => '==='
-        ],
-        ')',
-        'or',
-        '(',
-        [
-        'attribute' => 'options.priority',
-        'value' => 10,
-        'operator' => '==='
-        ],
-        'and',
-        [
-        'attribute' => 'action',
-        'value' => 'utyrrt',
-        'operator' => '==='
-        ],
-        ')',
-        ')'
+'where' => [
+    '(',
+    [
+    'attribute' => 'options.priority',
+    'value' => 1,
+    'operator' => '==='
     ],
+    'or',
+    '(',
+    [
+    'attribute' => 'options.priority',
+    'value' => 11,
+    'operator' => '==='
+    ],
+    'and',
+    [
+    'attribute' => 'action',
+    'value' => 'yyy',
+    'operator' => '==='
+    ],
+    ')',
+    'or',
+    '(',
+    [
+    'attribute' => 'options.priority',
+    'value' => 10,
+    'operator' => '==='
+    ],
+    'and',
+    [
+    'attribute' => 'action',
+    'value' => 'utyrrt',
+    'operator' => '==='
+    ],
+    ')',
+    ')'
+],
+'filter' => [
     'action' => [
     'value' => 'yyy',
     'operator' => '==='
