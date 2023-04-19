@@ -1345,13 +1345,11 @@ Trait Data {
         $page = [];
         $time_start = microtime(true);
         for($i = $start; $i < $end; $i++){
-            $data = [];
             $record = $this->binary_search_index($file, [
                 'page' => $options['page'],
                 'limit' => $options['limit'],
                 'lines'=> $options['lines'],
                 'counter' => 0,
-                'data' => $data,
                 'index' => $i,
                 'search' => [],
             ]);
@@ -1402,7 +1400,6 @@ Trait Data {
             $record = $this->binary_search_index($file, [
                 'lines'=> $options['lines'],
                 'counter' => 0,
-                'data' => $data,
                 'index' => $i,
                 'search' => [],
             ]);
