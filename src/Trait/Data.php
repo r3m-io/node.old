@@ -556,12 +556,9 @@ Trait Data {
                         'data' => $data,
                         'direction' => 'next',
                     ]);
-                    d($list);
-                    ddd($where);
                 } else {
                     $lines = $meta->get('BinarySearch.' . $class . '.' . $property . '.lines');
                     $file = new SplFileObject($url);
-                    $data = [];
                     $list = $this->binary_search_page($file, [
                         'where' => $options['where'],
                         'filter' => $options['filter'],
@@ -569,7 +566,6 @@ Trait Data {
                         'limit' => $options['limit'],
                         'lines'=> $lines,
                         'counter' => 0,
-                        'data' => $data,
                         'direction' => 'next',
                     ]);
                 }
