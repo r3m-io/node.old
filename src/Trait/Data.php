@@ -709,7 +709,10 @@ Trait Data {
                         $object->config('extension.json')
                     ;
                     $storage = new Storage($where);
-                    $storage->write($where_url, 'lines');
+                    $lines = $storage->write($where_url, 'lines');
+                    $count = $index;
+                    d($lines);
+                    ddd($count);
                     if($object->config(Config::POSIX_ID) === 0){
                         $command = 'chown www-data:www-data ' . $where_url;
                         exec($command);
