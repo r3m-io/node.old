@@ -549,15 +549,16 @@ Trait Data {
     private function binary_search_list_create(App $object, $class, $options=[]): void
     {
         $name = Controller::name($class);
-        $dir = $object->config('project.dir.data') .
+        $dir_node = $object->config('project.dir.data') .
             'Node' .
-            $object->config('ds') .
+            $object->config('ds');
+        $dir_binarysearch = $dir_node .
             'BinarySearch' .
             $object->config('ds') .
             $name .
             $object->config('ds')
         ;
-        $url = $dir .
+        $url = $dir_binarysearch .
             'Uuid' .
             $object->config('extension.json')
         ;
@@ -605,7 +606,7 @@ Trait Data {
             if($property === 'uuid'){
                 continue;
             }
-            $url_property = $dir .
+            $url_property = $dir_binarysearch .
                 Controller::name($property) .
                 $object->config('extension.json')
             ;
@@ -683,7 +684,7 @@ Trait Data {
                 $file = new SplFileObject($url_property);
                 $data_list = [];
                 $limit = $meta->get('Where.' . $class . '.' . $key . '.limit') ?? 1000;
-                $wher_list = $this->binary_search_list($file, $meta, [
+                $where_list = $this->binary_search_list($file, $meta, [
                     'where' => $options['where'],
                     'limit' => $limit,
                     'lines'=> $record->lines,
@@ -700,13 +701,17 @@ Trait Data {
                             'key' => $key
                         ];
                     }
-                    $where_dir = $dir .
+                    $where_dir = $dir_node .
                         'Where' .
                         $object->config('ds')
                     ;
-                    Dir::create($where_dir, Dir::CHMOD);
-                    $where_url = $where_dir .
-                        Controller::name($property) .
+                    $where_name_dir = $where_url = $where_dir .
+                        $name .
+                        $object->config('ds')
+                    ;
+                    Dir::create($where_name_dir, Dir::CHMOD);
+                    $where_url = $where_name_dir .
+                        $key .
                         $object->config('extension.json')
                     ;
                     $storage = new Storage($where);
@@ -722,11 +727,15 @@ Trait Data {
                         exec($command);
                         $command = 'chown www-data:www-data ' . $where_dir;
                         exec($command);
+                        $command = 'chown www-data:www-data ' . $where_name_dir;
+                        exec($command);
                     }
                     if($object->config('framework.environment') === Config::MODE_DEVELOPMENT){
                         $command = 'chmod 666 ' . $where_url;
                         exec($command);
                         $command = 'chmod 777 ' . $where_dir;
+                        exec($command);
+                        $command = 'chmod 777 ' . $where_name_dir;
                         exec($command);
                     }
                 }
