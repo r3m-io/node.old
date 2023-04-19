@@ -678,13 +678,14 @@ Trait Data {
                 $file = new SplFileObject($url_property);
                 $data = [];
                 $list = $this->binary_search_list($file, [
-                    'where' => $options['where'],
+                    'where' => null,
                     'limit' => 1000,
                     'lines'=> $record->lines,
                     'counter' => 0,
                     'data' => $data,
                     'direction' => 'next',
                 ]);
+                ddd($list);
                 if(!empty($list)){
                     $where = [];
                     foreach($list as $index => $node){
@@ -709,7 +710,10 @@ Trait Data {
                         $object->config('extension.json')
                     ;
                     $storage = new Storage($where);
-                    $storage->write($where_url, 'lines');
+                    $lines = $storage->write($where_url, 'lines');
+                    $count = $index + 1;
+                    d($lines);
+                    ddd($count);
                     if($object->config(Config::POSIX_ID) === 0){
                         $command = 'chown www-data:www-data ' . $where_url;
                         exec($command);
