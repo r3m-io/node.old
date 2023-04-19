@@ -675,11 +675,16 @@ Trait Data {
                 exec($command);
             }
             if(array_key_exists('where', $options)){
+                $key = [
+                    'where' => $options['where'],
+                    'sort' => $options['sort']
+                ];
+                $key = sha1(Core::object($key, Core::OBJECT_JSON));
                 $file = new SplFileObject($url_property);
                 $data = [];
                 $list = $this->binary_search_list($file, [
-                    'where' => null,
-                    'limit' => 1000,
+                    'where' => $options['where'],
+                    'limit' => $meta->get('Where.' . $class . '.' . $key . '.limit'),
                     'lines'=> $record->lines,
                     'counter' => 0,
                     'data' => $data,
@@ -688,11 +693,6 @@ Trait Data {
                 if(!empty($list)){
                     $where = [];
                     foreach($list as $index => $node){
-                        $key = [
-                            'where' => $options['where'],
-                            'sort' => $options['sort']
-                        ];
-                        $key = sha1(Core::object($key, Core::OBJECT_JSON));
                         $where[$key][$index] = [
                             'uuid' => $node->uuid,
                             'index' => $index,
