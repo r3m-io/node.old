@@ -681,14 +681,14 @@ Trait Data {
                 ];
                 $key = sha1(Core::object($key, Core::OBJECT_JSON));
                 $file = new SplFileObject($url_property);
-                $data = [];
+                $data_list = [];
                 $limit = $meta->get('Where.' . $class . '.' . $key . '.limit') ?? 1000;
                 $list = $this->binary_search_list($file, $meta, [
                     'where' => $options['where'],
                     'limit' => $limit,
                     'lines'=> $record->lines,
                     'counter' => 0,
-                    'data' => $data,
+                    'data' => $data_list,
                     'direction' => 'next',
                 ]);
                 if(!empty($list)){
@@ -731,7 +731,6 @@ Trait Data {
                     }
                 }
             }
-
         }
         $meta->write($meta_url);
         if($object->config(Config::POSIX_ID) === 0){
