@@ -529,8 +529,6 @@ Trait Data {
                         $object->config('ds') .
                         $name .
                         $object->config('ds') .
-                        'Where' .
-                        $object->config('ds') .
                         $key .
                         $object->config('extension.json')
                     ;
