@@ -1440,7 +1440,7 @@ Trait Data {
                         }
                     }
                 }
-                if($count_set === 3){
+                elseif($count_set === 3){
                     switch($operator){
                         case 'and':
                             if($set[0] === false && $set[2] === false){
@@ -1466,8 +1466,8 @@ Trait Data {
                             }
                             break;
                     }
-                    d($where);
-                    d($operator);
+                }
+                elseif($count_set === 5){
                     d($set);
                 }
                 $counter++;
