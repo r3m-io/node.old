@@ -1186,10 +1186,10 @@ Trait Data {
             array_key_exists(0, $set) &&
             count($set) === 1
         ){
+            $operator = null;
             if($set[0] === true || $set[0] === false){
                 $where[$key] = $set[0];
-                array_shift($set);
-                $operator = null;
+//                array_shift($set);
                 return $set;
             }
             $list = [];
@@ -1206,8 +1206,7 @@ Trait Data {
             } else {
                 $where[$key] = false;
             }
-            array_shift($set);
-            $operator = null;
+//            array_shift($set);
             return $set;
         }
         elseif(
@@ -1217,12 +1216,12 @@ Trait Data {
         ){
             switch($set[1]){
                 case 'or':
+                    $operator = 'or';
                     if($set[0] === true || $set[2] === true){
                         $where[$key] = true;
-                        array_shift($set);
-                        array_shift($set);
-                        $set[0] = true;
-                        $operator = 'or';
+//                        array_shift($set);
+//                        array_shift($set);
+//                        $set[0] = true;
                         return $set;
                     }
                     $list = [];
@@ -1249,23 +1248,29 @@ Trait Data {
                         ];
                         $right = Filter::list($list)->where($filter_where);
                     }
-                    if(!empty($left) || !empty($right)){
+                    if(!empty($left)){
                         $where[$key] = true;
+                        $set[0] = true;
+                    } else {
+                        $set[0] = false;
+                    }
+                    if(!empty($right)){
+                        $where[$key] = true;
+                        $set[2] = true;
+                    } else {
+                        $set[2] = false;
+                    }
+                    if(!empty($left) || !empty($right)){
+                        //nothing
                     } else {
                         $where[$key] = false;
                     }
-                    array_shift($set);
-                    array_shift($set);
-                    $set[0] = $where[$key];
-                    $operator =  'or';
                     return $set;
                 case 'and':
+                    $operator = 'and';
                     if($set[0] === false && $set[2] === false){
                         $where[$key] = false;
-                        array_shift($set);
-                        array_shift($set);
-                        $set[0] = false;
-                        $operator = 'and';
+
                         return $set;
                     }
                     $list = [];
@@ -1283,13 +1288,13 @@ Trait Data {
                     $and = Filter::list($list)->where($filter_where);
                     if(!empty($and)){
                         $where[$key] = true;
+                        $set[0] = true;
+                        $set[2] = true;
                     } else {
                         $where[$key] = false;
+                        $set[0] = false;
+                        $set[2] = false;
                     }
-                    array_shift($set);
-                    array_shift($set);
-                    $set[0] = $where[$key];
-                    $operator =  'and';
                     return $set;
             }
         }
@@ -1422,16 +1427,21 @@ Trait Data {
             $set = $this->filter_where_get_set($where, $key, $deepest);
             while($record !== false){
                 $set = $this->where_process($record, $set, $where, $key, $operator);
-                d($operator);
-                if(empty($set)){
-                    break;
-                }
                 $count_set = count($set);
+                if($count_set === 1){
+                    d($where);
+                    d($operator);
+                    ddd($set);
+                }
+                if($count_set === 3){
+                    d($where);
+                    d($operator);
+                    ddd($set);
+                }
                 $counter++;
                 if($counter > 1024){
                     break 2;
                 }
-                d($set);
             }
             if($deepest === 0){
                 break;
