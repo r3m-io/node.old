@@ -1430,6 +1430,7 @@ Trait Data {
                 if(array_key_exists('where', $options) && !empty($options['where'])){
                     $record = $this->filter($record, $options['where']);
                 }
+                d($record);
                 if($record){
                     $page[] = $record;
                 } else {
