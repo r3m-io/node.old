@@ -1318,7 +1318,7 @@ Trait Data {
             while($set = $this->filter_where_process($record, $set, $where, $key)){
                 $counter++;
                 if(count($set) === 1 && $set[0] === true){
-//                    d($record);
+                    ddd($record);
                     return $record;
                 }
                 if(empty($set)){
