@@ -1254,6 +1254,9 @@ Trait Data {
                     } else {
                         $where[$key] = false;
                     }
+                    d($key);
+                    d($where);
+                    d($set);
                     array_shift($set);
                     array_shift($set);
                     array_shift($set);
@@ -1281,7 +1284,7 @@ Trait Data {
                     $and = Filter::list($list)->where($filter_where);
                     d($and);
                     d($key);
-                    ddd($where);
+                    d($where);
                     if(!empty($and)){
                         $where[$key] = true;
                     } else {
