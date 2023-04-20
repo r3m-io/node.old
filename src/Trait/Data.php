@@ -1318,13 +1318,8 @@ Trait Data {
             while($set = $this->filter_where_process($record, $set, $where, $key)){
                 $counter++;
                 if(count($set) === 1 && $set[0] === true){
-                    d($where);
-                    d($set);
-                    ddd($record);
+                    return $record;
                 }
-//                d($key);
-//                d($set);
-//                d($where);
                 if(empty($set)){
                     break;
                 }
@@ -1334,13 +1329,9 @@ Trait Data {
             }
             ksort($where, SORT_NATURAL);
             $deepest = $this->filter_where_get_depth($where);
-//            d($where);
             unset($key);
             $counter++;
         }
-//        d($set);
-//        d($record);
-//        d($where);
         return $record;
     }
 
