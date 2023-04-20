@@ -1432,10 +1432,17 @@ Trait Data {
                     if($operator === null && $set[0] === true){
                         break;
                     } else {
-                        d($deepest);
-                        d($where);
-                        d($operator);
-                        ddd($set);
+                        if($deepest === 0){
+                            $record = false;
+                            break 2;
+                        } else {
+                            d($deepest);
+                            d($where);
+                            d($operator);
+                            d($set);
+                        }
+
+
                     }
                 }
                 if($count_set === 3){
