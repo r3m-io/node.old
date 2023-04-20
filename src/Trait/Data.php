@@ -1189,7 +1189,7 @@ Trait Data {
         ){
             d($set);
             d($where);
-            ddd($key);
+            d($key);
 
             if($set[0] === true || $set[0] === false){
                 $where[$key] = $set[0];
