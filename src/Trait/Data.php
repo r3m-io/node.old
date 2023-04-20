@@ -465,6 +465,7 @@ Trait Data {
     /**
      * @throws ObjectException
      * @throws FileWriteException
+     * @throws Exception
      */
     public function list($class='', $options=[]): false|array
     {
@@ -538,13 +539,13 @@ Trait Data {
                     $lines >= 0
                 ){
                     $file = new SplFileObject($where_url);
-                    $data = [];
                     $where = [];
                     $where[] = [
                         'attribute' => 'key',
                         'value' => $key,
                         'operator' => '==='
                     ];
+                    ddd($where_url);
                     $list = $this->binary_search_page($file, [
                         'where' => $where,
                         'filter' => $options['filter'],
@@ -552,7 +553,6 @@ Trait Data {
                         'limit' => $options['limit'],
                         'lines'=> $lines,
                         'counter' => 0,
-                        'data' => $data,
                         'direction' => 'next',
                     ]);
                 } else {
@@ -1430,7 +1430,6 @@ Trait Data {
                 if(array_key_exists('where', $options) && !empty($options['where'])){
                     $record = $this->filter($record, $options['where']);
                 }
-                d($record);
                 if($record){
                     $page[] = $record;
                 } else {
