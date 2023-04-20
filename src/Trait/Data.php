@@ -1279,6 +1279,9 @@ Trait Data {
                         ]
                     ];
                     $and = Filter::list($list)->where($filter_where);
+                    d($and);
+                    d($key);
+                    ddd($where);
                     if(!empty($and)){
                         $where[$key] = true;
                     } else {
