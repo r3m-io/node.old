@@ -1299,6 +1299,7 @@ Trait Data {
         $result = [];
         $depth = 0;
         $set = [];
+        d($where);
         $deepest = $this->filter_where_get_depth($where);
         $counter =0;
         while($deepest >= 0){
