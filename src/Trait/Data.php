@@ -1317,6 +1317,9 @@ Trait Data {
             $set = $this->filter_where_get_set($where, $key, $deepest);
             while($set = $this->filter_where_process($record, $set, $where, $key)){
                 $counter++;
+                if(count($set) === 2){
+                    ddd($set);
+                }
                 d($key);
                 d($set);
                 d($where);
