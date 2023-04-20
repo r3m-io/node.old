@@ -1436,13 +1436,8 @@ Trait Data {
                             $record = false;
                             break 2;
                         } else {
-                            d($deepest);
-                            d($where);
-                            d($operator);
-                            d($set);
+                            break;
                         }
-
-
                     }
                 }
                 if($count_set === 3){
