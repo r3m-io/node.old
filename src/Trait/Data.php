@@ -554,6 +554,8 @@ Trait Data {
                         'counter' => 0,
                         'direction' => 'next',
                     ]);
+                    d($where);
+                    d($list);
                     ddd($list);
                 } else {
                     $lines = $meta->get('BinarySearch.' . $class . '.' . $property . '.lines');
