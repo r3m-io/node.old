@@ -1254,12 +1254,12 @@ Trait Data {
                     } else {
                         $where[$key] = false;
                     }
+                    array_shift($set);
+                    array_shift($set);
+                    array_shift($set);
                     d($key);
-                    d($where);
                     d($set);
-                    array_shift($set);
-                    array_shift($set);
-                    array_shift($set);
+                    d($where);
                     return $set;
                 case 'and':
                     if($set[0] === false && $set[2] === false){
@@ -1282,9 +1282,6 @@ Trait Data {
                         ]
                     ];
                     $and = Filter::list($list)->where($filter_where);
-                    d($and);
-                    d($key);
-                    d($where);
                     if(!empty($and)){
                         $where[$key] = true;
                     } else {
@@ -1293,6 +1290,9 @@ Trait Data {
                     array_shift($set);
                     array_shift($set);
                     array_shift($set);
+                    d($and);
+                    d($key);
+                    d($where);
                     return $set;
             }
         }
