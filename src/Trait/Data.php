@@ -1432,6 +1432,7 @@ Trait Data {
                     if($operator === null && $set[0] === true){
                         break;
                     } else {
+                        d($deepest);
                         d($where);
                         d($operator);
                         ddd($set);
