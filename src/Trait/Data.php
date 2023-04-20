@@ -1317,7 +1317,7 @@ Trait Data {
                 $counter++;
                 d($key);
                 d($set);
-                ddd($where);
+                d($where);
                 if(empty($set)){
                     break;
                 }
