@@ -1429,10 +1429,7 @@ Trait Data {
                 $set = $this->where_process($record, $set, $where, $key, $operator);
                 $count_set = count($set);
                 if($count_set === 1){
-                    if($operator === null && $set[0] === false){
-                        $record = false;
-                        break;
-                    } elseif($operator === null && $set[0] === true){
+                    if($operator === null && $set[0] === true){
                         break;
                     } else {
                         d($where);
