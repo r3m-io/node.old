@@ -1373,10 +1373,7 @@ Trait Data {
                 if($read){
                     $record->node = $read->data();
                 }
-                d($record);
                 $record = $this->filter($record, $options['where']);
-                d($options['where']);
-                ddd($record);
                 if($record){
                     $page[] = $record;
                 } else {
