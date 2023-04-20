@@ -1183,6 +1183,118 @@ Trait Data {
     /**
      * @throws Exception
      */
+    private function filter_where_process($record=[], $set=[], &$where=[], &$key=null){
+        if(
+            array_key_exists(0, $set) &&
+            count($set) === 1
+        ){
+            if($set[0] === true || $set[0] === false){
+                $where[$key] = $set[0];
+                array_shift($set);
+                return $set;
+            }
+            $list = [];
+            $list[] = $record;
+
+            $filter_where = [
+                'node.' . $set[0]['attribute'] => [
+                    'value' => $set[0]['value'],
+                    'operator' => $set[0]['operator']
+                ]
+            ];
+            $left = Filter::list($list)->where($filter_where);
+            if(!empty($left)){
+                $where[$key] = true;
+            } else {
+                $where[$key] = false;
+            }
+            array_shift($set);
+            return $set;
+        }
+        elseif(
+            array_key_exists(0, $set) &&
+            array_key_exists(1, $set) &&
+            array_key_exists(2, $set)
+        ){
+            switch($set[1]){
+                case 'or':
+                    if($set[0] === true || $set[2] === true){
+                        $where[$key] = true;
+                        array_shift($set);
+                        array_shift($set);
+                        array_shift($set);
+                        return $set;
+                    }
+                    $list = [];
+                    $list[] = $record;
+                    if($set[0] === false){
+                        $left = $set[0];
+                    } else {
+                        $filter_where = [
+                            'node.' . $set[0]['attribute'] => [
+                                'value' => $set[0]['value'],
+                                'operator' => $set[0]['operator']
+                            ]
+                        ];
+                        $left = Filter::list($list)->where($filter_where);
+                    }
+                    if($set[2] === false){
+                        $right = $set[2];
+                    } else {
+                        $filter_where = [
+                            'node.' . $set[2]['attribute'] => [
+                                'value' => $set[2]['value'],
+                                'operator' => $set[2]['operator']
+                            ]
+                        ];
+                        $right = Filter::list($list)->where($filter_where);
+                    }
+                    if(!empty($left) || !empty($right)){
+                        $where[$key] = true;
+                    } else {
+                        $where[$key] = false;
+                    }
+                    array_shift($set);
+                    array_shift($set);
+                    array_shift($set);
+                    return $set;
+                case 'and':
+                    if($set[0] === false && $set[2] === false){
+                        $where[$key] = false;
+                        array_shift($set);
+                        array_shift($set);
+                        array_shift($set);
+                        return $set;
+                    }
+                    $list = [];
+                    $list[] = $record;
+                    $filter_where = [
+                        'node.' . $set[0]['attribute'] => [
+                            'value' => $set[0]['value'],
+                            'operator' => $set[0]['operator']
+                        ],
+                        'node.' . $set[2]['attribute'] => [
+                            'value' => $set[2]['value'],
+                            'operator' => $set[2]['operator']
+                        ]
+                    ];
+                    $and = Filter::list($list)->where($filter_where);
+                    if(!empty($and)){
+                        $where[$key] = true;
+                    } else {
+                        $where[$key] = false;
+                    }
+                    array_shift($set);
+                    array_shift($set);
+                    array_shift($set);
+                    return $set;
+            }
+        }
+    }
+
+    /**
+     * @throws Exception
+     */
     private function filter_where($record=[], $where=[]){
         $result = [];
         $depth = 0;
@@ -1194,109 +1306,10 @@ Trait Data {
                 break;
             }
             $set = $this->filter_where_get_set($where, $key, $deepest);
-            if(empty($set)){
-                break;
-            }
-            if(count($set) === 3 && strtolower($set[1]) === 'or'){
-                if($set[0] === true || $set[2] === true){
-                    $where[$key] = true;
-                    continue;
-                }
-                $list = [];
-                $list[] = $record;
-                if($set[0] === false){
-                    $left = $set[0];
-                } else {
-                    $filter_where = [
-                        'node.' . $set[0]['attribute'] => [
-                            'value' => $set[0]['value'],
-                            'operator' => $set[0]['operator']
-                        ]
-                    ];
-                    $left = Filter::list($list)->where($filter_where);
-                }
-                if($set[2] === false){
-                    $right = $set[2];
-                } else {
-                    $filter_where = [
-                        'node.' . $set[2]['attribute'] => [
-                            'value' => $set[2]['value'],
-                            'operator' => $set[2]['operator']
-                        ]
-                    ];
-                    $right = Filter::list($list)->where($filter_where);
-                }
-                if(!empty($left) || !empty($right)){
-                    $where[$key] = true;
-                } else {
-                    $where[$key] = false;
-                }
-            }
-            elseif(count($set) === 3 && strtolower($set[1]) === 'and'){
-                if($set[0] === false && $set[2] === false){
-                    $where[$key] = false;
-                    continue;
-                }
-                $list = [];
-                $list[] = $record;
-                $filter_where = [
-                    'node.' . $set[0]['attribute'] => [
-                        'value' => $set[0]['value'],
-                        'operator' => $set[0]['operator']
-                    ],
-                    'node.' . $set[2]['attribute'] => [
-                        'value' => $set[2]['value'],
-                        'operator' => $set[2]['operator']
-                    ]
-                ];
-                $and = Filter::list($list)->where($filter_where);
-                if(!empty($and)){
-                    $where[$key] = true;
-                } else {
-                    $where[$key] = false;
-                }
-            } elseif(count($set) === 5 && strtolower($set[1]) === 'or' && strtolower($set[3]) === 'or'){
-                if($set[0] === true || $set[2] === true || $set[4] === true){
-                    $where[$key] = true;
-                    continue;
-                }
-                if($set[0] === false){
-                    $left = $set[0];
-                } else {
-                    $filter_where = [
-                        'node.' . $set[0]['attribute'] => [
-                            'value' => $set[0]['value'],
-                            'operator' => $set[0]['operator']
-                        ]
-                    ];
-                    $left = Filter::list($list)->where($filter_where);
-                }
-                if($set[2] === false){
-                    $middle = $set[2];
-                } else {
-                    $filter_where = [
-                        'node.' . $set[2]['attribute'] => [
-                            'value' => $set[2]['value'],
-                            'operator' => $set[2]['operator']
-                        ]
-                    ];
-                    $middle = Filter::list($list)->where($filter_where);
-                }
-                if($set[4] === false){
-                    $right = $set[4];
-                } else {
-                    $filter_where = [
-                        'node.' . $set[4]['attribute'] => [
-                            'value' => $set[4]['value'],
-                            'operator' => $set[4]['operator']
-                        ]
-                    ];
-                    $right = Filter::list($list)->where($filter_where);
-                }
-                if(!empty($left) || !empty($middle) || !empty($right)){
-                    $where[$key] = true;
-                } else {
-                    $where[$key] = false;
+            while($set = $this->filter_where_process($record, $set, $where, $key)){
+                $counter++;
+                if(empty($set)){
+                    break;
                 }
             }
             if($deepest === 0){
@@ -1307,6 +1320,9 @@ Trait Data {
             unset($key);
             $counter++;
         }
+        d($set);
+        d($record);
+        ddd($where);
         if(
             count($set) === 1 &&
             empty($where) &&
@@ -1330,6 +1346,9 @@ Trait Data {
 
     }
 
+    /**
+     * @throws Exception
+     */
     private function binary_search_page($file, $options=[]): array
     {
         $object = $this->object();
