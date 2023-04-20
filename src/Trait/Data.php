@@ -1340,7 +1340,6 @@ Trait Data {
      */
     private function filter($record=[], $where=[]){
         $record = $this->filter_where($record, $where);
-        ddd($record);
         return $record;
 
     }
@@ -1377,7 +1376,7 @@ Trait Data {
                     $record->node = $read->data();
                 }
                 $record = $this->filter($record, $options['where']);
-                d($record);
+                ddd($record);
                 if($record){
                     $page[] = $record;
                 } else {
