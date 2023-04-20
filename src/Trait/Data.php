@@ -1421,8 +1421,21 @@ Trait Data {
             }
             $set = $this->filter_where_get_set($where, $key, $deepest);
             while($record !== false){
-                $set = $this->where_process($record, $set, $where, $key, $operator)
+                $set = $this->where_process($record, $set, $where, $key, $operator);
+                $count_set = count($set);
+                $counter++;
+                if($counter > 1024){
+                    break 2;
+                }
+                d($set);
             }
+            if($deepest === 0){
+                break;
+            }
+            ksort($where, SORT_NATURAL);
+            $deepest = $this->filter_where_get_depth($where);
+
+            /*
             while($set = $this->filter_where_process($record, $set, $where, $key, $operator)){
                 $counter++;
                 $count_set = count($set);
@@ -1447,6 +1460,7 @@ Trait Data {
                     break;
                 }
             }
+            */
             d($where);
             d($record);
             if($record === false){
