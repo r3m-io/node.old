@@ -554,6 +554,7 @@ Trait Data {
                         'counter' => 0,
                         'direction' => 'next',
                     ]);
+                    ddd($list);
                 } else {
                     $lines = $meta->get('BinarySearch.' . $class . '.' . $property . '.lines');
                     $file = new SplFileObject($url);
