@@ -1259,9 +1259,9 @@ Trait Data {
                     array_shift($set);
                     array_shift($set);
                     $set[0] = $where[$key];
-                    d($key);
-                    d($set);
-                    d($where);
+//                    d($key);
+//                    d($set);
+//                    d($where);
                     return $set;
                 case 'and':
                     if($set[0] === false && $set[2] === false){
@@ -1292,9 +1292,9 @@ Trait Data {
                     array_shift($set);
                     array_shift($set);
                     $set[0] = $where[$key];
-                    d($and);
-                    d($key);
-                    d($where);
+//                    d($and);
+//                    d($key);
+//                    d($where);
                     return $set;
             }
         }
@@ -1307,7 +1307,7 @@ Trait Data {
         $result = [];
         $depth = 0;
         $set = [];
-        d($where);
+//        d($where);
         $deepest = $this->filter_where_get_depth($where);
         $counter =0;
         while($deepest >= 0){
@@ -1317,12 +1317,12 @@ Trait Data {
             $set = $this->filter_where_get_set($where, $key, $deepest);
             while($set = $this->filter_where_process($record, $set, $where, $key)){
                 $counter++;
-                if(count($set) === 2){
+                if(count($set) === 1){
                     ddd($set);
                 }
-                d($key);
-                d($set);
-                d($where);
+//                d($key);
+//                d($set);
+//                d($where);
                 if(empty($set)){
                     break;
                 }
