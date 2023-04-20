@@ -545,7 +545,7 @@ Trait Data {
                         'value' => $key,
                         'operator' => '==='
                     ];
-                    ddd($where_url);
+                    d($where_url);
                     $list = $this->binary_search_page($file, [
                         'where' => $where,
                         'filter' => $options['filter'],
