@@ -1336,17 +1336,6 @@ Trait Data {
         d($set);
         d($record);
         d($where);
-        if(
-            count($set) === 1 &&
-            empty($where) &&
-            $set[0] === false
-        ){
-            return false;
-        }
-        elseif(count($set) > 1){
-            d($where);
-            ddd($set);
-        }
         return $record;
     }
 
