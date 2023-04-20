@@ -1376,6 +1376,7 @@ Trait Data {
                     $record->node = $read->data();
                 }
                 $record = $this->filter($record, $options['where']);
+                d($options['where']);
                 ddd($record);
                 if($record){
                     $page[] = $record;
