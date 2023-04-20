@@ -1323,6 +1323,7 @@ Trait Data {
             }
             ksort($where, SORT_NATURAL);
             $deepest = $this->filter_where_get_depth($where);
+            ddd($where);
             unset($key);
             $counter++;
         }
