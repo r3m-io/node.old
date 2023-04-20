@@ -1499,9 +1499,9 @@ Trait Data {
                 }
             }
             */
-            d($deepest);
-            d($where);
-            d($record);
+//            d($deepest);
+//            d($where);
+//            d($record);
             if($record === false){
                 break;
             }
@@ -1513,6 +1513,7 @@ Trait Data {
             unset($key);
             $counter++;
         }
+        d($record);
         return $record;
     }
 
