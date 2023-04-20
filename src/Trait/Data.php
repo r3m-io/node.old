@@ -1558,6 +1558,7 @@ Trait Data {
                     $record->node = $read->data();
                 }
                 $record = $this->filter($record, $options['where']);
+                d($record);
                 if($record){
                     $page[] = $record;
                 } else {
