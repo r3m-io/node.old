@@ -1314,6 +1314,7 @@ Trait Data {
                     break;
                 }
             }
+            d($where);
             d($record);
             if($record === false){
                 break;
