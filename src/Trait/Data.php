@@ -1560,6 +1560,7 @@ Trait Data {
                 if($read){
                     $record->node = $read->data();
                 }
+                d($record);
                 $record = $this->filter($record, $options['where']);
                 d($record);
                 if($record){
@@ -1666,6 +1667,7 @@ Trait Data {
                 $line_match = str_replace('"', '', $line_match);
                 $explode = explode(':', $line_match);
                 $index = false;
+                d($explode);
                 if(array_key_exists(1, $explode)){
                     if($explode[0] === 'index') {
                         $direction = 'down';
