@@ -1434,9 +1434,34 @@ Trait Data {
                     ddd($set);
                 }
                 if($count_set === 3){
+                    switch($operator){
+                        case 'and':
+                            if($set[0] === false && $set[2] === false){
+                                array_shift($set);
+                                array_shift($set);
+                                $set[0] = false;
+                            }
+                            elseif($set[0] === true && $set[2] === true){
+                                array_shift($set);
+                                array_shift($set);
+                                $set[0] = true;
+                            }
+                            break;
+                        case 'or':
+                            if($set[0] === true || $set[2] === true){
+                                array_shift($set);
+                                array_shift($set);
+                                $set[0] = true;
+                            } else {
+                                array_shift($set);
+                                array_shift($set);
+                                $set[0] = false;
+                            }
+                            break;
+                    }
                     d($where);
                     d($operator);
-                    ddd($set);
+                    d($set);
                 }
                 $counter++;
                 if($counter > 1024){
