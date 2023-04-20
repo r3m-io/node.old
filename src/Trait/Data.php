@@ -545,6 +545,7 @@ Trait Data {
                         'value' => $key,
                         'operator' => '==='
                     ];
+                    d($where_url);
                     $list = $this->binary_search_page($file, [
                         'where' => $where,
                         'filter' => $options['filter'],
@@ -558,6 +559,7 @@ Trait Data {
                     d($list);
                     ddd($list);
                 } else {
+                    d($url);
                     $lines = $meta->get('BinarySearch.' . $class . '.' . $property . '.lines');
                     $file = new SplFileObject($url);
                     $list = $this->binary_search_page($file, [
@@ -1560,9 +1562,7 @@ Trait Data {
                 if($read){
                     $record->node = $read->data();
                 }
-                d($record);
                 $record = $this->filter($record, $options['where']);
-                d($record);
                 if($record){
                     $page[] = $record;
                 } else {
