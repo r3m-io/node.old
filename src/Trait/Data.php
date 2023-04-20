@@ -545,8 +545,6 @@ Trait Data {
                         'value' => $key,
                         'operator' => '==='
                     ];
-                    d($key);
-                    d($where_url);
                     $list = $this->binary_search_page($file, [
                         'where' => $where,
                         'filter' => $options['filter'],
@@ -556,7 +554,6 @@ Trait Data {
                         'counter' => 0,
                         'direction' => 'next',
                     ]);
-                    ddd($list);
                 } else {
                     $lines = $meta->get('BinarySearch.' . $class . '.' . $property . '.lines');
                     $file = new SplFileObject($url);
@@ -1257,9 +1254,6 @@ Trait Data {
                     array_shift($set);
                     array_shift($set);
                     $set[0] = $where[$key];
-//                    d($key);
-//                    d($set);
-//                    d($where);
                     return $set;
                 case 'and':
                     if($set[0] === false && $set[2] === false){
@@ -1290,9 +1284,6 @@ Trait Data {
                     array_shift($set);
                     array_shift($set);
                     $set[0] = $where[$key];
-//                    d($and);
-//                    d($key);
-//                    d($where);
                     return $set;
             }
         }
@@ -1302,10 +1293,6 @@ Trait Data {
      * @throws Exception
      */
     private function filter_where($record=[], $where=[]){
-        $result = [];
-        $depth = 0;
-        $set = [];
-//        d($where);
         $deepest = $this->filter_where_get_depth($where);
         $counter =0;
         while($deepest >= 0){
