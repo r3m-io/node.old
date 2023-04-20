@@ -1318,6 +1318,7 @@ Trait Data {
             while($set = $this->filter_where_process($record, $set, $where, $key)){
                 $counter++;
                 if(count($set) === 1){
+                    d($where);
                     ddd($set);
                 }
 //                d($key);
