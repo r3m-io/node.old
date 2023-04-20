@@ -1302,12 +1302,20 @@ Trait Data {
             $set = $this->filter_where_get_set($where, $key, $deepest);
             while($set = $this->filter_where_process($record, $set, $where, $key)){
                 $counter++;
-                if(count($set) === 1 && $set[0] === true){
+                $count_set = count($set);
+                if($count_set === 1 && $set[0] === true){
+                    break;
+                }
+                elseif($count_set === 1 && $set[0] === false){
+                    $record = false;
                     break;
                 }
                 if(empty($set)){
                     break;
                 }
+            }
+            if($record === false){
+                break;
             }
             if($deepest === 0){
                 break;
