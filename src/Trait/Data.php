@@ -1256,7 +1256,7 @@ Trait Data {
                     }
                     array_shift($set);
                     array_shift($set);
-                    array_shift($set);
+                    $set[0] = $where[$key];
                     d($key);
                     d($set);
                     d($where);
