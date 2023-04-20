@@ -1335,7 +1335,7 @@ Trait Data {
         }
         d($set);
         d($record);
-        ddd($where);
+        d($where);
         if(
             count($set) === 1 &&
             empty($where) &&
