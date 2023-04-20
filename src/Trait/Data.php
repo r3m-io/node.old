@@ -1224,7 +1224,7 @@ Trait Data {
                         $where[$key] = true;
                         array_shift($set);
                         array_shift($set);
-                        array_shift($set);
+                        $set[0] = true;
                         return $set;
                     }
                     $list = [];
@@ -1268,7 +1268,7 @@ Trait Data {
                         $where[$key] = false;
                         array_shift($set);
                         array_shift($set);
-                        array_shift($set);
+                        $set[0] = false;
                         return $set;
                     }
                     $list = [];
