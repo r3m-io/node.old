@@ -1440,7 +1440,7 @@ Trait Data {
                         }
                     }
                 }
-                elseif($count_set === 3){
+                elseif($count_set >= 3){
                     switch($operator){
                         case 'and':
                             if($set[0] === false && $set[2] === false){
@@ -1467,19 +1467,11 @@ Trait Data {
                             break;
                     }
                 }
-                elseif($count_set === 5){
-                    d($set);
-                }
                 $counter++;
                 if($counter > 1024){
                     break 2;
                 }
             }
-            if($deepest === 0){
-                break;
-            }
-            ksort($where, SORT_NATURAL);
-            $deepest = $this->filter_where_get_depth($where);
 
             /*
             while($set = $this->filter_where_process($record, $set, $where, $key, $operator)){
