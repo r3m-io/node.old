@@ -1318,7 +1318,7 @@ Trait Data {
             while($set = $this->filter_where_process($record, $set, $where, $key)){
                 $counter++;
                 if(count($set) === 1 && $set[0] === true){
-                    d($record);
+//                    d($record);
                     return $record;
                 }
                 if(empty($set)){
@@ -1377,6 +1377,7 @@ Trait Data {
                     $record->node = $read->data();
                 }
                 $record = $this->filter($record, $options['where']);
+                d($record);
                 if($record){
                     $page[] = $record;
                 } else {
