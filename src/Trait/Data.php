@@ -1181,7 +1181,7 @@ Trait Data {
     /**
      * @throws Exception
      */
-    private function filter_where_process($record=[], $set=[], &$where=[], &$key=null){
+    private function filter_where_process($record=[], $set=[], &$where=[], &$key=null, &$operator=null){
         if(
             array_key_exists(0, $set) &&
             count($set) === 1
@@ -1206,6 +1206,7 @@ Trait Data {
                 $where[$key] = false;
             }
             array_shift($set);
+            $operator = null;
             return $set;
         }
         elseif(
@@ -1254,6 +1255,7 @@ Trait Data {
                     array_shift($set);
                     array_shift($set);
                     $set[0] = $where[$key];
+                    $operator =  'or';
                     return $set;
                 case 'and':
                     if($set[0] === false && $set[2] === false){
@@ -1284,6 +1286,7 @@ Trait Data {
                     array_shift($set);
                     array_shift($set);
                     $set[0] = $where[$key];
+                    $operator =  'and';
                     return $set;
             }
         }
@@ -1300,13 +1303,23 @@ Trait Data {
                 break;
             }
             $set = $this->filter_where_get_set($where, $key, $deepest);
-            while($set = $this->filter_where_process($record, $set, $where, $key)){
+            while($set = $this->filter_where_process($record, $set, $where, $key, $operator)){
                 $counter++;
                 $count_set = count($set);
-                if($count_set === 1 && $set[0] === true){
+                d($count_set);
+                d($operator);
+                if(
+                    $count_set === 1 &&
+                    $set[0] === true &&
+                    $operator === null
+                ){
                     break;
                 }
-                elseif($count_set === 1 && $set[0] === false){
+                elseif(
+                    $count_set === 1 &&
+                    $set[0] === false &&
+                    $operator === null
+                ){
                     $record = false;
                     break;
                 }
