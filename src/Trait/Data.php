@@ -556,6 +556,7 @@ Trait Data {
                         'counter' => 0,
                         'direction' => 'next',
                     ]);
+                    ddd($list);
                 } else {
                     $lines = $meta->get('BinarySearch.' . $class . '.' . $property . '.lines');
                     $file = new SplFileObject($url);
@@ -1183,14 +1184,11 @@ Trait Data {
     /**
      * @throws Exception
      */
-    private function filter_where_process(&$record=[], $set=[], &$where=[], &$key=null){
+    private function filter_where_process($record=[], $set=[], &$where=[], &$key=null){
         if(
             array_key_exists(0, $set) &&
             count($set) === 1
         ){
-            if($set[0 === false]){
-                $record = false;
-            }
             if($set[0] === true || $set[0] === false){
                 $where[$key] = $set[0];
                 array_shift($set);
@@ -1198,7 +1196,6 @@ Trait Data {
             }
             $list = [];
             $list[] = $record;
-
             $filter_where = [
                 'node.' . $set[0]['attribute'] => [
                     'value' => $set[0]['value'],
@@ -1376,7 +1373,7 @@ Trait Data {
                 if($read){
                     $record->node = $read->data();
                 }
-                ddd($record);
+                d($record);
                 $record = $this->filter($record, $options['where']);
                 d($options['where']);
                 ddd($record);
