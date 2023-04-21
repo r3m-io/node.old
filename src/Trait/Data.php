@@ -1663,9 +1663,9 @@ Trait Data {
                 $direction === 'down' &&
                 !in_array($seek, $options['search'], true)
             ){
-                $options['search'][] = $options['seek'];
+                $options['search'][] = $seek;
             }
-            elseif($options['direction'] === 'down') {
+            elseif($direction === 'down') {
                 //not found
                 return false;
             }
