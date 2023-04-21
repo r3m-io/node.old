@@ -1521,6 +1521,8 @@ Trait Data {
         }
         if(array_key_exists('url', $options)){
             d($options['url']);
+        } else {
+            ddd($options);
         }
         d($record);
         return $record;
