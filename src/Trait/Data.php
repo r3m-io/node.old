@@ -1426,6 +1426,7 @@ Trait Data {
             while($record !== false){
                 $set = $this->where_process($record, $set, $where, $key, $operator);
                 if(empty($set)){
+                    d($where);
                     ddd($where);
                 }
                 $count_set = count($set);
