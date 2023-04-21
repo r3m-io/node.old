@@ -546,6 +546,7 @@ Trait Data {
                         'operator' => '==='
                     ];
                     $list = $this->binary_search_page($file, [
+                        'where' => $where,
                         'filter' => $options['filter'],
                         'page' => $options['page'],
                         'limit' => $options['limit'],
