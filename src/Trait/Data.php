@@ -1423,12 +1423,9 @@ Trait Data {
                 break;
             }
             $set = $this->filter_where_get_set($where, $key, $deepest);
-            d($deepest);
-            d($set);
-            d($where);
             while($record !== false){
                 $set = $this->where_process($record, $set, $where, $key, $operator);
-                if(empty($set)){
+                if(empty($set) && $deepest === 0){
                     return $record;
                 }
                 $count_set = count($set);
@@ -1687,7 +1684,7 @@ Trait Data {
                 $line_match = str_replace('"', '', $line_match);
                 $explode = explode(':', $line_match);
                 $index = false;
-                echo $seek . ', ' . $direction . ', ' . $line . PHP_EOL;
+//                echo $seek . ', ' . $direction . ', ' . $line . PHP_EOL;
                 if(array_key_exists(1, $explode)){
                     if($explode[0] === 'index') {
                         $direction = 'down';
