@@ -556,7 +556,6 @@ Trait Data {
                         'url' => $where_url,
                         'debug' => true
                     ]);
-                    ddd($list);
                 } else {
                     $lines = $meta->get('BinarySearch.' . $class . '.' . $property . '.lines');
                     $file = new SplFileObject($url);
