@@ -1187,7 +1187,7 @@ Trait Data {
     /**
      * @throws Exception
      */
-    private function where_process($record=[], $set=[], &$where=[], &$key=null, &$operator=null){
+    private function where_process($record=[], $set=[], &$where=[], &$key=null, &$operator=null, $options=[]){
         if(
             array_key_exists(0, $set) &&
             count($set) === 1
@@ -1207,6 +1207,10 @@ Trait Data {
                 ]
             ];
             $left = Filter::list($list)->where($filter_where);
+            if(array_key_exists('debug', $options)){
+                d($filter_where);
+                ddd($left);
+            }
             if(!empty($left)){
                 $where[$key] = true;
             } else {
@@ -1491,7 +1495,7 @@ Trait Data {
             }
             $set = $this->filter_where_get_set($where, $key, $deepest);
             while($record !== false){
-                $set = $this->where_process($record, $set, $where, $key, $operator);
+                $set = $this->where_process($record, $set, $where, $key, $operator, $options);
                 if(empty($set) && $deepest === 0){
                     return $record;
                 }
