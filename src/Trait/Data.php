@@ -1206,7 +1206,9 @@ Trait Data {
                     'operator' => $set[0]['operator']
                 ]
             ];
+            d($filter_where);
             $left = Filter::list($list)->where($filter_where);
+            d($left);
             if(!empty($left)){
                 $where[$key] = true;
             } else {
@@ -1431,12 +1433,6 @@ Trait Data {
                 break;
             }
             $set = $this->filter_where_get_set($where, $key, $deepest);
-            if(array_key_exists('debug', $options)){
-                d($where);
-                d($key);
-                d($deepest);
-                ddd($set);
-            }
             while($record !== false){
                 $set = $this->where_process($record, $set, $where, $key, $operator);
                 if(empty($set) && $deepest === 0){
