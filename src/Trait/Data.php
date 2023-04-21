@@ -1423,6 +1423,8 @@ Trait Data {
                 break;
             }
             $set = $this->filter_where_get_set($where, $key, $deepest);
+            d($set);
+            d($where);
             while($record !== false){
                 $set = $this->where_process($record, $set, $where, $key, $operator);
                 if(empty($set)){
