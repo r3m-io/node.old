@@ -1663,6 +1663,7 @@ Trait Data {
             while($line = $file->current()){
                 $options['counter']++;
                 if($options['counter'] > 1024){
+                    ddd('shit');
                     //log error with filesize of view
                     break 2;
                 }
