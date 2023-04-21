@@ -567,6 +567,7 @@ Trait Data {
                 $result['limit'] = $options['limit'];
                 $result['list'] = $list;
                 $result['sort'] = $options['sort'];
+                $result['where'] = $options['where'] ?? [];
                 //add filter
                 return $result;
 
