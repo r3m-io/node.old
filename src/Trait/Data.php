@@ -1574,7 +1574,7 @@ Trait Data {
                 if($read){
                     $record->node = $read->data();
                 }
-                $record = $this->filter($record, $options['where']);
+                $record = $this->filter($record, $options['where'], $options);
                 if($record){
                     $page[] = $record;
                 } else {
