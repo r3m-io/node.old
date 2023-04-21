@@ -1218,10 +1218,6 @@ Trait Data {
                     ]
                 ];
                 $left = Filter::list($list)->where($filter_where);
-                if(array_key_exists('debug', $options)){
-                    d($filter_where);
-                    d($left);
-                }
                 if(!empty($left)){
                     $where[$key] = true;
                     $set[0] = true;
@@ -1242,9 +1238,6 @@ Trait Data {
                     $operator = 'or';
                     if($set[0] === true || $set[2] === true){
                         $where[$key] = true;
-//                        array_shift($set);
-//                        array_shift($set);
-//                        $set[0] = true;
                         return $set;
                     }
                     $list = [];
