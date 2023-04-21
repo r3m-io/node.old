@@ -1522,6 +1522,9 @@ Trait Data {
         if(array_key_exists('url', $options)){
             d($options['url']);
         } else {
+            $debug = debug_backtrace(true);
+            d($debug);
+            d($options);
             ddd($options);
         }
         d($record);
