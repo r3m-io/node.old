@@ -1115,7 +1115,6 @@ Trait Data {
                 $record->uuid .
                 $object->config('extension.json')
             ;
-            d($record);
             return $record;
         }
         return false;
@@ -1513,14 +1512,6 @@ Trait Data {
             $deepest = $this->filter_where_get_depth($where);
             unset($key);
             $counter++;
-        }
-        if(array_key_exists('url', $options)){
-            d($options['url']);
-        } else {
-            $debug = debug_backtrace(true);
-            d($debug[1]);
-            d($options);
-            ddd($options);
         }
         return $record;
     }
