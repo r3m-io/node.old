@@ -553,7 +553,8 @@ Trait Data {
                         'lines'=> $lines,
                         'counter' => 0,
                         'direction' => 'next',
-                        'url' => $where_url
+                        'url' => $where_url,
+                        'debug' => true
                     ]);
                     ddd($list);
                 } else {
@@ -1566,6 +1567,9 @@ Trait Data {
                 $read = $object->data_read($record->read->url, sha1($record->read->url));
                 if($read){
                     $record->node = $read->data();
+                }
+                if(array_key_exists('debug', $options)){
+                    ddd($options);
                 }
                 $record = $this->filter($record, $options);
                 if($record){
