@@ -1438,6 +1438,13 @@ Trait Data {
                 }
                 $count_set = count($set);
                 if($count_set === 1){
+                    if(array_key_exists('debug', $options)){
+                        d($set);
+                        d($where);
+                        d($key);
+                        d($operator);
+                        ddd($record);
+                    }
                     if($operator === null && $set[0] === true){
                         break;
                     } else {
@@ -1569,7 +1576,7 @@ Trait Data {
                     $record->node = $read->data();
                 }
                 if(array_key_exists('debug', $options)){
-                    ddd($options);
+                    unset($options['filter']);
                 }
                 $record = $this->filter($record, $options);
                 if($record){
