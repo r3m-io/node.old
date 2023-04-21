@@ -1219,7 +1219,7 @@ Trait Data {
                 $left = Filter::list($list)->where($filter_where);
                 if(array_key_exists('debug', $options)){
                     d($filter_where);
-                    ddd($left);
+                    d($left);
                 }
                 if(!empty($left)){
                     $where[$key] = true;
