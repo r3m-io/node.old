@@ -1523,7 +1523,7 @@ Trait Data {
             d($options['url']);
         } else {
             $debug = debug_backtrace(true);
-            d($debug);
+            d($debug[1]);
             d($options);
             ddd($options);
         }
