@@ -1686,7 +1686,7 @@ Trait Data {
                 $line_match = str_replace('"', '', $line_match);
                 $explode = explode(':', $line_match);
                 $index = false;
-                echo $seek . ', ' . $direction . ', ' . $line . PHP_EOL;
+                echo $seek . ', ' . $direction . ', index: ' . $index . ', ' . $line . PHP_EOL;
                 if(array_key_exists(1, $explode)){
                     if($explode[0] === 'index') {
                         $direction = 'down';
