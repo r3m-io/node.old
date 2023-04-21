@@ -734,6 +734,7 @@ Trait Data {
                     'lines'=> $record->lines,
                     'counter' => 0,
                     'direction' => 'next',
+                    'url' => $url_property,
                 ]);
                 if(!empty($where_list)){
                     $where = [];
@@ -1422,7 +1423,7 @@ Trait Data {
     /**
      * @throws Exception
      */
-    private function filter_where($record=[], $where=[]){
+    private function filter_where($record=[], $where=[], $options=[]){
         $deepest = $this->filter_where_get_depth($where);
         $counter =0;
         while($deepest >= 0){
@@ -1518,6 +1519,9 @@ Trait Data {
             unset($key);
             $counter++;
         }
+        if(array_key_exists('url', $options)){
+            d($options['url']);
+        }
         d($record);
         return $record;
     }
@@ -1525,11 +1529,11 @@ Trait Data {
     /**
      * @throws Exception
      */
-    private function filter($record=[], $where=[]){
+    private function filter($record=[], $where=[], $options=[]){
         /*
          * make an array of true and false and if all are boolean then process, so we can implement xor xor
          */
-        $record = $this->filter_where($record, $where);
+        $record = $this->filter_where($record, $where, $options);
         return $record;
 
     }
@@ -1616,7 +1620,7 @@ Trait Data {
                     $record->node = $read->data();
                 }
                 if(array_key_exists('where', $options) && !empty($options['where'])){
-                    $record = $this->filter($record, $options['where']);
+                    $record = $this->filter($record, $options['where'], $options);
                     d($record);
                 }
                 if($record){
