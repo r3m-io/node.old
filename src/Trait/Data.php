@@ -1659,6 +1659,16 @@ Trait Data {
         $direction = 'down';
         while($options['min'] <= $options['max']){
             $seek = $options['min'] + floor(($options['max'] - $options['min']) / 2);
+            if(
+                $direction === 'down' &&
+                !in_array($seek, $options['search'], true)
+            ){
+                $options['search'][] = $options['seek'];
+            }
+            elseif($options['direction'] === 'down') {
+                //not found
+                return false;
+            }
             $file->seek($seek);
             while($line = $file->current()){
                 $options['counter']++;
