@@ -23,7 +23,7 @@ Update Event:
     'value' => 1,
     'operator' => '==='
     ],
-    'or',
+    'xor',
     '(',
     [
     'attribute' => 'options.priority',
@@ -37,11 +37,11 @@ Update Event:
     'operator' => '==='
     ],
     ')',
-    'or',
+    'xor',
     '(',
     [
     'attribute' => 'options.priority',
-    'value' => 10,
+    'value' => 12,
     'operator' => '==='
     ],
     'and',
