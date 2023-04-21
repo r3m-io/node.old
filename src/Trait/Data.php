@@ -1497,13 +1497,6 @@ Trait Data {
                 }
                 $count_set = count($set);
                 if($count_set === 1){
-                    if(array_key_exists('debug', $options)){
-                        d($set);
-                        d($where);
-                        d($key);
-                        d($operator);
-                        ddd($record);
-                    }
                     if($operator === null && $set[0] === true){
                         break;
                     } else {
