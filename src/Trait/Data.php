@@ -1497,6 +1497,7 @@ Trait Data {
                 }
                 $count_set = count($set);
                 if($count_set === 1){
+                    d($set);
                     if($operator === null && $set[0] === true){
                         break;
                     } else {
