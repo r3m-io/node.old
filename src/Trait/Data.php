@@ -539,15 +539,8 @@ Trait Data {
                     $lines >= 0
                 ){
                     $file = new SplFileObject($where_url);
-                    $where = [];
-                    $where[] = [
-                        'attribute' => 'key',
-                        'value' => $key,
-                        'operator' => '==='
-                    ];
                     d($where_url);
                     $list = $this->binary_search_page($file, [
-                        'where' => $where,
                         'filter' => $options['filter'],
                         'page' => $options['page'],
                         'limit' => $options['limit'],
@@ -557,7 +550,6 @@ Trait Data {
                         'url' => $url
                     ]);
                     d($where_url);
-                    d($where);
                     d($list);
                     ddd($list);
                 } else {
