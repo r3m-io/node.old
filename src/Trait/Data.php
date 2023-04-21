@@ -547,7 +547,7 @@ Trait Data {
                         'lines'=> $lines,
                         'counter' => 0,
                         'direction' => 'next',
-                        'url' => $url
+                        'url' => $where_url
                     ]);
                     d($where_url);
                     d($list);
