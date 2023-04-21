@@ -1526,6 +1526,9 @@ Trait Data {
      * @throws Exception
      */
     private function filter($record=[], $where=[]){
+        /*
+         * make an array of true and false and if all are boolean then process, so we can implement xor xor
+         */
         $record = $this->filter_where($record, $where);
         return $record;
 
