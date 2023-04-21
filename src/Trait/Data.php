@@ -1209,6 +1209,7 @@ Trait Data {
             $left = Filter::list($list)->where($filter_where);
             if(!empty($left)){
                 $where[$key] = true;
+                $set[0] = true;
             } else {
                 $filter_where = [
                     $set[0]['attribute'] => [
@@ -1223,8 +1224,10 @@ Trait Data {
                 }
                 if(!empty($left)){
                     $where[$key] = true;
+                    $set[0] = true;
                 } else {
                     $where[$key] = false;
+                    $set[0] = false;
                 }
             }
             return $set;
