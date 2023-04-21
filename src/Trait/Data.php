@@ -1206,15 +1206,23 @@ Trait Data {
                     'operator' => $set[0]['operator']
                 ]
             ];
-            d($filter_where);
             $left = Filter::list($list)->where($filter_where);
-            d($left);
             if(!empty($left)){
                 $where[$key] = true;
             } else {
-                $where[$key] = false;
+                $filter_where = [
+                    $set[0]['attribute'] => [
+                        'value' => $set[0]['value'],
+                        'operator' => $set[0]['operator']
+                    ]
+                ];
+                $left = Filter::list($list)->where($filter_where);
+                if(!empty($left)){
+                    $where[$key] = true;
+                } else {
+                    $where[$key] = false;
+                }
             }
-//            array_shift($set);
             return $set;
         }
         elseif(
@@ -1260,13 +1268,37 @@ Trait Data {
                         $where[$key] = true;
                         $set[0] = true;
                     } else {
-                        $set[0] = false;
+                        $filter_where = [
+                            $set[0]['attribute'] => [
+                                'value' => $set[0]['value'],
+                                'operator' => $set[0]['operator']
+                            ]
+                        ];
+                        $left = Filter::list($list)->where($filter_where);
+                        if(!empty($left)){
+                            $where[$key] = true;
+                            $set[0] = true;
+                        } else {
+                            $set[0] = false;
+                        }
                     }
                     if(!empty($right)){
                         $where[$key] = true;
                         $set[2] = true;
                     } else {
-                        $set[2] = false;
+                        $filter_where = [
+                            $set[2]['attribute'] => [
+                                'value' => $set[2]['value'],
+                                'operator' => $set[2]['operator']
+                            ]
+                        ];
+                        $right = Filter::list($list)->where($filter_where);
+                        if(!empty($right)){
+                            $where[$key] = true;
+                            $set[2] = true;
+                        } else {
+                            $set[2] = false;
+                        }
                     }
                     if(!empty($left) || !empty($right)){
                         //nothing
@@ -1299,9 +1331,26 @@ Trait Data {
                         $set[0] = true;
                         $set[2] = true;
                     } else {
-                        $where[$key] = false;
-                        $set[0] = false;
-                        $set[2] = false;
+                        $filter_where = [
+                            $set[0]['attribute'] => [
+                                'value' => $set[0]['value'],
+                                'operator' => $set[0]['operator']
+                            ],
+                            $set[2]['attribute'] => [
+                                'value' => $set[2]['value'],
+                                'operator' => $set[2]['operator']
+                            ]
+                        ];
+                        $and = Filter::list($list)->where($filter_where);
+                        if(!empty($and)){
+                            $where[$key] = true;
+                            $set[0] = true;
+                            $set[2] = true;
+                        } else {
+                            $where[$key] = false;
+                            $set[0] = false;
+                            $set[2] = false;
+                        }
                     }
                     return $set;
             }
