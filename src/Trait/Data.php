@@ -539,7 +539,6 @@ Trait Data {
                     $lines >= 0
                 ){
                     $file = new SplFileObject($where_url);
-                    d($where_url);
                     $list = $this->binary_search_page($file, [
                         'filter' => $options['filter'],
                         'page' => $options['page'],
@@ -549,11 +548,8 @@ Trait Data {
                         'direction' => 'next',
                         'url' => $where_url
                     ]);
-                    d($where_url);
-                    d($list);
                     ddd($list);
                 } else {
-                    d($url);
                     $lines = $meta->get('BinarySearch.' . $class . '.' . $property . '.lines');
                     $file = new SplFileObject($url);
                     $list = $this->binary_search_page($file, [
@@ -1523,18 +1519,17 @@ Trait Data {
             d($options);
             ddd($options);
         }
-        d($record);
         return $record;
     }
 
     /**
      * @throws Exception
      */
-    private function filter($record=[], $where=[], $options=[]){
+    private function filter($record=[], $options=[]){
         /*
          * make an array of true and false and if all are boolean then process, so we can implement xor xor
          */
-        $record = $this->filter_where($record, $where, $options);
+        $record = $this->filter_where($record, $options['where'] ?? [], $options);
         return $record;
 
     }
@@ -1570,7 +1565,7 @@ Trait Data {
                 if($read){
                     $record->node = $read->data();
                 }
-                $record = $this->filter($record, $options['where'], $options);
+                $record = $this->filter($record, $options);
                 if($record){
                     $page[] = $record;
                 } else {
@@ -1621,8 +1616,7 @@ Trait Data {
                     $record->node = $read->data();
                 }
                 if(array_key_exists('where', $options) && !empty($options['where'])){
-                    $record = $this->filter($record, $options['where'], $options);
-                    d($record);
+                    $record = $this->filter($record, $options);
                 }
                 if($record){
                     $page[] = $record;
