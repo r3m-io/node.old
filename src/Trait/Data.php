@@ -556,6 +556,7 @@ Trait Data {
                         'direction' => 'next',
                         'url' => $url
                     ]);
+                    d($where_url);
                     d($where);
                     d($list);
                     ddd($list);
