@@ -539,6 +539,12 @@ Trait Data {
                     $lines >= 0
                 ){
                     $file = new SplFileObject($where_url);
+                    $where = [];
+                    $where[] = [
+                        'value' => $key,
+                        'attribute' => 'key',
+                        'operator' => '==='
+                    ];
                     $list = $this->binary_search_page($file, [
                         'filter' => $options['filter'],
                         'page' => $options['page'],
@@ -548,6 +554,7 @@ Trait Data {
                         'direction' => 'next',
                         'url' => $where_url
                     ]);
+                    ddd($list);
                 } else {
                     $lines = $meta->get('BinarySearch.' . $class . '.' . $property . '.lines');
                     $file = new SplFileObject($url);
@@ -1666,7 +1673,6 @@ Trait Data {
             while($line = $file->current()){
                 $options['counter']++;
                 if($options['counter'] > 1024){
-                    ddd('shit');
                     //log error with filesize of view
                     break 2;
                 }
@@ -1678,7 +1684,7 @@ Trait Data {
                 if(array_key_exists(1, $explode)){
                     if($explode[0] === 'index') {
                         $direction = 'down';
-                        $index = (int)trim($explode[1], " \t\n\r\0\x0B,");
+                        $index = (int) trim($explode[1], " \t\n\r\0\x0B,");
                         if ($options['index'] === $index) {
                             return $this->binary_search_node($file, [
                                 'seek' => $seek,
