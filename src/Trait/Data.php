@@ -554,6 +554,7 @@ Trait Data {
                         'lines'=> $lines,
                         'counter' => 0,
                         'direction' => 'next',
+                        'url' => $url
                     ]);
                     d($where);
                     d($list);
@@ -570,6 +571,7 @@ Trait Data {
                         'lines'=> $lines,
                         'counter' => 0,
                         'direction' => 'next',
+                        'url' => $url
                     ]);
                 }
                 $result = [];
