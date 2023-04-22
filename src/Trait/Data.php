@@ -1362,14 +1362,24 @@ Trait Data {
                     }
                 case 'xor' :
                     $operator = 'xor';
+                    $list = [];
+                    $list[] = $record;
                     if($set[0] === true || $set[2] === true){
                         $is_true = 0;
                         foreach($set as $true){
                             if(is_array($true)){
-                                d($set);
-                                ddd($true);
+                                $filter_where = [
+                                    'node.' . $true['attribute'] => [
+                                        'value' => $true['value'],
+                                        'operator' => $true['operator']
+                                    ]
+                                ];
+                                $current = Filter::list($list)->where($filter_where);
+                                if(!empty($current)){
+                                    $is_true++;
+                                }
                             }
-                            if($true === true){
+                            elseif($true === true){
                                 $is_true++;
                             }
                         }
@@ -1380,8 +1390,6 @@ Trait Data {
                         $where[$key] = false;
                         return $set;
                     }
-                    $list = [];
-                    $list[] = $record;
                     if($set[0] === false){
                         $left = $set[0];
                     }
