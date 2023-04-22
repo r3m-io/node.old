@@ -1361,7 +1361,6 @@ Trait Data {
                         return $set;
                     }
                 case 'xor' :
-                    d($set);
                     $operator = 'xor';
                     if($set[0] === true || $set[2] === true){
                         $is_true = 0;
@@ -1458,6 +1457,7 @@ Trait Data {
                         array_shift($set);
                         $set[0] = false;
                     }
+                    d($set);
                     return $set;
             }
         }
