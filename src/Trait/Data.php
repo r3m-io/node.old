@@ -1362,7 +1362,7 @@ Trait Data {
                     }
                 case 'xor' :
                     d($set);
-                    $operator = 'or';
+                    $operator = 'xor';
                     if($set[0] === true || $set[2] === true){
                         $is_true = 0;
                         foreach($set as $true){
@@ -1403,7 +1403,6 @@ Trait Data {
                         $right = Filter::list($list)->where($filter_where);
                     }
                     if(!empty($left)){
-                        $where[$key] = true;
                         $set[0] = true;
                     } else {
                         if(is_array($set[0])){
@@ -1423,7 +1422,6 @@ Trait Data {
                         }
                     }
                     if(!empty($right)){
-                        $where[$key] = true;
                         $set[2] = true;
                     } else {
                         if(is_array($set[2])){
@@ -1443,7 +1441,11 @@ Trait Data {
                         }
                     }
                     if(!empty($left) || !empty($right)){
-                        //nothing
+                        if(!empty($left) && !empty($right)){
+                            $where[$key] = false;
+                        } else {
+                            $where[$key] = true;
+                        }
                     } else {
                         $where[$key] = false;
                     }
