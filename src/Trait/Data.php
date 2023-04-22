@@ -1443,11 +1443,20 @@ Trait Data {
                     if(!empty($left) || !empty($right)){
                         if(!empty($left) && !empty($right)){
                             $where[$key] = false;
+                            array_shift($set);
+                            array_shift($set);
+                            $set[0] = false;
                         } else {
                             $where[$key] = true;
+                            array_shift($set);
+                            array_shift($set);
+                            $set[0] = true;
                         }
                     } else {
                         $where[$key] = false;
+                        array_shift($set);
+                        array_shift($set);
+                        $set[0] = false;
                     }
                     return $set;
             }
