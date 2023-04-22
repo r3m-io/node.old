@@ -1366,7 +1366,7 @@ Trait Data {
                     $list[] = $record;
                     if($set[1] === $operator){
                         $is_true = 0;
-                        foreach($set as $true){
+                        foreach($set as $nr => $true){
                             if(is_array($true)){
                                 $filter_where = [
                                     'node.' . $true['attribute'] => [
@@ -1377,6 +1377,9 @@ Trait Data {
                                 $current = Filter::list($list)->where($filter_where);
                                 if(!empty($current)){
                                     $is_true++;
+                                    $set[$nr] = true;
+                                } else {
+                                    $set[$nr] = false;
                                 }
                             }
                             elseif($true === true){
@@ -1387,9 +1390,13 @@ Trait Data {
                         d($is_true);
                         if($is_true === 1){
                             $where[$key] = true;
+                            $set = [];
+                            $set[0] = true;
                             return $set;
                         }
                         $where[$key] = false;
+                        $set = [];
+                        $set[0] = false;
                         return $set;
                     }
                     if($set[0] === false){
