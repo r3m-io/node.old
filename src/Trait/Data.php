@@ -1244,7 +1244,12 @@ Trait Data {
                     if($set[0] === false){
                         $left = $set[0];
                     }
-                    elseif(is_array($set[0])){
+                    elseif(
+                        is_array($set[0]) &&
+                        array_key_exists('attribute', $set[0]) &&
+                        array_key_exists('value', $set[0]) &&
+                        array_key_exists('operator', $set[0])
+                    ){
                         $filter_where = [
                             'node.' . $set[0]['attribute'] => [
                                 'value' => $set[0]['value'],
@@ -1255,7 +1260,13 @@ Trait Data {
                     }
                     if($set[2] === false){
                         $right = $set[2];
-                    } elseif(is_array($set[2])){
+                    }
+                    elseif(
+                        is_array($set[2]) &&
+                        array_key_exists('attribute', $set[2]) &&
+                        array_key_exists('value', $set[2]) &&
+                        array_key_exists('operator', $set[2])
+                    ){
                         $filter_where = [
                             'node.' . $set[2]['attribute'] => [
                                 'value' => $set[2]['value'],
@@ -1268,7 +1279,12 @@ Trait Data {
                         $where[$key] = true;
                         $set[0] = true;
                     } else {
-                        if(is_array($set[0])){
+                        if(
+                            is_array($set[0]) &&
+                            array_key_exists('attribute', $set[0]) &&
+                            array_key_exists('value', $set[0]) &&
+                            array_key_exists('operator', $set[0])
+                        ){
                             $filter_where = [
                                 $set[0]['attribute'] => [
                                     'value' => $set[0]['value'],
@@ -1288,7 +1304,12 @@ Trait Data {
                         $where[$key] = true;
                         $set[2] = true;
                     } else {
-                        if(is_array($set[2])){
+                        if(
+                            is_array($set[2]) &&
+                            array_key_exists('attribute', $set[2]) &&
+                            array_key_exists('value', $set[2]) &&
+                            array_key_exists('operator', $set[2])
+                        ){
                             $filter_where = [
                                 $set[2]['attribute'] => [
                                     'value' => $set[2]['value'],
@@ -1318,7 +1339,16 @@ Trait Data {
                     }
                     $list = [];
                     $list[] = $record;
-                    if(is_array($set[0]) && is_array($set[2])){
+                    if(
+                        is_array($set[0]) &&
+                        is_array($set[2]) &&
+                        array_key_exists('attribute', $set[0]) &&
+                        array_key_exists('value', $set[0]) &&
+                        array_key_exists('operator', $set[0]) &&
+                        array_key_exists('attribute', $set[2]) &&
+                        array_key_exists('value', $set[2]) &&
+                        array_key_exists('operator', $set[2])
+                    ){
                         $filter_where = [
                             'node.' . $set[0]['attribute'] => [
                                 'value' => $set[0]['value'],
@@ -1335,7 +1365,16 @@ Trait Data {
                             $set[0] = true;
                             $set[2] = true;
                         } else {
-                            if(is_array($set[0]) && is_array($set[2])){
+                            if(
+                                is_array($set[0]) &&
+                                is_array($set[2]) &&
+                                array_key_exists('attribute', $set[0]) &&
+                                array_key_exists('value', $set[0]) &&
+                                array_key_exists('operator', $set[0]) &&
+                                array_key_exists('attribute', $set[2]) &&
+                                array_key_exists('value', $set[2]) &&
+                                array_key_exists('operator', $set[2])
+                            ){
                                 $filter_where = [
                                     $set[0]['attribute'] => [
                                         'value' => $set[0]['value'],
@@ -1367,7 +1406,12 @@ Trait Data {
                     if($set[1] === $operator){
                         $is_true = 0;
                         foreach($set as $nr => $true){
-                            if(is_array($true)){
+                            if(
+                                is_array($true) &&
+                                array_key_exists('attribute', $true) &&
+                                array_key_exists('value', $true) &&
+                                array_key_exists('operator', $true)
+                            ){
                                 $filter_where = [
                                     'node.' . $true['attribute'] => [
                                         'value' => $true['value'],
@@ -1379,7 +1423,19 @@ Trait Data {
                                     $is_true++;
                                     $set[$nr] = true;
                                 } else {
-                                    $set[$nr] = false;
+                                    $filter_where = [
+                                        $true['attribute'] => [
+                                            'value' => $true['value'],
+                                            'operator' => $true['operator']
+                                        ]
+                                    ];
+                                    $current = Filter::list($list)->where($filter_where);
+                                    if(!empty($current)){
+                                        $is_true++;
+                                        $set[$nr] = true;
+                                    } else {
+                                        $set[$nr] = false;
+                                    }
                                 }
                             }
                             elseif($true === true){
@@ -1400,7 +1456,12 @@ Trait Data {
                     if($set[0] === false){
                         $left = $set[0];
                     }
-                    elseif(is_array($set[0])){
+                    elseif(
+                        is_array($set[0]) &&
+                        array_key_exists('attribute', $set[0]) &&
+                        array_key_exists('value', $set[0]) &&
+                        array_key_exists('operator', $set[0])
+                    ){
                         $filter_where = [
                             'node.' . $set[0]['attribute'] => [
                                 'value' => $set[0]['value'],
@@ -1411,7 +1472,13 @@ Trait Data {
                     }
                     if($set[2] === false){
                         $right = $set[2];
-                    } elseif(is_array($set[2])){
+                    }
+                    elseif(
+                        is_array($set[2]) &&
+                        array_key_exists('attribute', $set[2]) &&
+                        array_key_exists('value', $set[2]) &&
+                        array_key_exists('operator', $set[2])
+                    ){
                         $filter_where = [
                             'node.' . $set[2]['attribute'] => [
                                 'value' => $set[2]['value'],
@@ -1423,7 +1490,12 @@ Trait Data {
                     if(!empty($left)){
                         $set[0] = true;
                     } else {
-                        if(is_array($set[0])){
+                        if(
+                            is_array($set[0]) &&
+                            array_key_exists('attribute', $set[0]) &&
+                            array_key_exists('value', $set[0]) &&
+                            array_key_exists('operator', $set[0])
+                        ){
                             $filter_where = [
                                 $set[0]['attribute'] => [
                                     'value' => $set[0]['value'],
@@ -1442,7 +1514,12 @@ Trait Data {
                     if(!empty($right)){
                         $set[2] = true;
                     } else {
-                        if(is_array($set[2])){
+                        if(
+                            is_array($set[2]) &&
+                            array_key_exists('attribute', $set[2]) &&
+                            array_key_exists('value', $set[2]) &&
+                            array_key_exists('operator', $set[2])
+                        ){
                             $filter_where = [
                                 $set[2]['attribute'] => [
                                     'value' => $set[2]['value'],
