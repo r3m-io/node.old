@@ -1431,50 +1431,47 @@ Trait Data {
                     }
                     if(!empty($left)){
                         $set[0] = true;
-                    } else {
-                        if(
-                            is_array($set[0]) &&
-                            array_key_exists('attribute', $set[0]) &&
-                            array_key_exists('value', $set[0]) &&
-                            array_key_exists('operator', $set[0])
-                        ){
-                            $filter_where = [
-                                $set[0]['attribute'] => [
-                                    'value' => $set[0]['value'],
-                                    'operator' => $set[0]['operator']
-                                ]
-                            ];
-                            $left = Filter::list($list)->where($filter_where);
-                            if(!empty($left)){
-                                $where[$key] = true;
-                                $set[0] = true;
-                            } else {
-                                $set[0] = false;
-                            }
+                    }
+                    elseif(
+                        is_array($set[0]) &&
+                        array_key_exists('attribute', $set[0]) &&
+                        array_key_exists('value', $set[0]) &&
+                        array_key_exists('operator', $set[0])
+                    ){
+                        $filter_where = [
+                            $set[0]['attribute'] => [
+                                'value' => $set[0]['value'],
+                                'operator' => $set[0]['operator']
+                            ]
+                        ];
+                        $left = Filter::list($list)->where($filter_where);
+                        if(!empty($left)){
+                            $where[$key] = true;
+                            $set[0] = true;
+                        } else {
+                            $set[0] = false;
                         }
                     }
                     if(!empty($right)){
                         $set[2] = true;
-                    } else {
-                        if(
-                            is_array($set[2]) &&
-                            array_key_exists('attribute', $set[2]) &&
-                            array_key_exists('value', $set[2]) &&
-                            array_key_exists('operator', $set[2])
-                        ){
-                            $filter_where = [
-                                $set[2]['attribute'] => [
-                                    'value' => $set[2]['value'],
-                                    'operator' => $set[2]['operator']
-                                ]
-                            ];
-                            $right = Filter::list($list)->where($filter_where);
-                            if(!empty($right)){
-                                $where[$key] = true;
-                                $set[2] = true;
-                            } else {
-                                $set[2] = false;
-                            }
+                    } elseif(
+                        is_array($set[2]) &&
+                        array_key_exists('attribute', $set[2]) &&
+                        array_key_exists('value', $set[2]) &&
+                        array_key_exists('operator', $set[2])
+                    ){
+                        $filter_where = [
+                            $set[2]['attribute'] => [
+                                'value' => $set[2]['value'],
+                                'operator' => $set[2]['operator']
+                            ]
+                        ];
+                        $right = Filter::list($list)->where($filter_where);
+                        if(!empty($right)){
+                            $where[$key] = true;
+                            $set[2] = true;
+                        } else {
+                            $set[2] = false;
                         }
                     }
                     if(!empty($left) || !empty($right)){
