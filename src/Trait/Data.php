@@ -1365,6 +1365,10 @@ Trait Data {
                     if($set[0] === true || $set[2] === true){
                         $is_true = 0;
                         foreach($set as $true){
+                            if(is_array($true)){
+                                d($set);
+                                ddd($true);
+                            }
                             if($true === true){
                                 $is_true++;
                             }
