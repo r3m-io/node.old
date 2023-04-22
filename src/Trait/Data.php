@@ -1469,7 +1469,6 @@ Trait Data {
                         array_shift($set);
                         $set[0] = false;
                     }
-                    d($set);
                     return $set;
             }
         }
