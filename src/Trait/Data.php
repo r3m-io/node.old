@@ -1383,6 +1383,7 @@ Trait Data {
                                 $is_true++;
                             }
                         }
+                        d($is_true);
                         if($is_true === 1){
                             $where[$key] = true;
                             return $set;
