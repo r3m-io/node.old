@@ -646,14 +646,14 @@ Trait Data {
                 if($is_collect !== false){
                     $collection[] = $record;
                     unset($set[$nr]);
-                    continue;
                 }
                 if(array_key_exists($nr + 1, $set)){
                     $next = $set[$nr + 1];
                 }
                 if(
                     $record['type'] === Token::TYPE_STRING &&
-                    $next['type'] === Token::TYPE_DOT
+                    $next['type'] === Token::TYPE_DOT &&
+                    empty($collection)
                 ){
                     $is_collect = $nr;
                 }
