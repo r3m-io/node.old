@@ -722,9 +722,11 @@ Trait Data {
                 $next = false;
                 if(array_key_exists($nr - 1, $list)){
                     $previous = $list[$nr - 1];
+                    unset($list[$nr - 1]);
                 }
                 if(array_key_exists($nr + 1, $list)){
                     $next = $list[$nr + 1];
+                    unset($list[$nr + 1]);
                 }
                 if(
                     is_array($record) &&
@@ -783,15 +785,15 @@ Trait Data {
                             $value = $right['execute'] ?? $right['value'];
                         }
                     }
-                    d($attribute);
-                    d($record);
-                    d($value);
-                    d($left);
-                    ddd($right);
+                    $list[$nr] = [
+                        'attribute' => $attribute,
+                        'operator' => $record['value'],
+                        'value' => $value
+                    ];
                 }
             }
 //            $left = $this->tree_set_get_left($set);
-            ddd($set);
+            ddd($list);
 
         }
     }
