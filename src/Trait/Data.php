@@ -713,6 +713,7 @@ Trait Data {
                 }
             }
             ksort($set, SORT_NATURAL);
+            ddd($set);
             foreach($set as $nr => $record){
                 $previous = false;
                 $next = false;
