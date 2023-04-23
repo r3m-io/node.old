@@ -788,7 +788,9 @@ Trait Data {
                         }
                     }
                     if(!$attribute){
-                        ddd($left);
+                        d($left);
+                        d($right);
+                        ddd($list);
                     }
                     $list[$nr] = [
                         'attribute' => $attribute,
