@@ -588,6 +588,40 @@ Trait Data {
         return false;
     }
 
+    private function tree_max_depth($tree=[]){
+        $depth = 0;
+        if(!is_array($tree)){
+            return $depth;
+        }
+        foreach($tree as $nr => $record){
+            if(array_key_exists('depth', $record)){
+                if($record['depth'] > $depth){
+                    $depth = $record['depth'];
+                }
+            }
+        }
+        return $depth;
+    }
+
+    private function tree_get_set(&$tree, $depth=0){
+        $is_collect = false;
+        $set = [];
+        foreach($tree as $nr => $record){
+            if($record['depth'] === $depth){
+                $is_collect = true;
+            }
+            if($is_collect){
+                if($record['depth'] <> $depth){
+                    $is_collect = false;
+                    break;
+                }
+                $set[] = $record;
+                unset($tree[$nr]);
+            }
+        }
+        return $set;
+    }
+
     /**
      * @throws Exception
      */
@@ -603,7 +637,12 @@ Trait Data {
                 'xor'
             ]
         ]);
-        ddd($tree);
+        while(!empty($tree)){
+            $max_depth = $this->tree_max_depth($tree);
+            $set = $this->tree_get_set($tree, $max_depth);
+            ddd($set);
+
+        }
     }
 
     /**
