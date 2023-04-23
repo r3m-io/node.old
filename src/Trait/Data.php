@@ -687,6 +687,7 @@ Trait Data {
                     unset($set[$nr]);
                 }
             }
+            ksort($set, SORT_NATURAL);
 //            $left = $this->tree_set_get_left($set);
             ddd($set);
 
