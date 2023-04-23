@@ -714,6 +714,8 @@ Trait Data {
             }
             ksort($set, SORT_NATURAL);
             foreach($set as $nr => $record){
+                $previous = false;
+                $next = false;
                 if(array_key_exists($nr - 1, $set)){
                     $previous = $nr - 1;
                 }
