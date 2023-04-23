@@ -637,6 +637,7 @@ Trait Data {
                 'xor'
             ]
         ]);
+        $result = [];
         while(!empty($tree)){
             $max_depth = $this->tree_max_depth($tree);
             $set = $this->tree_get_set($tree, $max_depth);
@@ -665,11 +666,13 @@ Trait Data {
                         unset($set[$nr]);
                     }
                 }
+                $next = [];
                 if(array_key_exists($nr + 1, $set)){
                     $next = $set[$nr + 1];
                 }
                 if(
                     $record['type'] === Token::TYPE_STRING &&
+                    array_key_exists('type', $next) &&
                     $next['type'] === Token::TYPE_DOT &&
                     empty($collection)
                 ){
@@ -799,10 +802,11 @@ Trait Data {
                     ];
                 }
             }
-//            $left = $this->tree_set_get_left($set);
-            ddd($list);
-
+            foreach($list as $record){
+                $result[] = $record;
+            }
         }
+        ddd($result);
     }
 
     private function tree_collection_attribute($record=[]): string
