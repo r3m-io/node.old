@@ -16,6 +16,22 @@ Update Event:
 'options.priority' => 'ASC',
 'action' => 'ASC'
 ],
+'wherestring' => '
+(
+    options.priority === 1
+    xor
+    (
+        options.priority === 11
+        and
+        action === "yyy"
+    )
+    xor
+    (
+        options.priority === 12
+        and
+        action === "utyrrt"
+    )
+)',
 'where' => [
     '(',
     [

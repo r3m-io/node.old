@@ -516,6 +516,7 @@ Trait Data {
                 if(!$meta){
                     return false;
                 }
+                ddd($options);
                 $key = [
                     'where' => $options['where'],
                     'sort' => $options['sort']
