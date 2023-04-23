@@ -724,6 +724,8 @@ Trait Data {
                     $collection[] = $record;
                 }
                 if(
+                    is_array($record) &&
+                    array_key_exists('value', $record) &&
                     in_array(
                         strtolower($record['value']),
                         [
