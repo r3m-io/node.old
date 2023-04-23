@@ -597,6 +597,11 @@ Trait Data {
         }
         $tree = Token::tree('{' . $options['wherestring'] . '}', [
             'with_whitespace' => true,
+            'extra_operators' => [
+                'and',
+                'or',
+                'xor'
+            ]
         ]);
         ddd($tree);
     }
