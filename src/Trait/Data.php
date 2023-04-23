@@ -713,8 +713,11 @@ Trait Data {
                 }
             }
             ksort($set, SORT_NATURAL);
-            ddd($set);
+            $list = [];
             foreach($set as $nr => $record){
+                $list[] = $record;
+            }
+            foreach($list as $nr => $record){
                 $previous = false;
                 $next = false;
                 if(array_key_exists($nr - 1, $set)){
