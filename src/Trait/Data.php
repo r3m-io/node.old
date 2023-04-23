@@ -721,10 +721,10 @@ Trait Data {
             foreach($list as $nr => $record){
                 $previous = false;
                 $next = false;
-                if(array_key_exists($nr - 1, $set)){
+                if(array_key_exists($nr - 1, $list)){
                     $previous = $nr - 1;
                 }
-                if(array_key_exists($nr + 1, $set)){
+                if(array_key_exists($nr + 1, $list)){
                     $next = $nr + 1;
                 }
                 if(
