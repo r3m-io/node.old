@@ -720,7 +720,11 @@ Trait Data {
                 if(array_key_exists($nr + 1, $set)){
                     $next = $nr + 1;
                 }
-                if($record['is_operator'] === true){
+                if(
+                    is_array($record) &&
+                    array_key_exists('is_operator', $record) &&
+                    $record['is_operator'] === true
+                ){
                     $left = $previous;
                     $right = $next;
                     d($left);
