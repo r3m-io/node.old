@@ -718,24 +718,22 @@ Trait Data {
                 $list[] = $record;
             }
             foreach($list as $nr => $record){
-                $previous = false;
-                $next = false;
+                $previous = null;
+                $next = null;
                 $attribute = null;
                 $value = null;
                 if(array_key_exists($nr - 1, $list)){
-                    $previous = $list[$nr - 1];
-                    unset($list[$nr - 1]);
+                    $previous = $nr - 1;
                 }
                 if(array_key_exists($nr + 1, $list)){
-                    $next = $list[$nr + 1];
-                    unset($list[$nr + 1]);
+                    $next = $nr + 1;
                 }
                 if(
                     is_array($record) &&
                     array_key_exists('is_operator', $record) &&
                     $record['is_operator'] === true
                 ){
-                    $left = $previous;
+                    $left = $list[$previous];
                     if(is_array($left)){
                         if(array_key_exists('collection', $left)){
                             $attribute = $this->tree_collection_attribute($left);
@@ -762,7 +760,7 @@ Trait Data {
                             $attribute = $left['execute'] ?? $left['value'];
                         }
                     }
-                    $right = $next;
+                    $right = $list[$next];
                     if(is_array($right)){
                         if(array_key_exists('collection', $right)){
                             $value = $this->tree_collection_attribute($right);
