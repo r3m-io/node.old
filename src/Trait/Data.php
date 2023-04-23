@@ -722,10 +722,10 @@ Trait Data {
                 $previous = false;
                 $next = false;
                 if(array_key_exists($nr - 1, $list)){
-                    $previous = $nr - 1;
+                    $previous = $list[$nr - 1];
                 }
                 if(array_key_exists($nr + 1, $list)){
-                    $next = $nr + 1;
+                    $next = $list[$nr + 1];
                 }
                 if(
                     is_array($record) &&
