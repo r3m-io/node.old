@@ -759,6 +759,7 @@ Trait Data {
                         else {
                             $attribute = $left['execute'] ?? $left['value'];
                         }
+                        unset($list[$previous]);
                     }
                     $right = $list[$next];
                     if(is_array($right)){
@@ -784,6 +785,7 @@ Trait Data {
                         } else {
                             $value = $right['execute'] ?? $right['value'];
                         }
+                        unset($list[$next]);
                     }
                     if(!$attribute){
                         d($left);
