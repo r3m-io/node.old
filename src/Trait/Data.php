@@ -828,6 +828,7 @@ Trait Data {
                 }
             }
             $tree = $this->tree_set_replace($tree, $list, $max_depth);
+            ddd($tree);
         }
         ddd($tree);
     }
