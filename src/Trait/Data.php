@@ -595,7 +595,7 @@ Trait Data {
         if(!array_key_exists('wherestring', $options)){
             return $options['where'] ?? [];
         }
-        $tree = Token::tree($options['wherestring']);
+        $tree = Token::tree('{' . $options['wherestring'] . '}');
         ddd($tree);
     }
 
