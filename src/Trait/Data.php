@@ -615,7 +615,7 @@ Trait Data {
                     $is_collect = false;
                     break;
                 }
-                $set[$nr] = $record;
+                $set[] = $record;
                 unset($tree[$nr]);
             }
         }
@@ -713,6 +713,20 @@ Trait Data {
                 }
             }
             ksort($set, SORT_NATURAL);
+            foreach($set as $nr => $record){
+                if(array_key_exists($nr - 1, $set)){
+                    $previous = $nr - 1;
+                }
+                if(array_key_exists($nr + 1, $set)){
+                    $next = $nr + 1;
+                }
+                if($record['is_operator'] === true){
+                    $left = $previous;
+                    $right = $next;
+                    d($left);
+                    ddd($right);
+                }
+            }
 //            $left = $this->tree_set_get_left($set);
             ddd($set);
 
