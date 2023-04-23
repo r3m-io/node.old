@@ -615,7 +615,7 @@ Trait Data {
                     $is_collect = false;
                     break;
                 }
-                $set[] = $record;
+                $set[$nr] = $record;
                 unset($tree[$nr]);
             }
         }
@@ -655,6 +655,8 @@ Trait Data {
                     ){
                         if(!empty($collection)){
                             $set[$is_collect]['collection'] = $collection;
+                            $set[$is_collect]['type'] = Token::TYPE_COLLECTION;
+                            $set[$is_collect]['value'] = '';
                         }
                         $is_collect = false;
                         unset($set[$nr]);
@@ -674,13 +676,34 @@ Trait Data {
                     $is_collect = $nr;
                     $collection[] = $record;
                 }
-
                 if(
+                    in_array(
+                        strtolower($record['value']),
+                        [
+                            'and',
+                            'or',
+                            'xor'
+                        ],
+                        true)
+                ){
+                    $set[$nr] = $record['value'];
+                }
+                elseif(
                     in_array(
                         $record['type'],
                         [
-                        Token::TYPE_PARENTHESE_OPEN,
-                        Token::TYPE_PARENTHESE_CLOSE,
+                            Token::TYPE_PARENTHESE_OPEN,
+                            Token::TYPE_PARENTHESE_CLOSE,
+                        ],
+                        true
+                    )
+                ){
+                    $set[$nr] = $record['value'];
+                }
+                elseif(
+                    in_array(
+                        $record['type'],
+                        [
                         Token::TYPE_WHITESPACE
                         ],
                         true
