@@ -720,6 +720,8 @@ Trait Data {
             foreach($list as $nr => $record){
                 $previous = false;
                 $next = false;
+                $attribute = null;
+                $value = null;
                 if(array_key_exists($nr - 1, $list)){
                     $previous = $list[$nr - 1];
                     unset($list[$nr - 1]);
@@ -784,6 +786,9 @@ Trait Data {
                         } else {
                             $value = $right['execute'] ?? $right['value'];
                         }
+                    }
+                    if(!$attribute){
+                        ddd($left);
                     }
                     $list[$nr] = [
                         'attribute' => $attribute,
