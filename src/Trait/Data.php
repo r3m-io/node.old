@@ -712,7 +712,10 @@ Trait Data {
                     $next = $set[$nr + 1];
                 }
                 if(
+                    is_array($record) &&
+                    array_key_exists('type', $record) &&
                     $record['type'] === Token::TYPE_STRING &&
+                    is_array($next) &&
                     array_key_exists('type', $next) &&
                     $next['type'] === Token::TYPE_DOT &&
                     empty($collection)
@@ -733,6 +736,8 @@ Trait Data {
                     $set[$nr] = $record['value'];
                 }
                 elseif(
+                    is_array($record) &&
+                    array_key_exists('type', $record) &&
                     in_array(
                         $record['type'],
                         [
@@ -745,6 +750,8 @@ Trait Data {
                     $set[$nr] = $record['value'];
                 }
                 elseif(
+                    is_array($record) &&
+                    array_key_exists('type', $record) &&
                     in_array(
                         $record['type'],
                         [
