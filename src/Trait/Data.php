@@ -616,6 +616,24 @@ Trait Data {
                     break;
                 }
                 $set[] = $record;
+            }
+        }
+        return $set;
+    }
+
+    private function tree_set_replace($tree=[], $set=[], $depth=0){
+        $is_collect = false;
+        foreach($tree as $nr => $record){
+            if($record['depth'] === $depth){
+                $is_collect = $nr;
+                continue;
+            }
+            if($is_collect){
+                if($record['depth'] <> $depth){
+                    $tree[$is_collect]['set'] = $set;
+                    $is_collect = false;
+                    break;
+                }
                 unset($tree[$nr]);
             }
         }
@@ -638,7 +656,11 @@ Trait Data {
             ]
         ]);
         $result = [];
-        while(!empty($tree)){
+        $max_depth = $this->tree_max_depth($tree);
+        while($max_depth >= 0){
+            if($max_depth === 0){
+                break;
+            }
             $max_depth = $this->tree_max_depth($tree);
             $set = $this->tree_get_set($tree, $max_depth);
             $is_collect = false;
@@ -802,11 +824,9 @@ Trait Data {
                     ];
                 }
             }
-            foreach($list as $record){
-                $result[] = $record;
-            }
+            $tree = $this->tree_set_replace($tree, $list, $max_depth);
         }
-        ddd($result);
+        ddd($tree);
     }
 
     private function tree_collection_attribute($record=[]): string
