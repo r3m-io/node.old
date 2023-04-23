@@ -656,6 +656,7 @@ Trait Data {
                     empty($collection)
                 ){
                     $is_collect = $nr;
+                    $collection[] = $record;
                 }
                 if(
                     in_array(
