@@ -640,6 +640,53 @@ Trait Data {
         while(!empty($tree)){
             $max_depth = $this->tree_max_depth($tree);
             $set = $this->tree_get_set($tree, $max_depth);
+            $is_collect = false;
+            $collection = [];
+            foreach($set as $nr => $record){
+                if($is_collect !== false){
+                    $collection[] = $record;
+                    unset($set[$nr]);
+                    continue;
+                }
+                if(array_key_exists($nr + 1, $set)){
+                    $next = $set[$nr + 1];
+                }
+                if(
+                    $record['type'] === Token::TYPE_STRING &&
+                    $next['type'] === Token::TYPE_DOT
+                ){
+                    $is_collect = $nr;
+                }
+                if(
+                    in_array(
+                        $record['type'],
+                        [
+                            Token::TYPE_WHITESPACE
+                        ],
+                        true
+                    )
+                ){
+                    if(!empty($collection)){
+                        $set[$is_collect]['collection'] = $collection;
+                    }
+                    $is_collect = false;
+                    unset($set[$nr]);
+                }
+                if(
+                    in_array(
+                        $record['type'],
+                        [
+                        Token::TYPE_PARENTHESE_OPEN,
+                        Token::TYPE_PARENTHESE_CLOSE,
+                        Token::TYPE_WHITESPACE
+                        ],
+                        true
+                    )
+                ){
+                    unset($set[$nr]);
+                }
+            }
+//            $left = $this->tree_set_get_left($set);
             ddd($set);
 
         }
