@@ -627,12 +627,13 @@ Trait Data {
     private function tree_set_replace($tree=[], $set=[], $depth=0){
         $is_collect = false;
         foreach($tree as $nr => $record){
-            if($record['depth'] === $depth){
+            if($is_collect === false &&$record['depth'] === $depth){
                 $is_collect = $nr;
                 continue;
             }
             if($is_collect){
                 if($record['depth'] <> $depth){
+                    $tree[$is_collect] = [];
                     $tree[$is_collect]['set'] = $set;
                     $is_collect = false;
                     break;
