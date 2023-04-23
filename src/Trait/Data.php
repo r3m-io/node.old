@@ -717,7 +717,6 @@ Trait Data {
             foreach($set as $nr => $record){
                 $list[] = $record;
             }
-            d($list);
             foreach($list as $nr => $record){
                 $previous = false;
                 $next = false;
@@ -733,7 +732,60 @@ Trait Data {
                     $record['is_operator'] === true
                 ){
                     $left = $previous;
+                    if(is_array($left)){
+                        if(array_key_exists('collection', $left)){
+                            $attribute = $this->tree_collection_attribute($left);
+                        }
+                        elseif(array_key_exists('type', $left) && $left['type'] === Token::TYPE_STRING){
+                            $attribute = $left['value'];
+                            //parse value
+                        }
+                        elseif(
+                            array_key_exists('type', $left) &&
+                            in_array(
+                                $left['type'],
+                                [
+                                    Token::TYPE_QUOTE_DOUBLE_STRING,
+                                    Token::TYPE_QUOTE_SINGLE_STRING
+                                ],
+                                true
+                            )
+                        ){
+                            $attribute = substr($left['value'], 1, -1);
+                            //parse when double quote
+                        }
+                        else {
+                            $attribute = $left['execute'] ?? $left['value'];
+                        }
+                    }
                     $right = $next;
+                    if(is_array($right)){
+                        if(array_key_exists('collection', $right)){
+                            $value = $this->tree_collection_attribute($right);
+                        }
+                        elseif(array_key_exists('type', $right) && $right['type'] === Token::TYPE_STRING){
+                            $value = $right['value'];
+                        }
+                        elseif(
+                            array_key_exists('type', $right) &&
+                            in_array(
+                                $right['type'],
+                                [
+                                    Token::TYPE_QUOTE_DOUBLE_STRING,
+                                    Token::TYPE_QUOTE_SINGLE_STRING
+                                ],
+                                true
+                            )
+                        ){
+                            $value = substr($right['value'], 1, -1);
+                            //parse when double quote
+                        } else {
+                            $value = $right['execute'] ?? $right['value'];
+                        }
+                    }
+                    d($attribute);
+                    d($record);
+                    d($value);
                     d($left);
                     ddd($right);
                 }
@@ -742,6 +794,21 @@ Trait Data {
             ddd($set);
 
         }
+    }
+
+    private function tree_collection_attribute($record=[]): string
+{
+        $attribute = '';
+        if(!array_key_exists('collection', $record)){
+            return $attribute;
+        }
+        if(!is_array($record['collection'])){
+            return $attribute;
+        }
+        foreach($record['collection'] as $nr => $record){
+            $attribute .= $record['value'];
+        }
+        return $attribute;
     }
 
     /**
