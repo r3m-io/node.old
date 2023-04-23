@@ -644,8 +644,24 @@ Trait Data {
             $collection = [];
             foreach($set as $nr => $record){
                 if($is_collect !== false){
-                    $collection[] = $record;
-                    unset($set[$nr]);
+                    if(
+                        in_array(
+                            $record['type'],
+                            [
+                                Token::TYPE_WHITESPACE
+                            ],
+                            true
+                        )
+                    ){
+                        if(!empty($collection)){
+                            $set[$is_collect]['collection'] = $collection;
+                        }
+                        $is_collect = false;
+                        unset($set[$nr]);
+                    } else {
+                        $collection[] = $record;
+                        unset($set[$nr]);
+                    }
                 }
                 if(array_key_exists($nr + 1, $set)){
                     $next = $set[$nr + 1];
@@ -658,21 +674,7 @@ Trait Data {
                     $is_collect = $nr;
                     $collection[] = $record;
                 }
-                if(
-                    in_array(
-                        $record['type'],
-                        [
-                            Token::TYPE_WHITESPACE
-                        ],
-                        true
-                    )
-                ){
-                    if(!empty($collection)){
-                        $set[$is_collect]['collection'] = $collection;
-                    }
-                    $is_collect = false;
-                    unset($set[$nr]);
-                }
+
                 if(
                     in_array(
                         $record['type'],
