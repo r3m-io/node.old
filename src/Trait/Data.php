@@ -717,6 +717,7 @@ Trait Data {
             foreach($set as $nr => $record){
                 $list[] = $record;
             }
+            d($list);
             foreach($list as $nr => $record){
                 $previous = false;
                 $next = false;
