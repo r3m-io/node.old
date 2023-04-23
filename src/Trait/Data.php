@@ -594,7 +594,9 @@ Trait Data {
             return $depth;
         }
         foreach($tree as $nr => $record){
-            if(array_key_exists('depth', $record)){
+            if(
+                is_array($record) &&
+                array_key_exists('depth', $record)){
                 if($record['depth'] > $depth){
                     $depth = $record['depth'];
                 }
@@ -603,7 +605,8 @@ Trait Data {
         return $depth;
     }
 
-    private function tree_get_set(&$tree, $depth=0){
+    private function tree_get_set(&$tree, $depth=0): array
+    {
         $is_collect = false;
         $set = [];
         foreach($tree as $nr => $record){
@@ -637,7 +640,7 @@ Trait Data {
                 unset($tree[$nr]);
             }
         }
-        return $set;
+        return $tree;
     }
 
     /**
