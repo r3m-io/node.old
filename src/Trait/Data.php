@@ -3,6 +3,7 @@
 namespace R3m\Io\Node\Trait;
 
 use R3m\Io\Module\Filter;
+use R3m\Io\Module\Parse\Token;
 use SplFileObject;
 use stdClass;
 
@@ -516,6 +517,7 @@ Trait Data {
                 if(!$meta){
                     return false;
                 }
+                $options['where2'] = $this->where_convert($options);
                 ddd($options);
                 $key = [
                     'where' => $options['where'],
@@ -584,6 +586,17 @@ Trait Data {
             ddd($url);
         }
         return false;
+    }
+
+    /**
+     * @throws Exception
+     */
+    private function where_convert($options){
+        if(!array_key_exists('wherestring', $options)){
+            return $options['where'] ?? [];
+        }
+        $tree = Token::tree($options['wherestring']);
+        ddd($tree);
     }
 
     /**
