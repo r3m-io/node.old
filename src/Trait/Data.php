@@ -610,11 +610,18 @@ Trait Data {
         $is_collect = false;
         $set = [];
         foreach($tree as $nr => $record){
-            if($record['depth'] === $depth){
+            if(
+                is_array($record) &&
+                array_key_exists('depth', $record) &&
+                $record['depth'] === $depth
+            ){
                 $is_collect = true;
             }
             if($is_collect){
-                if($record['depth'] <> $depth){
+                if(
+                    is_array($record) &&
+                    array_key_exists('depth', $record) &&
+                    $record['depth'] <> $depth){
                     $is_collect = false;
                     break;
                 }
