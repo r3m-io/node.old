@@ -966,17 +966,14 @@ Trait Data {
         ddd($tree);
     }
 
-    private function tree_collection_attribute($record=[]): string
+    private function tree_collection_attribute($record=[])
 {
         $attribute = '';
         if(!array_key_exists('collection', $record)){
-            $result = array_key_exists('execute', $record) ? $record['execute'] : $record['value'];
-            //was string not int;
-            return $result;
+            return array_key_exists('execute', $record) ? $record['execute'] : $record['value'];
         }
         if(!is_array($record['collection'])){
-            $result = array_key_exists('execute', $record) ? $record['execute'] : $record['value'];
-            return $result;
+            return array_key_exists('execute', $record) ? $record['execute'] : $record['value'];
         }
         foreach($record['collection'] as $nr => $item){
             $attribute .= array_key_exists('execute', $item) ? $item['execute'] : $item['value'];
