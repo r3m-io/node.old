@@ -736,6 +736,39 @@ Trait Data {
                 unset($tree[$nr]);
             }
         }
+        if(!empty($collection)){
+            if(array_key_exists($is_collect, $tree)){
+                $tree[$is_collect]['collection'] = $collection;
+                $tree[$is_collect]['type'] = Token::TYPE_COLLECTION;
+                $tree[$is_collect]['value'] = '';
+            }
+            $collection = [];
+        }
+        $previous = null;
+        $next = null;
+        $list = [];
+        foreach($tree as $record){
+            $list[] = $record;
+        }
+        foreach($list as $nr => $record){
+            if(array_key_exists($nr - 1, $list)){
+                $previous = $nr - 1;
+            }
+            if(array_key_exists($nr - 2, $list)){
+                $next = $nr - 2;
+            }
+            if(!is_array($record)){
+                continue;
+            }
+            if(array_key_exists('is_operator', $record)){
+                $attribute = $list[$previous];
+                $operator = $record['value'];
+                $value = $list[$next];
+                d($attribute);
+                d($operator);
+                ddd($value);
+            }
+        }
         ddd($tree);
 
 
