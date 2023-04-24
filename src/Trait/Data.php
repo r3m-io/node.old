@@ -692,6 +692,7 @@ Trait Data {
             }
             elseif($record['type'] === Token::TYPE_WHITESPACE){
                 if(!empty($collection)){
+                    d($is_collect);
 ddd($collection);
                 }
                 $is_collect = false;
