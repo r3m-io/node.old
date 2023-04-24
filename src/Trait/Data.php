@@ -754,8 +754,8 @@ Trait Data {
             if(array_key_exists($nr - 1, $list)){
                 $previous = $nr - 1;
             }
-            if(array_key_exists($nr - 2, $list)){
-                $next = $nr - 2;
+            if(array_key_exists($nr + 1, $list)){
+                $next = $nr + 1;
             }
             if(!is_array($record)){
                 continue;
