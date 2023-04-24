@@ -975,8 +975,8 @@ Trait Data {
         if(!is_array($record['collection'])){
             return array_key_exists('execute', $record) ? $record['execute'] : $record['value'];
         }
-        foreach($record['collection'] as $nr => $record){
-            $attribute .= array_key_exists('execute', $record) ? $record['execute'] : $record['value'];
+        foreach($record['collection'] as $nr => $item){
+            $attribute .= array_key_exists('execute', $item) ? $item['execute'] : $item['value'];
         }
         return $attribute;
     }
