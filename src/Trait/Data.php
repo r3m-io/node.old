@@ -970,6 +970,7 @@ Trait Data {
 {
         $attribute = '';
         if(!array_key_exists('collection', $record)){
+            ddd($record);
             return array_key_exists('execute', $record) ? $record['execute'] : $record['value'];
         }
         if(!is_array($record['collection'])){
