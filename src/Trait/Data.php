@@ -764,9 +764,9 @@ Trait Data {
                 array_key_exists('is_operator', $record) &&
                 $record['is_operator'] === true
             ){
-                $attribute = $list[$previous];
+                $attribute = $this->tree_collection_attribute($list[$previous]);
                 $operator = $record['value'];
-                $value = $list[$next];
+                $value = $this->tree_collection_attribute($list[$next]);
                 d($attribute);
                 d($operator);
                 ddd($value);
@@ -969,13 +969,13 @@ Trait Data {
 {
         $attribute = '';
         if(!array_key_exists('collection', $record)){
-            return $attribute;
+            return $record['execute'] ?? $record['value'];
         }
         if(!is_array($record['collection'])){
-            return $attribute;
+            return $record['execute'] ?? $record['value'];
         }
         foreach($record['collection'] as $nr => $record){
-            $attribute .= $record['value'];
+            $attribute .= $record['execute'] ?? $record['value'];
         }
         return $attribute;
     }
