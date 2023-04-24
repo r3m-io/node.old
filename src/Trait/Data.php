@@ -767,10 +767,14 @@ Trait Data {
                 $attribute = $this->tree_collection_attribute($list[$previous]);
                 $operator = $record['value'];
                 $value = $this->tree_collection_attribute($list[$next]);
-                d($attribute);
-                d($operator);
-                d($value);
-                ddd('this');
+
+                $list[$previous] = [
+                    'attribute' => $attribute,
+                    'value' => $value,
+                    'operator' => $operator
+                ];
+                unset($list[$nr]);
+                unset($list[$next]);
             }
         }
         ddd($tree);
