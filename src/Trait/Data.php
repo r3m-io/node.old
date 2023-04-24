@@ -695,6 +695,7 @@ Trait Data {
                     $tree[$is_collect]['collection'] = $collection;
                     $tree[$is_collect]['type'] = Token::TYPE_COLLECTION;
                     $tree[$is_collect]['value'] = '';
+                    $collection==[];
                 }
                 $is_collect = false;
                 unset($tree[$nr]);
