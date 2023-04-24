@@ -706,7 +706,7 @@ Trait Data {
                 $tree[$nr] = ')';
             }
             elseif($is_collect === false && $record['value'] === '.'){
-                $is_collect = $nr;
+                $is_collect = true;
                 $collection = [];
                 $collection[] = $tree[$previous];
                 unset($tree[$previous]);
@@ -724,7 +724,11 @@ Trait Data {
             ){
                 $tree[$nr] = $record['value'];
             }
-            if($is_collect){
+            if($is_collect === true){
+                $collection[] = $record;
+                $is_collect = $nr;
+            }
+            elseif($is_collect){
                 $collection[] = $record;
                 unset($tree[$nr]);
             }
