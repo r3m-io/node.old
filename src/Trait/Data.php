@@ -760,7 +760,10 @@ Trait Data {
             if(!is_array($record)){
                 continue;
             }
-            if(array_key_exists('is_operator', $record)){
+            if(
+                array_key_exists('is_operator', $record) &&
+                $record['is_operator'] === true
+            ){
                 $attribute = $list[$previous];
                 $operator = $record['value'];
                 $value = $list[$next];
