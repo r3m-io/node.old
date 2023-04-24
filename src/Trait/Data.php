@@ -777,7 +777,7 @@ Trait Data {
                 unset($list[$next]);
             }
         }
-        ddd($tree);
+        ddd($list);
 
 
 
