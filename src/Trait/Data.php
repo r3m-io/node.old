@@ -692,8 +692,9 @@ Trait Data {
             }
             elseif($record['type'] === Token::TYPE_WHITESPACE){
                 if(!empty($collection)){
-                    d($is_collect);
-ddd($collection);
+                    $tree[$is_collect]['collection'] = $collection;
+                    $tree[$is_collect]['type'] = Token::TYPE_COLLECTION;
+                    $tree[$is_collect]['value'] = '';
                 }
                 $is_collect = false;
                 unset($tree[$nr]);
@@ -708,6 +709,7 @@ ddd($collection);
                 $is_collect = $nr;
                 $collection = [];
                 $collection[] = $tree[$previous];
+                unset($tree[$previous]);
             }
             elseif(
                 in_array(
@@ -724,6 +726,7 @@ ddd($collection);
             }
             if($is_collect){
                 $collection[] = $record;
+                unset($tree[$nr]);
             }
         }
         ddd($tree);
