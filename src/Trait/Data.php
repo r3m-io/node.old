@@ -970,13 +970,13 @@ Trait Data {
 {
         $attribute = '';
         if(!array_key_exists('collection', $record)){
-            return $record['execute'] ? $record['execute'] : $record['value'];
+            return array_key_exists('execute', $record) ? $record['execute'] : $record['value'];
         }
         if(!is_array($record['collection'])){
-            return $record['execute'] ? $record['execute'] : $record['value'];
+            return array_key_exists('execute', $record) ? $record['execute'] : $record['value'];
         }
         foreach($record['collection'] as $nr => $record){
-            $attribute .= $record['execute'] ? $record['execute'] : $record['value'];
+            $attribute .= array_key_exists('execute', $record) ? $record['execute'] : $record['value'];
         }
         return $attribute;
     }
