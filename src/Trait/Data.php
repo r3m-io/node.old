@@ -769,7 +769,8 @@ Trait Data {
                 $value = $this->tree_collection_attribute($list[$next]);
                 d($attribute);
                 d($operator);
-                ddd($value);
+                d($value);
+                ddd('this');
             }
         }
         ddd($tree);
