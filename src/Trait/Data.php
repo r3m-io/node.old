@@ -747,8 +747,9 @@ Trait Data {
         $previous = null;
         $next = null;
         $list = [];
-        foreach($tree as $record){
+        foreach($tree as $nr => $record){
             $list[] = $record;
+            unset($tree[$nr]);
         }
         foreach($list as $nr => $record){
             if(array_key_exists($nr - 1, $list)){
@@ -777,7 +778,12 @@ Trait Data {
                 unset($list[$next]);
             }
         }
-        ddd($list);
+        $tree = [];
+        foreach($list as $nr => $record){
+            $tree[] = $record;
+            unset($list[$nr]);
+        }
+        ddd($tree);
 
 
 
