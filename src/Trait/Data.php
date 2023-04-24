@@ -681,6 +681,9 @@ Trait Data {
             elseif($record['type'] === Token::TYPE_CURLY_CLOSE){
                 unset($tree[$nr]);
             }
+            elseif($record['type'] === Token::TYPE_WHITESPACE){
+                unset($tree[$nr]);
+            }
             elseif($record['value'] === '('){
                 $tree[$nr] = '(';
             }
