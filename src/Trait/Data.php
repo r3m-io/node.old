@@ -674,7 +674,16 @@ Trait Data {
                 'xor'
             ]
         ]);
+        $is_collect = false;
+        $previous = null;
+        $next = null;
         foreach($tree as $nr => $record){
+            if(array_key_exists($nr - 1, $tree)){
+                $previous = $nr - 1;
+            }
+            if(array_key_exists($nr - 2, $tree)){
+                $next = $nr - 2;
+            }
             if($record['type'] === Token::TYPE_CURLY_OPEN){
                 unset($tree[$nr]);
             }
@@ -682,6 +691,10 @@ Trait Data {
                 unset($tree[$nr]);
             }
             elseif($record['type'] === Token::TYPE_WHITESPACE){
+                if(!empty($collection)){
+ddd($collection);
+                }
+                $is_collect = false;
                 unset($tree[$nr]);
             }
             elseif($record['value'] === '('){
@@ -689,6 +702,11 @@ Trait Data {
             }
             elseif($record['value'] === ')'){
                 $tree[$nr] = ')';
+            }
+            elseif($is_collect === false && $record['value'] === '.'){
+                $is_collect = $nr;
+                $collection = [];
+                $collection[] = $tree[$previous];
             }
             elseif(
                 in_array(
@@ -702,6 +720,9 @@ Trait Data {
                 )
             ){
                 $tree[$nr] = $record['value'];
+            }
+            if($is_collect){
+                $collection[] = $record;
             }
         }
         ddd($tree);
