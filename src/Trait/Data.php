@@ -674,6 +674,37 @@ Trait Data {
                 'xor'
             ]
         ]);
+        foreach($tree as $nr => $record){
+            if($record['type'] === Token::TYPE_CURLY_OPEN){
+                unset($tree[$nr]);
+            }
+            elseif($record['type'] === Token::TYPE_CURLY_CLOSE){
+                unset($tree[$nr]);
+            }
+            elseif($record['value'] === '('){
+                $tree[$nr] = '(';
+            }
+            elseif($record['value'] === ')'){
+                $tree[$nr] = ')';
+            }
+            elseif(
+                in_array(
+                strtolower($record['value']),
+                [
+                    'and',
+                    'or',
+                    'xor'
+                ],
+                true
+                )
+            ){
+                $tree[$nr] = $record['value'];
+            }
+        }
+        ddd($tree);
+
+
+
         $result = [];
         $max_depth = $this->tree_max_depth($tree);
         while($max_depth >= 0){
@@ -853,6 +884,12 @@ Trait Data {
                 }
             }
             $tree = $this->tree_set_replace($tree, $list, $max_depth);
+        }
+        $result = [];
+        foreach($tree as $nr => $record){
+            if(is_array($record)){
+                $result[] = $record;
+            }
         }
         ddd($tree);
     }
