@@ -666,12 +666,10 @@ Trait Data {
     /**
      * @throws Exception
      */
-    private function where_convert($options){
-        if(!array_key_exists('wherearray', $options)){
-            return $options['where'] ?? [];
-        }
-        ddd($options['wherearray']);
-        $tree = Token::tree('{' . $options['wherestring'] . '}', [
+    private function where_convert($input=[]){
+        ddd($input);
+        $string= '';
+        $tree = Token::tree('{' . $string . '}', [
             'with_whitespace' => true,
             'extra_operators' => [
                 'and',
