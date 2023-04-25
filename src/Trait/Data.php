@@ -517,7 +517,11 @@ Trait Data {
                 if(!$meta){
                     return false;
                 }
+                $time_start = microtime(true);
                 $options['where2'] = $this->where_convert($options);
+                $time_end = microtime(true);
+                $duration = $time_end - $time_start;
+                d($duration);
                 ddd($options);
                 $key = [
                     'where' => $options['where'],
