@@ -521,7 +521,7 @@ Trait Data {
                 $options['where2'] = $this->where_convert($options);
                 $time_end = microtime(true);
                 $duration = $time_end - $time_start;
-                d($duration);
+                d('duration: ' . round($duration * 100, 2));
                 ddd($options);
                 $key = [
                     'where' => $options['where'],
