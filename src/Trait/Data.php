@@ -2007,7 +2007,13 @@ Trait Data {
         /*
          * make an array of true and false and if all are boolean then process, so we can implement xor xor
          */
-        ddd($options);
+        if(
+            array_key_exists('where', $options) &&
+            is_string($options['where'])
+        ){
+            $options['where'] = $this->where_convert($options['where']);
+        }
+        d($options);
         $record = $this->filter_where($record, $options['where'] ?? [], $options);
         return $record;
 
