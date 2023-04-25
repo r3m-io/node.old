@@ -518,7 +518,9 @@ Trait Data {
                     return false;
                 }
                 $time_start = microtime(true);
-                $options['where2'] = $this->where_convert($options);
+                if(array_key_exists('wherearray', $options)){
+                    $options['where2'] = $this->where_convert($options['wherearray']);
+                }
                 $time_end = microtime(true);
                 $duration = $time_end - $time_start;
                 d('duration: ' . round($duration * 1000, 2) . ' msec');
@@ -668,6 +670,16 @@ Trait Data {
      */
     private function where_convert($input=[]){
         if(is_array($input)){
+            $is_string = true;
+            foreach($input as $nr => $line){
+                if(!is_string($line)){
+                    $is_string = false;
+                    break;
+                }
+            }
+            if($is_string){
+                $input = implode(' ', $input);
+            }
             ddd($input);
         }
         $string= '';
@@ -2018,7 +2030,6 @@ Trait Data {
         ){
             $options['where'] = $this->where_convert($options['where']);
         }
-        d($options);
         $record = $this->filter_where($record, $options['where'] ?? [], $options);
         return $record;
 
