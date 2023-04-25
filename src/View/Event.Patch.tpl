@@ -16,7 +16,24 @@ Update Event:
 'options.priority' => 'ASC',
 'action' => 'ASC'
 ],
-'wherestring' => '
+'whereararray' => [
+'(',
+'options.priority === 1',
+'xor',
+'(',
+'options.priority === 11',
+'and',
+'action === "yyy"',
+')',
+'xor',
+'(',
+'options.priority === 12',
+'and',
+'action === "utyrrt"',
+')',
+')'
+],
+'where' => '
 (
     options.priority === 1
     xor
@@ -32,43 +49,6 @@ Update Event:
         action === "utyrrt"
     )
 )',
-'where' => [
-    '(',
-    [
-    'attribute' => 'options.priority',
-    'value' => 1,
-    'operator' => '==='
-    ],
-    'xor',
-    '(',
-    [
-    'attribute' => 'options.priority',
-    'value' => 11,
-    'operator' => '==='
-    ],
-    'and',
-    [
-    'attribute' => 'action',
-    'value' => 'yyy',
-    'operator' => '==='
-    ],
-    ')',
-    'xor',
-    '(',
-    [
-    'attribute' => 'options.priority',
-    'value' => 12,
-    'operator' => '==='
-    ],
-    'and',
-    [
-    'attribute' => 'action',
-    'value' => 'utyrrt',
-    'operator' => '==='
-    ],
-    ')',
-    ')'
-],
 'filter' => [
     'action' => [
     'value' => 'yyy',
