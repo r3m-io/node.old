@@ -667,7 +667,9 @@ Trait Data {
      * @throws Exception
      */
     private function where_convert($input=[]){
-        ddd($input);
+        if(is_array($input)){
+            ddd($input);
+        }
         $string= '';
         $tree = Token::tree('{' . $string . '}', [
             'with_whitespace' => true,
