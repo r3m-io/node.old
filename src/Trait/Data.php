@@ -677,9 +677,9 @@ Trait Data {
                 $input = implode(' ', $input);
             }
         }
-        $string= $input;
+        $string = $input;
         if(!is_string($string)){
-            return [];
+            return $string;
         }
         $tree = Token::tree('{' . $string . '}', [
             'with_whitespace' => true,
@@ -1390,7 +1390,7 @@ Trait Data {
         return false;
     }
 
-    private function filter_where_get_depth($where=[]){
+    private function where_get_depth($where=[]){
         $depth = 0;
         $deepest = 0;
         if(!is_array($where)){
@@ -1410,7 +1410,7 @@ Trait Data {
         return $deepest;
     }
 
-    private function filter_where_get_set(&$where=[], &$key=null, $deep=0){
+    private function where_get_set(&$where=[], &$key=null, $deep=0){
         $set = [];
         $depth = 0;
         if(!is_array($where)){
@@ -1827,6 +1827,7 @@ Trait Data {
     /**
      * @throws Exception
      */
+    /*
     private function filter_where_process($record=[], $set=[], &$where=[], &$key=null, &$operator=null){
         if(
             array_key_exists(0, $set) &&
@@ -1937,21 +1938,28 @@ Trait Data {
             }
         }
     }
+    */
 
     /**
      * @throws Exception
      */
-    private function filter_where($record=[], $where=[], $options=[]){
+    private function where($record=[], $where=[], $options=[]){
         if(empty($where)){
             return $record;
         }
-        $deepest = $this->filter_where_get_depth($where);
+        if(
+            is_string($where) ||
+            is_array($where)
+        ){
+            $where = $this->where_convert($where);
+        }
+        $deepest = $this->where_get_depth($where);
         $counter =0;
         while($deepest >= 0){
             if($counter > 1024){
                 break;
             }
-            $set = $this->filter_where_get_set($where, $key, $deepest);
+            $set = $this->where_get_set($where, $key, $deepest);
             while($record !== false){
                 $set = $this->where_process($record, $set, $where, $key, $operator, $options);
                 if(empty($set) && $deepest === 0){
@@ -2002,36 +2010,6 @@ Trait Data {
                     break 2;
                 }
             }
-
-            /*
-            while($set = $this->filter_where_process($record, $set, $where, $key, $operator)){
-                $counter++;
-                $count_set = count($set);
-                d($count_set);
-                d($operator);
-                if(
-                    $count_set === 1 &&
-                    $set[0] === true &&
-                    $operator === null
-                ){
-                    break;
-                }
-                elseif(
-                    $count_set === 1 &&
-                    $set[0] === false &&
-                    $operator === null
-                ){
-                    $record = false;
-                    break;
-                }
-                if(empty($set)){
-                    break;
-                }
-            }
-            */
-//            d($deepest);
-//            d($where);
-//            d($record);
             if($record === false){
                 break;
             }
@@ -2039,7 +2017,7 @@ Trait Data {
                 break;
             }
             ksort($where, SORT_NATURAL);
-            $deepest = $this->filter_where_get_depth($where);
+            $deepest = $this->where_get_depth($where);
             unset($key);
             $counter++;
         }
@@ -2050,13 +2028,7 @@ Trait Data {
      * @throws Exception
      */
     private function filter($record=[], $options=[]){
-        if(
-            array_key_exists('where', $options) &&
-            is_string($options['where'])
-        ){
-            $options['where'] = $this->where_convert($options['where']);
-        }
-        $record = $this->filter_where($record, $options['where'] ?? [], $options);
+
         return $record;
 
     }
@@ -2095,7 +2067,7 @@ Trait Data {
                 if(array_key_exists('debug', $options)){
                     unset($options['filter']);
                 }
-                $record = $this->filter($record, $options);
+                $record = $this->where($record, $options['where'] ?? [], $options);
                 if($record){
                     $page[] = $record;
                 } else {
@@ -2144,9 +2116,7 @@ Trait Data {
                 if($read){
                     $record->node = $read->data();
                 }
-                if(array_key_exists('where', $options) && !empty($options['where'])){
-                    $record = $this->filter($record, $options);
-                }
+                $record = $this->where($record, $options['where'] ?? [], $options);
                 if($record){
                     $page[] = $record;
                 } else {
