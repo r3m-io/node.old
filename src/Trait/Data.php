@@ -680,9 +680,11 @@ Trait Data {
             if($is_string){
                 $input = implode(' ', $input);
             }
-            ddd($input);
         }
-        $string= '';
+        $string= $input;
+        if(!is_string($string)){
+            return [];
+        }
         $tree = Token::tree('{' . $string . '}', [
             'with_whitespace' => true,
             'extra_operators' => [
