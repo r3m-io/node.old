@@ -820,6 +820,7 @@ Trait Data {
                     $parse = new Parse($object);
                     $result = $parse->compile($record['value'], $storage, $object);
                     if(
+                        is_string($result) &&
                         substr($result, 0, 1) === '"' &&
                         substr($result, -1) === '"'
                     ){
@@ -828,7 +829,6 @@ Trait Data {
                     return $result;
                 case Token::TYPE_QUOTE_SINGLE_STRING:
                     return substr($record['value'], 1, -1);
-
             }
             return array_key_exists('execute', $record) ? $record['execute'] : $record['value'];
         }
