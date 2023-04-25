@@ -517,14 +517,9 @@ Trait Data {
                 if(!$meta){
                     return false;
                 }
-                $time_start = microtime(true);
                 if(array_key_exists('where', $options)){
                     $options['where'] = $this->where_convert($options['where']);
                 }
-                $time_end = microtime(true);
-                $duration = $time_end - $time_start;
-                d('duration: ' . round($duration * 1000, 2) . ' msec');
-                ddd($options);
                 $key = [
                     'where' => $options['where'],
                     'sort' => $options['sort']
