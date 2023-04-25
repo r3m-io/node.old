@@ -804,9 +804,21 @@ Trait Data {
 {
         $attribute = '';
         if(!array_key_exists('collection', $record)){
+            switch($record['type']){
+                case Token::TYPE_QUOTE_DOUBLE_STRING:
+                case Token::TYPE_QUOTE_SINGLE_STRING:
+                    return substr($record['value'], 1, -1);
+
+            }
             return array_key_exists('execute', $record) ? $record['execute'] : $record['value'];
         }
         if(!is_array($record['collection'])){
+            switch($record['type']){
+                case Token::TYPE_QUOTE_DOUBLE_STRING:
+                case Token::TYPE_QUOTE_SINGLE_STRING:
+                    return substr($record['value'], 1, -1);
+
+            }
             return array_key_exists('execute', $record) ? $record['execute'] : $record['value'];
         }
         foreach($record['collection'] as $nr => $item){
