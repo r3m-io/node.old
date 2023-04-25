@@ -811,6 +811,9 @@ Trait Data {
         if(!array_key_exists('collection', $record)){
             switch($record['type']){
                 case Token::TYPE_QUOTE_DOUBLE_STRING:
+                    if(strpos($record['value'], '{') === false){
+                        return substr($record['value'], 1, -1);
+                    }
                     //parse string...
                     $object = $this->object();
                     $storage = $this->storage();
