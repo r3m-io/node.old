@@ -806,6 +806,8 @@ Trait Data {
         if(!array_key_exists('collection', $record)){
             switch($record['type']){
                 case Token::TYPE_QUOTE_DOUBLE_STRING:
+                    //parse string...
+                    return substr($record['value'], 1, -1);
                 case Token::TYPE_QUOTE_SINGLE_STRING:
                     return substr($record['value'], 1, -1);
 
