@@ -1352,6 +1352,9 @@ Trait Data {
     private function filter_where_get_depth($where=[]){
         $depth = 0;
         $deepest = 0;
+        if(!is_array($where)){
+            return $depth;
+        }
         foreach($where as $key => $value){
             if($value === '('){
                 $depth++;
