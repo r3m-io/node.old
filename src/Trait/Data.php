@@ -1372,6 +1372,9 @@ Trait Data {
     private function filter_where_get_set(&$where=[], &$key=null, $deep=0){
         $set = [];
         $depth = 0;
+        if(!is_array($where)){
+            return $set;
+        }
         foreach($where as $nr => $value){
             if($value === '('){
                 $depth++;
@@ -2006,6 +2009,7 @@ Trait Data {
         /*
          * make an array of true and false and if all are boolean then process, so we can implement xor xor
          */
+        ddd($options);
         $record = $this->filter_where($record, $options['where'] ?? [], $options);
         return $record;
 
