@@ -2027,6 +2027,7 @@ Trait Data {
         ){
             $options['where'] = $this->where_convert($options['where']);
         }
+        d($options['where']);
         $record = $this->filter_where($record, $options['where'] ?? [], $options);
         return $record;
 
