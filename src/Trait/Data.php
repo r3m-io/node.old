@@ -518,8 +518,8 @@ Trait Data {
                     return false;
                 }
                 $time_start = microtime(true);
-                if(array_key_exists('wherearray', $options)){
-                    $options['where2'] = $this->where_convert($options['wherearray']);
+                if(array_key_exists('where', $options)){
+                    $options['where'] = $this->where_convert($options['where']);
                 }
                 $time_end = microtime(true);
                 $duration = $time_end - $time_start;
