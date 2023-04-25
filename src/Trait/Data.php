@@ -1901,6 +1901,9 @@ Trait Data {
      * @throws Exception
      */
     private function filter_where($record=[], $where=[], $options=[]){
+        if(empty($where)){
+            return $record;
+        }
         $deepest = $this->filter_where_get_depth($where);
         $counter =0;
         while($deepest >= 0){
