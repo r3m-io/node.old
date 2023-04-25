@@ -3,6 +3,7 @@
 namespace R3m\Io\Node\Trait;
 
 use R3m\Io\Module\Filter;
+use R3m\Io\Module\Parse;
 use R3m\Io\Module\Parse\Token;
 use SplFileObject;
 use stdClass;
@@ -800,6 +801,10 @@ Trait Data {
         return $tree;
     }
 
+    /**
+     * @throws ObjectException
+     * @throws FileWriteException
+     */
     private function tree_record_attribute($record=[])
 {
         $attribute = '';
@@ -807,7 +812,17 @@ Trait Data {
             switch($record['type']){
                 case Token::TYPE_QUOTE_DOUBLE_STRING:
                     //parse string...
-                    return substr($record['value'], 1, -1);
+                    $object = $this->object();
+                    $storage = $this->storage();
+                    $parse = new Parse($object);
+                    $result = $parse->compile($record['value'], $storage, $object);
+                    if(
+                        substr($result, 0, 1) === '"' &&
+                        substr($result, -1) === '"'
+                    ){
+                        $result = substr($result, 1, -1);
+                    }
+                    return $result;
                 case Token::TYPE_QUOTE_SINGLE_STRING:
                     return substr($record['value'], 1, -1);
 
