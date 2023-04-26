@@ -2086,11 +2086,16 @@ Trait Data {
                 'search' => [],
             ]);
             if($record){
-                $read = $object->data_read($record->read->url, sha1($record->read->url));
+                $read = $object->data_read($record->{'#read'}->url, sha1($record->{'#read'}->url));
                 if($read){
                     $record->node = $read->data();
+                    ddd($record);
                 }
-                $record = $this->where($record, $options['where'] ?? [], $options);
+                if(array_key_exists('filter', $options)){
+                    $record = $this->filter($record, $options['filter'] ?? [], $options);
+                } else {
+                    $record = $this->where($record, $options['where'] ?? [], $options);
+                }
                 if($record){
                     $page[] = $record;
                 } else {
