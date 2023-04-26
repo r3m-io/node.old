@@ -2032,7 +2032,7 @@ Trait Data {
                 'search' => [],
             ]);
             if($record){
-                $read = $object->data_read($record->{'#read'}->url, sha1($record->read->url));
+                $read = $object->data_read($record->{'#read'}->url, sha1($record->{'#read'}->url));
                 if($read){
                     $record->node = $read->data();
                 }
