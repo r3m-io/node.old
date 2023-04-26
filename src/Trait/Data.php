@@ -989,7 +989,6 @@ Trait Data {
                 $object->config('extension.json')
             ;
             $properties = explode('-', $property);
-            d($properties);
             if(array_key_exists(1, $properties)){
                 $sort = Sort::list($list)->with([
                     $properties[0] => 'ASC',
@@ -2090,7 +2089,6 @@ Trait Data {
                 $read = $object->data_read($record->{'#read'}->url, sha1($record->{'#read'}->url));
                 if($read){
                     $record = Core::object_merge($record, $read->data());
-                    ddd($record);
                 }
                 if(array_key_exists('filter', $options)){
                     $record = $this->filter($record, $options['filter'] ?? [], $options);
