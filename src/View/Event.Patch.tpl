@@ -21,9 +21,9 @@ Update Event:
     options.priority === 1
     xor
     (
-        options.priority === 11
+        options.priority exact 11
         and
-        action === "yyy"
+        action exact "yyy"
     )
     xor
     (

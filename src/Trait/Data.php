@@ -792,6 +792,43 @@ Trait Data {
                 unset($list[$nr]);
                 unset($list[$next]);
             }
+            elseif(
+                in_array(
+                    strtolower($record['value']),
+                    [
+                        'strictly-exact',
+                        'not-strictly-exact',
+                        'exact',
+                        'not-exact',
+                        'gt',
+                        'gte',
+                        'lt',
+                        'lte',
+                        'between',
+                        'between-equals',
+                        'before',
+                        'after',
+                        'strictly-before',
+                        'strictly-after',
+                        'partial',
+                        'not-partial',
+                        'start',
+                        'not-start',
+                        'end',
+                        'not-end',
+                    ],
+                    true
+                )
+            ){
+                $attribute = $this->tree_record_attribute($list[$previous]);
+                $operator = $record['value'];
+                $value = $this->tree_record_attribute($list[$next]);
+                $list[$previous] = [
+                    'attribute' => $attribute,
+                    'operator' => $operator,
+                    'value' => $value
+                ];
+            }
         }
         $tree = [];
         foreach($list as $nr => $record){
