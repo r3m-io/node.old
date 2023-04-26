@@ -821,13 +821,15 @@ Trait Data {
                 )
             ){
                 $attribute = $this->tree_record_attribute($list[$previous]);
-                $operator = $record['value'];
+                $operator = strtolower($record['value']);
                 $value = $this->tree_record_attribute($list[$next]);
                 $list[$previous] = [
                     'attribute' => $attribute,
                     'operator' => $operator,
                     'value' => $value
                 ];
+                unset($list[$nr]);
+                unset($list[$next]);
             }
         }
         $tree = [];
