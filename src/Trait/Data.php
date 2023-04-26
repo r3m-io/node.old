@@ -1983,11 +1983,14 @@ Trait Data {
      * @throws Exception
      */
     private function filter($record=[], $filter=[], $options=[]){
-        d($record);
-        d($filter);
-        ddd($options);
-        return $record;
 
+        $list = [];
+        $list[] = $record;
+        $list = Filter::list($list)->where($filter);
+        if(!empty($list)){
+            return $record;
+        }
+        return false;
     }
 
     /**
