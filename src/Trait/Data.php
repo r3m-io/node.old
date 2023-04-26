@@ -980,6 +980,7 @@ Trait Data {
                 }
             }
         }
+        ddd($list);
         foreach($meta->get('BinarySearch.' . $class)  as $property => $record){
             if($property === 'uuid'){
                 continue;
