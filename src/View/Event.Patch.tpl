@@ -34,7 +34,7 @@ Update Event:
 )',
 'filter_simple' => [
 'action' => 'yyy'
-]
+],
 'filter' => [
     'action' => [
     'value' => 'yyy',
