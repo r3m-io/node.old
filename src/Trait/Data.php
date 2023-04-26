@@ -1986,6 +1986,7 @@ Trait Data {
 
         $list = [];
         $list[] = $record;
+        d($filter);
         $list = Filter::list($list)->where($filter);
         if(!empty($list)){
             return $record;
