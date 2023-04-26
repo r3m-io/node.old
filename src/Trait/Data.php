@@ -2031,7 +2031,7 @@ Trait Data {
             if($record){
                 $read = $object->data_read($record->{'#read'}->url, sha1($record->{'#read'}->url));
                 if($read){
-                    $record->node = $read->data();
+                    $record = Core::object_merge($record, $read->data());
                 }
                 if(array_key_exists('filter', $options)){
                     $record = $this->filter($record, $options['filter'] ?? [], $options);
