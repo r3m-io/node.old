@@ -1986,19 +1986,7 @@ Trait Data {
 
         $list = [];
         $list[] = $record;
-
-        $where = [];
-        d($record);
-        foreach($filter as $attribute => $value){
-            $where[] = [
-                'attribute' => $attribute,
-                'value' => $value,
-                'operator' => '==='
-            ];
-        }
         $list = Filter::list($list)->where($filter);
-        d($where);
-        ddd($list);
         if(!empty($list)){
             return $record;
         }
