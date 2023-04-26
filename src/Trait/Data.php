@@ -980,7 +980,6 @@ Trait Data {
                 }
             }
         }
-        ddd($list);
         foreach($meta->get('BinarySearch.' . $class)  as $property => $record){
             if($property === 'uuid'){
                 continue;
@@ -990,6 +989,7 @@ Trait Data {
                 $object->config('extension.json')
             ;
             $properties = explode('-', $property);
+            d($properties);
             if(array_key_exists(1, $properties)){
                 $sort = Sort::list($list)->with([
                     $properties[0] => 'ASC',
