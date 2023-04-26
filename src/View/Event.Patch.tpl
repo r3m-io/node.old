@@ -21,9 +21,9 @@ Update Event:
     options.priority === 1
     xor
     (
-        options.priority exact 11
+        options.priority === 11
         and
-        action exact "yyy"
+        action === "yyy"
     )
     xor
     (
@@ -32,6 +32,9 @@ Update Event:
         action === "utyrrt"
     )
 )',
+'filter_simple' => [
+'action' => 'yyy'
+]
 'filter' => [
     'action' => [
     'value' => 'yyy',

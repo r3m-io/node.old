@@ -518,74 +518,128 @@ Trait Data {
                 if(!$meta){
                     return false;
                 }
-                if(array_key_exists('where', $options)){
-                    $options['where'] = $this->where_convert($options['where']);
-                }
-                $key = [
-                    'where' => $options['where'],
-                    'sort' => $options['sort']
-                ];
-                $key = sha1(Core::object($key, Core::OBJECT_JSON));
-                $lines = $meta->get('Where.' . $name . '.' . $key . '.lines');
-                $where_url = $object->config('project.dir.data') .
-                    'Node' .
-                    $object->config('ds') .
-                    'Where' .
-                    $object->config('ds') .
-                    $name .
-                    $object->config('ds') .
-                    $key .
-                    $object->config('extension.json')
-                ;
-                $where_mtime = File::mtime($where_url);
-                if(
-                    File::exist($where_url) &&
-                    $mtime === $where_mtime &&
-                    $lines >= 0
-                ){
-                    $file = new SplFileObject($where_url);
-                    $where = [];
-                    $where[] = [
-                        'value' => $key,
-                        'attribute' => 'key',
-                        'operator' => '==='
+                if(array_key_exists('filter_simple', $options)){
+                    $options['filter'] = $options['filter_simple'];
+                    $key = [
+                        'filter' => $options['filter'],
+                        'sort' => $options['sort']
                     ];
-                    $list = $this->binary_search_page($file, [
-                        'where' => $where,
-                        'filter' => $options['filter'],
-                        'page' => $options['page'],
-                        'limit' => $options['limit'],
-                        'lines'=> $lines,
-                        'counter' => 0,
-                        'direction' => 'next',
-                        'url' => $where_url,
-                        'debug' => true
-                    ]);
-                } else {
-                    $lines = $meta->get('BinarySearch.' . $class . '.' . $property . '.lines');
-                    $file = new SplFileObject($url);
-                    $list = $this->binary_search_page($file, [
-                        'where' => $options['where'],
-                        'filter' => $options['filter'],
-                        'page' => $options['page'],
-                        'limit' => $options['limit'],
-                        'lines'=> $lines,
-                        'counter' => 0,
-                        'direction' => 'next',
-                        'url' => $url
-                    ]);
+                    $key = sha1(Core::object($key, Core::OBJECT_JSON));
+                    $lines = $meta->get('Filter.' . $name . '.' . $key . '.lines');
+                    $filter_url = $object->config('project.dir.data') .
+                        'Node' .
+                        $object->config('ds') .
+                        'Filter' .
+                        $object->config('ds') .
+                        $name .
+                        $object->config('ds') .
+                        $key .
+                        $object->config('extension.json')
+                    ;
+                    $filter_mtime = File::mtime($filter_url);
+                    if(
+                        File::exist($filter_url) &&
+                        $mtime === $filter_mtime &&
+                        $lines >= 0
+                    ){
+                        $file = new SplFileObject($filter_url);
+                        $options['filter']['key'] = $key;
+                        $list = $this->binary_search_page($file, [
+                            'filter' => $options['filter'],
+                            'page' => $options['page'],
+                            'limit' => $options['limit'],
+                            'lines'=> $lines,
+                            'counter' => 0,
+                            'direction' => 'next',
+                            'url' => $filter_url,
+                            'debug' => true
+                        ]);
+                    } else {
+                        $lines = $meta->get('BinarySearch.' . $class . '.' . $property . '.lines');
+                        $file = new SplFileObject($url);
+                        $list = $this->binary_search_page($file, [
+                            'filter' => $options['filter'],
+                            'page' => $options['page'],
+                            'limit' => $options['limit'],
+                            'lines'=> $lines,
+                            'counter' => 0,
+                            'direction' => 'next',
+                            'url' => $url
+                        ]);
+                    }
+                    $result = [];
+                    $result['page'] = $options['page'];
+                    $result['limit'] = $options['limit'];
+                    $result['list'] = $list;
+                    $result['sort'] = $options['sort'];
+                    $result['filter'] = $options['filter'] ?? [];
+                    return $result;
                 }
-                $result = [];
-                $result['page'] = $options['page'];
-                $result['limit'] = $options['limit'];
-                $result['list'] = $list;
-                $result['sort'] = $options['sort'];
-                $result['where'] = $options['where'] ?? [];
-                //add filter
-                return $result;
-
+                elseif(array_key_exists('where', $options)){
+                    $options['where'] = $this->where_convert($options['where']);
+                    $key = [
+                        'where' => $options['where'],
+                        'sort' => $options['sort']
+                    ];
+                    $key = sha1(Core::object($key, Core::OBJECT_JSON));
+                    $lines = $meta->get('Where.' . $name . '.' . $key . '.lines');
+                    $where_url = $object->config('project.dir.data') .
+                        'Node' .
+                        $object->config('ds') .
+                        'Where' .
+                        $object->config('ds') .
+                        $name .
+                        $object->config('ds') .
+                        $key .
+                        $object->config('extension.json')
+                    ;
+                    $where_mtime = File::mtime($where_url);
+                    if(
+                        File::exist($where_url) &&
+                        $mtime === $where_mtime &&
+                        $lines >= 0
+                    ){
+                        $file = new SplFileObject($where_url);
+                        $where = [];
+                        $where[] = [
+                            'value' => $key,
+                            'attribute' => 'key',
+                            'operator' => '==='
+                        ];
+                        $list = $this->binary_search_page($file, [
+                            'where' => $where,
+                            'page' => $options['page'],
+                            'limit' => $options['limit'],
+                            'lines'=> $lines,
+                            'counter' => 0,
+                            'direction' => 'next',
+                            'url' => $where_url,
+                            'debug' => true
+                        ]);
+                    } else {
+                        $lines = $meta->get('BinarySearch.' . $class . '.' . $property . '.lines');
+                        $file = new SplFileObject($url);
+                        $list = $this->binary_search_page($file, [
+                            'where' => $options['where'],
+                            'page' => $options['page'],
+                            'limit' => $options['limit'],
+                            'lines'=> $lines,
+                            'counter' => 0,
+                            'direction' => 'next',
+                            'url' => $url
+                        ]);
+                    }
+                    $result = [];
+                    $result['page'] = $options['page'];
+                    $result['limit'] = $options['limit'];
+                    $result['list'] = $list;
+                    $result['sort'] = $options['sort'];
+                    $result['where'] = $options['where'] ?? [];
+                    return $result;
+                } else {
+                    ddd($options);
+                }
             }
-            ddd($url);
         }
         return false;
     }
@@ -1928,8 +1982,10 @@ Trait Data {
     /**
      * @throws Exception
      */
-    private function filter($record=[], $options=[]){
-
+    private function filter($record=[], $filter=[], $options=[]){
+        d($record);
+        d($filter);
+        ddd($options);
         return $record;
 
     }
@@ -1965,10 +2021,12 @@ Trait Data {
                 if($read){
                     $record->node = $read->data();
                 }
-                if(array_key_exists('debug', $options)){
-                    unset($options['filter']);
+                if(array_key_exists('filter', $options)){
+                    $record = $this->filter($record, $options['filter'] ?? [], $options);
+                } else {
+                    $record = $this->where($record, $options['where'] ?? [], $options);
                 }
-                $record = $this->where($record, $options['where'] ?? [], $options);
+
                 if($record){
                     $page[] = $record;
                 } else {
