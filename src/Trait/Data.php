@@ -795,28 +795,7 @@ Trait Data {
             elseif(
                 in_array(
                     strtolower($record['value']),
-                    [
-                        'strictly-exact',
-                        'not-strictly-exact',
-                        'exact',
-                        'not-exact',
-                        'gt',
-                        'gte',
-                        'lt',
-                        'lte',
-                        'between',
-                        'between-equals',
-                        'before',
-                        'after',
-                        'strictly-before',
-                        'strictly-after',
-                        'partial',
-                        'not-partial',
-                        'start',
-                        'not-start',
-                        'end',
-                        'not-end',
-                    ],
+                    Filter::OPERATOR_LIST_NAME,
                     true
                 )
             ){
