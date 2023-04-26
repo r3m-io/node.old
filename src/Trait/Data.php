@@ -111,7 +111,7 @@ Trait Data {
                 $binarySearch->data($class, $list);
                 $count = 0;
                 foreach($binarySearch->data($class) as $record){
-                    $record->index = $count;
+                    $record->{'#index'} = $count;
                     $count++;
                 }
                 $lines = $binarySearch->write($binary_search_url, 'lines');
@@ -543,7 +543,7 @@ Trait Data {
                         $lines >= 0
                     ){
                         $file = new SplFileObject($filter_url);
-                        $options['filter']['key'] = $key;
+                        $options['filter']['#key'] = $key;
                         $list = $this->binary_search_page($file, [
                             'filter' => $options['filter'],
                             'page' => $options['page'],
@@ -1003,10 +1003,10 @@ Trait Data {
                         $nodeList = [];
                         foreach($subSubList as $nr => $node){
                             $item = $data->get($class . '.' . $node->uuid);
-                            $item->index = $index;
-                            $item->sort = new stdClass();
-                            $item->sort->{$properties[0]} = $key1;
-                            $item->sort->{$properties[1]} = $key2;
+                            $item->{'#index'} = $index;
+                            $item->{'#sort'} = new stdClass();
+                            $item->{'#sort'}->{$properties[0]} = $key1;
+                            $item->{'#sort'}->{$properties[1]} = $key2;
                             $nodeList[] = $item;
                             $index++;
                         }
@@ -1031,9 +1031,9 @@ Trait Data {
                     $nodeList = [];
                     foreach($subList as $nr => $node){
                         $item = $data->get($class . '.' . $node->uuid);
-                        $item->index = $index;
-                        $item->sort = new stdClass();
-                        $item->sort->{$property} = $key;
+                        $item->{'#index'} = $index;
+                        $item->{'#sort'} = new stdClass();
+                        $item->{'#sort'}->{$property} = $key;
                         $nodeList[] = $item;
                         $index++;
                     }
@@ -1074,8 +1074,8 @@ Trait Data {
                     foreach($where_list as $index => $node){
                         $where[$key][$index] = [
                             'uuid' => $node->uuid,
-                            'index' => $index,
-                            'key' => $key
+                            '#index' => $index,
+                            '#key' => $key
                         ];
                     }
                     $where_dir = $dir_node .
@@ -1440,13 +1440,13 @@ Trait Data {
             if(!is_object($record)){
                 return false;
             }
-            $record->read = new stdClass();
-            $record->read->load = $options['counter'];
-            $record->read->seek = $options['seek'];
-            $record->read->lines = $options['lines'];
-            $record->read->percentage = round(($options['counter'] / $options['lines']) * 100, 2);
+            $record->{'#read'} = new stdClass();
+            $record->{'#read'}->load = $options['counter'];
+            $record->{'#read'}->seek = $options['seek'];
+            $record->{'#read'}->lines = $options['lines'];
+            $record->{'#read'}->percentage = round(($options['counter'] / $options['lines']) * 100, 2);
             $object = $this->object();
-            $record->read->url = $object->config('project.dir.data') .
+            $record->{'#read'}->url = $object->config('project.dir.data') .
                 'Node' .
                 $object->config('ds') .
                 'Storage' .
@@ -2032,7 +2032,7 @@ Trait Data {
                 'search' => [],
             ]);
             if($record){
-                $read = $object->data_read($record->read->url, sha1($record->read->url));
+                $read = $object->data_read($record->{'#read'}->url, sha1($record->read->url));
                 if($read){
                     $record->node = $read->data();
                 }
@@ -2155,7 +2155,7 @@ Trait Data {
                 $index = false;
 //                echo $seek . ', ' . $direction . ', ' . $line . PHP_EOL;
                 if(array_key_exists(1, $explode)){
-                    if($explode[0] === 'index') {
+                    if($explode[0] === '#index') {
                         $direction = 'down';
                         $index = (int) trim($explode[1], " \t\n\r\0\x0B,");
                         if ($options['index'] === $index) {
@@ -2245,7 +2245,7 @@ Trait Data {
             $explode = explode(':', $line_match);
             $index = false;
             if(array_key_exists(1, $explode)){
-                if($explode[0] === 'index') {
+                if($explode[0] === '#index') {
                     $direction = 'down';
                     $index = (int)trim($explode[1], " \t\n\r\0\x0B,");
                     if ($options['index'] === $index) {
