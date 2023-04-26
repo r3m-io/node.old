@@ -1988,6 +1988,7 @@ Trait Data {
         $list[] = $record;
 
         $where = [];
+        d($record);
         foreach($filter as $attribute => $value){
             $where[] = [
                 'attribute' => $attribute,
