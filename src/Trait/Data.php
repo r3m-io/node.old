@@ -1994,8 +1994,8 @@ Trait Data {
             ];
         }
         d($where);
+        d($record);
         $list = Filter::list($list)->where($where);
-        d($list);
         if(!empty($list)){
             return $record;
         }
