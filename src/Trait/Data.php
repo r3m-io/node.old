@@ -2091,7 +2091,6 @@ Trait Data {
                 if($read){
                     $record = Core::object_merge($record, $read->data());
                 }
-                d($record);
                 if(!empty($options['filter'])){
                     $record = $this->filter($record, $options['filter'], $options);
                 }
@@ -2135,6 +2134,7 @@ Trait Data {
         $start = $index;
         $end = $start + (int) $options['limit'];
         $page = [];
+        $record_index = $index;
         $time_start = microtime(true);
         for($i = $start; $i < $end; $i++){
             $record = $this->binary_search_index($file, [
@@ -2155,7 +2155,9 @@ Trait Data {
                     $record = $this->where($record, $options['where'], $options);
                 }
                 if($record){
+                    $record->{'#index'} = $record_index;
                     $page[] = $record;
+                    $record_index++;
                 } else {
                     $end++;
                 }
