@@ -1053,7 +1053,74 @@ Trait Data {
                 $command = 'chmod 666 ' . $url_property;
                 exec($command);
             }
-            if(array_key_exists('where', $options)){
+            if(!empty($options['filter'])){
+                $key = [
+                    'filter' => $options['filter'],
+                    'sort' => $options['sort']
+                ];
+                $key = sha1(Core::object($key, Core::OBJECT_JSON));
+                $file = new SplFileObject($url_property);
+                $limit = $meta->get('Filter.' . $class . '.' . $key . '.limit') ?? 1000;
+                $filter_list = $this->binary_search_list($file, [
+                    'filter' => $options['filter'],
+                    'limit' => $limit,
+                    'lines'=> $record->lines,
+                    'counter' => 0,
+                    'direction' => 'next',
+                    'url' => $url_property,
+                ]);
+                ddd($filter_list);
+                if(!empty($filter_list)){
+                    $filter = [];
+                    foreach($filter_list as $index => $node){
+                        $filter[$key][$index] = [
+                            'uuid' => $node->uuid,
+                            '#index' => $index,
+                            '#key' => $key
+                        ];
+                    }
+                    $filter_dir = $dir_node .
+                        'Filter' .
+                        $object->config('ds')
+                    ;
+                    $filter_name_dir = $filter_dir .
+                        $name .
+                        $object->config('ds')
+                    ;
+                    Dir::create($filter_name_dir, Dir::CHMOD);
+                    $filter_url = $filter_name_dir .
+                        $key .
+                        $object->config('extension.json')
+                    ;
+                    $storage = new Storage($filter);
+                    $lines = $storage->write($filter_url, 'lines');
+                    $count = $index + 1;
+                    $meta->set('Filter.' . $class . '.' . $key . '.lines', $lines);
+                    $meta->set('Filter.' . $class . '.' . $key . '.count', $count);
+                    $meta->set('Filter.' . $class . '.' . $key . '.limit', $limit);
+                    $meta->set('Filter.' . $class . '.' . $key . '.mtime', $mtime);
+                    $meta->set('Filter.' . $class . '.' . $key . '.atime', null);
+                    $meta->set('Filter.' . $class . '.' . $key . '.filter', $options['filter']);
+                    $meta->set('Filter.' . $class . '.' . $key . '.sort', $options['sort']);
+                    if($object->config(Config::POSIX_ID) === 0){
+                        $command = 'chown www-data:www-data ' . $filter_url;
+                        exec($command);
+                        $command = 'chown www-data:www-data ' . $filter_dir;
+                        exec($command);
+                        $command = 'chown www-data:www-data ' . $filter_name_dir;
+                        exec($command);
+                    }
+                    if($object->config('framework.environment') === Config::MODE_DEVELOPMENT){
+                        $command = 'chmod 666 ' . $filter_url;
+                        exec($command);
+                        $command = 'chmod 777 ' . $filter_dir;
+                        exec($command);
+                        $command = 'chmod 777 ' . $filter_name_dir;
+                        exec($command);
+                    }
+                }
+            }
+            if(!empty($opions['where'])){
                 $key = [
                     'where' => $options['where'],
                     'sort' => $options['sort']
@@ -1098,7 +1165,9 @@ Trait Data {
                     $meta->set('Where.' . $class . '.' . $key . '.count', $count);
                     $meta->set('Where.' . $class . '.' . $key . '.limit', $limit);
                     $meta->set('Where.' . $class . '.' . $key . '.mtime', $mtime);
-                    $meta->set('Where.' . $class . '.' . $key . '.atime', null);;
+                    $meta->set('Where.' . $class . '.' . $key . '.atime', null);
+                    $meta->set('Where.' . $class . '.' . $key . '.where', $options['where']);
+                    $meta->set('Where.' . $class . '.' . $key . '.sort', $options['sort']);
                     if($object->config(Config::POSIX_ID) === 0){
                         $command = 'chown www-data:www-data ' . $where_url;
                         exec($command);
@@ -1995,7 +2064,7 @@ Trait Data {
         }
         d($where);
         d($record);
-        $list = Filter::list($list)->where($where);
+        $list = Filter::list($list)->where($filter);
         if(!empty($list)){
             return $record;
         }
