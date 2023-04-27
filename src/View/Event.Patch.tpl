@@ -32,10 +32,10 @@ Update Event:
         action === "utyrrt"
     )
 )',
-'filter_simple' => [
+'filter' => [
 'action' => 'yyy'
 ],
-'filter' => [
+'#filter' => [
     'action' => [
     'value' => 'yyy',
     'operator' => '==='

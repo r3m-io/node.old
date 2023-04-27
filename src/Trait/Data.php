@@ -518,7 +518,7 @@ Trait Data {
                 if(!$meta){
                     return false;
                 }
-                if(array_key_exists('filter_simple', $options)){
+                if(!empty($options['filter'])){
                     $options['filter'] = $options['filter_simple'];
                     $key = [
                         'filter' => $options['filter'],
@@ -581,7 +581,7 @@ Trait Data {
                     $result['filter'] = $options['filter'] ?? [];
                     return $result;
                 }
-                elseif(array_key_exists('where', $options)){
+                elseif(!empty($options['where'])){
                     $options['where'] = $this->where_convert($options['where']);
                     $key = [
                         'where' => $options['where'],
