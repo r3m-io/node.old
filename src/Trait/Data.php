@@ -535,12 +535,7 @@ Trait Data {
                         $key .
                         $object->config('extension.json')
                     ;
-                    d($filter_url);
                     $filter_mtime = File::mtime($filter_url);
-                    d(File::exist($filter_url));
-                    d($mtime);
-                    d($filter_mtime);
-                    ddd($lines);
                     if(
                         File::exist($filter_url) &&
                         $mtime === $filter_mtime &&
