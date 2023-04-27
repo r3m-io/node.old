@@ -555,8 +555,9 @@ Trait Data {
                             'debug' => true
                         ]);
                     } else {
-                        ddd($properties);
-                        $lines = $meta->get('BinarySearch.' . $class . '.' . $property . '.lines');
+                        $sort_key = sha1(Core::object($properties, Core::OBJECT_JSON));
+                        $lines = $meta->get('Sort.' . $class . '.' . $sort_key . '.lines');
+                        ddd($lines);
                         $file = new SplFileObject($url);
                         $list = $this->binary_search_page($file, [
                             'filter' => $options['filter'],
