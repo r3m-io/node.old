@@ -934,6 +934,7 @@ Trait Data {
             return;
         }
         foreach ($node->data() as $class => $item) {
+            $time_start = microtime();
             $dir_node = $object->config('project.dir.data') .
                 'Node' .
                 $object->config('ds');
@@ -961,6 +962,7 @@ Trait Data {
             if (!$meta) {
                 return;
             }
+
             if (property_exists($item, 'sort')) {
                 foreach ($item->sort as $sort) {
                     $properties = explode(',', $sort);
@@ -990,6 +992,7 @@ Trait Data {
                                     $object->config('extension.json');
                                 $record = $object->data_read($storage_url);
                                 if ($record) {
+                                    //add filter for big fat objects
                                     $list->set($uuid, $record->data());
                                 } else {
                                     //event out of sync, send mail
@@ -1080,6 +1083,9 @@ Trait Data {
                     }
                 }
             }
+            $time_end = microtime(true);
+            $time_duration = round(($time_end - $time_start) * 1000, 2);
+            echo 'Duration: ' . $time_duration . 'ms' . PHP_EOL;
         }
     }
 
