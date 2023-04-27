@@ -536,6 +536,7 @@ Trait Data {
                         $object->config('extension.json')
                     ;
                     $filter_mtime = File::mtime($filter_url);
+                    $filter_mtime = false;
                     if(
                         File::exist($filter_url) &&
                         $mtime === $filter_mtime &&
