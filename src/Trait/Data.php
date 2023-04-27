@@ -1053,17 +1053,14 @@ Trait Data {
                             $result->set($class . '.' . $key, $nodeList);
                         }
                     }
-
                     $lines = $result->write($url_property, 'lines');
                     File::touch($url_property, $mtime);
                     $count = $index;
-
                     $sortable = new Storage();
                     $sortable->set('property', $properties);
                     $sortable->set('count', $count);
                     $sortable->set('lines', $lines);
                     $sortable->set('url', $url_property);
-
                     $key = sha1(Core::object($properties, Core::OBJECT_JSON));
                     $meta->set('Sort. ' . $class . '.' . $key, $sortable->data());
                     $meta->write($meta_url);
