@@ -961,34 +961,44 @@ Trait Data {
             if (!$meta) {
                 return;
             }
-            if(empty($list)){
-                $list = new Storage();
-                foreach ($data->data($class) as $uuid => $node) {
-                    if (property_exists($node, 'uuid')) {
-                        $storage_url = $object->config('project.dir.data') .
-                            'Node' .
-                            $object->config('ds') .
-                            'Storage' .
-                            $object->config('ds') .
-                            substr($node->uuid, 0, 2) .
-                            $object->config('ds') .
-                            $node->uuid .
-                            $object->config('extension.json')
-                        ;
-                        $record = $object->data_read($storage_url);
-                        if ($record) {
-                            $list->set($uuid, $record->data());
-                        } else {
-                            //event out of sync, send mail
-                        }
-                    }
-                }
-            }
             if(property_exists($item, 'sort')){
                 foreach($item->sort as $sort){
                     $properties = explode(',', $sort);
                     foreach($properties as $nr => $property){
                         $properties[$nr] = trim($property);
+                    }
+                    $url_property = $dir_binarysearch .
+                        Controller::name(implode('-', $properties)) .
+                        $object->config('extension.json')
+                    ;
+                    $mtime_property = File::mtime($url_property);
+                    if($mtime === $mtime_property){
+                        //same cache
+                        ddd('yes');
+                        continue;
+                    }
+                    if(empty($list)){
+                        $list = new Storage();
+                        foreach ($data->data($class) as $uuid => $node) {
+                            if (property_exists($node, 'uuid')) {
+                                $storage_url = $object->config('project.dir.data') .
+                                    'Node' .
+                                    $object->config('ds') .
+                                    'Storage' .
+                                    $object->config('ds') .
+                                    substr($node->uuid, 0, 2) .
+                                    $object->config('ds') .
+                                    $node->uuid .
+                                    $object->config('extension.json')
+                                ;
+                                $record = $object->data_read($storage_url);
+                                if ($record) {
+                                    $list->set($uuid, $record->data());
+                                } else {
+                                    //event out of sync, send mail
+                                }
+                            }
+                        }
                     }
                     if (array_key_exists(1, $properties)) {
                         $sort = Sort::list($list)->with([
@@ -1044,9 +1054,7 @@ Trait Data {
                             $result->set($class . '.' . $key, $nodeList);
                         }
                     }
-                    $url_property = $dir_binarysearch .
-                        Controller::name(implode('-', $properties)) .
-                        $object->config('extension.json');
+
                     $lines = $result->write($url_property, 'lines');
                     File::touch($url_property, $mtime);
                     $count = $index;
