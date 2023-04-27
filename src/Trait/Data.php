@@ -1069,7 +1069,7 @@ Trait Data {
                     $sortable->set('lines', $lines);
                     $sortable->set('url', $url_property);
                     $key = sha1(Core::object($properties, Core::OBJECT_JSON));
-                    $meta->set('Sort. ' . $class . '.' . $key, $sortable->data());
+                    $meta->set('Sort.' . $class . '.' . $key, $sortable->data());
                     $meta->write($meta_url);
                     if($object->config(Config::POSIX_ID) === 0){
                         $command = 'chown www-data:www-data ' . $meta_url;
