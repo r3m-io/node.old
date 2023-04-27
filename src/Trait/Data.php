@@ -2090,6 +2090,7 @@ Trait Data {
                 if($read){
                     $record = Core::object_merge($record, $read->data());
                 }
+                ddd($record);
                 if(!empty($options['filter'])){
                     $record = $this->filter($record, $options['filter'], $options);
                 }
