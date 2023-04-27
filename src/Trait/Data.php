@@ -541,7 +541,6 @@ Trait Data {
                         $mtime === $filter_mtime &&
                         $lines >= 0
                     ){
-                        ddd('yes');
                         $file = new SplFileObject($filter_url);
                         $options['filter']['#key'] = $key;
                         $list = $this->binary_search_page($file, [
