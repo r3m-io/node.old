@@ -621,7 +621,7 @@ Trait Data {
                             'debug' => true
                         ]);
                     } else {
-                        ddd($property);
+                        ddd($properties);
 //                        $sort_key = sha1(Core::object($options['sort'], Core::OBJECT_JSON));
                         $lines = $meta->get('BinarySearch.' . $class . '.' . $property . '.lines');
                         $file = new SplFileObject($url);
