@@ -974,7 +974,6 @@ Trait Data {
                     $mtime_property = File::mtime($url_property);
                     if($mtime === $mtime_property){
                         //same cache
-                        ddd('yes');
                         continue;
                     }
                     if(empty($list)){
