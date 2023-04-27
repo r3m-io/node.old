@@ -2052,15 +2052,6 @@ Trait Data {
 
         $list = [];
         $list[] = $record;
-        $where = [];
-        foreach($filter as $attribute => $value){
-            $where[$attribute] = [
-                'operator' => '===',
-                'value' => $value
-            ];
-        }
-        d($where);
-        d($record);
         $list = Filter::list($list)->where($filter);
         if(!empty($list)){
             return $record;
