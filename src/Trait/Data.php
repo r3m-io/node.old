@@ -934,7 +934,7 @@ Trait Data {
             return;
         }
         foreach ($node->data() as $class => $item) {
-            $time_start = microtime();
+            $time_start = microtime(true);
             $dir_node = $object->config('project.dir.data') .
                 'Node' .
                 $object->config('ds');
