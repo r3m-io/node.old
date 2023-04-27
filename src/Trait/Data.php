@@ -2033,12 +2033,12 @@ Trait Data {
                 if($read){
                     $record = Core::object_merge($record, $read->data());
                 }
-                if(array_key_exists('filter', $options)){
-                    $record = $this->filter($record, $options['filter'] ?? [], $options);
-                } else {
-                    $record = $this->where($record, $options['where'] ?? [], $options);
+                if(!empty($options['filter'])){
+                    $record = $this->filter($record, $options['filter'], $options);
                 }
-
+                if(!empty($options['where'])){
+                    $record = $this->where($record, $options['where'], $options);
+                }
                 if($record){
                     $page[] = $record;
                 } else {
@@ -2087,10 +2087,11 @@ Trait Data {
                 if($read){
                     $record = Core::object_merge($record, $read->data());
                 }
-                if(array_key_exists('filter', $options)){
-                    $record = $this->filter($record, $options['filter'] ?? [], $options);
-                } else {
-                    $record = $this->where($record, $options['where'] ?? [], $options);
+                if(!empty($options['filter'])){
+                    $record = $this->filter($record, $options['filter'], $options);
+                }
+                if(!empty($options['where'])){
+                    $record = $this->where($record, $options['where'], $options);
                 }
                 if($record){
                     $page[] = $record;

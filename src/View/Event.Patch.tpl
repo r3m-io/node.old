@@ -16,7 +16,7 @@ Update Event:
 'options.priority' => 'ASC',
 'action' => 'ASC'
 ],
-'where' => '
+'#where' => '
 (
     options.priority === 1
     xor
