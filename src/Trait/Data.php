@@ -929,28 +929,26 @@ Trait Data {
      * @throws ObjectException
      * @throws FileWriteException
      */
-    public function sync(){
+    public function sync()
+    {
         $object = $this->object();
         $url_node = $object->config('project.dir.data') . 'Node' . $object->config('extension.json');
         $node = $object->data_read($url_node);
-        if(!$node){
+        if (!$node) {
             return;
         }
-        foreach($node->data() as $class => $item){
+        foreach ($node->data() as $class => $item) {
             $dir_node = $object->config('project.dir.data') .
                 'Node' .
-                $object->config('ds')
-            ;
+                $object->config('ds');
             $dir_binarysearch = $dir_node .
                 'BinarySearch' .
                 $object->config('ds') .
                 $class .
-                $object->config('ds')
-            ;
+                $object->config('ds');
             $url = $dir_binarysearch .
                 'Uuid' .
-                $object->config('extension.json')
-            ;
+                $object->config('extension.json');
             $mtime = File::mtime($url);
             $meta_url = $object->config('project.dir.data') .
                 'Node' .
@@ -958,8 +956,7 @@ Trait Data {
                 'Meta' .
                 $object->config('ds') .
                 $class .
-                $object->config('extension.json')
-            ;
+                $object->config('extension.json');
             $data = $object->data_read($url);
             if (!$data) {
                 return;
@@ -968,22 +965,21 @@ Trait Data {
             if (!$meta) {
                 return;
             }
-            if(property_exists($item, 'sort')){
-                foreach($item->sort as $sort){
+            if (property_exists($item, 'sort')) {
+                foreach ($item->sort as $sort) {
                     $properties = explode(',', $sort);
-                    foreach($properties as $nr => $property){
+                    foreach ($properties as $nr => $property) {
                         $properties[$nr] = trim($property);
                     }
                     $url_property = $dir_binarysearch .
                         Controller::name(implode('-', $properties)) .
-                        $object->config('extension.json')
-                    ;
+                        $object->config('extension.json');
                     $mtime_property = File::mtime($url_property);
-                    if($mtime === $mtime_property){
+                    if ($mtime === $mtime_property) {
                         //same cache
                         continue;
                     }
-                    if(empty($list)){
+                    if (empty($list)) {
                         $list = new Storage();
                         foreach ($data->data($class) as $uuid => $node) {
                             if (property_exists($node, 'uuid')) {
@@ -995,8 +991,7 @@ Trait Data {
                                     substr($node->uuid, 0, 2) .
                                     $object->config('ds') .
                                     $node->uuid .
-                                    $object->config('extension.json')
-                                ;
+                                    $object->config('extension.json');
                                 $record = $object->data_read($storage_url);
                                 if ($record) {
                                     $list->set($uuid, $record->data());
@@ -1071,11 +1066,11 @@ Trait Data {
                     $key = sha1(Core::object($properties, Core::OBJECT_JSON));
                     $meta->set('Sort.' . $class . '.' . $key, $sortable->data());
                     $meta->write($meta_url);
-                    if($object->config(Config::POSIX_ID) === 0){
+                    if ($object->config(Config::POSIX_ID) === 0) {
                         $command = 'chown www-data:www-data ' . $meta_url;
                         exec($command);
                     }
-                    if($object->config('framework.environment') === Config::MODE_DEVELOPMENT){
+                    if ($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
                         $command = 'chmod 666 ' . $meta_url;
                         exec($command);
                     }
@@ -1088,166 +1083,6 @@ Trait Data {
                         exec($command);
                     }
                 }
-            }
-        }
-
-
-
-        /*
-        $dir_node = $object->config('project.dir.data') .
-            'Node' .
-            $object->config('ds');
-        $dir_binarysearch = $dir_node .
-            'BinarySearch' .
-            $object->config('ds') .
-            $name .
-            $object->config('ds');
-        $url = $dir_binarysearch .
-            'Uuid' .
-            $object->config('extension.json');
-        $meta_url = $object->config('project.dir.data') .
-            'Node' .
-            $object->config('ds') .
-            'Meta' .
-            $object->config('ds') .
-            $name .
-            $object->config('extension.json');
-
-        $data = $object->data_read($url);
-        if (!$data) {
-            return;
-        }
-        $meta = $object->data_read($meta_url, sha1($meta_url));
-        if (!$meta) {
-            return;
-        }
-        */
-    }
-
-    private function list_sort_create(App $object, $class, $options=[]): void
-    {
-        $name = Controller::name($class);
-        $dir_node = $object->config('project.dir.data') .
-            'Node' .
-            $object->config('ds');
-        $dir_binarysearch = $dir_node .
-            'BinarySearch' .
-            $object->config('ds') .
-            $name .
-            $object->config('ds');
-        $url = $dir_binarysearch .
-            'Uuid' .
-            $object->config('extension.json');
-        $meta_url = $object->config('project.dir.data') .
-            'Node' .
-            $object->config('ds') .
-            'Meta' .
-            $object->config('ds') .
-            $name .
-            $object->config('extension.json');
-
-        $data = $object->data_read($url);
-        if (!$data) {
-            return;
-        }
-        $meta = $object->data_read($meta_url, sha1($meta_url));
-        if (!$meta) {
-            return;
-        }
-        $list = new Storage();
-        $mtime = File::mtime($url);
-        $response = [];
-        foreach ($data->data($class) as $uuid => $node) {
-            if (property_exists($node, 'uuid')) {
-                $storage_url = $object->config('project.dir.data') .
-                    'Node' .
-                    $object->config('ds') .
-                    'Storage' .
-                    $object->config('ds') .
-                    substr($node->uuid, 0, 2) .
-                    $object->config('ds') .
-                    $node->uuid .
-                    $object->config('extension.json');
-                $record = $object->data_read($storage_url);
-                if ($record) {
-                    $list->set($uuid, $record->data());
-                } else {
-                    //event out of sync, send mail
-                }
-            }
-        }
-        foreach ($meta->get('BinarySearch.' . $class) as $property => $record) {
-            if ($property === 'uuid') {
-                continue;
-            }
-            $url_property = $dir_binarysearch .
-                Controller::name($property) .
-                $object->config('extension.json');
-            $properties = explode('-', $property);
-            if (array_key_exists(1, $properties)) {
-                $sort = Sort::list($list)->with([
-                    $properties[0] => 'ASC',
-                    $properties[1] => 'ASC'
-                ], [
-                    'output' => 'raw'
-                ]);
-                $result = new Storage();
-                $index = 0;
-                foreach ($sort as $key1 => $subList) {
-                    foreach ($subList as $key2 => $subSubList) {
-                        $nodeList = [];
-                        foreach ($subSubList as $nr => $node) {
-                            $item = $data->get($class . '.' . $node->uuid);
-                            $item->{'#index'} = $index;
-                            $item->{'#sort'} = new stdClass();
-                            $item->{'#sort'}->{$properties[0]} = $key1;
-                            $item->{'#sort'}->{$properties[1]} = $key2;
-                            $nodeList[] = $item;
-                            $index++;
-                        }
-                        if (empty($key1)) {
-                            $key1 = '""';
-                        }
-                        if (empty($key2)) {
-                            $key2 = '""';
-                        }
-                        $result->set($class . '.' . $key1 . '.' . $key2, $nodeList);
-                    }
-                }
-            } else {
-                $sort = Sort::list($list)->with([
-                    $property => 'ASC'
-                ], [
-                    'output' => 'raw'
-                ]);
-                $result = new Storage();
-                $index = 0;
-                foreach ($sort as $key => $subList) {
-                    $nodeList = [];
-                    foreach ($subList as $nr => $node) {
-                        $item = $data->get($class . '.' . $node->uuid);
-                        $item->{'#index'} = $index;
-                        $item->{'#sort'} = new stdClass();
-                        $item->{'#sort'}->{$property} = $key;
-                        $nodeList[] = $item;
-                        $index++;
-                    }
-                    if (empty($key)) {
-                        $key = '""';
-                    }
-                    $result->set($class . '.' . $key, $nodeList);
-                }
-            }
-            $record->lines = $result->write($url_property, 'lines');
-            File::touch($url_property, $mtime);
-            $record->count = $index;
-            if ($object->config(Config::POSIX_ID) === 0) {
-                $command = 'chown www-data:www-data ' . $url_property;
-                exec($command);
-            }
-            if ($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
-                $command = 'chmod 666 ' . $url_property;
-                exec($command);
             }
         }
     }
