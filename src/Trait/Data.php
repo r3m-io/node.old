@@ -2076,6 +2076,7 @@ Trait Data {
         $end = $start + $options['limit'];
         $page = [];
         $time_start = microtime(true);
+        $record_index = $index;
         for($i = $start; $i < $end; $i++){
             $record = $this->binary_search_index($file, [
                 'page' => $options['page'],
@@ -2098,7 +2099,9 @@ Trait Data {
                     $record = $this->where($record, $options['where'], $options);
                 }
                 if($record){
+                    $record->{'#index'} = $record_index;
                     $page[] = $record;
+                    $record_index++;
                 } else {
                     $end++;
                 }
