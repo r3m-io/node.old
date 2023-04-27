@@ -1044,7 +1044,7 @@ Trait Data {
                 }
             }
             $record->lines = $result->write($url_property, 'lines');
-            File::touc($url_property, $mtime);
+            File::touch($url_property, $mtime);
             $record->count = $index;
             if($object->config(Config::POSIX_ID) === 0){
                 $command = 'chown www-data:www-data ' . $url_property;
