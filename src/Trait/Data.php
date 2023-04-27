@@ -491,15 +491,15 @@ Trait Data {
             $options['filter'] = [];
         }
         if(array_key_exists('sort', $options)){
-            $property = [];
+            $properties = [];
             $has_descending = false;
             foreach($options['sort'] as $key => $order){
-                $property[] = $key;
+                $properties[] = $key;
                 if(strtolower($order) === 'desc'){
                     $has_descending = true;
                 }
             }
-            $property = implode('-', $property);
+            $property = implode('-', $properties);
             $url = $dir .
                 Controller::name($property) .
                 $object->config('extension.json')
@@ -555,7 +555,7 @@ Trait Data {
                             'debug' => true
                         ]);
                     } else {
-                        ddd($property);
+                        ddd($properties);
                         $lines = $meta->get('BinarySearch.' . $class . '.' . $property . '.lines');
                         $file = new SplFileObject($url);
                         $list = $this->binary_search_page($file, [
