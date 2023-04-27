@@ -519,7 +519,6 @@ Trait Data {
                     return false;
                 }
                 if(!empty($options['filter'])){
-                    $options['filter'] = $options['filter_simple'];
                     $key = [
                         'filter' => $options['filter'],
                         'sort' => $options['sort']
