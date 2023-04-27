@@ -557,6 +557,7 @@ Trait Data {
                     } else {
                         $sort_key = sha1(Core::object($properties, Core::OBJECT_JSON));
                         d($sort_key);
+                        d($class);
                         $lines = $meta->get('Sort.' . $class . '.' . $sort_key . '.lines');
                         ddd($lines);
                         $file = new SplFileObject($url);
