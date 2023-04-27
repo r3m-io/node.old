@@ -1069,7 +1069,6 @@ Trait Data {
                     'direction' => 'next',
                     'url' => $url_property,
                 ]);
-                ddd($filter_list);
                 if(!empty($filter_list)){
                     $filter = [];
                     foreach($filter_list as $index => $node){
