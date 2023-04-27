@@ -1093,12 +1093,11 @@ Trait Data {
                     ;
                     $storage = new Storage($filter);
                     $lines = $storage->write($filter_url, 'lines');
+                    File::touch($filter_url, $mtime);
                     $count = $index + 1;
                     $meta->set('Filter.' . $class . '.' . $key . '.lines', $lines);
                     $meta->set('Filter.' . $class . '.' . $key . '.count', $count);
                     $meta->set('Filter.' . $class . '.' . $key . '.limit', $limit);
-                    $meta->set('Filter.' . $class . '.' . $key . '.mtime', $mtime);
-                    $meta->set('Filter.' . $class . '.' . $key . '.atime', null);
                     $meta->set('Filter.' . $class . '.' . $key . '.filter', $options['filter']);
                     $meta->set('Filter.' . $class . '.' . $key . '.sort', $options['sort']);
                     if($object->config(Config::POSIX_ID) === 0){
@@ -1119,7 +1118,7 @@ Trait Data {
                     }
                 }
             }
-            if(!empty($opions['where'])){
+            elseif(!empty($opions['where'])){
                 $key = [
                     'where' => $options['where'],
                     'sort' => $options['sort']
@@ -1159,12 +1158,11 @@ Trait Data {
                     ;
                     $storage = new Storage($where);
                     $lines = $storage->write($where_url, 'lines');
+                    File::touch($where_url, $mtime);
                     $count = $index + 1;
                     $meta->set('Where.' . $class . '.' . $key . '.lines', $lines);
                     $meta->set('Where.' . $class . '.' . $key . '.count', $count);
                     $meta->set('Where.' . $class . '.' . $key . '.limit', $limit);
-                    $meta->set('Where.' . $class . '.' . $key . '.mtime', $mtime);
-                    $meta->set('Where.' . $class . '.' . $key . '.atime', null);
                     $meta->set('Where.' . $class . '.' . $key . '.where', $options['where']);
                     $meta->set('Where.' . $class . '.' . $key . '.sort', $options['sort']);
                     if($object->config(Config::POSIX_ID) === 0){
@@ -2104,7 +2102,7 @@ Trait Data {
                 if(!empty($options['filter'])){
                     $record = $this->filter($record, $options['filter'], $options);
                 }
-                if(!empty($options['where'])){
+                elseif(!empty($options['where'])){
                     $record = $this->where($record, $options['where'], $options);
                 }
                 if($record){
@@ -2158,7 +2156,7 @@ Trait Data {
                 if(!empty($options['filter'])){
                     $record = $this->filter($record, $options['filter'], $options);
                 }
-                if(!empty($options['where'])){
+                elseif(!empty($options['where'])){
                     $record = $this->where($record, $options['where'], $options);
                 }
                 if($record){
