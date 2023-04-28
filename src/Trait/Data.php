@@ -950,10 +950,13 @@ Trait Data {
                 $object->config('ds');
             $dir_binarysearch = $dir_node .
                 'BinarySearch' .
-                $object->config('ds') .
+                $object->config('ds')
+            ;
+            $dir_binarysearch_class = $dir_binarysearch .
                 $class .
                 $object->config('ds');
-            $url = $dir_binarysearch .
+
+            $url = $dir_binarysearch_class .
                 'Uuid' .
                 $object->config('extension.json');
             $mtime = File::mtime($url);
@@ -985,7 +988,7 @@ Trait Data {
                     $url_property_asc_asc = false;
                     $url_property_asc_desc = false;
                     if(count($properties) > 1){
-                        $dir_property_asc = $dir_binarysearch .
+                        $dir_property_asc = $dir_binarysearch_class .
                             'Asc' .
                             $object->config('ds')
                         ;
@@ -1007,7 +1010,7 @@ Trait Data {
                         ;
                         $mtime_property = File::mtime($url_property_asc_asc);
                     } else {
-                        $dir_property_asc = $dir_binarysearch .
+                        $dir_property_asc = $dir_binarysearch_class .
                             'Asc' .
                             $object->config('ds')
                         ;
@@ -1159,6 +1162,10 @@ Trait Data {
                     }
                     if ($object->config(Config::POSIX_ID) === 0) {
                         if(!empty($url_property_asc_asc)){
+                            $command = 'chown www-data:www-data ' . $dir_binarysearch;
+                            exec($command);
+                            $command = 'chown www-data:www-data ' . $dir_binarysearch_class;
+                            exec($command);
                             $command = 'chown www-data:www-data ' . $dir_property_asc;
                             exec($command);
                             $command = 'chown www-data:www-data ' . $dir_property_asc_asc;
@@ -1178,6 +1185,10 @@ Trait Data {
 
                     }
                     if ($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
+                        $command = 'chmod 777 ' . $dir_binarysearch;
+                        exec($command);
+                        $command = 'chmod 777 ' . $dir_binarysearch_class;
+                        exec($command);
                         if(!empty($url_property_asc_asc)){
                             $command = 'chmod 777 ' . $dir_property_asc;
                             exec($command);
