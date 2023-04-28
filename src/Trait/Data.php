@@ -554,6 +554,7 @@ Trait Data {
                     ;
                     $filter_mtime = File::mtime($filter_url);
                     $filter_mtime = false;
+                    $list = [];
                     if(
                         File::exist($filter_url) &&
                         $mtime === $filter_mtime &&
