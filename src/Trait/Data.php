@@ -928,12 +928,19 @@ Trait Data {
     public function sync()
     {
         $object = $this->object();
-        $url_node = $object->config('project.dir.data') . 'Node' . $object->config('extension.json');
-        $node = $object->data_read($url_node);
-        if (!$node) {
-            return;
-        }
-        foreach ($node->data() as $class => $item) {
+
+        $url_object = $object->config('project.dir.data') .
+            'Node' .
+            $object->config('ds') .
+            'Object' .
+            $object->config('extension.json')
+        ;
+
+        $dir = new Dir();
+        $read = $dir->read($url_object);
+        foreach ($read as $file) {
+            ddd($file);
+            $class = '';
             $time_start = microtime(true);
             $dir_node = $object->config('project.dir.data') .
                 'Node' .
