@@ -52,7 +52,9 @@ Trait Data {
         ;
         $dir_binary_search = $dir_node .
             'BinarySearch'.
-            $object->config('ds') .
+            $object->config('ds')
+        ;
+        $dir_binary_search_class = $dir_binary_search .
             $name .
             $object->config('ds')
         ;
@@ -72,21 +74,29 @@ Trait Data {
         if(File::exist($url)){
             return false;
         }
+        $binary_search_dir =
+            $dir_binary_search_class .
+            'Asc' .
+            $object->config('ds')
+        ;
         $this->dir($object,
-            $dir_node,
-            $dir_data,
-            $dir_uuid,
-            $dir_meta,
-            $dir_validate,
-            $dir_binary_search
+            [
+                'node' => $dir_node,
+                'uuid' => $dir_uuid,
+                'meta' => $dir_meta,
+                'validate' => $dir_validate,
+                'binary_search_class' => $dir_binary_search_class,
+                'binary_search' => $binary_search_dir,
+            ]
         );
         $object->request('node.uuid', $uuid);
         $validate_url =
             $dir_validate .
             $name .
             $object->config('extension.json');
+
         $binary_search_url =
-            $dir_binary_search .
+            $binary_search_dir .
             'Uuid' .
             $object->config('extension.json');
         $meta_url = $dir_meta . $name . $object->config('extension.json');
@@ -116,10 +126,14 @@ Trait Data {
                 }
                 $lines = $binarySearch->write($binary_search_url, 'lines');
                 if($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
+                    $command = 'chmod 777 ' . $binary_search_dir;
+                    exec($command);
                     $command = 'chmod 666 ' . $binary_search_url;
                     exec($command);
                 }
                 if($object->config(Config::POSIX_ID) === 0){
+                    $command = 'chown www-data:www-data ' . $binary_search_dir;
+                    exec($command);
                     $command = 'chown www-data:www-data ' . $binary_search_url;
                     exec($command);
                 }
@@ -127,8 +141,15 @@ Trait Data {
                 if(!$meta){
                     $meta = new Storage();
                 }
-                $meta->set('BinarySearch.' . $class . '.uuid.lines', $lines);
-                $meta->set('BinarySearch.' . $class . '.uuid.count', $count);
+                $property = [];
+                $property[] = 'uuid';
+
+                $key = sha1(Core::object($property, Core::OBJECT_JSON));
+
+                $meta->set('Sort.' . $class . '.' . $key . '.property', $property);
+                $meta->set('Sort.' . $class . '.' . $key . '.lines', $lines);
+                $meta->set('Sort.' . $class . '.' . $key . '.count', $count);
+                $meta->set('Sort.' . $class . '.' . $key . '.url.asc', $url);
                 $meta->write($meta_url);
                 $node->write($url);
                 if($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
@@ -2698,61 +2719,86 @@ Trait Data {
     }
     */
 
-    private function dir(App $object, $dir_node, $dir_data, $dir_uuid, $dir_meta, $dir_validate, $dir_binary_search){
-        if(!Dir::is($dir_uuid)){
-            Dir::create($dir_uuid, Dir::CHMOD);
-            if($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
-                $command = 'chmod 777 ' . $dir_uuid;
-                exec($command);
-                $command = 'chmod 777 ' . $dir_node;
-                exec($command);
-                $command = 'chmod 777 ' . $dir_data;
-                exec($command);
-            }
-            if($object->config(Config::POSIX_ID) === 0){
-                $command = 'chown www-data:www-data ' . $dir_uuid;
-                exec($command);
-                $command = 'chown www-data:www-data ' . $dir_node;
-                exec($command);
-                $command = 'chown www-data:www-data ' . $dir_data;
-                exec($command);
-            }
-        }
-        if(!Dir::is($dir_meta)) {
-            Dir::create($dir_meta, Dir::CHMOD);
-            if($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
-                $command = 'chmod 777 ' . $dir_meta;
-                exec($command);
-            }
-            if($object->config(Config::POSIX_ID) === 0){
-                $command = 'chown www-data:www-data ' . $dir_meta;
-                exec($command);
+    private function dir(App $object, $dir=[]){
+        if(
+            array_key_exists('uuid', $dir) &&
+            array_key_exists('node', $dir) &&
+            array_key_exists('data', $dir)
+        ){
+            if(!Dir::is($dir['uuid'])){
+                Dir::create($dir['uuid'], Dir::CHMOD);
+                if($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
+                    $command = 'chmod 777 ' . $dir['uuid'];
+                    exec($command);
+                    $command = 'chmod 777 ' . $dir['node'];
+                    exec($command);
+                    $command = 'chmod 777 ' . $dir['data'];
+                    exec($command);
+                }
+                if($object->config(Config::POSIX_ID) === 0){
+                    $command = 'chown www-data:www-data ' . $dir['uuid'];
+                    exec($command);
+                    $command = 'chown www-data:www-data ' . $dir['node'];
+                    exec($command);
+                    $command = 'chown www-data:www-data ' . $dir['data'];
+                    exec($command);
+                }
             }
         }
-        if(!Dir::is($dir_validate)) {
-            Dir::create($dir_validate, Dir::CHMOD);
-            if($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
-                $command = 'chmod 777 ' . $dir_validate;
-                exec($command);
-            }
-            if($object->config(Config::POSIX_ID) === 0){
-                $command = 'chown www-data:www-data ' . $dir_validate;
-                exec($command);
+        if(array_key_exists('meta', $dir)){
+            if(!Dir::is($dir['meta'])) {
+                Dir::create($dir['meta'], Dir::CHMOD);
+                if($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
+                    $command = 'chmod 777 ' . $dir['meta'];
+                    exec($command);
+                }
+                if($object->config(Config::POSIX_ID) === 0){
+                    $command = 'chown www-data:www-data ' . $dir['meta'];
+                    exec($command);
+                }
             }
         }
-        if(!Dir::is($dir_binary_search)) {
-            Dir::create($dir_binary_search, Dir::CHMOD);
-            if($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
-                $command = 'chmod 777 ' . $dir_binary_search;
-                exec($command);
-                $command = 'chmod 777 ' . Dir::name($dir_binary_search);
-                exec($command);
+        if(array_key_exists('validate', $dir)){
+            if(!Dir::is($dir['validate'])) {
+                Dir::create($dir['validate'], Dir::CHMOD);
+                if($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
+                    $command = 'chmod 777 ' . $dir['validate'];
+                    exec($command);
+                }
+                if($object->config(Config::POSIX_ID) === 0){
+                    $command = 'chown www-data:www-data ' . $dir['validate'];
+                    exec($command);
+                }
             }
-            if($object->config(Config::POSIX_ID) === 0){
-                $command = 'chown www-data:www-data ' . $dir_binary_search;
-                exec($command);
-                $command = 'chown www-data:www-data ' . Dir::name($dir_binary_search);
-                exec($command);
+        }
+        if(array_key_exists('binary_search_class', $dir)){
+            if(!Dir::is($dir['binary_search_class'])) {
+                Dir::create($dir['binary_search_class'], Dir::CHMOD);
+                if($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
+                    $command = 'chmod 777 ' . $dir['binary_search_class'];
+                    exec($command);
+                    $command = 'chmod 777 ' . Dir::name($dir['binary_search_class']);
+                    exec($command);
+                }
+                if($object->config(Config::POSIX_ID) === 0){
+                    $command = 'chown www-data:www-data ' . $dir['binary_search_class'];
+                    exec($command);
+                    $command = 'chown www-data:www-data ' . Dir::name($dir['binary_search_class']);
+                    exec($command);
+                }
+            }
+        }
+        if(array_key_exists('binary_search', $dir)){
+            if(!Dir::is($dir['binary_search'])) {
+                Dir::create($dir['binary_search'], Dir::CHMOD);
+                if($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
+                    $command = 'chmod 777 ' . $dir['binary_search'];
+                    exec($command);
+                }
+                if($object->config(Config::POSIX_ID) === 0){
+                    $command = 'chown www-data:www-data ' . $dir['binary_search'];
+                    exec($command);
+                }
             }
         }
     }
