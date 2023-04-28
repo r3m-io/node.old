@@ -149,7 +149,7 @@ Trait Data {
                 $meta->set('Sort.' . $class . '.' . $key . '.property', $property);
                 $meta->set('Sort.' . $class . '.' . $key . '.lines', $lines);
                 $meta->set('Sort.' . $class . '.' . $key . '.count', $count);
-                $meta->set('Sort.' . $class . '.' . $key . '.url.asc', $url);
+                $meta->set('Sort.' . $class . '.' . $key . '.url.asc', $binary_search_url);
                 $meta->write($meta_url);
                 $node->write($url);
                 if($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
