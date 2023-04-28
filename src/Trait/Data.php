@@ -985,27 +985,33 @@ Trait Data {
                     $url_property_asc_asc = false;
                     $url_property_asc_desc = false;
                     if(count($properties) > 1){
-                        $url_property_asc_asc = $dir_binarysearch .
+                        $dir_property_asc = $dir_binarysearch .
                             'Asc' .
-                            $object->config('ds') .
+                            $object->config('ds')
+                        ;
+                        $dir_property_asc_asc = $dir_property_asc .
                             'Asc' .
-                            $object->config('ds') .
+                            $object->config('ds')
+                        ;
+                        $dir_property_asc_desc = $dir_property_asc .
+                            'Desc' .
+                            $object->config('ds')
+                        ;
+                        $url_property_asc_asc = $dir_property_asc_asc .
                             Controller::name(implode('-', $properties)) .
                             $object->config('extension.json')
                         ;
-                        $url_property_asc_desc = $dir_binarysearch .
-                            'Asc' .
-                            $object->config('ds') .
-                            'Desc' .
-                            $object->config('ds') .
+                        $url_property_asc_desc = $dir_property_asc_desc .
                             Controller::name(implode('-', $properties)) .
                             $object->config('extension.json')
                         ;
                         $mtime_property = File::mtime($url_property_asc_asc);
                     } else {
-                        $url_property_asc = $dir_binarysearch .
+                        $dir_property_asc = $dir_binarysearch .
                             'Asc' .
-                            $object->config('ds') .
+                            $object->config('ds')
+                        ;
+                        $url_property_asc = $dir_property_asc .
                             Controller::name(implode('-', $properties)) .
                             $object->config('extension.json')
                         ;
@@ -1153,11 +1159,19 @@ Trait Data {
                     }
                     if ($object->config(Config::POSIX_ID) === 0) {
                         if(!empty($url_property_asc_asc)){
+                            $command = 'chown www-data:www-data ' . $dir_property_asc;
+                            exec($command);
+                            $command = 'chown www-data:www-data ' . $dir_property_asc_asc;
+                            exec($command);
+                            $command = 'chown www-data:www-data ' . $dir_property_asc_desc;
+                            exec($command);
                             $command = 'chown www-data:www-data ' . $url_property_asc_asc;
                             exec($command);
                             $command = 'chown www-data:www-data ' . $url_property_asc_desc;
                             exec($command);
                         } else {
+                            $command = 'chown www-data:www-data ' . $dir_property_asc;
+                            exec($command);
                             $command = 'chown www-data:www-data ' . $url_property_asc;
                             exec($command);
                         }
@@ -1165,11 +1179,19 @@ Trait Data {
                     }
                     if ($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
                         if(!empty($url_property_asc_asc)){
+                            $command = 'chmod 777 ' . $dir_property_asc;
+                            exec($command);
+                            $command = 'chmod 777 ' . $dir_property_asc_asc;
+                            exec($command);
+                            $command = 'chmod 777 ' . $dir_property_asc_desc;
+                            exec($command);
                             $command = 'chmod 666 ' . $url_property_asc_asc;
                             exec($command);
                             $command = 'chmod 666 ' . $url_property_asc_desc;
                             exec($command);
                         } else {
+                            $command = 'chmod 777 ' . $dir_property_asc;
+                            exec($command);
                             $command = 'chmod 666 ' . $url_property_asc;
                             exec($command);
                         }
