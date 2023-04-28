@@ -74,7 +74,7 @@ Trait Data {
         if(File::exist($url)){
             return false;
         }
-        $binary_search_dir =
+        $dir_binary_search =
             $dir_binary_search_class .
             'Asc' .
             $object->config('ds')
@@ -86,7 +86,7 @@ Trait Data {
                 'meta' => $dir_meta,
                 'validate' => $dir_validate,
                 'binary_search_class' => $dir_binary_search_class,
-                'binary_search' => $binary_search_dir,
+                'binary_search' => $dir_binary_search,
             ]
         );
         $object->request('node.uuid', $uuid);
@@ -96,7 +96,7 @@ Trait Data {
             $object->config('extension.json');
 
         $binary_search_url =
-            $binary_search_dir .
+            $dir_binary_search .
             'Uuid' .
             $object->config('extension.json');
         $meta_url = $dir_meta . $name . $object->config('extension.json');
@@ -126,14 +126,10 @@ Trait Data {
                 }
                 $lines = $binarySearch->write($binary_search_url, 'lines');
                 if($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
-                    $command = 'chmod 777 ' . $binary_search_dir;
-                    exec($command);
                     $command = 'chmod 666 ' . $binary_search_url;
                     exec($command);
                 }
                 if($object->config(Config::POSIX_ID) === 0){
-                    $command = 'chown www-data:www-data ' . $binary_search_dir;
-                    exec($command);
                     $command = 'chown www-data:www-data ' . $binary_search_url;
                     exec($command);
                 }
