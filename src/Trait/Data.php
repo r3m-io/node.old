@@ -574,16 +574,22 @@ Trait Data {
                     } else {
                         $sort_key = sha1(Core::object($properties, Core::OBJECT_JSON));
                         $lines = $meta->get('Sort.' . $class . '.' . $sort_key . '.lines');
-                        $file = new SplFileObject($url);
-                        $list = $this->binary_search_page($file, [
-                            'filter' => $options['filter'],
-                            'page' => $options['page'],
-                            'limit' => $options['limit'],
-                            'lines'=> $lines,
-                            'counter' => 0,
-                            'direction' => 'next',
-                            'url' => $url
-                        ]);
+                        if(
+                            File::exist($url) &&
+                            $lines > 0
+                        ){
+                            $file = new SplFileObject($url);
+                            $list = $this->binary_search_page($file, [
+                                'filter' => $options['filter'],
+                                'page' => $options['page'],
+                                'limit' => $options['limit'],
+                                'lines'=> $lines,
+                                'counter' => 0,
+                                'direction' => 'next',
+                                'url' => $url
+                            ]);
+                        }
+
                     }
                     $result = [];
                     $result['page'] = $options['page'];
