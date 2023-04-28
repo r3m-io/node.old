@@ -942,8 +942,8 @@ Trait Data {
             return;
         }
         foreach ($read as $file) {
-            ddd($file);
-            $class = '';
+            $class = File::basename($file->name, $object->config('extension.json'));
+            ddd($class);
             $time_start = microtime(true);
             $dir_node = $object->config('project.dir.data') .
                 'Node' .
