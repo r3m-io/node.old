@@ -943,7 +943,7 @@ Trait Data {
         }
         foreach ($read as $file) {
             $class = File::basename($file->name, $object->config('extension.json'));
-            ddd($class);
+            $item = $object->data_read($file->url);
             $time_start = microtime(true);
             $dir_node = $object->config('project.dir.data') .
                 'Node' .
@@ -966,23 +966,49 @@ Trait Data {
                 $object->config('extension.json');
             $data = $object->data_read($url);
             if (!$data) {
-                return;
+                continue;
             }
             $meta = $object->data_read($meta_url, sha1($meta_url));
             if (!$meta) {
-                return;
+                continue;
             }
-
-            if (property_exists($item, 'sort')) {
-                foreach ($item->sort as $sort) {
+            if(!$item){
+                continue;
+            }
+            if ($item->has('sort')) {
+                foreach ($item->get('sort') as $sort) {
                     $properties = explode(',', $sort);
                     foreach ($properties as $nr => $property) {
                         $properties[$nr] = trim($property);
                     }
-                    $url_property = $dir_binarysearch .
-                        Controller::name(implode('-', $properties)) .
-                        $object->config('extension.json');
-                    $mtime_property = File::mtime($url_property);
+                    if(count($properties) > 1){
+                        $url_property_asc_asc = $dir_binarysearch .
+                            'Asc' .
+                            $object->config('ds') .
+                            'Asc' .
+                            $object->config('ds') .
+                            Controller::name(implode('-', $properties)) .
+                            $object->config('extension.json')
+                        ;
+                        $url_property_asc_desc = $dir_binarysearch .
+                            'Asc' .
+                            $object->config('ds') .
+                            'Desc' .
+                            $object->config('ds') .
+                            Controller::name(implode('-', $properties)) .
+                            $object->config('extension.json')
+                        ;
+                        $mtime_property = File::mtime($url_property_asc_asc);
+                    } else {
+                        $url_property_asc = $dir_binarysearch .
+                            'Asc' .
+                            $object->config('ds') .
+                            Controller::name(implode('-', $properties)) .
+                            $object->config('extension.json')
+                        ;
+                        $url_property_desc = false;
+                        $mtime_property = File::mtime($url_property_asc);
+                    }
                     if ($mtime === $mtime_property) {
                         //same cache
                         continue;
@@ -1040,6 +1066,39 @@ Trait Data {
                                 $result->set($class . '.' . $key1 . '.' . $key2, $nodeList);
                             }
                         }
+                        $lines = $result->write($url_property_asc_asc, 'lines');
+                        File::touch($url_property_asc_asc, $mtime);
+                        $sort = Sort::list($list)->with([
+                            $properties[0] => 'ASC',
+                            $properties[1] => 'DESC'
+                        ], [
+                            'output' => 'raw'
+                        ]);
+                        $result = new Storage();
+                        $index = 0;
+                        foreach ($sort as $key1 => $subList) {
+                            foreach ($subList as $key2 => $subSubList) {
+                                $nodeList = [];
+                                foreach ($subSubList as $nr => $node) {
+                                    $item = $data->get($class . '.' . $node->uuid);
+                                    $item->{'#index'} = $index;
+                                    $item->{'#sort'} = new stdClass();
+                                    $item->{'#sort'}->{$properties[0]} = $key1;
+                                    $item->{'#sort'}->{$properties[1]} = $key2;
+                                    $nodeList[] = $item;
+                                    $index++;
+                                }
+                                if (empty($key1)) {
+                                    $key1 = '""';
+                                }
+                                if (empty($key2)) {
+                                    $key2 = '""';
+                                }
+                                $result->set($class . '.' . $key1 . '.' . $key2, $nodeList);
+                            }
+                        }
+                        $lines_asc_desc = $result->write($url_property_asc_desc, 'lines');
+                        File::touch($url_property_asc_desc, $mtime);
                     } else {
                         $sort = Sort::list($list)->with([
                             $properties[0] => 'ASC'
@@ -1063,15 +1122,21 @@ Trait Data {
                             }
                             $result->set($class . '.' . $key, $nodeList);
                         }
+                        $lines = $result->write($url_property_asc, 'lines');
+                        File::touch($url_property_asc, $mtime);
                     }
-                    $lines = $result->write($url_property, 'lines');
-                    File::touch($url_property, $mtime);
                     $count = $index;
                     $sortable = new Storage();
                     $sortable->set('property', $properties);
                     $sortable->set('count', $count);
                     $sortable->set('lines', $lines);
-                    $sortable->set('url', $url_property);
+                    if(!empty($url_property_asc_asc)){
+                        $sortable->set('url.asc.asc', $url_property_asc_asc);
+                        $sortable->set('url.asc.desc', $url_property_asc_asc);
+                    } else {
+                        $sortable->set('url.asc', $url_property_asc);
+                    }
+
                     $key = sha1(Core::object($properties, Core::OBJECT_JSON));
                     $meta->set('Sort.' . $class . '.' . $key, $sortable->data());
                     $meta->write($meta_url);
