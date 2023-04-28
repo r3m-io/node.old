@@ -981,6 +981,9 @@ Trait Data {
                     foreach ($properties as $nr => $property) {
                         $properties[$nr] = trim($property);
                     }
+                    $url_property_asc = false;
+                    $url_property_asc_asc = false;
+                    $url_property_asc_desc = false;
                     if(count($properties) > 1){
                         $url_property_asc_asc = $dir_binarysearch .
                             'Asc' .
@@ -1149,12 +1152,28 @@ Trait Data {
                         exec($command);
                     }
                     if ($object->config(Config::POSIX_ID) === 0) {
-                        $command = 'chown www-data:www-data ' . $url_property;
-                        exec($command);
+                        if(!empty($url_property_asc_asc)){
+                            $command = 'chown www-data:www-data ' . $url_property_asc_asc;
+                            exec($command);
+                            $command = 'chown www-data:www-data ' . $url_property_asc_desc;
+                            exec($command);
+                        } else {
+                            $command = 'chown www-data:www-data ' . $url_property_asc;
+                            exec($command);
+                        }
+
                     }
                     if ($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
-                        $command = 'chmod 666 ' . $url_property;
-                        exec($command);
+                        if(!empty($url_property_asc_asc)){
+                            $command = 'chmod 666 ' . $url_property_asc_asc;
+                            exec($command);
+                            $command = 'chmod 666 ' . $url_property_asc_desc;
+                            exec($command);
+                        } else {
+                            $command = 'chmod 666 ' . $url_property_asc;
+                            exec($command);
+                        }
+
                     }
                 }
             }
