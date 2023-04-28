@@ -933,11 +933,14 @@ Trait Data {
             'Node' .
             $object->config('ds') .
             'Object' .
-            $object->config('extension.json')
+            $object->config('ds')
         ;
 
         $dir = new Dir();
         $read = $dir->read($url_object);
+        if(empty($read)){
+            return;
+        }
         foreach ($read as $file) {
             ddd($file);
             $class = '';
