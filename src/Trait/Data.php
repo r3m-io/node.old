@@ -1182,7 +1182,6 @@ Trait Data {
                             $command = 'chown www-data:www-data ' . $url_property_asc;
                             exec($command);
                         }
-
                     }
                     if ($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
                         $command = 'chmod 777 ' . $dir_binarysearch;
@@ -1206,7 +1205,6 @@ Trait Data {
                             $command = 'chmod 666 ' . $url_property_asc;
                             exec($command);
                         }
-
                     }
                 }
             }
@@ -1215,7 +1213,6 @@ Trait Data {
             echo 'Duration: ' . $time_duration . 'ms' . PHP_EOL;
         }
     }
-
 
     /**
      * @throws ObjectException
