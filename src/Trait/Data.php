@@ -2771,7 +2771,7 @@ Trait Data {
                 return false;
             }
             $file->seek($seek);
-            $depth = 0;
+            $depth = false;
             while($line = $file->current()){
                 $options['counter']++;
                 if($options['counter'] > 1024){
@@ -2789,7 +2789,38 @@ Trait Data {
                     $symbol_right = trim($explode[1], " \t\n\r\0\x0B,");
                 }
                 if($symbol === '{'){
-                    ddd('found');
+                    $depth = 0;
+                    $direction = 'down';
+                    $is_collect = true;
+                }
+                if($is_collect){
+                    $data[]= $line;
+                }
+                if(
+                    $depth !== false &&
+                    $symbol === '}' ||
+                    $symbol_right === '}'
+                ){
+                    echo $symbol . '-' . $symbol_right . '-' . $depth . PHP_EOL;
+                    $depth--;
+                    if($depth === 0){
+                        ddd($data);
+                        $test = $this->binary_search_node($file, [
+                            'seek' => $seek,
+                            'lines' => $options['lines'],
+                            'index' => $options['index'],
+                            'counter' => $options['counter']
+                        ]);
+                        ddd($test);
+                    }
+                }
+                elseif(
+                    $depth !== false &&
+                    $symbol === '{' ||
+                    $symbol_right === '{'
+                ){
+                    $depth++;
+                    echo $symbol . '-' . $symbol_right . '-' . $depth . PHP_EOL;
                 }
                 if($direction === 'up'){
                     $seek--;
