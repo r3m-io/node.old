@@ -1590,7 +1590,7 @@ Trait Data {
         $url_key = 'url.';
 
         foreach($options['sort'] as $key => $order) {
-            if(empy($properties)){
+            if(empty($properties)){
                 $url_key .= 'asc.';
             } else {
                 $url_key .= strtolower($order) . '.';
