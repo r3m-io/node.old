@@ -1601,7 +1601,6 @@ Trait Data {
         $sort_key = sha1(Core::object($properties, Core::OBJECT_JSON));
         $url_property = $meta->get('Sort.' . $class . '.' . $sort_key . '.'. $url_key);
         $sort_lines = $meta->get('Sort.' . $class . '.' . $sort_key . '.lines');
-        ddd($options);
         if(!empty($options['filter'])){
             $key = [
                 'filter' => $options['filter'],
@@ -1683,6 +1682,10 @@ Trait Data {
                 'direction' => 'next',
                 'url' => $url_property,
             ]);
+            d($url_property);
+            d($limit);
+            ddd($where_list);
+
             if(!empty($where_list)){
                 $where = [];
                 foreach($where_list as $index => $node){
