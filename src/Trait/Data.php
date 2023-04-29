@@ -2695,6 +2695,8 @@ Trait Data {
                 'index' => $i,
                 'search' => [],
             ]);
+            d($record);
+            d($i);
             if($record){
                 $read = $object->data_read($record->{'#read'}->url, sha1($record->{'#read'}->url));
                 if($read){
