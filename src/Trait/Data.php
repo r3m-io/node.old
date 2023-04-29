@@ -2771,6 +2771,7 @@ Trait Data {
                 return false;
             }
             $file->seek($seek);
+            $depth = 0;
             while($line = $file->current()){
                 $options['counter']++;
                 if($options['counter'] > 1024){
