@@ -2695,6 +2695,7 @@ Trait Data {
                 'index' => $i,
                 'search' => [],
             ]);
+            d($options['url']);
             d($record);
             d($i);
             if($record){
