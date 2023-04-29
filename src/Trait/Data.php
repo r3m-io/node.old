@@ -2852,6 +2852,7 @@ Trait Data {
                     echo $symbol . '-' . $symbol_right . '-' . $depth . PHP_EOL;
                     $depth--;
                     if($depth === 0){
+                        $data[] = $symbol;
                         $index = $this->index($data);
                         d($options['index']);
                         d($index);
