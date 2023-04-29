@@ -2784,6 +2784,9 @@ Trait Data {
         return $record;
     }
 
+    /**
+     * @throws ObjectException
+     */
     private function binary_search_index($file, $options=[]){
         d($options['url']);
         d($options);
