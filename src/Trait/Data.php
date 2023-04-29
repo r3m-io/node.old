@@ -528,6 +528,7 @@ Trait Data {
                 Controller::name($property) .
                 $object->config('extension.json')
             ;
+            ddd($url);
             $mtime = File::mtime($url);
             $list = [];
             if(!$has_descending){
