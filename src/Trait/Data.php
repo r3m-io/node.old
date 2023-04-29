@@ -2833,12 +2833,14 @@ Trait Data {
                         elseif(
                             $options['index'] < $index
                         ){
+                            $direction = 'up';
                             $options['max'] = $seek - 1;
                             break;
                         }
                         elseif(
                             $options['index'] > $index
                         ){
+                            $direction = 'up';
                             $options['min'] = $seek + 1;
                             break;
                         }
