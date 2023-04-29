@@ -2757,7 +2757,7 @@ Trait Data {
         if(!array_key_exists('max', $options)){
             $options['max'] = $options['lines'] - 1;
         }
-        $direction = 'down';
+        $direction = 'up';
         while($options['min'] <= $options['max']){
             $seek = $options['min'] + floor(($options['max'] - $options['min']) / 2);
             if(
@@ -2788,10 +2788,33 @@ Trait Data {
                 if(array_key_exists(1, $explode)){
                     $symbol_right = trim($explode[1], " \t\n\r\0\x0B,");
                 }
+                if($symbol === '{'){
+                    ddd('found');
+                }
+                if($direction === 'up'){
+                    $seek--;
+                    if($seek < 0){
+                        $direction = 'down';
+                        $seek = 0;
+                    }
+                    $file->seek($seek);
+                    $options['search'][] = $seek;
+                } else {
+                    $seek++;
+                    $options['search'][] = $seek;
+                    $file->next();
+                    if($seek === $options['lines'] - 1){
+                        $direction = 'up';
+                    }
+                }
+
+                /*
                 if(
                     $symbol === '}' ||
                     $symbol_right === '}'
                 ){
+                    $direction = 'up';
+
                     echo $symbol . '-' . $symbol_right . '-' . $depth . PHP_EOL;
                     $depth--;
                     if($depth === 0){
@@ -2808,12 +2831,14 @@ Trait Data {
                     $symbol === '{' ||
                     $symbol_right === '{'
                 ){
+
                     if($symbol === '#sort' && $symbol_right === '{'){
                         $depth = 2;
                     } else {
                         $depth++;
                     }
                     echo $symbol . '-' . $symbol_right . '-' . $depth . PHP_EOL;
+
                 }
                 if(array_key_exists(1, $explode)){
                     if($explode[0] === '#index') {
@@ -2858,6 +2883,7 @@ Trait Data {
                         $direction = 'up';
                     }
                 }
+                */
             }
         }
         return false;
