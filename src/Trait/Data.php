@@ -2781,7 +2781,26 @@ Trait Data {
                 $line_match = str_replace('"', '', $line_match);
                 $explode = explode(':', $line_match);
                 $index = false;
-                echo $seek . ', ' . $direction . ', ' . $line . PHP_EOL;
+//                echo $seek . ', ' . $direction . ', ' . $line . PHP_EOL;
+                $symbol = trim($explode[0], " \t\n\r\0\x0B,");
+                $symbol_right = null;
+                if(array_key_exists(1, $explode)){
+                    $symbol_right = trim($explode[1], " \t\n\r\0\x0B,");
+                }
+                if(
+                    $symbol === '}' ||
+                    $symbol_right === '}'
+                ){
+                    echo $symbol . '-' . $symbol_right . PHP_EOL;
+                    $depth--;
+                }
+                elseif(
+                    $symbol === '{' ||
+                    $symbol_right === '{'
+                ){
+                    echo $symbol . '-' . $symbol_right . PHP_EOL;
+                    $depth++;
+                }
                 if(array_key_exists(1, $explode)){
                     if($explode[0] === '#index') {
                         $direction = 'down';
