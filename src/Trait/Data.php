@@ -2767,13 +2767,13 @@ Trait Data {
         if(!property_exists($record, 'uuid')){
             return false;
         }
-        if(!array_key_exist('counter', $options)){
+        if(!array_key_exists('counter', $options)){
             return false;
         }
-        if(!array_key_exist('seek', $options)){
+        if(!array_key_exists('seek', $options)){
             return false;
         }
-        if(!array_key_exist('lines', $options)){
+        if(!array_key_exists('lines', $options)){
             return false;
         }
         $record->{'#read'} = new stdClass();
