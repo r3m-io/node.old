@@ -2696,12 +2696,13 @@ Trait Data {
                 'index' => $i,
                 'search' => [],
             ]);
-            ddd($record);
             if($record){
                 $read = $object->data_read($record->{'#read'}->url, sha1($record->{'#read'}->url));
                 if($read){
                     $record = Core::object_merge($record, $read->data());
                 }
+                d($options['where']);
+                ddd($record);
                 //add expose
                 if(!empty($options['filter'])){
                     $record = $this->filter($record, $options['filter'], $options);
