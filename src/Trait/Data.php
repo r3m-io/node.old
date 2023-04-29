@@ -2759,6 +2759,8 @@ Trait Data {
         }
         $data = implode('', $data);
         $record  = Core::object($data, Core::OBJECT_JSON);
+        d($record);
+        d($options);
         if(!is_object($record)){
             return false;
         }
