@@ -2738,6 +2738,7 @@ Trait Data {
 
     private function binary_search_index($file, $options=[]){
         d($options['url']);
+        d($options);
         if(!array_key_exists('counter', $options)){
             $options['counter'] = 0;
         }
