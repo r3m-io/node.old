@@ -2816,6 +2816,8 @@ Trait Data {
                     $depth--;
                     if($depth === 0){
                         $index = $this->index($data);
+                        d($options['index']);
+                        d($index);
                         if($index === false){
                             $object->logger($object->config('project.log.name'))->error('Cannot find index in view: ' . $options['url'], $data);
                         }
