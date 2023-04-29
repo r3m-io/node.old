@@ -2794,6 +2794,15 @@ Trait Data {
                 ){
                     echo $symbol . '-' . $symbol_right . '-' . $depth . PHP_EOL;
                     $depth--;
+                    if($depth === 0){
+                        $test = $this->binary_search_node($file, [
+                            'seek' => $seek,
+                            'lines' => $options['lines'],
+                            'index' => $index,
+                            'counter' => $options['counter']
+                        ]);
+                        ddd($test);
+                    }
                 }
                 elseif(
                     $symbol === '{' ||
