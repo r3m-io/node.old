@@ -2741,6 +2741,7 @@ Trait Data {
             if(strpos($line, '#index') !== false){
                 $line = str_replace('"#index"', '', $line);
                 $line = trim($line, " :,\n");
+                $line = (int) $line;
                 ddd($line);
             }
         }
