@@ -2792,15 +2792,19 @@ Trait Data {
                     $symbol === '}' ||
                     $symbol_right === '}'
                 ){
-                    echo $symbol . '-' . $symbol_right . PHP_EOL;
+                    echo $symbol . '-' . $symbol_right . '-' . $depth . PHP_EOL;
                     $depth--;
                 }
                 elseif(
                     $symbol === '{' ||
                     $symbol_right === '{'
                 ){
-                    echo $symbol . '-' . $symbol_right . PHP_EOL;
-                    $depth++;
+                    if($symbol === '#sort' && $symbol_right === '{'){
+                        $depth = 2;
+                    } else {
+                        $depth++;
+                    }
+                    echo $symbol . '-' . $symbol_right . '-' . $depth . PHP_EOL;
                 }
                 if(array_key_exists(1, $explode)){
                     if($explode[0] === '#index') {
