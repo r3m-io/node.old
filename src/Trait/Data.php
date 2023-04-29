@@ -1600,9 +1600,7 @@ Trait Data {
         $url_key = substr($url_key, 0, -1);
         $sort_key = sha1(Core::object($properties, Core::OBJECT_JSON));
         $url_property = $meta->get('Sort.' . $class . '.' . $sort_key . '.'. $url_key);
-        ddd($url_property);
-
-        /*
+        $sort_lines = $meta->get('Sort.' . $class . '.' . $sort_key . '.lines');
         if(!empty($options['filter'])){
             $key = [
                 'filter' => $options['filter'],
@@ -1614,7 +1612,7 @@ Trait Data {
             $filter_list = $this->binary_search_list($file, [
                 'filter' => $options['filter'],
                 'limit' => $limit,
-                'lines'=> $record->lines,
+                'lines'=> $sort_lines,
                 'counter' => 0,
                 'direction' => 'next',
                 'url' => $url_property,
@@ -1679,7 +1677,7 @@ Trait Data {
             $where_list = $this->binary_search_list($file, [
                 'where' => $options['where'],
                 'limit' => $limit,
-                'lines'=> $record->lines,
+                'lines'=> $sort_lines,
                 'counter' => 0,
                 'direction' => 'next',
                 'url' => $url_property,
@@ -1742,7 +1740,6 @@ Trait Data {
             $command = 'chmod 666 ' . $meta_url;
             exec($command);
         }
-        */
     }
 
     public function list_attribute($list=[], $attribute=[]): array
