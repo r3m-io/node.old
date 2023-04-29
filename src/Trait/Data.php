@@ -2751,14 +2751,14 @@ Trait Data {
      * @throws ObjectException
      */
     private function node($data=[], $options=[]){
+        if(!is_array($data)){
+            return false;
+        }
         foreach($data as $nr => $line){
             $data[$nr] = ltrim($line);
         }
         $data = implode('', $data);
-        d($data);
         $record  = Core::object($data, Core::OBJECT_JSON);
-        d($data);
-        ddd($record);
         if(!is_object($record)){
             return false;
         }
