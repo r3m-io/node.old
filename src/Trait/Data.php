@@ -2749,6 +2749,8 @@ Trait Data {
 
     private function node($data=[], $options=[]){
         $record  = json_decode(implode('', $data));
+        d($data);
+        ddd($record);
         if(!is_object($record)){
             return false;
         }
