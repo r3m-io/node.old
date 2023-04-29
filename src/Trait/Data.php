@@ -1457,7 +1457,7 @@ Trait Data {
                     }
                 }
             }
-            elseif(!empty($opions['where'])){
+            elseif(!empty($options['where'])){
                 $key = [
                     'where' => $options['where'],
                     'sort' => $options['sort']
@@ -1667,7 +1667,8 @@ Trait Data {
                 }
             }
         }
-        elseif(!empty($opions['where'])){
+        elseif(!empty($options['where'])){
+            //add where convert here
             $key = [
                 'where' => $options['where'],
                 'sort' => $options['sort']
