@@ -990,8 +990,13 @@ Trait Data {
                 $object->config('ds');
 
             $url = $dir_binarysearch_class .
+                'Asc' .
+                $object->config('ds') .
                 'Uuid' .
                 $object->config('extension.json');
+            if(!File::exist($url)){
+                continue;
+            }
             $mtime = File::mtime($url);
             $meta_url = $object->config('project.dir.data') .
                 'Node' .
