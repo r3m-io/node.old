@@ -2736,6 +2736,17 @@ Trait Data {
         return $page;
     }
 
+    private function index($data=[]){
+        foreach($data as $nr => $line){
+            if(strpos($line, '#index') !== false){
+                $line = str_replace('"#index"', '', $line);
+                $line = trim($line, ' :,');
+                ddd($line);
+            }
+        }
+        return false;
+    }
+
     private function binary_search_index($file, $options=[]){
         d($options['url']);
         d($options);
@@ -2773,6 +2784,7 @@ Trait Data {
             $file->seek($seek);
             $depth = false;
             $is_collect = false;
+            $data = [];
             while($line = $file->current()){
                 $options['counter']++;
                 if($options['counter'] > 1024){
@@ -2794,9 +2806,6 @@ Trait Data {
                     $direction = 'down';
                     $is_collect = true;
                 }
-                if($is_collect){
-                    $data[]= $line;
-                }
                 if(
                     $depth !== false &&
                     $symbol === '}' ||
@@ -2805,6 +2814,10 @@ Trait Data {
                     echo $symbol . '-' . $symbol_right . '-' . $depth . PHP_EOL;
                     $depth--;
                     if($depth === 0){
+                        $index = $this->index($data);
+
+
+
                         ddd($data);
                         $test = $this->binary_search_node($file, [
                             'seek' => $seek,
@@ -2822,6 +2835,9 @@ Trait Data {
                 ){
                     $depth++;
                     echo $symbol . '-' . $symbol_right . '-' . $depth . PHP_EOL;
+                }
+                if($is_collect){
+                    $data[]= $line;
                 }
                 if($direction === 'up'){
                     $seek--;
