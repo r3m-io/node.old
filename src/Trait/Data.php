@@ -2758,7 +2758,7 @@ Trait Data {
             $data[$nr] = ltrim($line);
         }
         $data = implode('', $data);
-        $record  = Core::object($data, Core::OBJECT_JSON);
+        $record  = Core::object($data, Core::OBJECT_OBJECT);
         d($record);
         d($options);
         if(!is_object($record)){
