@@ -32,9 +32,9 @@ Update Event:
         action === "utyrrt"
     )
 )',
-'filter' => [
-'options.priority' => 11
-],
+'where' => '
+options.priority === 11
+',
 '#filter' => [
     'action' => [
     'value' => 'yyy',
