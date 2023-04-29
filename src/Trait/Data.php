@@ -2747,6 +2747,33 @@ Trait Data {
         return false;
     }
 
+    private function node($data=[], $options=[]){
+        $record  = json_decode(implode('', $data));
+        if(!is_object($record)){
+            return false;
+        }
+        if(!property_exists($record, 'uuid')){
+            return false;
+        }
+        $record->{'#read'} = new stdClass();
+        $record->{'#read'}->load = $options['counter'];
+        $record->{'#read'}->seek = $options['seek'];
+        $record->{'#read'}->lines = $options['lines'];
+        $record->{'#read'}->percentage = round(($options['counter'] / $options['lines']) * 100, 2);
+        $object = $this->object();
+        $record->{'#read'}->url = $object->config('project.dir.data') .
+            'Node' .
+            $object->config('ds') .
+            'Storage' .
+            $object->config('ds') .
+            substr($record->uuid, 0, 2) .
+            $object->config('ds') .
+            $record->uuid .
+            $object->config('extension.json')
+        ;
+        return $record;
+    }
+
     private function binary_search_index($file, $options=[]){
         d($options['url']);
         d($options);
@@ -2822,13 +2849,8 @@ Trait Data {
                             $object->logger($object->config('project.log.name'))->error('Cannot find index in view: ' . $options['url'], $data);
                         }
                         if ($options['index'] === $index) {
-                            ddd($index);
-                            return $this->binary_search_node($file, [
-                                'seek' => $seek,
-                                'lines' => $options['lines'],
-                                'index' => $index,
-                                'counter' => $options['counter']
-                            ]);
+                            $record = $this->node($data, $options);
+                            ddd($record);
                         }
                         elseif(
                             $options['index'] < $index
