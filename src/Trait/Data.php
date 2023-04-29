@@ -2741,8 +2741,7 @@ Trait Data {
             if(strpos($line, '#index') !== false){
                 $line = str_replace('"#index"', '', $line);
                 $line = trim($line, " :,\n");
-                $line = (int) $line;
-                ddd($line);
+                return (int) $line;
             }
         }
         return false;
@@ -2751,6 +2750,7 @@ Trait Data {
     private function binary_search_index($file, $options=[]){
         d($options['url']);
         d($options);
+        $object = $this->object();
         if(!array_key_exists('counter', $options)){
             $options['counter'] = 0;
         }
@@ -2816,17 +2816,30 @@ Trait Data {
                     $depth--;
                     if($depth === 0){
                         $index = $this->index($data);
-
-
-
-                        ddd($data);
-                        $test = $this->binary_search_node($file, [
-                            'seek' => $seek,
-                            'lines' => $options['lines'],
-                            'index' => $options['index'],
-                            'counter' => $options['counter']
-                        ]);
-                        ddd($test);
+                        if($index === false){
+                            $object->logger($object->config('project.log.name'))->error('Cannot find index in view: ' . $options['url'], $data);
+                        }
+                        if ($options['index'] === $index) {
+                            ddd($index);
+                            return $this->binary_search_node($file, [
+                                'seek' => $seek,
+                                'lines' => $options['lines'],
+                                'index' => $index,
+                                'counter' => $options['counter']
+                            ]);
+                        }
+                        elseif(
+                            $options['index'] < $index
+                        ){
+                            $options['max'] = $seek - 1;
+                            break;
+                        }
+                        elseif(
+                            $options['index'] > $index
+                        ){
+                            $options['min'] = $seek + 1;
+                            break;
+                        }
                     }
                 }
                 elseif(
