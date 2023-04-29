@@ -511,10 +511,17 @@ Trait Data {
             $properties = [];
             $has_descending = false;
             foreach($options['sort'] as $key => $order){
-                $properties[] = $key;
-                if(strtolower($order) === 'desc'){
-                    $has_descending = true;
+                if(empty($properties)){
+                    $properties[] = $key;
+                    $order = 'asc';
+                } else {
+                    $properties[] = $key;
+                    $order = strtolower($order);
+                    if($order === 'desc'){
+                        $has_descending = true;
+                    }
                 }
+                $dir .= ucfirst($order) . $object->config('ds');
             }
             $property = implode('-', $properties);
             $url = $dir .
@@ -522,6 +529,7 @@ Trait Data {
                 $object->config('extension.json')
             ;
             $mtime = File::mtime($url);
+            $list = [];
             if(!$has_descending){
                 $meta_url = $object->config('project.dir.data') .
                     'Node' .
@@ -553,8 +561,6 @@ Trait Data {
                         $object->config('extension.json')
                     ;
                     $filter_mtime = File::mtime($filter_url);
-                    $filter_mtime = false;
-                    $list = [];
                     if(
                         File::exist($filter_url) &&
                         $mtime === $filter_mtime &&
@@ -644,16 +650,18 @@ Trait Data {
                     } else {
                         $sort_key = sha1(Core::object($properties, Core::OBJECT_JSON));
                         $lines = $meta->get('Sort.' . $class . '.' . $sort_key . '.lines');
-                        $file = new SplFileObject($url);
-                        $list = $this->binary_search_page($file, [
-                            'where' => $options['where'],
-                            'page' => $options['page'],
-                            'limit' => $options['limit'],
-                            'lines'=> $lines,
-                            'counter' => 0,
-                            'direction' => 'next',
-                            'url' => $url
-                        ]);
+                        if(File::exist($url) && $lines > 0){
+                            $file = new SplFileObject($url);
+                            $list = $this->binary_search_page($file, [
+                                'where' => $options['where'],
+                                'page' => $options['page'],
+                                'limit' => $options['limit'],
+                                'lines'=> $lines,
+                                'counter' => 0,
+                                'direction' => 'next',
+                                'url' => $url
+                            ]);
+                        }
                     }
                     $result = [];
                     $result['page'] = $options['page'];
