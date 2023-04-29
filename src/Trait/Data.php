@@ -2962,6 +2962,7 @@ Trait Data {
     */
 
     private function dir(App $object, $dir=[]){
+        ddd($dir);
         if(
             array_key_exists('uuid', $dir) &&
             array_key_exists('node', $dir) &&
