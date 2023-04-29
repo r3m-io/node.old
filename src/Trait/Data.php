@@ -1581,7 +1581,7 @@ Trait Data {
             $name .
             $object->config('extension.json')
         ;
-        $class = $object->data_read($object_url);
+        $object_class = $object->data_read($object_url);
         $list = new Storage();
         $mtime = File::mtime($url);
 
