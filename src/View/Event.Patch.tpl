@@ -33,7 +33,8 @@ Update Event:
     )
 )',
 'filter' => [
-'action' => 'yyy'
+'action' => 'yyy',
+'options.priority' => 11
 ],
 '#filter' => [
     'action' => [
