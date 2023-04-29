@@ -653,7 +653,10 @@ Trait Data {
                     } else {
                         $sort_key = sha1(Core::object($properties, Core::OBJECT_JSON));
                         $lines = $meta->get('Sort.' . $class . '.' . $sort_key . '.lines');
-                        if(File::exist($url) && $lines > 0){
+                        if(
+                            File::exist($url) &&
+                            $lines > 0
+                        ){
                             $file = new SplFileObject($url);
                             $list = $this->binary_search_page($file, [
                                 'where' => $options['where'],
@@ -1184,7 +1187,7 @@ Trait Data {
                     $sortable->set('lines', $lines);
                     if(!empty($url_property_asc_asc)){
                         $sortable->set('url.asc.asc', $url_property_asc_asc);
-                        $sortable->set('url.asc.desc', $url_property_asc_asc);
+                        $sortable->set('url.asc.desc', $url_property_asc_desc);
                     } else {
                         $sortable->set('url.asc', $url_property_asc);
                     }
@@ -1259,7 +1262,7 @@ Trait Data {
      * @throws FileWriteException
      * @throws Exception
      */
-    private function binary_search_list_create(App $object, $class, $options=[]): void
+    private function bin_search_list_create(App $object, $class, $options=[]): void
     {
         $name = Controller::name($class);
         $dir_node = $object->config('project.dir.data') .
@@ -1529,6 +1532,220 @@ Trait Data {
             $command = 'chmod 666 ' . $meta_url;
             exec($command);
         }
+    }
+
+    /**
+     * @throws ObjectException
+     * @throws FileWriteException
+     * @throws Exception
+     */
+    private function binary_search_list_create(App $object, $class, $options=[]): void
+    {
+        $name = Controller::name($class);
+        $dir_node = $object->config('project.dir.data') .
+            'Node' .
+            $object->config('ds');
+        $dir_binarysearch = $dir_node .
+            'BinarySearch' .
+            $object->config('ds') .
+            $name .
+            $object->config('ds')
+        ;
+        $url = $dir_binarysearch .
+            'Asc' .
+            $object->config('ds') .
+            'Uuid' .
+            $object->config('extension.json')
+        ;
+        $meta_url = $object->config('project.dir.data') .
+            'Node' .
+            $object->config('ds') .
+            'Meta' .
+            $object->config('ds') .
+            $name .
+            $object->config('extension.json')
+        ;
+        $data = $object->data_read($url);
+        if(!$data){
+            return;
+        }
+        $meta = $object->data_read($meta_url, sha1($meta_url));
+        if(!$meta){
+            return;
+        }
+        $object_url = $object->config('project.dir.data') .
+            'Node' .
+            $object->config('ds') .
+            'Object' .
+            $object->config('ds') .
+            $name .
+            $object->config('extension.json')
+        ;
+        $class = $object->data_read($object_url);
+        $list = new Storage();
+        $mtime = File::mtime($url);
+
+        $properties = [];
+
+        $url_key = 'url.';
+
+        foreach($options['sort'] as $key => $order) {
+            if(empy($properties)){
+                $url_key .= 'asc.';
+            } else {
+                $url_key .= strtolower($order) . '.';
+            }
+            $properties[] = $key;
+        }
+        $url_key = substr($url_key, 0, -1);
+        $sort_key = sha1(Core::object($properties, Core::OBJECT_JSON));
+        $sort_key = [
+            'sort' => $options['sort']
+        ];
+        $url_property = $meta->get('Sort.' . $class . '.' . $sort_key . '.'. $url_key);
+        ddd($url_property);
+
+        /*
+        if(!empty($options['filter'])){
+            $key = [
+                'filter' => $options['filter'],
+                'sort' => $options['sort']
+            ];
+            $key = sha1(Core::object($key, Core::OBJECT_JSON));
+            $file = new SplFileObject($url_property);
+            $limit = $meta->get('Filter.' . $class . '.' . $key . '.limit') ?? 1000;
+            $filter_list = $this->binary_search_list($file, [
+                'filter' => $options['filter'],
+                'limit' => $limit,
+                'lines'=> $record->lines,
+                'counter' => 0,
+                'direction' => 'next',
+                'url' => $url_property,
+            ]);
+            if(!empty($filter_list)){
+                $filter = [];
+                foreach($filter_list as $index => $node){
+                    $filter[$key][$index] = [
+                        'uuid' => $node->uuid,
+                        '#index' => $index,
+                        '#key' => $key
+                    ];
+                }
+                $filter_dir = $dir_node .
+                    'Filter' .
+                    $object->config('ds')
+                ;
+                $filter_name_dir = $filter_dir .
+                    $name .
+                    $object->config('ds')
+                ;
+                Dir::create($filter_name_dir, Dir::CHMOD);
+                $filter_url = $filter_name_dir .
+                    $key .
+                    $object->config('extension.json')
+                ;
+                $storage = new Storage($filter);
+                $lines = $storage->write($filter_url, 'lines');
+                File::touch($filter_url, $mtime);
+                $count = $index + 1;
+                $meta->set('Filter.' . $class . '.' . $key . '.lines', $lines);
+                $meta->set('Filter.' . $class . '.' . $key . '.count', $count);
+                $meta->set('Filter.' . $class . '.' . $key . '.limit', $limit);
+                $meta->set('Filter.' . $class . '.' . $key . '.filter', $options['filter']);
+                $meta->set('Filter.' . $class . '.' . $key . '.sort', $options['sort']);
+                if($object->config(Config::POSIX_ID) === 0){
+                    $command = 'chown www-data:www-data ' . $filter_url;
+                    exec($command);
+                    $command = 'chown www-data:www-data ' . $filter_dir;
+                    exec($command);
+                    $command = 'chown www-data:www-data ' . $filter_name_dir;
+                    exec($command);
+                }
+                if($object->config('framework.environment') === Config::MODE_DEVELOPMENT){
+                    $command = 'chmod 666 ' . $filter_url;
+                    exec($command);
+                    $command = 'chmod 777 ' . $filter_dir;
+                    exec($command);
+                    $command = 'chmod 777 ' . $filter_name_dir;
+                    exec($command);
+                }
+            }
+        }
+        elseif(!empty($opions['where'])){
+            $key = [
+                'where' => $options['where'],
+                'sort' => $options['sort']
+            ];
+            $key = sha1(Core::object($key, Core::OBJECT_JSON));
+            $file = new SplFileObject($url_property);
+            $limit = $meta->get('Where.' . $class . '.' . $key . '.limit') ?? 1000;
+            $where_list = $this->binary_search_list($file, [
+                'where' => $options['where'],
+                'limit' => $limit,
+                'lines'=> $record->lines,
+                'counter' => 0,
+                'direction' => 'next',
+                'url' => $url_property,
+            ]);
+            if(!empty($where_list)){
+                $where = [];
+                foreach($where_list as $index => $node){
+                    $where[$key][$index] = [
+                        'uuid' => $node->uuid,
+                        '#index' => $index,
+                        '#key' => $key
+                    ];
+                }
+                $where_dir = $dir_node .
+                    'Where' .
+                    $object->config('ds')
+                ;
+                $where_name_dir = $where_dir .
+                    $name .
+                    $object->config('ds')
+                ;
+                Dir::create($where_name_dir, Dir::CHMOD);
+                $where_url = $where_name_dir .
+                    $key .
+                    $object->config('extension.json')
+                ;
+                $storage = new Storage($where);
+                $lines = $storage->write($where_url, 'lines');
+                File::touch($where_url, $mtime);
+                $count = $index + 1;
+                $meta->set('Where.' . $class . '.' . $key . '.lines', $lines);
+                $meta->set('Where.' . $class . '.' . $key . '.count', $count);
+                $meta->set('Where.' . $class . '.' . $key . '.limit', $limit);
+                $meta->set('Where.' . $class . '.' . $key . '.where', $options['where']);
+                $meta->set('Where.' . $class . '.' . $key . '.sort', $options['sort']);
+                if($object->config(Config::POSIX_ID) === 0){
+                    $command = 'chown www-data:www-data ' . $where_url;
+                    exec($command);
+                    $command = 'chown www-data:www-data ' . $where_dir;
+                    exec($command);
+                    $command = 'chown www-data:www-data ' . $where_name_dir;
+                    exec($command);
+                }
+                if($object->config('framework.environment') === Config::MODE_DEVELOPMENT){
+                    $command = 'chmod 666 ' . $where_url;
+                    exec($command);
+                    $command = 'chmod 777 ' . $where_dir;
+                    exec($command);
+                    $command = 'chmod 777 ' . $where_name_dir;
+                    exec($command);
+                }
+            }
+        }
+        $meta->write($meta_url);
+        if($object->config(Config::POSIX_ID) === 0){
+            $command = 'chown www-data:www-data ' . $meta_url;
+            exec($command);
+        }
+        if($object->config('framework.environment') === Config::MODE_DEVELOPMENT){
+            $command = 'chmod 666 ' . $meta_url;
+            exec($command);
+        }
+        */
     }
 
     public function list_attribute($list=[], $attribute=[]): array
