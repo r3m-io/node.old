@@ -2765,6 +2765,15 @@ Trait Data {
         if(!property_exists($record, 'uuid')){
             return false;
         }
+        if(!property_exists($record, 'counter')){
+            return false;
+        }
+        if(!property_exists($record, 'seek')){
+            return false;
+        }
+        if(!property_exists($record, 'lines')){
+            return false;
+        }
         $record->{'#read'} = new stdClass();
         $record->{'#read'}->load = $options['counter'];
         $record->{'#read'}->seek = $options['seek'];
