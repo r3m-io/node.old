@@ -2740,7 +2740,7 @@ Trait Data {
         foreach($data as $nr => $line){
             if(strpos($line, '#index') !== false){
                 $line = str_replace('"#index"', '', $line);
-                $line = trim($line, ' :,');
+                $line = trim($line, " :,\n");
                 ddd($line);
             }
         }
