@@ -2874,11 +2874,10 @@ Trait Data {
                             $object->logger($object->config('project.log.name'))->error('Cannot find index in view: ' . $options['url'], $data);
                         }
                         if ($options['index'] === $index) {
-                            $record = $this->node($data, [
+                            return $this->node($data, [
                                 'seek' => $seek,
                                 ...$options
                             ]);
-                            ddd($record);
                         }
                         elseif(
                             $options['index'] < $index
