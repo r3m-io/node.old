@@ -2783,6 +2783,7 @@ Trait Data {
                         $direction = 'down';
                         $index = (int) trim($explode[1], " \t\n\r\0\x0B,");
                         if ($options['index'] === $index) {
+                            d($index);
                             return $this->binary_search_node($file, [
                                 'seek' => $seek,
                                 'lines' => $options['lines'],
