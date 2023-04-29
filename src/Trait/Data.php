@@ -2747,11 +2747,16 @@ Trait Data {
         return false;
     }
 
+    /**
+     * @throws ObjectException
+     */
     private function node($data=[], $options=[]){
         foreach($data as $nr => $line){
             $data[$nr] = ltrim($line);
         }
-        $record  = json_decode(implode('', $data));
+        $data = implode('', $data);
+        d($data);
+        $record  = Core::object($data, Core::OBJECT_JSON);
         d($data);
         ddd($record);
         if(!is_object($record)){
