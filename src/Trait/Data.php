@@ -1599,9 +1599,6 @@ Trait Data {
         }
         $url_key = substr($url_key, 0, -1);
         $sort_key = sha1(Core::object($properties, Core::OBJECT_JSON));
-        $sort_key = [
-            'sort' => $options['sort']
-        ];
         $url_property = $meta->get('Sort.' . $class . '.' . $sort_key . '.'. $url_key);
         ddd($url_property);
 
