@@ -2967,24 +2967,24 @@ Trait Data {
             array_key_exists('node', $dir) &&
             array_key_exists('data', $dir)
         ){
-            if(!Dir::is($dir['uuid'])){
+            if(!Dir::is($dir['uuid'])) {
                 Dir::create($dir['uuid'], Dir::CHMOD);
-                if($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
-                    $command = 'chmod 777 ' . $dir['uuid'];
-                    exec($command);
-                    $command = 'chmod 777 ' . $dir['node'];
-                    exec($command);
-                    $command = 'chmod 777 ' . $dir['data'];
-                    exec($command);
-                }
-                if($object->config(Config::POSIX_ID) === 0){
-                    $command = 'chown www-data:www-data ' . $dir['uuid'];
-                    exec($command);
-                    $command = 'chown www-data:www-data ' . $dir['node'];
-                    exec($command);
-                    $command = 'chown www-data:www-data ' . $dir['data'];
-                    exec($command);
-                }
+            }
+            if($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
+                $command = 'chmod 777 ' . $dir['uuid'];
+                exec($command);
+                $command = 'chmod 777 ' . $dir['node'];
+                exec($command);
+                $command = 'chmod 777 ' . $dir['data'];
+                exec($command);
+            }
+            if($object->config(Config::POSIX_ID) === 0){
+                $command = 'chown www-data:www-data ' . $dir['uuid'];
+                exec($command);
+                $command = 'chown www-data:www-data ' . $dir['node'];
+                exec($command);
+                $command = 'chown www-data:www-data ' . $dir['data'];
+                exec($command);
             }
         }
         if(array_key_exists('meta', $dir)){
