@@ -2798,7 +2798,7 @@ Trait Data {
                         $test = $this->binary_search_node($file, [
                             'seek' => $seek,
                             'lines' => $options['lines'],
-                            'index' => $index,
+                            'index' => $options['index'],
                             'counter' => $options['counter']
                         ]);
                         ddd($test);
