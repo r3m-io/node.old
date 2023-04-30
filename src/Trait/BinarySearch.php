@@ -151,6 +151,10 @@ Trait BinarySearch {
         }
         elseif(!empty($options['where'])){
             //add where convert here
+
+            $options['where'] = $this->where_convert($options['where']);
+            ddd($options['where']);
+
             $key = [
                 'where' => $options['where'],
                 'sort' => $options['sort']
