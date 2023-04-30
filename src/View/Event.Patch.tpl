@@ -32,10 +32,7 @@ Update Event:
         action === "utyrrt"
     )
 )',
-'where' => '
-options.priority === 10
-',
-'#filter' => [
+'filter' => [
     'action' => [
     'value' => 'yyy',
     'operator' => '==='
