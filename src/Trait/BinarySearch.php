@@ -292,7 +292,7 @@ Trait BinarySearch {
     /**
      * @throws Exception
      */
-    private function list($file, $options=[]): array
+    private function binary_search_list($file, $options=[]): array
     {
         if(!array_key_exists('limit', $options)){
             return [];
