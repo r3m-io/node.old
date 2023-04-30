@@ -322,11 +322,9 @@ Trait BinarySearch {
                 }
                 //add expose
                 if(!empty($options['filter'])){
-                    //filter::execute
                     $record = $this->filter($record, $options['filter'], $options);
                 }
                 elseif(!empty($options['where'])){
-                    //where::execute
                     $record = $this->where($record, $options['where'], $options);
                 }
                 if($record){
@@ -350,7 +348,8 @@ Trait BinarySearch {
         return $page;
     }
 
-    private function parse_index($data=[]){
+    private function parse_index($data=[]): false|int
+    {
         foreach($data as $nr => $line){
             if(strpos($line, '#index') !== false){
                 $line = str_replace('"#index"', '', $line);
