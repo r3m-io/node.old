@@ -817,7 +817,6 @@ Trait Data {
                                         $class,
                                         $class . '.' . __FUNCTION__ . '.expose'
                                     );
-                                    $record = [];
                                     $record = $this->expose(
                                         $object,
                                         $record,
