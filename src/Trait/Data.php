@@ -812,6 +812,22 @@ Trait Data {
                                     $object->config('extension.json');
                                 $record = $object->data_read($storage_url);
                                 if ($record) {
+                                    $expose = $this->expose_get(
+                                        $object,
+                                        $class,
+                                        $class . '.' . __FUNCTION__ . '.expose'
+                                    );
+                                    $record = [];
+                                    $record = $this->expose(
+                                        $object,
+                                        $record,
+                                        $expose,
+                                        $class,
+                                        __FUNCTION__,
+                                    );
+                                    ddd($record);
+
+
                                     //add filter for big fat objects
                                     $list->set($uuid, $record->data());
                                 } else {
@@ -1045,16 +1061,17 @@ Trait Data {
      * @throws ObjectException
      * @throws Exception
      */
-    protected function getExpose(App $object, $name='', $attribute=''){
+    protected function expose_get(App $object, $name='', $attribute=''){
         $dir_node = $object->config('project.dir.data') .
             'Node' .
             $object->config('ds')
         ;
-        $dir_class = $dir_node .
-            $name .
+        $dir_expose = $dir_node .
+            'Expose' .
             $object->config('ds')
         ;
-        $url = $dir_class . 'Expose.json';
+        $url = $dir_expose . $name . $object->config('extension.json');
+        ddd($url);
         if(!File::exist($url)){
             throw new Exception('Data url (' . $url . ') not found for class: ' . $name);
         }
@@ -1066,180 +1083,6 @@ Trait Data {
             }
             return $get;
         }
-    }
-
-    private function is_uuid($string=''){
-        //format: %s%s-%s-%s-%s-%s%s%s
-        $explode = explode('-', $string);
-        $result = false;
-        if(strlen($string) !== 36){
-            return $result;
-        }
-        if(count($explode) !== 5){
-            return $result;
-        }
-        if(strlen($explode[0]) !== 8){
-            return $result;
-        }
-        if(strlen($explode[1]) !== 4){
-            return $result;
-        }
-        if(strlen($explode[2]) !== 4){
-            return $result;
-        }
-        if(strlen($explode[3]) !== 4){
-            return $result;
-        }
-        if(strlen($explode[4]) !== 12){
-            return $result;
-        }
-        return true;
-    }
-
-    private function uuid_compare($uuid='', $compare='', $operator='==='){
-        $uuid = explode('-', $uuid);
-        $compare = explode('-', $compare);
-        $result = [];
-        foreach($uuid as $nr =>  $hex){
-            $dec = hexdec($hex);
-            $dec_compare = hexdec($compare[$nr]);
-            switch($operator){
-                case '===' :
-                    if($dec === $dec_compare){
-                        $result[$nr] = true;
-                    } else {
-                        $result[$nr] = false;
-                        break 2;
-                    }
-                    break;
-                case '==' :
-                    if($dec == $dec_compare){
-                        $result[$nr] = true;
-                    } else {
-                        $result[$nr] = false;
-                        break 2;
-                    }
-                    break;
-                case '>=' :
-                    if($dec === $dec_compare){
-                        $result[$nr] = true;
-                        break;
-                    }
-                    if($dec > $dec_compare){
-                        $result[$nr] = true;
-                        break 2;
-                    } else {
-                        $result[$nr] = false;
-                        break 2;
-                    }
-                case '<=' :
-                    if($dec === $dec_compare){
-                        $result[$nr] = true;
-                        break;
-                    }
-                    if($dec < $dec_compare){
-                        $result[$nr] = true;
-                        break 2;
-                    } else {
-                        $result[$nr] = false;
-                        break 2;
-                    }
-                case '>' :
-                    if($dec > $dec_compare){
-                        $result[$nr] = true;
-                        break 2;
-                    }
-                    elseif($dec === $dec_compare){
-                        break;
-                    } else {
-                        $result[$nr] = false;
-                        break 2;
-                    }
-                case '<' :
-                    if($dec < $dec_compare){
-                        $result[$nr] = true;
-                        break 2;
-                    }
-                    elseif($dec === $dec_compare){
-                        break;
-                    } else {
-                        $result[$nr] = false;
-                        break 2;
-                    }
-                case '!==' :
-                    if($dec !== $dec_compare){
-                        $result[$nr] = true;
-                    } else {
-                        $result[$nr] = false;
-                        break 2;
-                    }
-                    break;
-                case '!=' :
-                    if($dec != $dec_compare){
-                        $result[$nr] = true;
-                    } else {
-                        $result[$nr] = false;
-                        break 2;
-                    }
-                    break;
-            }
-        }
-        if(in_array(false, $result, true)){
-            return false;
-        }
-        return true;
-    }
-
-    private function uuid_data($file, $options=[]){
-        $start = $options['seek'];
-        $type = null;
-        $data = [];
-        while($line = $file->current()){
-            $explode = explode(':', $line);
-            if(array_key_exists(1, $explode)){
-                $value = trim($explode[1]);
-            } else {
-                $value = trim($explode[0], " \t\n\r\0\x0B,");
-            }
-            if(
-                $type === null &&
-                $value === '{'
-            ){
-                $type = 'object';
-                $curly_count = 0;
-            }
-            elseif(
-                $type === null &&
-                $value === '['
-            ){
-                $type = 'array';
-            }
-            elseif($type === null) {
-                $type = 'scalar';
-            }
-            switch($type){
-                case 'object' :
-                    if($value === '{'){
-                        $curly_count++;
-                    }
-                    elseif($value === '}'){
-                        $curly_count--;
-                    }
-                    if($curly_count === 0){
-                        $data[] = $line;
-                        break 2;
-                    } else {
-                        $data[] = $line;
-                    }
-                    break;
-            }
-            $file->next();
-            $start++;
-            if($start > $options['lines']){
-                break;
-            }
-        }
-        return $data;
     }
 
     private function dir(App $object, $dir=[]): void
