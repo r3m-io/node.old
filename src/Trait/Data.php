@@ -1071,6 +1071,7 @@ Trait Data {
             $object->config('ds')
         ;
         $url = $dir_expose . $name . $object->config('extension.json');
+        d($attribute);
         ddd($url);
         if(!File::exist($url)){
             throw new Exception('Data url (' . $url . ') not found for class: ' . $name);
