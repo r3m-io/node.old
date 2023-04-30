@@ -2697,16 +2697,11 @@ Trait Data {
                 'search' => [],
                 'url' => $options['url'],
             ]);
-            d($options['url']);
-            d($record);
-            d($i);
             if($record){
                 $read = $object->data_read($record->{'#read'}->url, sha1($record->{'#read'}->url));
                 if($read){
                     $record = Core::object_merge($record, $read->data());
                 }
-                d($options['where']);
-                d($record);
                 //add expose
                 if(!empty($options['filter'])){
                     $record = $this->filter($record, $options['filter'], $options);
@@ -2715,7 +2710,6 @@ Trait Data {
                     $record = $this->where($record, $options['where'], $options);
                 }
                 if($record){
-                    ddd($record);
                     $record->{'#index'} = $record_index;
                     $page[] = $record;
                     $record_index++;
@@ -2759,8 +2753,6 @@ Trait Data {
         }
         $data = implode('', $data);
         $record  = Core::object($data, Core::OBJECT_OBJECT);
-        d($record);
-        d($options);
         if(!is_object($record)){
             return false;
         }
