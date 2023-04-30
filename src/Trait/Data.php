@@ -2791,8 +2791,6 @@ Trait Data {
      * @throws ObjectException
      */
     private function binary_search_index($file, $options=[]){
-        d($options['url']);
-        d($options);
         $object = $this->object();
         if(!array_key_exists('counter', $options)){
             $options['counter'] = 0;
@@ -2855,13 +2853,11 @@ Trait Data {
                     $symbol === '}' ||
                     $symbol_right === '}'
                 ){
-                    echo $symbol . '-' . $symbol_right . '-' . $depth . PHP_EOL;
+//                    echo $symbol . '-' . $symbol_right . '-' . $depth . PHP_EOL;
                     $depth--;
                     if($depth === 0){
                         $data[] = $symbol;
                         $index = $this->index($data);
-                        d($options['index']);
-                        d($index);
                         if($index === false){
                             $object->logger($object->config('project.log.name'))->error('Cannot find index in view: ' . $options['url'], $data);
                         }
