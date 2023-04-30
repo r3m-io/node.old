@@ -263,7 +263,6 @@ Trait BinarySearch {
                     $record = $this->filter($record, $options['filter'], $options);
                 }
                 elseif(!empty($options['where'])){
-                    ddd($options['where']);
                     $record = $this->where($record, $options['where'], $options);
                 }
                 if($record){
@@ -323,6 +322,7 @@ Trait BinarySearch {
                     $record = $this->filter($record, $options['filter'], $options);
                 }
                 elseif(!empty($options['where'])){
+                    ddd($options['where']);
                     $record = $this->where($record, $options['where'], $options);
                 }
                 if($record){
