@@ -1057,6 +1057,8 @@ Trait Data {
         if(!is_array($expose)){
             return $record;
         }
+        $debug = debug_backtrace(true);
+        d($debug);
         ddd($record);
         /*
         if(
