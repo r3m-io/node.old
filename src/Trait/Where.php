@@ -607,13 +607,6 @@ Trait Where {
         if(empty($where)){
             return $record;
         }
-        if(
-            is_string($where) ||
-            is_array($where)
-        ){
-            //do this before separate
-            $where = $this->where_convert($where);
-        }
         $deepest = $this->where_get_depth($where);
         $counter =0;
         while($deepest >= 0){

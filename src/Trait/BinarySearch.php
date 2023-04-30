@@ -150,11 +150,7 @@ Trait BinarySearch {
             }
         }
         elseif(!empty($options['where'])){
-            //add where convert here
-
             $options['where'] = $this->where_convert($options['where']);
-            ddd($options['where']);
-
             $key = [
                 'where' => $options['where'],
                 'sort' => $options['sort']
@@ -264,12 +260,10 @@ Trait BinarySearch {
                     $record = Core::object_merge($record, $read->data());
                 }
                 if(!empty($options['filter'])){
-//                    filter::execute
-
                     $record = $this->filter($record, $options['filter'], $options);
                 }
                 elseif(!empty($options['where'])){
-                    //where::execute
+                    ddd($options['where']);
                     $record = $this->where($record, $options['where'], $options);
                 }
                 if($record){
