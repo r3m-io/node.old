@@ -2886,7 +2886,6 @@ Trait Data {
                             } else {
                                 $direction = 'up';
                             }
-
                             $options['min'] = $seek + 1;
                             break;
                         }

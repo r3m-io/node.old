@@ -33,7 +33,7 @@ Update Event:
     )
 )',
 'where' => '
-options.priority === 11
+options.priority === 10
 ',
 '#filter' => [
     'action' => [
