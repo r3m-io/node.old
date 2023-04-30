@@ -1683,10 +1683,6 @@ Trait Data {
                 'direction' => 'next',
                 'url' => $url_property,
             ]);
-            d($url_property);
-            d($limit);
-            ddd($where_list);
-
             if(!empty($where_list)){
                 $where = [];
                 foreach($where_list as $index => $node){
@@ -2893,7 +2889,7 @@ Trait Data {
                     $symbol_right === '{'
                 ){
                     $depth++;
-                    echo $symbol . '-' . $symbol_right . '-' . $depth . PHP_EOL;
+//                    echo $symbol . '-' . $symbol_right . '-' . $depth . PHP_EOL;
                 }
                 if($is_collect){
                     $data[]= $line;
@@ -2914,83 +2910,6 @@ Trait Data {
                         $direction = 'up';
                     }
                 }
-
-                /*
-                if(
-                    $symbol === '}' ||
-                    $symbol_right === '}'
-                ){
-                    $direction = 'up';
-
-                    echo $symbol . '-' . $symbol_right . '-' . $depth . PHP_EOL;
-                    $depth--;
-                    if($depth === 0){
-                        $test = $this->binary_search_node($file, [
-                            'seek' => $seek,
-                            'lines' => $options['lines'],
-                            'index' => $options['index'],
-                            'counter' => $options['counter']
-                        ]);
-                        ddd($test);
-                    }
-                }
-                elseif(
-                    $symbol === '{' ||
-                    $symbol_right === '{'
-                ){
-
-                    if($symbol === '#sort' && $symbol_right === '{'){
-                        $depth = 2;
-                    } else {
-                        $depth++;
-                    }
-                    echo $symbol . '-' . $symbol_right . '-' . $depth . PHP_EOL;
-
-                }
-                if(array_key_exists(1, $explode)){
-                    if($explode[0] === '#index') {
-                        $direction = 'down';
-                        $index = (int) trim($explode[1], " \t\n\r\0\x0B,");
-                        if ($options['index'] === $index) {
-                            d($index);
-                            return $this->binary_search_node($file, [
-                                'seek' => $seek,
-                                'lines' => $options['lines'],
-                                'index' => $index,
-                                'counter' => $options['counter']
-                            ]);
-                        }
-                        elseif(
-                            $options['index'] < $index
-                        ){
-                            $options['max'] = $seek - 1;
-                            break;
-                        }
-                        elseif(
-                            $options['index'] > $index
-                        ){
-                            $options['min'] = $seek + 1;
-                            break;
-                        }
-                    }
-                }
-                if($direction === 'up'){
-                    $seek--;
-                    if($seek < 0){
-                       $direction = 'down';
-                        $seek = 0;
-                    }
-                    $file->seek($seek);
-                    $options['search'][] = $seek;
-                } else {
-                    $seek++;
-                    $options['search'][] = $seek;
-                    $file->next();
-                    if($seek === $options['lines'] - 1){
-                        $direction = 'up';
-                    }
-                }
-                */
             }
         }
         return false;
