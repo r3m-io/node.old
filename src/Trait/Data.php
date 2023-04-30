@@ -2881,10 +2881,12 @@ Trait Data {
                         elseif(
                             $options['index'] > $index
                         ){
-                            d($options['search']);
+                            if(in_array($seek, $options['search'], true)){
+                                $direction = 'down';
+                            } else {
+                                $direction = 'up';
+                            }
 
-
-                            $direction = 'up';
                             $options['min'] = $seek + 1;
                             break;
                         }
