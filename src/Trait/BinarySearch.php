@@ -260,10 +260,7 @@ Trait BinarySearch {
                     $record = Core::object_merge($record, $read->data());
                 }
                 if(!empty($options['filter'])){
-                    d($record);
-                    d($options);
                     $record = $this->filter($record, $options['filter'], $options);
-                    ddd($record);
                 }
                 elseif(!empty($options['where'])){
                     $record = $this->where($record, $options['where'], $options);
