@@ -286,6 +286,9 @@ Trait Data {
                 elseif(strpos($value, '(float)') !== false){
                     $value = (float) trim(str_replace('(float)', '', $value)) + 0;
                 }
+                elseif(strpos($value, '(string)') !== false){
+                    $value = trim(str_replace('(bool)', '', $value));
+                }
                 elseif(strpos($value, '(bool)') !== false){
                     $value = (bool) trim(str_replace('(bool)', '', $value));
                 }
