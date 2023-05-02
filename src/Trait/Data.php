@@ -278,8 +278,20 @@ Trait Data {
         d($class);
         d($options);
 
-        $data = $this->one($class, $options);
-        ddd($data);
+        $one = [];
+        $one['sort']['name'] = 'asc';
+        if(is_array($options)){
+            foreach($options as $key => $value){
+                $one['filter'][$key] = $value;
+            }
+            $data = $this->one($class, $one);
+            ddd($data);
+        } else {
+            return false;
+        }
+
+
+
 
         if(!array_key_exists('uuid', $options)){
             return false;
@@ -507,6 +519,63 @@ Trait Data {
         $options = Core::object($options, Core::OBJECT_ARRAY);
         $function = __FUNCTION__;
         $object = $this->object();
+        $dir = $object->config('project.dir.data') .
+            'Node' .
+            $object->config('ds') .
+            'BinarySearch' .
+            $object->config('ds') .
+            $name .
+            $object->config('ds')
+        ;
+        if(array_key_exists('sort', $options)) {
+            $properties = [];
+            $has_descending = false;
+            foreach ($options['sort'] as $key => $order) {
+                if (empty($properties)) {
+                    $properties[] = $key;
+                    $order = 'asc';
+                } else {
+                    $properties[] = $key;
+                    $order = strtolower($order);
+                    if ($order === 'desc') {
+                        $has_descending = true;
+                    }
+                }
+                $dir .= ucfirst($order) . $object->config('ds');
+            }
+            $property = implode('-', $properties);
+            $url = $dir .
+                Controller::name($property) .
+                $object->config('extension.json');
+            d($property);
+            d($url);
+            ddd($dir);
+            if (!File::exist($url)) {
+                return false;
+            }
+
+            $mtime = File::mtime($url);
+            $sort_key = sha1(Core::object($properties, Core::OBJECT_JSON));
+            ddd($sort_key);
+            /*
+            $lines = $meta->get('Sort.' . $class . '.' . $sort_key . '.lines');
+            if (
+                File::exist($url) &&
+                $lines > 0
+            ) {
+                $file = new SplFileObject($url);
+                $list = $this->binary_search_page($file, [
+                    'filter' => $options['filter'],
+                    'page' => $options['page'],
+                    'limit' => $options['limit'],
+                    'lines' => $lines,
+                    'counter' => 0,
+                    'direction' => 'next',
+                    'url' => $url
+                ]);
+            }
+            */
+        }
         d($class);
         ddd($options);
         /*
