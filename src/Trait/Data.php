@@ -1056,6 +1056,7 @@ Trait Data {
         if(!is_array($expose)){
             return false;
         }
+        d($expose);
         ddd($record);
         /*
         if(
