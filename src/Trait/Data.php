@@ -719,6 +719,7 @@ Trait Data {
             return;
         }
         foreach ($read as $file) {
+            $expose = false;
             $class = File::basename($file->name, $object->config('extension.json'));
             if(property_exists($options, 'class')){
                 if(!in_array($class, $options->class, 1)){
@@ -731,14 +732,15 @@ Trait Data {
                 $role = $this->read('Role', [
                     'name' => 'ROLE_SYSTEM'
                 ]);
+                $expose = $this->expose_get(
+                    $object,
+                    $class,
+                    $class . '.' . __FUNCTION__ . '.expose'
+                );
                 ddd($role);
             }
             $item = $object->data_read($file->url);
-            $expose = $this->expose_get(
-                $object,
-                $class,
-                $class . '.' . __FUNCTION__ . '.expose'
-            );
+
             $time_start = microtime(true);
             $dir_node = $object->config('project.dir.data') .
                 'Node' .
@@ -842,7 +844,8 @@ Trait Data {
                                 if ($record) {
                                     if(in_array($class, $exception, true)){
                                         $list->set($uuid, $record->data());
-                                    } else {
+                                    }
+                                    elseif($expose) {
                                         $record = $this->expose(
                                             $object,
                                             $record,
