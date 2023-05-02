@@ -548,17 +548,24 @@ Trait Data {
             $url = $dir .
                 Controller::name($property) .
                 $object->config('extension.json');
-            d($property);
-            d($url);
-            ddd($dir);
             if (!File::exist($url)) {
                 return false;
             }
 
             $mtime = File::mtime($url);
             $sort_key = sha1(Core::object($properties, Core::OBJECT_JSON));
-            ddd($sort_key);
-            /*
+            $meta_url = $object->config('project.dir.data') .
+                'Node' .
+                $object->config('ds') .
+                'Meta' .
+                $object->config('ds') .
+                $class .
+                $object->config('extension.json')
+            ;
+            $meta = $object->data_read($meta_url, sha1($meta_url));
+            if(!$meta){
+                return false;
+            }
             $lines = $meta->get('Sort.' . $class . '.' . $sort_key . '.lines');
             if (
                 File::exist($url) &&
@@ -575,6 +582,10 @@ Trait Data {
                     'url' => $url
                 ]);
             }
+            d($list);
+            ddd($sort_key);
+            /*
+
             */
         }
         d($class);
