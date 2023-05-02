@@ -10,8 +10,8 @@ Read Node:
 {{/if}}
 {{$class = $options.class|uppercase.first}}
 {{$read.options = (clone) $options}}
-{{unset($read.options.class)}}
-{{unset($read.options.format)}}
+{{unset('$read.options.class')}}
+{{unset('$read.options.format')}}
 {{if(!is.empty($read.options))}}
 
 {{$response = R3m.Io.Node:Data:read($class, $read.options)}}
