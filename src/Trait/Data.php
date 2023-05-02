@@ -276,7 +276,7 @@ Trait Data {
 //        $name = Controller::name($class);
         $object = $this->object();
         d($class);
-        ddd($options);
+        d($options);
 
         $data = $this->one($class, $options);
         ddd($data);
