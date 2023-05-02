@@ -697,7 +697,13 @@ Trait Data {
     public function sync()
     {
         $object = $this->object();
-        $options = $object->options($object);
+        $options = App::options($object);
+        if(property_exists($options, 'class')){
+            $options->class = explode(',', $options->class);
+            foreach($options->class as $nr => $class){
+                $options->class[$nr] = trim($class);
+            }
+        }
         ddd($options);
 
 
