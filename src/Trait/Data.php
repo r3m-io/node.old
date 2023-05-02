@@ -284,19 +284,19 @@ Trait Data {
         if(is_array($options)){
             foreach($options as $key => $value){
                 if(strpos($value, '(int)') !== false){
-                    $value = str_replace('(int)', '', $value) + 0;
+                    $value = trim(str_replace('(int)', '', $value)) + 0;
                 }
                 elseif(strpos($value, '(float)') !== false){
-                    $value = str_replace('(float)', '', $value) + 0;
+                    $value = trim(str_replace('(float)', '', $value)) + 0;
                 }
                 elseif(strpos($value, '(bool)') !== false){
-                    $value = (bool) str_replace('(bool)', '', $value);
+                    $value = (bool) trim(str_replace('(bool)', '', $value));
                 }
                 elseif(strpos($value, '(array)') !== false){
-                    $value = (array) str_replace('(array)', '', $value);
+                    $value = (array) trim(str_replace('(array)', '', $value));
                 }
                 elseif(strpos($value, '(object)') !== false){
-                    $value = (object) str_replace('(object)', '', $value);
+                    $value = (object) trim(str_replace('(object)', '', $value));
                 }
                 $one['filter'][$key] = $value;
             }
