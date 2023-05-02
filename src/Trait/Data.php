@@ -299,7 +299,7 @@ Trait Data {
                     $value = (object) trim(str_replace('(object)', '', $value));
                 }
                 $one['filter'][$key] = [
-                    'operator' => '===',
+                    'operator' => 'partial',
                     'value' => $value
                 ];
             }
