@@ -274,7 +274,7 @@ Trait Data {
     public function read($class='', $options=[]): false|array|object
     {
         $name = Controller::name($class);
-        $objeKct = $this->object();
+        $object = $this->object();
 
         $data = $this->one($class, $options);
         ddd($data);
