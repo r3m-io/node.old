@@ -711,6 +711,11 @@ Trait Data {
         foreach ($read as $file) {
             $class = File::basename($file->name, $object->config('extension.json'));
             $item = $object->data_read($file->url);
+            $expose = $this->expose_get(
+                $object,
+                $class,
+                $class . '.' . __FUNCTION__ . '.expose'
+            );
             $time_start = microtime(true);
             $dir_node = $object->config('project.dir.data') .
                 'Node' .
@@ -812,11 +817,6 @@ Trait Data {
                                     $object->config('extension.json');
                                 $record = $object->data_read($storage_url);
                                 if ($record) {
-                                    $expose = $this->expose_get(
-                                        $object,
-                                        $class,
-                                        $class . '.' . __FUNCTION__ . '.expose'
-                                    );
                                     $record = $this->expose(
                                         $object,
                                         $record,
@@ -1056,8 +1056,6 @@ Trait Data {
         if(!is_array($expose)){
             return $record;
         }
-        $debug = debug_backtrace(true);
-        d($debug);
         ddd($record);
         /*
         if(
