@@ -1054,7 +1054,7 @@ Trait Data {
     public static function expose(App $object, $record, $expose=[], $class='', $function='', $internalRole=false, $parentScope=false): array
     {
         if(!is_array($expose)){
-            return $record;
+            return false;
         }
         ddd($record);
         /*
