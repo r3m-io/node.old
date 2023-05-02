@@ -276,9 +276,6 @@ Trait Data {
 //        $name = Controller::name($class);
         $options = Core::object($options, Core::OBJECT_ARRAY);
         $object = $this->object();
-        d($class);
-        d($options);
-
         $one = [];
         $one['sort']['name'] = 'asc';
         if(is_array($options)){
@@ -287,7 +284,7 @@ Trait Data {
                     $value = trim(str_replace('(int)', '', $value)) + 0;
                 }
                 elseif(strpos($value, '(float)') !== false){
-                    $value = trim(str_replace('(float)', '', $value)) + 0;
+                    $value = (float) trim(str_replace('(float)', '', $value)) + 0;
                 }
                 elseif(strpos($value, '(bool)') !== false){
                     $value = (bool) trim(str_replace('(bool)', '', $value));
@@ -299,11 +296,10 @@ Trait Data {
                     $value = (object) trim(str_replace('(object)', '', $value));
                 }
                 $one['filter'][$key] = [
-                    'operator' => 'partial',
+                    'operator' => '===',
                     'value' => $value
                 ];
             }
-            d($one);
             $data = $this->one($class, $one);
             if($data){
                 return $data->data();
