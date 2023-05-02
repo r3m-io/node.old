@@ -567,6 +567,7 @@ Trait Data {
                 return false;
             }
             $lines = $meta->get('Sort.' . $class . '.' . $sort_key . '.lines');
+            $list = [];
             if (
                 File::exist($url) &&
                 $lines > 0
@@ -574,8 +575,8 @@ Trait Data {
                 $file = new SplFileObject($url);
                 $list = $this->binary_search_page($file, [
                     'filter' => $options['filter'],
-                    'page' => $options['page'],
-                    'limit' => $options['limit'],
+                    'page' => 1,
+                    'limit' => 1,
                     'lines' => $lines,
                     'counter' => 0,
                     'direction' => 'next',
