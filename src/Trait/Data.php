@@ -274,6 +274,7 @@ Trait Data {
     public function read($class='', $options=[]): false|array|object
     {
 //        $name = Controller::name($class);
+        $options = Core::object($options, Core::OBJECT_ARRAY);
         $object = $this->object();
         d($class);
         d($options);
@@ -527,6 +528,7 @@ Trait Data {
             $name .
             $object->config('ds')
         ;
+        ddd($options);
         if(array_key_exists('sort', $options)) {
             $properties = [];
             $has_descending = false;
