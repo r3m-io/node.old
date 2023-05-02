@@ -704,9 +704,6 @@ Trait Data {
                 $options->class[$nr] = Controller::name(trim($class));
             }
         }
-        ddd($options);
-
-
         $url_object = $object->config('project.dir.data') .
             'Node' .
             $object->config('ds') .
@@ -723,6 +720,11 @@ Trait Data {
         }
         foreach ($read as $file) {
             $class = File::basename($file->name, $object->config('extension.json'));
+            if(property_exists($options, 'class')){
+                if(!in_array($class, $options->class, 1)){
+                    continue;
+                }
+            }
             if(in_array($class, $exception, 1)){
 
             } else {
