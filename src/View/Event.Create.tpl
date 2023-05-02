@@ -24,7 +24,7 @@ Create Event:
 {{$controller[] = $controller}}
 {{/if}}
 {{/while}}
-{{$priority = (int) terminal.readline('Priority: (10)')}}
+{{$priority = (int) terminal.readline('Priority (10): ')}}
 {{if(is.empty($priority))}}
 {{$priority = 10}}
 {{/if}}
