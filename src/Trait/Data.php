@@ -286,53 +286,10 @@ Trait Data {
                 $one['filter'][$key] = $value;
             }
             $data = $this->one($class, $one);
-            ddd($data);
+            return $data->data();
         } else {
             return false;
         }
-
-
-
-
-        if(!array_key_exists('uuid', $options)){
-            return false;
-        }
-        $uuid = $options['uuid'];
-        //add class so sort on asc uuid by class.
-        $url = $object->config('project.dir.data') .
-            'Node' .
-            $object->config('ds') .
-            'Storage' .
-            $object->config('ds') .
-            substr($uuid, 0, 2) .
-            $object->config('ds') .
-            $uuid .
-            $object->config('extension.json')
-        ;
-        if(!File::exist($url)){
-            return false;
-        }
-        $data = $object->data_read($url, sha1($url));
-        if(!$data){
-            return false;
-        }
-        return $data->data();
-        /*
-        $lines = $meta->get($class . '.' . substr($uuid, 0, 1));
-        $seek = (int) (0.5 * $lines);
-        $file = new SplFileObject($url);
-        $data = [];
-        $data = $this->bin_search($file, [
-            'uuid' => $uuid,
-            'seek' => $seek,
-            'lines'=> $lines,
-            'counter' => 0,
-            'data' => $data,
-            'direction' => 'next',
-        ]);
-        ddd($data);
-        return false;
-        */
     }
 
     public function patch($class, $options=[]): false|array|object
