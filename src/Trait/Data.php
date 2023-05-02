@@ -697,7 +697,7 @@ Trait Data {
     public function sync()
     {
         $object = $this->object();
-        $options = $object->options();
+        $options = $object->options($object);
         ddd($options);
 
 
