@@ -513,7 +513,7 @@ Trait Data {
      * @throws ObjectException
      * @throws Exception
      */
-    public function one($class='', $options=[]): false|array
+    public function one($class='', $options=[]): false|Storage
     {
         $name = Controller::name($class);
         $options = Core::object($options, Core::OBJECT_ARRAY);
@@ -583,7 +583,7 @@ Trait Data {
                 ]);
             }
             if(array_key_exists(0, $list)){
-                return $list[0];
+                return new Storage($list[0]);
             }
         }
         return false;
