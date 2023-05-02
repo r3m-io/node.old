@@ -528,7 +528,6 @@ Trait Data {
             $name .
             $object->config('ds')
         ;
-        ddd($options);
         if(array_key_exists('sort', $options)) {
             $properties = [];
             $has_descending = false;
