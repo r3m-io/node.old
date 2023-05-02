@@ -298,7 +298,10 @@ Trait Data {
                 elseif(strpos($value, '(object)') !== false){
                     $value = (object) trim(str_replace('(object)', '', $value));
                 }
-                $one['filter'][$key] = $value;
+                $one['filter'][$key] = [
+                    'operator' => '===',
+                    'value' => $value
+                ];
             }
             d($one);
             $data = $this->one($class, $one);
