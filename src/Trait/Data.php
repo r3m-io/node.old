@@ -575,8 +575,8 @@ Trait Data {
                 $file = new SplFileObject($url);
                 $list = $this->binary_search_page($file, [
                     'filter' => $options['filter'],
-                    'page' => 1,
                     'limit' => 1,
+                    'page' => 1,
                     'lines' => $lines,
                     'counter' => 0,
                     'direction' => 'next',
@@ -665,7 +665,7 @@ Trait Data {
                     ;
                     $filter_mtime = File::mtime($filter_url);
                     if(
-                        File::exist($filter_url) &&
+          1              File::exist($filter_url) &&
                         $mtime === $filter_mtime &&
                         $lines >= 0
                     ){

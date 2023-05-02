@@ -289,6 +289,62 @@ Trait BinarySearch {
     /**
      * @throws Exception
      */
+    private function binary_search_one($file, $options=[]): array
+    {
+        $object = $this->object();
+        $index = 0;
+        $options['page'] = 1;
+        $options['limit'] = 1;
+        $start = $index;
+        $end = $start + $options['limit'];
+        $page = [];
+        $time_start = microtime(true);
+        $record_index = $index;
+        for($i = $start; $i < $end; $i++){
+            $record = $this->binary_search_index($file, [
+                'page' => $options['page'],
+                'limit' => $options['limit'],
+                'lines'=> $options['lines'],
+                'counter' => 0,
+                'index' => $i,
+                'search' => [],
+                'url' => $options['url'],
+            ]);
+            if($record){
+                $read = $object->data_read($record->{'#read'}->url, sha1($record->{'#read'}->url));
+                if($read){
+                    $record = Core::object_merge($record, $read->data());
+                }
+                if(!empty($options['filter'])){
+                    $record = $this->filter($record, $options['filter'], $options);
+                }
+                elseif(!empty($options['where'])){
+                    $record = $this->where($record, $options['where'], $options);
+                }
+                if($record){
+                    $record->{'#index'} = $record_index;
+                    $page[] = $record;
+                    $record_index++;
+                } else {
+                    $end++;
+                }
+            } else {
+                break;
+            }
+        }
+        $time_end = microtime(true);
+        $duration = $time_end - $time_start;
+        if($duration < 1) {
+            echo 'Duration: ' . round($duration * 1000, 2) . ' msec' . PHP_EOL;
+        } else {
+            echo 'Duration: ' . round($duration, 2) . ' sec' . PHP_EOL;
+        }
+        return $page;
+    }
+
+    /**
+     * @throws Exception
+     */
     private function binary_search_list($file, $options=[]): array
     {
         if(!array_key_exists('limit', $options)){
