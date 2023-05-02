@@ -5,6 +5,8 @@ namespace R3m\Io\Node\Trait;
 //use R3m\Io\Module\Filter;
 use R3m\Io\Module\Parse;
 use R3m\Io\Module\Parse\Token;
+use R3m\Io\Node\Service\Permission;
+use R3m\Io\Node\Service\User;
 use SplFileObject;
 use stdClass;
 
@@ -703,6 +705,12 @@ Trait Data {
             $object->config('ds')
         ;
 
+        $role = $this->read('Role', [
+            'name' => 'ROLE_SYSTEM'
+        ]);
+        ddd($role);
+
+
         $dir = new Dir();
         $read = $dir->read($url_object);
         if(empty($read)){
@@ -823,6 +831,7 @@ Trait Data {
                                         $expose,
                                         $class,
                                         __FUNCTION__,
+                                        $role
                                     );
                                     ddd($record);
 
@@ -1058,20 +1067,12 @@ Trait Data {
         }
         d($expose);
         ddd($record);
-        /*
-        if(
-            method_exists($node, 'setObject') &&
-            method_exists($node, 'getObject')
-        ){
-            $test = $node->getObject();
-            if(empty($test)){
-                $node->setObject($object);
-            }
-        }
+
+        $roles = [];
         if($internalRole){
             $roles[] = $internalRole; //same as parent
         } else {
-            $roles = Permission::getAccessControl($object, $entity, $function);
+//            $roles = Permission::getAccessControl($object, $class, $function);
             try {
                 $user = User::getByAuthorization($object);
                 if($user){
@@ -1084,6 +1085,18 @@ Trait Data {
         if(empty($roles)){
             throw new Exception('Roles failed...');
         }
+
+        /*
+        if(
+            method_exists($node, 'setObject') &&
+            method_exists($node, 'getObject')
+        ){
+            $test = $node->getObject();
+            if(empty($test)){
+                $node->setObject($object);
+            }
+        }
+
         if(is_array($entity)){
             ddd($entity);
         }
