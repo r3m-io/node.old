@@ -285,8 +285,11 @@ Trait Data {
             foreach($options as $key => $value){
                 $one['filter'][$key] = $value;
             }
+            d($one);
             $data = $this->one($class, $one);
-            return $data->data();
+            if($data){
+                return $data->data();
+            }
         } else {
             return false;
         }
