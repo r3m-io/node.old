@@ -697,6 +697,9 @@ Trait Data {
     public function sync()
     {
         $object = $this->object();
+        $options = $object->options();
+        ddd($options);
+
 
         $url_object = $object->config('project.dir.data') .
             'Node' .
