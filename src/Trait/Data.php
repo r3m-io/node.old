@@ -283,6 +283,21 @@ Trait Data {
         $one['sort']['name'] = 'asc';
         if(is_array($options)){
             foreach($options as $key => $value){
+                if(strpos($value, '(int)') !== false){
+                    $value = str_replace('(int)', '', $value) + 0;
+                }
+                elseif(strpos($value, '(float)') !== false){
+                    $value = str_replace('(float)', '', $value) + 0;
+                }
+                elseif(strpos($value, '(bool)') !== false){
+                    $value = (bool) str_replace('(bool)', '', $value);
+                }
+                elseif(strpos($value, '(array)') !== false){
+                    $value = (array) str_replace('(array)', '', $value);
+                }
+                elseif(strpos($value, '(object)') !== false){
+                    $value = (object) str_replace('(object)', '', $value);
+                }
                 $one['filter'][$key] = $value;
             }
             d($one);
@@ -290,9 +305,8 @@ Trait Data {
             if($data){
                 return $data->data();
             }
-        } else {
-            return false;
         }
+        return false;
     }
 
     public function patch($class, $options=[]): false|array|object
