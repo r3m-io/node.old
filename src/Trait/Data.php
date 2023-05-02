@@ -701,7 +701,7 @@ Trait Data {
         if(property_exists($options, 'class')){
             $options->class = explode(',', $options->class);
             foreach($options->class as $nr => $class){
-                $options->class[$nr] = trim($class);
+                $options->class[$nr] = Controller::name(trim($class));
             }
         }
         ddd($options);
