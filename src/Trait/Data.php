@@ -704,13 +704,9 @@ Trait Data {
             'Object' .
             $object->config('ds')
         ;
-
-        $role = $this->read('Role', [
-            'name' => 'ROLE_SYSTEM'
-        ]);
-        ddd($role);
-
-
+        $exception = [
+            'Role'
+        ];
         $dir = new Dir();
         $read = $dir->read($url_object);
         if(empty($read)){
@@ -718,6 +714,14 @@ Trait Data {
         }
         foreach ($read as $file) {
             $class = File::basename($file->name, $object->config('extension.json'));
+            if(in_array($class, $exception, 1)){
+
+            } else {
+                $role = $this->read('Role', [
+                    'name' => 'ROLE_SYSTEM'
+                ]);
+                ddd($role);
+            }
             $item = $object->data_read($file->url);
             $expose = $this->expose_get(
                 $object,
@@ -825,19 +829,19 @@ Trait Data {
                                     $object->config('extension.json');
                                 $record = $object->data_read($storage_url);
                                 if ($record) {
-                                    $record = $this->expose(
-                                        $object,
-                                        $record,
-                                        $expose,
-                                        $class,
-                                        __FUNCTION__,
-                                        $role
-                                    );
-                                    ddd($record);
-
-
-                                    //add filter for big fat objects
-                                    $list->set($uuid, $record->data());
+                                    if(in_array($class, $exception, true)){
+                                        $list->set($uuid, $record->data());
+                                    } else {
+                                        $record = $this->expose(
+                                            $object,
+                                            $record,
+                                            $expose,
+                                            $class,
+                                            __FUNCTION__,
+                                            $role
+                                        );
+                                        ddd($record);
+                                    }
                                 } else {
                                     //event out of sync, send mail
                                 }
