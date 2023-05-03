@@ -2,7 +2,7 @@
 {{$options = options()}}
 {{if($options.format === 'json')}}
 {{else}}
-Read Node:
+Read Role:
 
 {{/if}}
 {{dd('{$this}')}}
