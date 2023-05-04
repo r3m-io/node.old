@@ -66,4 +66,11 @@ class Role {
         return $this->rank;
     }
 
+    public function permissions(){
+        $permissions = [
+
+        ];
+        return $permissions;
+    }
+
 }

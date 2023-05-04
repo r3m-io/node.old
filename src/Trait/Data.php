@@ -825,8 +825,6 @@ Trait Data {
                     ]
                 ]);
                 $role = Role::create($role);
-                ddd($role);
-
                 $expose = $this->expose_get(
                     $object,
                     $class,
@@ -1194,13 +1192,22 @@ Trait Data {
         if(empty($roles)){
             throw new Exception('Roles failed...');
         }
+        d($class);
+        d($function);
         foreach($roles as $role) {
-            $permissions = $role->getPermissions();
+            $permissions = $role->permissions();
             foreach ($permissions as $permission) {
                 if (is_array($permission)) {
                     ddd($permission);
                 }
                 foreach ($expose as $action) {
+                    if(
+                        property_exists($permission, 'name') &&
+                        $permission->name === $class . '.' . $function &&
+                        $action->role === $role->name()
+                    ){
+                        ddd('found');
+                    }
                     /*
                     if(
                         (
