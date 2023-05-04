@@ -564,6 +564,7 @@ Trait Data {
         $options['page'] = 1;
         $list = $this->list($class, $options);
         if(
+            is_array($list) &&
             array_key_exists('list', $list) &&
             array_key_exists(0, $list['list'])
         ){
