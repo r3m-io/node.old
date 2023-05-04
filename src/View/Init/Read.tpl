@@ -5,7 +5,6 @@
 Read Init:
 
 {{/if}}
-{{dd('{{$this}}')}}
 {{$class = R3m.Io.Node:Data:module($r3m.io.parse.url)}}
 {{if(is.empty($options.uuid))}}
 You can use list to get the uuid.
