@@ -932,7 +932,6 @@ Trait Data {
                                     $object->config('extension.json');
                                 $record = $object->data_read($storage_url);
                                 if ($record) {
-                                    ddd($record);
                                     if(in_array($class, $exception, true)){
                                         $list->set($uuid, $record->data());
                                     }
@@ -1175,8 +1174,6 @@ Trait Data {
             return false;
         }
         $debug = debug_backtrace(true);
-        d($debug[0]);
-        d($debug[1]);
         d($expose);
         ddd($record);
 
