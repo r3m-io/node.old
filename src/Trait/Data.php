@@ -1170,7 +1170,7 @@ Trait Data {
      * @throws Exception
      * @throws AuthorizationException
      */
-    public static function expose(App $object, $record, $expose=[], $class='', $function='', $internalRole=false, $parentScope=false): array
+    public static function expose(App $object, $record, $expose=[], $class='', $function='', $internalRole=false, $parentScope=false): Data
     {
         if(!is_array($expose)){
             return false;
