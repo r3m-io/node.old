@@ -132,6 +132,7 @@ Trait Data {
                 $node->set('url', $url);
                 $node->set('uuid', $uuid);
                 $list[] = $node->data();
+                d($list);
                 $list = Sort::list($list)->with([
                     'uuid' => 'ASC',
                 ], [
