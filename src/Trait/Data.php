@@ -119,13 +119,6 @@ Trait Data {
                     $binarySearch = new Storage();
                 }
                 $list = $binarySearch->data($class);
-                $result = [];
-                if(!empty($list)){
-                    foreach($list as $uuid => $record){
-                        $result[] = $record;
-                    }
-                }
-                $list = $result;
                 if(empty($list)){
                     $list = [];
                 }
