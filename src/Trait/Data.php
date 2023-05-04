@@ -1192,6 +1192,7 @@ Trait Data {
         if(empty($roles)){
             throw new Exception('Roles failed...');
         }
+        dd($record);
         d($class);
         d($function);
         foreach($roles as $role) {
