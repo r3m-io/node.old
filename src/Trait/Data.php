@@ -159,7 +159,6 @@ Trait Data {
                 $meta->set('Sort.' . $class . '.' . $key . '.url.asc', $binary_search_url);
                 $meta->write($meta_url);
                 $node->write($url);
-                ddd($node);
                 if($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
                     $command = 'chmod 666 ' . $url;
                     exec($command);

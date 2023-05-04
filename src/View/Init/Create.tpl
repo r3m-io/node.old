@@ -1,13 +1,13 @@
 {{R3M}}
 Create Init:
-{{$flag = terminal.readline('Flag: ')}}
+{{$name = terminal.readline('Name: ')}}
 {{$controller = terminal.readline('Controller: ')}}
 {{$priority = (int) terminal.readline('Priority (10): ')}}
 {{if(is.empty($priority))}}
 {{$priority = 10}}
 {{/if}}
 {{$response = R3m.Io.Node:Data:create('Init', [
-'flag' => $flag,
+'name' => $name,
 'controller' => $controller,
 'priority' => $priority
 ])}}
