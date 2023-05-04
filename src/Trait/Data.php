@@ -269,7 +269,7 @@ Trait Data {
 
     public function module($url=''){
         $object = $this->object();
-        $explode = explode('/', File::basename($url, $object->config('extension.tpl')));
+        $explode = explode('/', $url);
 
 
         ddd($explode);
