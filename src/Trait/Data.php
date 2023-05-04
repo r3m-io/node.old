@@ -140,10 +140,12 @@ Trait Data {
                 $binarySearch->delete($class);
                 $binarySearch->data($class, $list);
                 $count = 0;
+                d($list);
                 foreach($binarySearch->data($class) as $record){
                     $record->{'#index'} = $count;
                     $count++;
                 }
+                ddd($list);
                 $lines = $binarySearch->write($binary_search_url, 'lines');
                 if($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
                     $command = 'chmod 666 ' . $binary_search_url;
