@@ -254,7 +254,6 @@ Trait BinarySearch {
                 'search' => [],
                 'url' => $options['url'],
             ]);
-            ddd($record);
             if($record){
                 $read = $object->data_read($record->{'#read'}->url, sha1($record->{'#read'}->url));
                 if($read){
@@ -266,6 +265,7 @@ Trait BinarySearch {
                 elseif(!empty($options['where'])){
                     $record = $this->where($record, $options['where'], $options);
                 }
+                ddd($record);
                 if($record){
                     $record->{'#index'} = $record_index;
                     $page[] = $record;
