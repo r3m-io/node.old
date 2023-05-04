@@ -563,9 +563,11 @@ Trait Data {
         $options['limit'] = 1;
         $options['page'] = 1;
         $list = $this->list($class, $options);
-        d($list);
-        if(array_key_exists(0, $list)){
-            return $list[0];
+        if(
+            array_key_exists('list', $list) &&
+            array_key_exists(0, $list['list'])
+        ){
+            return $list['list'][0];
         }
         return null;
     }
