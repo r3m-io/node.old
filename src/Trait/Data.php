@@ -823,25 +823,11 @@ Trait Data {
                         'name' => 'ASC'
                     ]
                 ]);
-                /*
-                $role = $this->read('Role', [
-                    'filter' => [
-                        'name' => 'ROLE_SYSTEM'
-                    ],
-                    'sort' => [
-                        'name' => 'ASC'
-                    ],
-                ]);
-                */
-                ddd($role);
-                /*
                 $expose = $this->expose_get(
                     $object,
                     $class,
                     $class . '.' . __FUNCTION__ . '.expose'
                 );
-                ddd($role);
-                */
             }
             $item = $object->data_read($file->url);
 
