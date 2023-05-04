@@ -270,9 +270,45 @@ Trait Data {
     public function module($url=''){
         $object = $this->object();
         $explode = explode('/', str_replace($object->config('controller.dir.view'), '', $url));
+        foreach($explode as $nr => $record){
+            $explode[$nr] = File::basename($record, $object->config('extension.tpl'));
+        }
+        if(array_key_exists(0, $explode)){
+            return $explode[0];
+        }
+    }
 
+    public function submodule($url=''){
+        $object = $this->object();
+        $explode = explode('/', str_replace($object->config('controller.dir.view'), '', $url));
+        foreach($explode as $nr => $record){
+            $explode[$nr] = File::basename($record, $object->config('extension.tpl'));
+        }
+        if(array_key_exists(1, $explode)){
+            return $explode[1];
+        }
+    }
 
-        ddd($explode);
+    public function command($url=''){
+        $object = $this->object();
+        $explode = explode('/', str_replace($object->config('controller.dir.view'), '', $url));
+        foreach($explode as $nr => $record){
+            $explode[$nr] = File::basename($record, $object->config('extension.tpl'));
+        }
+        if(array_key_exists(2, $explode)){
+            return $explode[2];
+        }
+    }
+
+    public function subcommand($url=''){
+        $object = $this->object();
+        $explode = explode('/', str_replace($object->config('controller.dir.view'), '', $url));
+        foreach($explode as $nr => $record){
+            $explode[$nr] = File::basename($record, $object->config('extension.tpl'));
+        }
+        if(array_key_exists(3, $explode)){
+            return $explode[3];
+        }
     }
 
     /**

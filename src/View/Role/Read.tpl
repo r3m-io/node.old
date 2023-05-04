@@ -5,7 +5,6 @@
 Read Role:
 
 {{/if}}
-{{dd('{$this}')}}
 {{$class = 'Role'}}
 {{$read.options = (clone) $options}}
 {{if(is.empty($options.uuid))}}
