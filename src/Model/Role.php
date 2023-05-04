@@ -68,7 +68,11 @@ class Role {
 
     public function permissions(){
         $permissions = [
-
+            [
+                'name' => 'Event.sync',
+                'attributes' => [],
+                'role' => 'ROLE_SYSTEM'
+            ]
         ];
         return $permissions;
     }
