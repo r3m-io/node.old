@@ -280,9 +280,10 @@ Trait Data {
                 'uuid' => 'asc'
             ],
             'filter' => [
-                'operator' => '===',
-                'attribute' => 'uuid',
-                'value' => $options['uuid'],
+                "uuid" => [
+                    'operator' => '===',
+                    'value' => $options['uuid'],
+                ]
             ]
         ];
         d($class);
@@ -526,7 +527,6 @@ Trait Data {
                 return false;
             }
             $lines = $meta->get('Sort.' . $class . '.' . $sort_key . '.lines');
-            ddd($lines);
             $list = [];
             if (
                 File::exist($url) &&
