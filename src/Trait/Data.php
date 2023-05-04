@@ -137,7 +137,6 @@ Trait Data {
                 ], [
                     'key_reset' => true,
                 ]);
-                ddd($list);
                 $binarySearch->delete($class);
                 $binarySearch->data($class, $list);
                 $count = 0;
