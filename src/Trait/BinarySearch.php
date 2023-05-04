@@ -254,13 +254,12 @@ Trait BinarySearch {
                 'search' => [],
                 'url' => $options['url'],
             ]);
-            d($options);
-            d($record);
             if($record){
                 $read = $object->data_read($record->{'#read'}->url, sha1($record->{'#read'}->url));
                 if($read){
                     $record = Core::object_merge($record, $read->data());
                 }
+                ddd($record);
                 if(!empty($options['filter'])){
                     $record = $this->filter($record, $options['filter'], $options);
                 }
