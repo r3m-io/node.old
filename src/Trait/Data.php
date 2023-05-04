@@ -267,50 +267,6 @@ Trait Data {
         ddd($files);
     }
 
-    public function module($url=''){
-        $object = $this->object();
-        $explode = explode('/', str_replace($object->config('controller.dir.view'), '', $url));
-        foreach($explode as $nr => $record){
-            $explode[$nr] = File::basename($record, $object->config('extension.tpl'));
-        }
-        if(array_key_exists(0, $explode)){
-            return $explode[0];
-        }
-    }
-
-    public function submodule($url=''){
-        $object = $this->object();
-        $explode = explode('/', str_replace($object->config('controller.dir.view'), '', $url));
-        foreach($explode as $nr => $record){
-            $explode[$nr] = File::basename($record, $object->config('extension.tpl'));
-        }
-        if(array_key_exists(1, $explode)){
-            return $explode[1];
-        }
-    }
-
-    public function command($url=''){
-        $object = $this->object();
-        $explode = explode('/', str_replace($object->config('controller.dir.view'), '', $url));
-        foreach($explode as $nr => $record){
-            $explode[$nr] = File::basename($record, $object->config('extension.tpl'));
-        }
-        if(array_key_exists(2, $explode)){
-            return $explode[2];
-        }
-    }
-
-    public function subcommand($url=''){
-        $object = $this->object();
-        $explode = explode('/', str_replace($object->config('controller.dir.view'), '', $url));
-        foreach($explode as $nr => $record){
-            $explode[$nr] = File::basename($record, $object->config('extension.tpl'));
-        }
-        if(array_key_exists(3, $explode)){
-            return $explode[3];
-        }
-    }
-
     /**
      * @throws ObjectException
      * @throws FileWriteException
@@ -319,42 +275,20 @@ Trait Data {
     {
 //        $name = Controller::name($class);
         $options = Core::object($options, Core::OBJECT_ARRAY);
-        $object = $this->object();
-
-        ddd($options);
-
-
-        $one = [];
-        $one['sort']['name'] = 'asc';
-        if(is_array($options)){
-            foreach($options as $key => $value){
-                if(strpos($value, '(int)') !== false){
-                    $value = trim(str_replace('(int)', '', $value)) + 0;
-                }
-                elseif(strpos($value, '(float)') !== false){
-                    $value = (float) trim(str_replace('(float)', '', $value)) + 0;
-                }
-                elseif(strpos($value, '(string)') !== false){
-                    $value = trim(str_replace('(bool)', '', $value));
-                }
-                elseif(strpos($value, '(bool)') !== false){
-                    $value = (bool) trim(str_replace('(bool)', '', $value));
-                }
-                elseif(strpos($value, '(array)') !== false){
-                    $value = (array) trim(str_replace('(array)', '', $value));
-                }
-                elseif(strpos($value, '(object)') !== false){
-                    $value = (object) trim(str_replace('(object)', '', $value));
-                }
-                $one['filter'][$key] = [
-                    'operator' => '===',
-                    'value' => $value
-                ];
-            }
-            $data = $this->one($class, $one);
-            if($data){
-                return $data->data();
-            }
+        $one = [
+            'sort' => [
+                'uuid' => 'asc'
+            ],
+            'filter' => [
+                'operator' => '===',
+                'attribute' => 'uuid',
+                'value' => $options['uuid'],
+            ]
+        ];
+        $data = $this->one($class, $one);
+        ddd($data);
+        if($data){
+            return $data->data();
         }
         return false;
     }
@@ -1480,6 +1414,50 @@ Trait Data {
                     exec($command);
                 }
             }
+        }
+    }
+
+    public function module($url=''){
+        $object = $this->object();
+        $explode = explode('/', str_replace($object->config('controller.dir.view'), '', $url));
+        foreach($explode as $nr => $record){
+            $explode[$nr] = File::basename($record, $object->config('extension.tpl'));
+        }
+        if(array_key_exists(0, $explode)){
+            return $explode[0];
+        }
+    }
+
+    public function submodule($url=''){
+        $object = $this->object();
+        $explode = explode('/', str_replace($object->config('controller.dir.view'), '', $url));
+        foreach($explode as $nr => $record){
+            $explode[$nr] = File::basename($record, $object->config('extension.tpl'));
+        }
+        if(array_key_exists(1, $explode)){
+            return $explode[1];
+        }
+    }
+
+    public function command($url=''){
+        $object = $this->object();
+        $explode = explode('/', str_replace($object->config('controller.dir.view'), '', $url));
+        foreach($explode as $nr => $record){
+            $explode[$nr] = File::basename($record, $object->config('extension.tpl'));
+        }
+        if(array_key_exists(2, $explode)){
+            return $explode[2];
+        }
+    }
+
+    public function subcommand($url=''){
+        $object = $this->object();
+        $explode = explode('/', str_replace($object->config('controller.dir.view'), '', $url));
+        foreach($explode as $nr => $record){
+            $explode[$nr] = File::basename($record, $object->config('extension.tpl'));
+        }
+        if(array_key_exists(3, $explode)){
+            return $explode[3];
         }
     }
 }
