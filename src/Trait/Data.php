@@ -558,6 +558,20 @@ Trait Data {
     /**
      * @throws ObjectException
      * @throws FileWriteException
+     */
+    public function record($class='', $options=[]){
+        $options['limit'] =1;
+        $options['page'] = 1;
+        $list = $this->list($class, $options);
+        if(array_key_exists(0, $list)){
+            return $list[0];
+        }
+        return null;
+    }
+
+    /**
+     * @throws ObjectException
+     * @throws FileWriteException
      * @throws Exception
      */
     public function list($class='', $options=[]): false|array
@@ -797,15 +811,13 @@ Trait Data {
             if(in_array($class, $exception, 1)){
 
             } else {
-                $roles = $this->list('Role', [
+                $role = $this->record('Role', [
                     'filter' => [
                         'name' => 'ROLE_SYSTEM'
                     ],
                     'sort' => [
                         'name' => 'ASC'
-                    ],
-                    'limit' => 1,
-                    'page' => 1
+                    ]
                 ]);
                 /*
                 $role = $this->read('Role', [
@@ -817,7 +829,7 @@ Trait Data {
                     ],
                 ]);
                 */
-                ddd($roles);
+                ddd($role);
                 /*
                 $expose = $this->expose_get(
                     $object,
