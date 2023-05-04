@@ -7,7 +7,6 @@ Read Init:
 {{/if}}
 {{dd('{$this}')}}
 {{$class = 'Init'}}
-{{$read.options = (clone) $options}}
 {{if(is.empty($options.uuid))}}
 You can use list to get the uuid.
 {{$options.uuid = terminal.readline('Uuid: ')}}
