@@ -4,6 +4,7 @@ namespace R3m\Io\Node\Model;
 
 class Role {
 
+    private $uuid;
     private $name;
     private $rank;
 
@@ -26,7 +27,7 @@ class Role {
 
     private function getUuid(): string
     {
-        return $this->name;
+        return $this->uuid;
     }
 
     public function name($name=null): string
