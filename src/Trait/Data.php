@@ -119,12 +119,19 @@ Trait Data {
                     $binarySearch = new Storage();
                 }
                 $list = $binarySearch->data($class);
+                $result = [];
+                if(!empty($list)){
+                    foreach($list as $uuid => $record){
+                        $result[] = $record;
+                    }
+                }
+                $list = $result;
                 if(empty($list)){
                     $list = [];
                 }
                 $node->set('url', $url);
                 $node->set('uuid', $uuid);
-                $list[] = $node;
+                $list[] = $node->data();
                 $list = Sort::list($list)->with([
                     'uuid' => 'ASC',
                 ], [
