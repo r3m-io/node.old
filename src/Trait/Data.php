@@ -1170,7 +1170,7 @@ Trait Data {
      * @throws Exception
      * @throws AuthorizationException
      */
-    public static function expose(App $object, $record, $expose=[], $class='', $function='', $internalRole=false, $parentScope=false): Data
+    public static function expose(App $object, $record, $expose=[], $class='', $function='', $internalRole=false, $parentScope=false): Storage
     {
         if(!is_array($expose)){
             return false;
@@ -1192,7 +1192,6 @@ Trait Data {
         if(empty($roles)){
             throw new Exception('Roles failed...');
         }
-        dd($record);
         d($class);
         d($function);
         foreach($roles as $role) {
