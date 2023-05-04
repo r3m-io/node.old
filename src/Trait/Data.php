@@ -1173,7 +1173,7 @@ Trait Data {
         if(!is_array($expose)){
             return false;
         }
-        $debug = debug_backtrace(true);
+        d($internalRole);
         d($expose);
         ddd($record);
 
