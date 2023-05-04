@@ -2,7 +2,7 @@
 {{$options = options()}}
 {{if($options.format === 'json')}}
 {{else}}
-Read Init:
+Read {{R3m.Io.Node:Data:module($r3m.io.parse.url)}}:
 
 {{/if}}
 {{$class = R3m.Io.Node:Data:module($r3m.io.parse.url)}}
