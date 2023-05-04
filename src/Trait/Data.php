@@ -285,6 +285,8 @@ Trait Data {
                 'value' => $options['uuid'],
             ]
         ];
+        d($class);
+        d($one);
         $data = $this->one($class, $one);
         ddd($data);
         if($data){
