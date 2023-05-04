@@ -118,10 +118,17 @@ Trait Data {
                 if(!$binarySearch){
                     $binarySearch = new Storage();
                 }
-//                $binarySearch->set($class . '.' . $uuid . '.url', $url);
-                $binarySearch->set($class . '.' . $uuid . '.uuid', $uuid);
-                $list = Sort::list($binarySearch->data($class))->with([
-                    'uuid' => 'ASC'
+                $list = $binarySearch->data($class);
+                if(empty($list)){
+                    $list = [];
+                }
+                $node->set('url', $url);
+                $node->set('uuid', $uuid);
+                $list[] = $node;
+                $list = Sort::list($list)->with([
+                    'uuid' => 'ASC',
+                ], [
+                    'key_reset' => true,
                 ]);
                 $binarySearch->delete($class);
                 $binarySearch->data($class, $list);
@@ -145,9 +152,7 @@ Trait Data {
                 }
                 $property = [];
                 $property[] = 'uuid';
-
                 $key = sha1(Core::object($property, Core::OBJECT_JSON));
-
                 $meta->set('Sort.' . $class . '.' . $key . '.property', $property);
                 $meta->set('Sort.' . $class . '.' . $key . '.lines', $lines);
                 $meta->set('Sort.' . $class . '.' . $key . '.count', $count);
