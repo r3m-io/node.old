@@ -267,6 +267,10 @@ Trait Data {
         ddd($files);
     }
 
+    public function module($url=''){
+        ddd($url);
+    }
+
     /**
      * @throws ObjectException
      * @throws FileWriteException
