@@ -797,9 +797,27 @@ Trait Data {
             if(in_array($class, $exception, 1)){
 
             } else {
-                $role = $this->read('Role', [
-                    'name' => 'ROLE_SYSTEM'
+                $roles = $this->list('Role', [
+                    'filter' => [
+                        'name' => 'ROLE_SYSTEM'
+                    ],
+                    'sort' => [
+                        'name' => 'ASC'
+                    ],
+                    'limit' => 1,
+                    'page' => 1
                 ]);
+                /*
+                $role = $this->read('Role', [
+                    'filter' => [
+                        'name' => 'ROLE_SYSTEM'
+                    ],
+                    'sort' => [
+                        'name' => 'ASC'
+                    ],
+                ]);
+                */
+                ddd($roles);
                 $expose = $this->expose_get(
                     $object,
                     $class,
