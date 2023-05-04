@@ -818,12 +818,14 @@ Trait Data {
                 ]);
                 */
                 ddd($roles);
+                /*
                 $expose = $this->expose_get(
                     $object,
                     $class,
                     $class . '.' . __FUNCTION__ . '.expose'
                 );
                 ddd($role);
+                */
             }
             $item = $object->data_read($file->url);
 
