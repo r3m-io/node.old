@@ -132,7 +132,6 @@ Trait Data {
                 $node->set('url', $url);
                 $node->set('uuid', $uuid);
                 $list[] = $node->data();
-                d($list);
                 $list = Sort::list($list)->with([
                     'uuid' => 'ASC',
                 ], [
@@ -141,12 +140,10 @@ Trait Data {
                 $binarySearch->delete($class);
                 $binarySearch->data($class, $list);
                 $count = 0;
-                d($list);
                 foreach($binarySearch->data($class) as $record){
                     $record->{'#index'} = $count;
                     $count++;
                 }
-                ddd($list);
                 $lines = $binarySearch->write($binary_search_url, 'lines');
                 if($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
                     $command = 'chmod 666 ' . $binary_search_url;
@@ -169,6 +166,7 @@ Trait Data {
                 $meta->set('Sort.' . $class . '.' . $key . '.url.asc', $binary_search_url);
                 $meta->write($meta_url);
                 $node->write($url);
+                ddd($node);
                 if($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
                     $command = 'chmod 666 ' . $url;
                     exec($command);
