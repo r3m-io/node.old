@@ -320,6 +320,10 @@ Trait Data {
 //        $name = Controller::name($class);
         $options = Core::object($options, Core::OBJECT_ARRAY);
         $object = $this->object();
+
+        ddd($options);
+
+
         $one = [];
         $one['sort']['name'] = 'asc';
         if(is_array($options)){
