@@ -560,9 +560,10 @@ Trait Data {
      * @throws FileWriteException
      */
     public function record($class='', $options=[]){
-        $options['limit'] =1;
+        $options['limit'] = 1;
         $options['page'] = 1;
         $list = $this->list($class, $options);
+        d($list);
         if(array_key_exists(0, $list)){
             return $list[0];
         }
