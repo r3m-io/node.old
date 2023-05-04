@@ -5,7 +5,7 @@
 Read Init:
 
 {{/if}}
-{{dd('{$this}')}}
+{{dd('{{$this}}')}}
 {{$class = 'Init'}}
 {{if(is.empty($options.uuid))}}
 You can use list to get the uuid.
