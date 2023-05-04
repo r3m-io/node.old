@@ -269,6 +269,7 @@ Trait Data {
 
     public function module($url=''){
         $object = $this->object();
+        d($object->config('controller.dir.view'));
         $explode = explode('/', $url);
 
 
