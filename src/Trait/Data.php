@@ -3,10 +3,7 @@
 namespace R3m\Io\Node\Trait;
 
 //use R3m\Io\Module\Filter;
-use R3m\Io\Module\Parse;
-use R3m\Io\Module\Parse\Token;
-use R3m\Io\Node\Service\Permission;
-use R3m\Io\Node\Service\User;
+
 use SplFileObject;
 use stdClass;
 
@@ -21,6 +18,10 @@ use R3m\Io\Module\Event;
 use R3m\Io\Module\File;
 use R3m\Io\Module\Sort;
 use R3m\Io\Module\Validate;
+use R3m\Io\Module\Parse;
+
+use R3m\Io\Node\Service\Role;
+use R3m\Io\Node\Service\User;
 
 use Exception;
 
@@ -823,6 +824,9 @@ Trait Data {
                         'name' => 'ASC'
                     ]
                 ]);
+                $role = Role::create($role);
+
+
                 $expose = $this->expose_get(
                     $object,
                     $class,
@@ -1173,10 +1177,6 @@ Trait Data {
         if(!is_array($expose)){
             return false;
         }
-        d($internalRole);
-        d($expose);
-        ddd($record);
-
         $roles = [];
         if($internalRole){
             $roles[] = $internalRole; //same as parent
@@ -1194,34 +1194,14 @@ Trait Data {
         if(empty($roles)){
             throw new Exception('Roles failed...');
         }
-
-        /*
-        if(
-            method_exists($node, 'setObject') &&
-            method_exists($node, 'getObject')
-        ){
-            $test = $node->getObject();
-            if(empty($test)){
-                $node->setObject($object);
-            }
-        }
-
-        if(is_array($entity)){
-            ddd($entity);
-        }
-        if(is_array($function)){
-            $debug = debug_backtrace(true);
-            ddd($debug[0]);
-            ddd($function);
-
-        }
-        foreach($roles as $role){
+        foreach($roles as $role) {
             $permissions = $role->getPermissions();
-            foreach ($permissions as $permission){
-                if(is_array($permission)){
+            foreach ($permissions as $permission) {
+                if (is_array($permission)) {
                     ddd($permission);
                 }
-                foreach($toArray as $action) {
+                foreach ($expose as $action) {
+                    /*
                     if(
                         (
                             $permission->getName() === $entity . '.' . $function &&
@@ -1325,10 +1305,146 @@ Trait Data {
                         }
                         break 3;
                     }
+                    */
                 }
             }
+
+
+            /*
+            if(
+                method_exists($node, 'setObject') &&
+                method_exists($node, 'getObject')
+            ){
+                $test = $node->getObject();
+                if(empty($test)){
+                    $node->setObject($object);
+                }
+            }
+
+            if(is_array($entity)){
+                ddd($entity);
+            }
+            if(is_array($function)){
+                $debug = debug_backtrace(true);
+                ddd($debug[0]);
+                ddd($function);
+
+            }
+            foreach($roles as $role){
+                $permissions = $role->getPermissions();
+                foreach ($permissions as $permission){
+                    if(is_array($permission)){
+                        ddd($permission);
+                    }
+                    foreach($toArray as $action) {
+                        if(
+                            (
+                                $permission->getName() === $entity . '.' . $function &&
+                                property_exists($action, 'scope') &&
+                                $action->scope === $permission->getScope()
+                            ) ||
+                            (
+                                in_array(
+                                    $function,
+                                    ['child', 'children']
+                                ) &&
+                                property_exists($action, 'scope') &&
+                                $action->scope === $parentScope
+                            )
+                        ) {
+                            if (
+                                property_exists($action, 'attributes') &&
+                                is_array($action->attributes)
+                            ) {
+                                foreach ($action->attributes as $attribute) {
+                                    $assertion = $attribute;
+                                    $explode = explode(':', $attribute, 2);
+                                    $compare = null;
+                                    if (array_key_exists(1, $explode)) {
+                                        $methods = explode('_', $explode[0]);
+                                        foreach ($methods as $nr => $method) {
+                                            $methods[$nr] = ucfirst($method);
+                                        }
+                                        $method = 'get' . implode($methods);
+                                        $compare = $explode[1];
+                                        $attribute = $explode[0];
+                                        if ($compare) {
+                                            $parse = new Parse($object, $object->data());
+                                            $compare = $parse->compile($compare, $object->data());
+                                            if ($node->$method() !== $compare) {
+                                                throw new Exception('Assertion failed: ' . $assertion . ' values [' . $node->$method() . ', ' . $compare . ']');
+                                            }
+                                        }
+                                    } else {
+                                        $methods = explode('_', $attribute);
+                                        foreach ($methods as $nr => $method) {
+                                            $methods[$nr] = ucfirst($method);
+                                        }
+                                        $method = 'get' . implode($methods);
+                                    }
+                                    if (
+                                        property_exists($action, 'objects') &&
+                                        property_exists($action->objects, $attribute) &&
+                                        property_exists($action->objects->$attribute, 'toArray')
+                                    ) {
+                                        if (
+                                            property_exists($action->objects->$attribute, 'multiple') &&
+                                            $action->objects->$attribute->multiple === true &&
+                                            method_exists($node, $method)
+                                        ) {
+                                            $record[$attribute] = [];
+                                            $array = $node->$method();
+                                            foreach ($array as $child) {
+                                                $child_entity = explode('Entity\\', get_class($child));
+                                                $child_record = [];
+                                                $child_record = $this->expose(
+                                                    $object,
+                                                    $child,
+                                                    $action->objects->$attribute->toArray,
+                                                    $child_entity[1],
+                                                    'children',
+                                                    $child_record,
+                                                    $role,
+                                                    $action->scope
+                                                );
+                                                $record[$attribute][] = $child_record;
+                                            }
+                                        } elseif (
+                                            method_exists($node, $method)
+                                        ) {
+                                            $record[$attribute] = [];
+                                            $child = $node->$method();
+                                            if (!empty($child)) {
+                                                $child_entity = explode('Entity\\', get_class($child));
+                                                $record[$attribute] = $this->expose(
+                                                    $object,
+                                                    $child,
+                                                    $action->objects->$attribute->toArray,
+                                                    $child_entity[1],
+                                                    'child',
+                                                    $record[$attribute],
+                                                    $role,
+                                                    $action->scope
+                                                );
+                                            }
+                                            if (empty($record[$attribute])) {
+                                                $record[$attribute] = null;
+                                            }
+                                        }
+                                    } else {
+                                        if (method_exists($node, $method)) {
+                                            $record[$attribute] = $node->$method();
+                                        }
+                                    }
+                                }
+                            }
+                            break 3;
+                        }
+                    }
+                }
+            }
+            */
         }
-        */
         return $record;
     }
     /**
