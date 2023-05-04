@@ -10,8 +10,9 @@
  */
 use R3m\Io\App;
 
-function validate_is_unique(App $object, $options=[])
+function validate_is_unique(App $object, $value, $options=[])
 {
+    d($value);
     ddd($options);
 
 }
