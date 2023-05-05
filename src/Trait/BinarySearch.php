@@ -264,7 +264,7 @@ Trait BinarySearch {
                     $object->config('ds') .
                     'Object' .
                     $object->config('ds') .
-                    $record->{'#class'} .
+                    ucfirst($record->{'#class'}) .
                     $object->config('extension.json')
                 ;
                 ddd($object_url);
