@@ -762,6 +762,7 @@ Trait Data {
                                 'direction' => 'next',
                                 'url' => $url
                             ]);
+                            ddd($list);
                         }
                     }
                     $result = [];
