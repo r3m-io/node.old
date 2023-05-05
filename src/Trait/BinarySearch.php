@@ -262,6 +262,7 @@ Trait BinarySearch {
                 if($read){
                     $record = Core::object_merge($record, $read->data());
                 }
+                d($record);
                 $object_url = $object->config('project.dir.data') .
                     'Node' .
                     $object->config('ds') .
@@ -271,6 +272,7 @@ Trait BinarySearch {
                     $object->config('extension.json')
                 ;
                 $object_data = $object->data_read($object_url, sha1($object_url));
+                d($object_data);
                 if($object_data){
                     $relations = $object_data->data('relation');
                     foreach($relations as $relation){
