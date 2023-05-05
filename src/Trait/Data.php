@@ -621,6 +621,7 @@ Trait Data {
                 Controller::name($property) .
                 $object->config('extension.json')
             ;
+            d($url);
             if(!File::exist($url)){
                 return false;
             }
