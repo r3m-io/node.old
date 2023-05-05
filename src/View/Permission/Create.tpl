@@ -5,7 +5,11 @@ Create {{$class}}:
 {{while(true)}}
 {{$role = string.trim(terminal.readline('Role: '))}}
 {{$role = R3m.Io.Node:Data:record('Role', [
-'where' => 'name partial ' + $role,
+'where' => [
+    'attribute' => 'name',
+    'value' => $role,
+    'operator' => 'partial'
+],
 'sort' => [
     'name' => 'ASC'
 ]
