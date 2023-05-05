@@ -302,26 +302,37 @@ Trait Data {
         return false;
     }
 
+    /**
+     * @throws ObjectException
+     * @throws FileWriteException
+     */
     public function patch($class, $options=[]): false|array|object
     {
-        d($class);
-        ddd($options);
         $name = Controller::name($class);
         $object = $this->object();
-        $node = new Storage( (object) $options);
-        $dir_node = $object->config('project.dir.data') .
-            'Node' .
-            $object->config('ds')
-        ;
-        $dir_class = $dir_node .
-            $name .
-            $object->config('ds')
-        ;
-        $url = $dir_class . 'Data.json';
+        $node = $this->record($name, [
+            'filter' => [
+                'uuid' => $options['uuid'] ?? false
+            ],
+            'sort' => [
+                'uuid' => 'ASC'
+            ],
+            'relation' => [
+                'permission:uuid'
+            ]
+        ]);
+        ddd($node);
+        /*
         $data = $object->data_read($url);
         if(!$data){
             return false;
         }
+        */
+
+
+
+
+
         $list = $data->get($class);
         if(empty($list)){
             $list = [];
