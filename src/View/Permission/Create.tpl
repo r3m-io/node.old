@@ -9,7 +9,7 @@ Create {{$class}}:
 [
 'attribute' => 'name',
 'value' => $role,
-'operator' => '==='
+'operator' => 'partial'
 ]
 ],
 'sort' => [
