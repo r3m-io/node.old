@@ -608,24 +608,21 @@ Trait Where {
             return $record;
         }
         $deepest = $this->where_get_depth($where);
-        d($deepest);
         $counter =0;
         while($deepest >= 0){
             if($counter > 1024){
                 break;
             }
             $set = $this->where_get_set($where, $key, $deepest);
-            d($set);
             while($record !== false){
                 $set = $this->where_process($record, $set, $where, $key, $operator, $options);
                 if(empty($set) && $deepest === 0){
                     return $record;
                 }
                 $count_set = count($set);
-                d($set);
-                d($count_set);
                 if($count_set === 1){
                     if($operator === null && $set[0] === true){
+                        d('yes');
                         break;
                     } else {
                         if($deepest === 0){
