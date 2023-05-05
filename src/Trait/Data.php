@@ -621,7 +621,6 @@ Trait Data {
                 Controller::name($property) .
                 $object->config('extension.json')
             ;
-            d($url);
             if(!File::exist($url)){
                 return false;
             }
@@ -705,7 +704,6 @@ Trait Data {
                 }
                 elseif(!empty($options['where'])){
                     $options['where'] = $this->where_convert($options['where']);
-                    d($options);
                     $key = [
                         'where' => $options['where'],
                         'sort' => $options['sort']
