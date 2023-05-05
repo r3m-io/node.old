@@ -255,10 +255,7 @@ Trait BinarySearch {
                 'url' => $options['url'],
             ]);
             if(
-                $record &&
-                property_exists($record, '#read') &&
-                property_exists($record->{'#read'}, 'url') &&
-                property_exists($record, '#class')
+                $record
             ){
                 $read = $object->data_read($record->{'#read'}->url, sha1($record->{'#read'}->url));
                 if($read){
