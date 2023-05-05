@@ -34,5 +34,13 @@ Create {{$class}}:
 'attributes' => $attributes,
 'role' => $role.uuid
 ])}}
+{{if(is.empty($role.permissions))}}
+{{$role.permissions = []}}
+{{/if}}
+{{$role.permissions[] = $response.node.uuid}}
+{{$role = R3m.Io.Node:Data:patch('Role', [
+'uuid' => $role.uuid,
+'permissions' => $role.permissions
+])}}
 {{$response|json.encode:'JSON_PRETTY_PRINT'}}
 

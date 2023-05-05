@@ -304,6 +304,8 @@ Trait Data {
 
     public function patch($class, $options=[]): false|array|object
     {
+        d($class);
+        ddd($options);
         $name = Controller::name($class);
         $object = $this->object();
         $node = new Storage( (object) $options);
@@ -482,6 +484,7 @@ Trait Data {
      */
     public function one($class='', $options=[]): false|Storage
     {
+        ddd('deprecated');
         $name = Controller::name($class);
         $options = Core::object($options, Core::OBJECT_ARRAY);
         $function = __FUNCTION__;
