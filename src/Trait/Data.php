@@ -539,15 +539,19 @@ Trait Data {
                 $lines > 0
             ) {
                 $file = new SplFileObject($url);
-                $list = $this->binary_search_page($object, $file, [
-                    'filter' => $options['filter'],
-                    'limit' => 1,
-                    'page' => 1,
-                    'lines' => $lines,
-                    'counter' => 0,
-                    'direction' => 'next',
-                    'url' => $url
-                ]);
+                $list = $this->binary_search_page(
+                    $object,
+                    $file,
+                    [
+                        'filter' => $options['filter'],
+                        'limit' => 1,
+                        'page' => 1,
+                        'lines' => $lines,
+                        'counter' => 0,
+                        'direction' => 'next',
+                        'url' => $url
+                    ]
+                );
             }
             if(array_key_exists(0, $list)){
                 return new Storage($list[0]);
@@ -664,16 +668,20 @@ Trait Data {
                     ){
                         $file = new SplFileObject($filter_url);
                         $options['filter']['#key'] = $key;
-                        $list = $this->binary_search_page($object, $file, [
-                            'filter' => $options['filter'],
-                            'page' => $options['page'],
-                            'limit' => $options['limit'],
-                            'lines'=> $lines,
-                            'counter' => 0,
-                            'direction' => 'next',
-                            'url' => $filter_url,
-                            'debug' => true
-                        ]);
+                        $list = $this->binary_search_page(
+                            $object,
+                            $file,
+                            [
+                                'filter' => $options['filter'],
+                                'page' => $options['page'],
+                                'limit' => $options['limit'],
+                                'lines'=> $lines,
+                                'counter' => 0,
+                                'direction' => 'next',
+                                'url' => $filter_url,
+                                'debug' => true
+                            ]
+                        );
                     } else {
                         $sort_key = sha1(Core::object($properties, Core::OBJECT_JSON));
                         $lines = $meta->get('Sort.' . $class . '.' . $sort_key . '.lines');
@@ -682,15 +690,19 @@ Trait Data {
                             $lines > 0
                         ){
                             $file = new SplFileObject($url);
-                            $list = $this->binary_search_page($object, $file, [
-                                'filter' => $options['filter'],
-                                'page' => $options['page'],
-                                'limit' => $options['limit'],
-                                'lines'=> $lines,
-                                'counter' => 0,
-                                'direction' => 'next',
-                                'url' => $url
-                            ]);
+                            $list = $this->binary_search_page(
+                                $object,
+                                $file,
+                                [
+                                    'filter' => $options['filter'],
+                                    'page' => $options['page'],
+                                    'limit' => $options['limit'],
+                                    'lines'=> $lines,
+                                    'counter' => 0,
+                                    'direction' => 'next',
+                                    'url' => $url
+                                ]
+                            );
                         }
 
                     }
@@ -733,7 +745,8 @@ Trait Data {
                             'attribute' => '#key',
                             'operator' => '==='
                         ];
-                        $list = $this->binary_search_page($object,
+                        $list = $this->binary_search_page(
+                            $object,
                             $file,
                             [
                                 'where' => $where,
@@ -754,7 +767,8 @@ Trait Data {
                             $lines > 0
                         ){
                             $file = new SplFileObject($url);
-                            $list = $this->binary_search_page($object,
+                            $list = $this->binary_search_page(
+                                $object,
                                 $file,
                                 [
                                     'where' => $options['where'],
