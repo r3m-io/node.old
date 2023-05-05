@@ -254,6 +254,8 @@ Trait BinarySearch {
                 'search' => [],
                 'url' => $options['url'],
             ]);
+            d($options['url']);
+            d($i);
             d($record);
             if(
                 $record
