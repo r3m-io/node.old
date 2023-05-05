@@ -254,7 +254,12 @@ Trait BinarySearch {
                 'search' => [],
                 'url' => $options['url'],
             ]);
-            if($record){
+            if(
+                $record &&
+                property_exists($record, '#read') &&
+                property_exists($record->{'#read'}, 'url') &&
+                property_exists($record, '#class')
+            ){
                 $read = $object->data_read($record->{'#read'}->url, sha1($record->{'#read'}->url));
                 if($read){
                     $record = Core::object_merge($record, $read->data());
@@ -267,6 +272,8 @@ Trait BinarySearch {
                     ucfirst($record->{'#class'}) .
                     $object->config('extension.json')
                 ;
+                $object_data = $object->data_read($object_url, sha1($object_url));
+                d($object_data);
                 ddd($object_url);
                 //need object file, so need $class
                 //load relations so we can filter / where on them
