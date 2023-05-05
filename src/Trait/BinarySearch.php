@@ -289,7 +289,7 @@ Trait BinarySearch {
                                     ddd($record);
                                 case 'one-many':
                                     if(
-                                        property_exists($record, [$relation->attribute]) &&
+                                        property_exists($record, {$relation->attribute}) &&
                                         is_array($record->{$relation->attribute})
                                     ){
                                         ddd($record);
