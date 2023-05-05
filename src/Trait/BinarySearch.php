@@ -270,8 +270,46 @@ Trait BinarySearch {
                     $object->config('extension.json')
                 ;
                 $object_data = $object->data_read($object_url, sha1($object_url));
-                d($object_data);
-                ddd($object_url);
+                if($object_data){
+                    $relations = $object_data->data('relation');
+                    foreach($relations as $relation){
+                        if(
+                            property_exists($relation, 'type') &&
+                            property_exists($relation, 'class') &&
+                            property_exists($relation, 'attribute')
+                        ){
+                            switch(strtolower($relation->type)){
+                                case 'one-one':
+                                    d($relation);
+                                    ddd($record);
+                                case 'one-many':
+                                    if(
+                                        property_exists($record, $relation->attribute) &&
+                                        is_array($record->{$relation->attribute})
+                                    ){
+                                        ddd($record);
+
+                                        /*
+                                        $relation_url = $object->config('project.dir.data') .
+                                            'Node' .
+                                            $object->config('ds') .
+                                            'Object' .
+                                            $object->config('ds') .
+                                            ucfirst($relation->class) .
+                                            $object->config('extension.json')
+                                        ;
+                                        $relation_data = $object->data_read($relation_url, sha1($relation_url));
+                                        if($relation_data){
+                                            $relation_data = $relation_data->data();
+                                            $relation_data = $relation_data->{$relation->attribute};
+                                            $record->{$relation->attribute} = $relation_data;
+                                        }
+                                        */
+                                    }
+                            }
+                        }
+                    }
+                }
                 //need object file, so need $class
                 //load relations so we can filter / where on them
                 if(!empty($options['filter'])){
