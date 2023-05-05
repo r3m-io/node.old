@@ -32,7 +32,7 @@ Create {{$class}}:
 {{$response = R3m.Io.Node:Data:create("{{$class}}", [
 'name' => $name,
 'attributes' => $attributes,
-'role' => $role
+'role' => $role.uuid
 ])}}
 {{$response|json.encode:'JSON_PRETTY_PRINT'}}
 
