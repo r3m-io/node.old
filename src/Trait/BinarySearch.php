@@ -259,7 +259,7 @@ Trait BinarySearch {
                 if($read){
                     $record = Core::object_merge($record, $read->data());
                 }
-                $object_url = $object->config('dir.data') .
+                $object_url = $object->config('project.dir.data') .
                     'Node' .
                     $object->config('ds') .
                     'Object' .
