@@ -1,31 +1,29 @@
 {{R3M}}
 {{$class = 'Permission'}}
 Create {{$class}}:
-{{$name = terminal.readline('Name: ')}}
+{{$name = string.trim(terminal.readline('Name: '))}}
 {{while(true)}}
 {{$role = terminal.readline('Role: ')}}
 {{$role = R3m.io.Node:Data:record('Role', [
 'filter' => [
-    'name' => $role
+    'name' => $role|trim
 ],
 'sort' => [
     'name' => 'ASC'
 ]
 ])}}
 {{dd($role)}}
-{{if(empty($attribute))}}
+{{if(!is.empty($role))}}
 {{break()}}
-{{else}}
-{{$attributes[] = $attribute}}
 {{/if}}
 {{/while}}
-
+{{$attributes = []}}
 {{while(true)}}
 {{$attribute = terminal.readline('Attribute: ')}}
-{{if(empty($attribute))}}
+{{if(is.empty($attribute))}}
 {{break()}}
 {{else}}
-{{$attributes[] = $attribute}}
+{{$attributes[] = $attribute|trim}}
 {{/if}}
 {{/while}}
 {{$response = R3m.Io.Node:Data:create("{{$class}}", [
