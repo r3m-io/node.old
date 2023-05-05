@@ -313,7 +313,10 @@ Trait BinarySearch {
                 //need object file, so need $class
                 //load relations so we can filter / where on them
                 if(!empty($options['filter'])){
+                    d($options);
+                    d($record);
                     $record = $this->filter($record, $options['filter'], $options);
+                    d($record);
                 }
                 elseif(!empty($options['where'])){
                     $record = $this->where($record, $options['where'], $options);
