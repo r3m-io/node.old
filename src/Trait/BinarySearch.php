@@ -254,6 +254,7 @@ Trait BinarySearch {
                 'search' => [],
                 'url' => $options['url'],
             ]);
+            d($options);
             d($record);
             if($record){
                 $read = $object->data_read($record->{'#read'}->url, sha1($record->{'#read'}->url));
