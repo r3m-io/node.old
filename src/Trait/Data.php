@@ -660,8 +660,6 @@ Trait Data {
                     return false;
                 }
                 if(!empty($options['filter'])){
-                    d($options);
-                    ddd($class);
                     $key = [
                         'filter' => $options['filter'],
                         'sort' => $options['sort']
@@ -721,6 +719,7 @@ Trait Data {
                                     'url' => $url
                                 ]
                             );
+                            ddd($list);
                         }
 
                     }
