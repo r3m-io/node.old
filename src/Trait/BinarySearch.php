@@ -266,7 +266,7 @@ Trait BinarySearch {
                 }
                 elseif(!empty($options['where'])){
                     $debug = debug_backtrace(true);
-                    ddd($debug);
+                    ddd($debug[1]);
                     d($options['where']);
                     ddd($record);
                     $record = $this->where($record, $options['where'], $options);
