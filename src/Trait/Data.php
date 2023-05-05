@@ -732,7 +732,7 @@ Trait Data {
                         $where = [];
                         $where[] = [
                             'value' => $key,
-                            'attribute' => 'key',
+                            'attribute' => '#key',
                             'operator' => '==='
                         ];
                         $list = $this->binary_search_page($file, [
