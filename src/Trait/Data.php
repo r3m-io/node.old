@@ -705,6 +705,7 @@ Trait Data {
                 }
                 elseif(!empty($options['where'])){
                     $options['where'] = $this->where_convert($options['where']);
+                    ddd($options);
                     $key = [
                         'where' => $options['where'],
                         'sort' => $options['sort']
