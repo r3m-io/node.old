@@ -263,12 +263,8 @@ Trait BinarySearch {
                     $record = $this->filter($record, $options['filter'], $options);
                 }
                 elseif(!empty($options['where'])){
-                    $debug = debug_backtrace(true);
-                    d($options['where']);
-                    ddd($record);
                     $record = $this->where($record, $options['where'], $options);
                 }
-                d($record);
                 if($record){
                     $record->{'#index'} = $record_index;
                     $page[] = $record;
