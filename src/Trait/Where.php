@@ -15,6 +15,20 @@ Trait Where {
         if(is_array($input)){
             $is_string = true;
             foreach($input as $nr => $line){
+                if(
+                    in_array(
+                        $nr,
+                        [
+                            'attribute',
+                            'value',
+                            'operator'
+                        ],
+                        true
+                    )
+                ){
+                    $is_string = false;
+                    break;
+                }
                 if(!is_string($line)){
                     $is_string = false;
                     break;
