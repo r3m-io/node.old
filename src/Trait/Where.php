@@ -15,20 +15,6 @@ Trait Where {
         if(is_array($input)){
             $is_string = true;
             foreach($input as $nr => $line){
-                if(
-                    in_array(
-                        $nr,
-                        [
-                            'attribute',
-                            'value',
-                            'operator'
-                        ],
-                        true
-                    )
-                ){
-                    $is_string = false;
-                    break;
-                }
                 if(!is_string($line)){
                     $is_string = false;
                     break;
@@ -165,8 +151,8 @@ Trait Where {
                 $value = $this->tree_record_attribute($list[$next]);
                 $list[$previous] = [
                     'attribute' => $attribute,
-                    'operator' => $operator,
-                    'value' => $value
+                    'value' => $value,
+                    'operator' => $operator
                 ];
                 unset($list[$nr]);
                 unset($list[$next]);
