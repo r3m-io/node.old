@@ -6,9 +6,11 @@ Create {{$class}}:
 {{$role = string.trim(terminal.readline('Role: '))}}
 {{$role = R3m.Io.Node:Data:record('Role', [
 'where' => [
-    'attribute' => 'name',
-    'value' => $role,
-    'operator' => '==='
+[
+'attribute' => 'name',
+'value' => $role,
+'operator' => '==='
+]
 ],
 'sort' => [
     'name' => 'ASC'
