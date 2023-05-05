@@ -539,7 +539,7 @@ Trait Data {
                 $lines > 0
             ) {
                 $file = new SplFileObject($url);
-                $list = $this->binary_search_page($file, [
+                $list = $this->binary_search_page($object, $file, [
                     'filter' => $options['filter'],
                     'limit' => 1,
                     'page' => 1,
@@ -664,7 +664,7 @@ Trait Data {
                     ){
                         $file = new SplFileObject($filter_url);
                         $options['filter']['#key'] = $key;
-                        $list = $this->binary_search_page($file, [
+                        $list = $this->binary_search_page($object, $file, [
                             'filter' => $options['filter'],
                             'page' => $options['page'],
                             'limit' => $options['limit'],
@@ -682,7 +682,7 @@ Trait Data {
                             $lines > 0
                         ){
                             $file = new SplFileObject($url);
-                            $list = $this->binary_search_page($file, [
+                            $list = $this->binary_search_page($object, $file, [
                                 'filter' => $options['filter'],
                                 'page' => $options['page'],
                                 'limit' => $options['limit'],
@@ -733,16 +733,19 @@ Trait Data {
                             'attribute' => '#key',
                             'operator' => '==='
                         ];
-                        $list = $this->binary_search_page($file, [
-                            'where' => $where,
-                            'page' => $options['page'],
-                            'limit' => $options['limit'],
-                            'lines'=> $lines,
-                            'counter' => 0,
-                            'direction' => 'next',
-                            'url' => $where_url,
-                            'debug' => true
-                        ]);
+                        $list = $this->binary_search_page($object,
+                            $file,
+                            [
+                                'where' => $where,
+                                'page' => $options['page'],
+                                'limit' => $options['limit'],
+                                'lines'=> $lines,
+                                'counter' => 0,
+                                'direction' => 'next',
+                                'url' => $where_url,
+                                'debug' => true
+                            ]
+                        );
                     } else {
                         $sort_key = sha1(Core::object($properties, Core::OBJECT_JSON));
                         $lines = $meta->get('Sort.' . $class . '.' . $sort_key . '.lines');
@@ -751,16 +754,18 @@ Trait Data {
                             $lines > 0
                         ){
                             $file = new SplFileObject($url);
-                            $list = $this->binary_search_page($file, [
-                                'where' => $options['where'],
-                                'page' => $options['page'],
-                                'limit' => $options['limit'],
-                                'lines'=> $lines,
-                                'counter' => 0,
-                                'direction' => 'next',
-                                'url' => $url
-                            ]);
-                            ddd($list);
+                            $list = $this->binary_search_page($object,
+                                $file,
+                                [
+                                    'where' => $options['where'],
+                                    'page' => $options['page'],
+                                    'limit' => $options['limit'],
+                                    'lines'=> $lines,
+                                    'counter' => 0,
+                                    'direction' => 'next',
+                                    'url' => $url
+                                ]
+                            );
                         }
                     }
                     $result = [];

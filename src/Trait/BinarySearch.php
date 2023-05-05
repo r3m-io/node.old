@@ -229,7 +229,7 @@ Trait BinarySearch {
     /**
      * @throws Exception
      */
-    private function binary_search_page($file, $options=[]): array
+    private function binary_search_page(App $object, $file, $options=[]): array
     {
         $object = $this->object();
         $index = 0;
@@ -259,6 +259,14 @@ Trait BinarySearch {
                 if($read){
                     $record = Core::object_merge($record, $read->data());
                 }
+                $object_url = $object->config('dir.data') .
+                    $record->{'#class'} .
+                    $object->config('ds') .
+                    $record->{'#uuid'} .
+                    $object->config('extension.json')
+                ;
+                //need object file, so need $class
+                //load relations so we can filter / where on them
                 if(!empty($options['filter'])){
                     $record = $this->filter($record, $options['filter'], $options);
                 }
