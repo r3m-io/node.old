@@ -822,9 +822,11 @@ Trait Data {
                     ],
                     'sort' => [
                         'name' => 'ASC'
+                    ],
+                    'relation' => [
+                        'permission:uuid'
                     ]
                 ]);
-                $role = Role::create($role);
                 $expose = $this->expose_get(
                     $object,
                     $class,
