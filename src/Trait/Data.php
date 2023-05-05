@@ -123,6 +123,15 @@ Trait Data {
                 if(empty($list)){
                     $list = [];
                 }
+
+                if(is_object($list)){
+                    $result = [];
+                    foreach($list as $record){
+                        $result[] = $record;
+                    }
+                    $list = $result;
+                    unset($result);
+                }
                 $node->set('url', $url);
                 $node->set('uuid', $uuid);
                 $list[] = $node->data();
