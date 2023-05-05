@@ -8,7 +8,7 @@ Create {{$class}}:
 'where' => [
     'attribute' => 'name',
     'value' => $role,
-    'operator' => 'partial'
+    'operator' => '==='
 ],
 'sort' => [
     'name' => 'ASC'
