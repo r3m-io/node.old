@@ -260,11 +260,14 @@ Trait BinarySearch {
                     $record = Core::object_merge($record, $read->data());
                 }
                 $object_url = $object->config('dir.data') .
-                    $record->{'#class'} .
+                    'Node' .
                     $object->config('ds') .
-                    $record->{'#uuid'} .
+                    'Object' .
+                    $object->config('ds') .
+                    $record->{'#class'} .
                     $object->config('extension.json')
                 ;
+                ddd($object_url);
                 //need object file, so need $class
                 //load relations so we can filter / where on them
                 if(!empty($options['filter'])){
