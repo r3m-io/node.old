@@ -321,6 +321,8 @@ Trait Data {
                 'permission:uuid'
             ]
         ]);
+        d($class);
+        d($options);
         ddd($node);
         /*
         $data = $object->data_read($url);
