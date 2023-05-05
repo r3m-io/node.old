@@ -4,7 +4,7 @@ Create {{$class}}:
 {{$name = string.trim(terminal.readline('Name: '))}}
 {{while(true)}}
 {{$role = string.trim(terminal.readline('Role: '))}}
-{{$role = R3m.io.Node:Data:record('Role', [
+{{$role = R3m.Io.Node:Data:record('Role', [
 'where' => 'name partial ' + $role,
 'sort' => [
     'name' => 'ASC'
