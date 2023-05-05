@@ -782,6 +782,7 @@ Trait Data {
                             );
                         }
                     }
+                    ddd($list);
                     $result = [];
                     $result['page'] = $options['page'];
                     $result['limit'] = $options['limit'];
