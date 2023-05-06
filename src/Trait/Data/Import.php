@@ -22,6 +22,14 @@ Trait Import {
         $object = $this->object();
         $data = $object->data_read($options['url']);
 
+        if($data){
+            foreach($data->data() as $record){
+                $create = $this->create($class, $record);
+                ddd($create);
+            }
+        }
+
+
         ddd($data);
 
         d($class);
