@@ -47,7 +47,7 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
         ];
         d($attribute);
         d($value);
-        ddd($object);
+        ddd($object->get('node'));
 
         foreach($attribute as $nr => $record){
             if(array_key_exists($nr, $value)){
