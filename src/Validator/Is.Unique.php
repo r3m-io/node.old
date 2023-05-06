@@ -32,7 +32,7 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
             $value = $validate->value;
             if(is_array($value)){
                 foreach($value as $nr => $record){
-                    $value[$nr] = $object->get($record);
+                    $value[$nr] = $object->request('node.' . $record);
                 }
             }
         }
@@ -47,7 +47,7 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
         ];
         d($attribute);
         d($value);
-        ddd($object->get('node'));
+        ddd($object->request('node'));
 
         foreach($attribute as $nr => $record){
             if(array_key_exists($nr, $value)){
