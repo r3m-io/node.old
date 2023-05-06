@@ -33,6 +33,7 @@ Trait Data {
     use Tree;
     use Where;
     use Filter;
+    use Expose;
 
     use Data\Create;
     use Data\Delete;
