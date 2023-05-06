@@ -23,82 +23,49 @@ Trait Patch {
         unset($options['uuid']);
         $name = Controller::name($class);
         $object = $this->object();
-        $node = $this->record($name, [
-            'filter' => [
-                'uuid' => $uuid
-            ],
-            'sort' => [
-                'uuid' => 'ASC'
-            ],
-            'relation' => [
-                'permission:uuid'
+        $node = $this->record(
+            $name,
+            [
+                'filter' => [
+                    'uuid' => $uuid
+                ],
+                'sort' => [
+                    'uuid' => 'ASC'
+                ],
+                'relation' => [
+                    'permission:uuid'
+                ]
             ]
-        ]);
+        );
         if(!$node){
             return false;
         }
         $node = new Storage($node);
         $patch = new Storage($options);
-
-        d($class);
-        d($patch);
-        ddd($node);
-        /*
-        $data = $object->data_read($url);
-        if(!$data){
-            return false;
-        }
-        */
-
-
-
-
-
-        $list = $data->get($class);
-        if(empty($list)){
-            $list = [];
-        }
-        $uuid = $node->get('uuid');
-        $is_found = false;
-        $record = false;
-        foreach($list as $nr => $record){
-            if(
-                is_array($record) &&
-                array_key_exists('uuid', $record) &&
-                $record['uuid'] === $uuid
-            ){
-                foreach($node->data() as $attribute => $value){
-                    if($attribute === 'uuid'){
-                        continue;
-                    }
-                    $list[$nr][$attribute] = $value;
+        foreach($patch->data() as $attribute => $value){
+            if(is_array($value)){
+                $list = $node->get($attribute);
+                if(empty($list)){
+                    $list = [];
                 }
-                $is_found = true;
-                $record = $list[$nr];
-                break;
-            }
-            elseif(
-                is_object($record) &&
-                property_exists($record,'uuid') &&
-                $record->uuid === $uuid
-            ){
-                foreach($node->data() as $attribute => $value){
-                    if($attribute === 'uuid'){
-                        continue;
+                foreach($value as $record){
+                    if(!in_array($record, $list, true)){
+                        $list[] = $record;
                     }
-                    $record->{$attribute} = $value;
                 }
-                $is_found = true;
-                break;
+                $node->set($attribute, $list);
+            } else {
+                $node->set($attribute, $value);
             }
         }
-        if($is_found){
-            $data->set($class, $list);
-            $data->write($url);
-            return $record;
-        }
-        return false;
-    }
+        $expose = $this->expose_get(
+            $object,
+            $class,
+            $class . '.' . __FUNCTION__ . '.expose'
+        );
+        ddd($expose);
 
+        return $node->data();
+   }
 }
 
