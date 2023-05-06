@@ -63,6 +63,34 @@ Trait Patch {
             $class,
             $class . '.' . __FUNCTION__ . '.expose'
         );
+        $role = $this->record('Role', [
+            'filter' => [
+                'name' => 'ROLE_SYSTEM'
+            ],
+            'sort' => [
+                'name' => 'ASC'
+            ],
+            'relation' => [
+                'permission:uuid'
+            ]
+        ]);
+        if(
+            $expose &&
+            $role
+        ){
+            $record = $this->expose(
+                $object,
+                $node,
+                $expose,
+                $class,
+                __FUNCTION__,
+                $role
+            );
+            ddd($record);
+        }
+
+
+
         ddd($expose);
 
         return $node->data();
