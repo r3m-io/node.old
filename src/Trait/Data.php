@@ -37,6 +37,7 @@ Trait Data {
 
     use Data\Create;
     use Data\Delete;
+    use Data\Import;
     use Data\NodeList;
     use Data\Patch;
     use Data\Put;
