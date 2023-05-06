@@ -325,7 +325,7 @@ Trait Expose {
      * @throws ObjectException
      * @throws Exception
      */
-    protected function expose_get(App $object, $name='', $attribute=''){
+    public function expose_get(App $object, $name='', $attribute=''){
         $dir_node = $object->config('project.dir.data') .
             'Node' .
             $object->config('ds')
