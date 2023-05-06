@@ -135,7 +135,6 @@ Trait NodeList {
                                     'url' => $url
                                 ]
                             );
-                            ddd($list);
                         }
 
                     }
