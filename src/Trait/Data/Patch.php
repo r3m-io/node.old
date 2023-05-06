@@ -2,9 +2,11 @@
 
 namespace R3m\Io\Node\Trait\Data;
 
+use R3m\Io\Module\Controller;
+use R3m\Io\Module\Data as Storage;
+
 use R3m\Io\Exception\FileWriteException;
 use R3m\Io\Exception\ObjectException;
-use R3m\Io\Module\Controller;
 
 Trait Patch {
 
@@ -14,11 +16,16 @@ Trait Patch {
      */
     public function patch($class, $options=[]): false|array|object
     {
+        $uuid = $options['uuid'] ?? false;
+        if($uuid === false){
+            return false;
+        }
+        unset($options['uuid']);
         $name = Controller::name($class);
         $object = $this->object();
         $node = $this->record($name, [
             'filter' => [
-                'uuid' => $options['uuid'] ?? false
+                'uuid' => $uuid
             ],
             'sort' => [
                 'uuid' => 'ASC'
@@ -27,8 +34,14 @@ Trait Patch {
                 'permission:uuid'
             ]
         ]);
+        if(!$node){
+            return false;
+        }
+        $node = new Storage($node);
+        $patch = new Storage($options);
+
         d($class);
-        d($options);
+        d($patch);
         ddd($node);
         /*
         $data = $object->data_read($url);
