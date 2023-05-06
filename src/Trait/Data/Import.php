@@ -25,6 +25,7 @@ Trait Import {
         if($data){
             foreach($data->data() as $record){
                 $create = $this->create($class, $record);
+                d($record);
                 ddd($create);
             }
         }
