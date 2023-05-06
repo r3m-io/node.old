@@ -1,0 +1,331 @@
+{
+    "Permission": [
+        {
+            "name" : "Role.create",
+            "role" : "ROLE_ADMIN",
+            "attributes" : [
+                "name",
+                "rank",
+                "?permission"
+            ]
+        },
+        {
+            "name" : "Role.patch",
+            "role" : "ROLE_ADMIN",
+            "attributes" : [
+                "?uuid",
+                "?name",
+                "?rank",
+                "?permission"
+            ]
+        },
+        {
+            "name" : "Role.put",
+            "role" : "ROLE_ADMIN",
+            "attributes" : [
+                "uuid",
+                "name",
+                "rank",
+                "permission"
+            ]
+        },
+        {
+            "name" : "Role.delete",
+            "role" : "ROLE_ADMIN",
+            "attributes" : [
+                "uuid"
+            ]
+        },
+        {
+            "name" : "Role.list",
+            "role" : "ROLE_ADMIN",
+            "attributes" : []
+        },
+        {
+            "name" : "Role.page",
+            "role" : "ROLE_ADMIN",
+            "attributes" : [
+                "uuid"
+            ]
+        },
+        {
+            "name" : "Role.read",
+            "role" : "ROLE_ADMIN",
+            "attributes" : [
+                "uuid"
+            ]
+        },
+        {
+            "name" : "Permission.create",
+            "role" : "ROLE_ADMIN",
+            "attributes" : [
+                "name",
+                "role",
+                "?attributes"
+            ]
+        },
+        {
+            "name" : "Permission.read",
+            "role" : "ROLE_ADMIN",
+            "attributes" : [
+                "uuid"
+            ]
+        },
+        {
+            "name" : "Permission.patch",
+            "role" : "ROLE_ADMIN",
+            "attributes" : [
+                "uuid",
+                "?name",
+                "?role",
+                "?attributes"
+            ]
+        },
+        {
+            "name" : "Permission.put",
+            "role" : "ROLE_ADMIN",
+            "attributes" : [
+                "uuid",
+                "name",
+                "role",
+                "attributes"
+            ]
+        },
+        {
+            "name" : "Permission.delete",
+            "role" : "ROLE_ADMIN",
+            "attributes" : [
+                "uuid"
+            ]
+        },
+        {
+            "name" : "Permission.list",
+            "role" : "ROLE_ADMIN",
+            "attributes" : []
+        },
+        {
+            "name" : "Permission.page",
+            "role" : "ROLE_ADMIN",
+            "attributes" : [
+                "uuid"
+            ]
+        },
+        {
+            "name" : "User.create",
+            "role" : "ROLE_ADMIN",
+            "attributes" : [
+                "email",
+                "?isActive",
+                "password"
+            ]
+        },
+        {
+            "name" : "User.read",
+            "role" : "ROLE_ADMIN",
+            "attributes" : [
+                "uuid"
+            ]
+        },
+        {
+            "name" : "User.update",
+            "role" : "ROLE_ADMIN",
+            "attributes" : [
+                "uuid",
+                "?email",
+                "?isActive",
+                "?password"
+            ]
+        },
+        {
+            "name" : "User.delete",
+            "role" : "ROLE_ADMIN",
+            "attributes" : [
+                "uuid"
+            ]
+        },
+        {
+            "name" : "User.list",
+            "role" : "ROLE_ADMIN",
+            "attributes" : []
+        },
+        {
+            "name" : "User.page",
+            "role" : "ROLE_ADMIN",
+            "attributes" : [
+                "uuid"
+            ]
+        },
+        {
+            "name" : "User.create",
+            "role" : "ROLE_ADMIN",
+            "attributes" : [
+                "email",
+                "password"
+            ]
+        },
+        {
+            "name" : "Role.create",
+            "role" : "ROLE_SERVER",
+            "attributes" : [
+                "name",
+                "rank",
+                "?permission"
+            ]
+        },
+        {
+            "name" : "Role.patch",
+            "role" : "ROLE_SERVER",
+            "attributes" : [
+                "?uuid",
+                "?name",
+                "?rank",
+                "?permission"
+            ]
+        },
+        {
+            "name" : "Role.put",
+            "role" : "ROLE_SERVER",
+            "attributes" : [
+                "uuid",
+                "name",
+                "rank",
+                "permission"
+            ]
+        },
+        {
+            "name" : "Role.delete",
+            "role" : "ROLE_SERVER",
+            "attributes" : [
+                "uuid"
+            ]
+        },
+        {
+            "name" : "Role.list",
+            "role" : "ROLE_SERVER",
+            "attributes" : []
+        },
+        {
+            "name" : "Role.page",
+            "role" : "ROLE_SERVER",
+            "attributes" : [
+                "uuid"
+            ]
+        },
+        {
+            "name" : "Role.read",
+            "role" : "ROLE_SERVER",
+            "attributes" : [
+                "uuid"
+            ]
+        },
+        {
+            "name" : "Permission.create",
+            "role" : "ROLE_SERVER",
+            "attributes" : [
+                "name",
+                "role",
+                "?attributes"
+            ]
+        },
+        {
+            "name" : "Permission.read",
+            "role" : "ROLE_SERVER",
+            "attributes" : [
+                "uuid"
+            ]
+        },
+        {
+            "name" : "Permission.patch",
+            "role" : "ROLE_SERVER",
+            "attributes" : [
+                "uuid",
+                "?name",
+                "?role",
+                "?attributes"
+            ]
+        },
+        {
+            "name" : "Permission.put",
+            "role" : "ROLE_SERVER",
+            "attributes" : [
+                "uuid",
+                "name",
+                "role",
+                "attributes"
+            ]
+        },
+        {
+            "name" : "Permission.delete",
+            "role" : "ROLE_SERVER",
+            "attributes" : [
+                "uuid"
+            ]
+        },
+        {
+            "name" : "Permission.list",
+            "role" : "ROLE_SERVER",
+            "attributes" : []
+        },
+        {
+            "name" : "Permission.page",
+            "role" : "ROLE_SERVER",
+            "attributes" : [
+                "uuid"
+            ]
+        },
+        {
+            "name" : "User.create",
+            "role" : "ROLE_SERVER",
+            "attributes" : [
+                "email",
+                "?isActive",
+                "password"
+            ]
+        },
+        {
+            "name" : "User.read",
+            "role" : "ROLE_SERVER",
+            "attributes" : [
+                "uuid"
+            ]
+        },
+        {
+            "name" : "User.update",
+            "role" : "ROLE_SERVER",
+            "attributes" : [
+                "uuid",
+                "?email",
+                "?isActive",
+                "?password"
+            ]
+        },
+        {
+            "name" : "User.delete",
+            "role" : "ROLE_SERVER",
+            "attributes" : [
+                "uuid"
+            ]
+        },
+        {
+            "name" : "User.list",
+            "role" : "ROLE_SERVER",
+            "attributes" : []
+        },
+        {
+            "name" : "User.page",
+            "role" : "ROLE_SERVER",
+            "attributes" : [
+                "uuid"
+            ]
+        },
+        {
+            "name" : "User.create",
+            "role" : "ROLE_SERVER",
+            "attributes" : [
+                "email",
+                "password"
+            ]
+        }
+
+    ]
+}
