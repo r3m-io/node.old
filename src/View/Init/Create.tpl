@@ -6,7 +6,9 @@ Create Init:
 {{if(is.empty($priority))}}
 {{$priority = 10}}
 {{/if}}
-{{$response = R3m.Io.Node:Data:create('Init', [
+{{$response = R3m.Io.Node:Data:create(
+'Init',
+[
 'name' => $name,
 'controller' => $controller,
 'priority' => $priority

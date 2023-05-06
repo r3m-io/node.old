@@ -40,7 +40,7 @@ Create {{$class}}:
 {{$role.permissions[] = $response.node.uuid}}
 {{$role = R3m.Io.Node:Data:patch('Role', [
 'uuid' => $role.uuid,
-'permissions' => $role.permissions
+'permission' => $role.permissions
 ])}}
 {{$response|json.encode:'JSON_PRETTY_PRINT'}}
 

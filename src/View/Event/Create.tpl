@@ -28,7 +28,9 @@ Create Event:
 {{if(is.empty($priority))}}
 {{$priority = 10}}
 {{/if}}
-{{$response = R3m.Io.Node:Data:create('Event', [
+{{$response = R3m.Io.Node:Data:create(
+'Event',
+[
 'action' => $action,
 'options' => [
 'command' => $commands,

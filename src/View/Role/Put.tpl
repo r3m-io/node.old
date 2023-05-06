@@ -11,7 +11,9 @@
 Update Role:
 
 {{/if}}
-{{$response = R3m.Io.Node:Data:list('Role', [
+{{$response = R3m.Io.Node:Data:list(
+'Role',
+[
 'order' => [
 'rank' => 'ASC',
 'name' => 'ASC'
@@ -52,7 +54,9 @@ Update Role:
 {{else}}
 {{$options.rank = (int) $options.rank}}
 {{/if}}
-{{$response = R3m.Io.Node:Data:put('Role', [
+{{$response = R3m.Io.Node:Data:put(
+'Role',
+[
 'uuid' => $role.uuid,
 'name' => $options.name,
 'rank' => $options.rank,

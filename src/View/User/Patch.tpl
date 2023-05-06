@@ -11,7 +11,9 @@
 Update User:
 
 {{/if}}
-{{$response = R3m.Io.Node:Data:list('User', [
+{{$response = R3m.Io.Node:Data:list(
+'User',
+[
 'order' => [
 'email' => 'ASC'
 ],
@@ -52,7 +54,9 @@ Update User:
 {{if(is.array($users))}}
 {{for.each($users as $nr => $user)}}
 {{$patch.uuid = $user.uuid}}
-{{$patch = R3m.Io.Node:Data:read('User', [
+{{$patch = R3m.Io.Node:Data:read(
+'User',
+[
 'uuid' => $patch.uuid
 ])}}
 {{if($options.email)}}
@@ -73,7 +77,9 @@ $options.password === $options['password-repeat']
 {{$options.role_limit = 255}}
 {{/if}}
 {{/if}}
-{{$response = R3m.Io.Node:Data:list('Role', [
+{{$response = R3m.Io.Node:Data:list(
+'Role',
+[
 'order' => [
 'rank' => 'ASC',
 'name' => 'ASC'

@@ -2,7 +2,9 @@
 {{$options = options()}}
 Delete User:
 Use ',' to separate users, 'All' for all users.
-{{$response = R3m.Io.Node:Data:list('User', [
+{{$response = R3m.Io.Node:Data:list(
+'User',
+[
 'order' => [
 'email' => 'ASC'
 ],

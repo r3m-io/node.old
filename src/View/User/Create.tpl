@@ -14,7 +14,9 @@ Create User:
 Passwords do not match!
 {{/if}}
 {{/while}}
-{{$response = R3m.Io.Node:Data:list('Role', [
+{{$response = R3m.Io.Node:Data:list(
+'Role',
+[
 'order' => [
 'rank' => 'ASC',
 'name' => 'ASC'
@@ -45,7 +47,9 @@ Use ',' to separate roles, 'All' for all roles.
 {{/if}}
 {{/for.each}}
 {{/if}}
-{{$response = R3m.Io.Node:Data:create('User', [
+{{$response = R3m.Io.Node:Data:create(
+'User',
+[
 'email' => $email,
 'password' => password.hash($password, 13),
 'Role' => R3m.Io.Node:Data:list_attribute($roles, ['uuid', 'name', 'rank']),

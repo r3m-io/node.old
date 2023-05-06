@@ -6,12 +6,14 @@
 {{if(!$options.limit)}}
 {{$options.limit = 255}}
 {{/if}}
-{{$response = R3m.Io.Node:Data:list('User', [
-    'order' => [
-    'email' => 'ASC',
-    ],
-    'limit' => (int) $options.limit,
-    'page' => (int) $options.page,
+{{$response = R3m.Io.Node:Data:list(
+'User',
+[
+'order' => [
+'email' => 'ASC',
+],
+'limit' => (int) $options.limit,
+'page' => (int) $options.page,
 ])}}
 {{if($options.format === 'json')}}
 {{$response|json.encode:'JSON_PRETTY_PRINT'}}

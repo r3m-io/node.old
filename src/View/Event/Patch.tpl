@@ -11,7 +11,9 @@
 Update Event:
 
 {{/if}}
-{{$response = R3m.Io.Node:Data:list('Event', [
+{{$response = R3m.Io.Node:Data:list(
+'Event',
+[
 'sort' => [
 'options.priority' => 'ASC',
 'action' => 'ASC'
