@@ -136,7 +136,6 @@ Trait NodeList {
                                 ]
                             );
                         }
-
                     }
                     $result = [];
                     $result['page'] = $options['page'];
