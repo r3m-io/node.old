@@ -5,6 +5,7 @@ namespace R3m\Io\Node\Trait;
 use Exception;
 use R3m\Io\App;
 use R3m\Io\Exception\ObjectException;
+use R3m\Io\Module\Core;
 use R3m\Io\Module\Data as Storage;
 use R3m\Io\Module\File;
 use R3m\Io\Node\Service\User;
@@ -41,9 +42,24 @@ Trait Expose {
         d($class);
         d($function);
         d($expose);
-        ddd($roles);
+        d($roles);
         foreach($roles as $role) {
             if(
+                property_exists($role, 'uuid') &&
+                property_exists($role, 'name') &&
+                $role->name === 'ROLE_SYSTEM' &&
+                !property_exists($role, 'permission')
+            ){
+                $permission = [];
+                $permission['uuid'] = Core::uuid();
+                $permission['name'] = $class . '.' . $function;
+                $permission['attribute'] =[];
+                $permission['role'] = $role->uuid;
+                $role->permission = [];
+                $role->permission[] = (object) $permission;
+            }
+            if(
+                property_exists($role, 'name') &&
                 property_exists($role, 'permission') &&
                 is_array($role->permission)
             ){
@@ -55,7 +71,8 @@ Trait Expose {
                         if (
                             property_exists($permission, 'name') &&
                             $permission->name === $class . '.' . $function &&
-                            $action->role === $role->name()
+                            property_exists($action, 'role') &&
+                            $action->role === $role->name
                         ) {
                             ddd('found');
                         }

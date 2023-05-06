@@ -31,7 +31,7 @@ Create {{$class}}:
 {{/while}}
 {{$response = R3m.Io.Node:Data:create("{{$class}}", [
 'name' => $name,
-'attributes' => $attributes,
+'attribute' => $attributes,
 'role' => $role.uuid
 ])}}
 {{if(is.empty($role.permission))}}
