@@ -287,9 +287,19 @@ Trait BinarySearch {
                                 case 'one-one':
                                     d($relation);
                                     ddd($record);
+                                    break;
                                 case 'one-many':
                                     d($record);
+                                    d($relation);
+
+
+
+
+                                    break;
+                                case 'many-one':
+                                    d($record);
                                     ddd($relation);
+                                    break;
                                     /*
                                     if(
                                         property_exists($record, {$relation->attribute}) &&
