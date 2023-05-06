@@ -2,6 +2,7 @@
 
 namespace R3m\Io\Node\Trait\Data;
 
+use Exception;
 use R3m\Io\Config;
 use R3m\Io\Exception\FileWriteException;
 use R3m\Io\Exception\ObjectException;

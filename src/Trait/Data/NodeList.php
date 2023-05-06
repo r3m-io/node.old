@@ -7,6 +7,7 @@ use R3m\Io\Exception\ObjectException;
 use R3m\Io\Module\Controller;
 use R3m\Io\Module\Core;
 use R3m\Io\Module\File;
+use SplFileObject;
 
 Trait NodeList {
     /**
