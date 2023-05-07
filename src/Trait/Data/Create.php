@@ -98,7 +98,7 @@ Trait Create {
                 $item = [
                     'uuid' => $node['node']['uuid']
                 ];
-                $list[] = $item;
+                $list[] = (object) $item;
             }
         }
         $list = Sort::list($list)->with([
