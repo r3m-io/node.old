@@ -104,6 +104,7 @@ Trait Create {
                 $list[] = $node->uuid;
             }
         }
+        ddd($list);
         $list = Sort::list($list)->with([
             'uuid' => 'ASC',
         ], [
