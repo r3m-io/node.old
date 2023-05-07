@@ -13,11 +13,9 @@
 
 use R3m\Io\App;
 
+use R3m\Io\Node\Model\Unique;
 use R3m\Io\Module\Data as Storage;
 use R3m\Io\Module\Parse;
-use R3m\Io\Module\Template\Main;
-
-use \R3m\Io\Node\Trait\Data;
 
 /**
  * @throws Exception
@@ -26,33 +24,33 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
 {
     $url = false;
     $class = false;
-    if(is_object($validate)){
-        if(property_exists($validate, 'url')){
+    if (is_object($validate)) {
+        if (property_exists($validate, 'url')) {
             $url = $validate->url;
         }
-        if(property_exists($validate, 'class')){
+        if (property_exists($validate, 'class')) {
             $class = $validate->class;
         }
-        if(property_exists($validate, 'attribute')){
+        if (property_exists($validate, 'attribute')) {
             $attribute = $validate->attribute;
-            if(is_array($attribute)){
+            if (is_array($attribute)) {
                 $value = [];
-                foreach($attribute as $nr => $record){
+                foreach ($attribute as $nr => $record) {
                     $value[$nr] = $object->request('node.' . $record);
                 }
             }
         }
     }
-    if(
+    if (
         is_array($attribute) &&
         is_array($value)
-    ){
+    ) {
         $options = [
             'filter' => [],
             'sort' => []
         ];
-        foreach($attribute as $nr => $record){
-            if(array_key_exists($nr, $value)){
+        foreach ($attribute as $nr => $record) {
+            if (array_key_exists($nr, $value)) {
                 $options['filter'][$record] = $value[$nr];
                 $options['sort'][$record] = 'ASC';
             }
@@ -75,17 +73,16 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
         throw new Exception('BinarySearch tree not found for Is.Unique (' . $url .')');
     }
     */
-    $parse = new Parse($object);
-    $data = new Storage();
-    $unique = new Unique($parse, $data);
+    $unique = $object->data('Is.Unique');
+    if (empty($unique)) {
+        $parse = new Parse($object);
+        $data = new Storage();
+        $unique = new Unique($parse, $data);
+        $object->data('Is.Unique', $unique);
+    }
     $record = $unique->record($class, $options);
-    if(empty($record)){
+    if (empty($record)) {
         return true;
     }
     return false;
-}
-
-class Unique extends Main {
-    use Data;
-
 }
