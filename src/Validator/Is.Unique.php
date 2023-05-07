@@ -79,8 +79,7 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
     $data = new Storage();
     $unique = new Unique($parse, $data);
     $record = $unique->record($class, $options);
-    d($record);
-    if($record === false){
+    if(empty($record)){
         return true;
     }
     return false;
