@@ -10,6 +10,7 @@
  */
 use R3m\Io\App;
 use R3m\Io\Module\File;
+use R3m\Io\Module\Template\Main;
 
 /**
  * @throws Exception
@@ -91,7 +92,7 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
 
 }
 
-class Unique {
+class Unique extends Main {
     use R3m\Io\Node\Trait\Data;
 
 }
