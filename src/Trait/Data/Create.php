@@ -113,7 +113,6 @@ Trait Create {
             $record->{'#index'} = $count;
             $count++;
         }
-        ddd($binarySearch);
         $lines = $binarySearch->write($binary_search_url, 'lines');
         if ($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
             $command = 'chmod 666 ' . $binary_search_url;
