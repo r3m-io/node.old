@@ -1,4 +1,6 @@
 <?php
+namespace R3m\Io\Node\Validator;
+
 /**
  * @author          Remco van der Velde
  * @since           2020-09-18
@@ -8,10 +10,15 @@
  * @changeLog
  *     -            all
  */
+
+
 use R3m\Io\App;
+
 use R3m\Io\Module\File;
 use R3m\Io\Module\Parse;
 use R3m\Io\Module\Template\Main;
+
+use Exception;
 
 /**
  * @throws Exception
@@ -36,16 +43,6 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
                 }
             }
         }
-        /*
-        if(property_exists($validate, 'value')){
-            $value = $validate->value;
-            if(is_array($value)){
-                foreach($value as $nr => $record){
-                    $value[$nr] = $object->request('node.' . $record);
-                }
-            }
-        }
-        */
     }
     if(
         is_array($attribute) &&
@@ -55,10 +52,6 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
             'filter' => [],
             'sort' => []
         ];
-        d($attribute);
-        d($value);
-        d($object->request('node'));
-
         foreach($attribute as $nr => $record){
             if(array_key_exists($nr, $value)){
                 $options['filter'][$record] = $value[$nr];
@@ -87,14 +80,13 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
     $data = new \R3m\Io\Module\Data();
     $unique = new Unique($parse, $data);
     $record = $unique->record($class, $options);
-    d($url);
-    d($record);
-    d($value);
-    ddd($validate);
-
+    if($record === false){
+        return true;
+    }
+    return false;
 }
 
 class Unique extends Main {
-    use R3m\Io\Node\Trait\Data;
+    use \R3m\Io\Node\Trait\Data;
 
 }
