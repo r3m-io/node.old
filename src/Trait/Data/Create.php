@@ -84,7 +84,8 @@ Trait Create {
             $list = $list_result;
             unset($list_result);
         }
-        foreach($result as $key => $node) {
+        foreach($result as $nr => $node) {
+            ddd($node);
             if(is_array($node)){
                 if (array_key_exists('error', $node)) {
                     continue;
