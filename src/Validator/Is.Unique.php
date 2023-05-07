@@ -18,8 +18,6 @@ use R3m\Io\Module\Template\Main;
 
 use \R3m\Io\Node\Trait\Data;
 
-use Exception;
-
 /**
  * @throws Exception
  */
