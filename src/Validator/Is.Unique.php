@@ -27,7 +27,14 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
         }
         if(property_exists($validate, 'attribute')){
             $attribute = $validate->attribute;
+            if(is_array($attribute)){
+                $value = [];
+                foreach($attribute as $nr => $record){
+                    $value[$nr] = $object->request('node.' . $record);
+                }
+            }
         }
+        /*
         if(property_exists($validate, 'value')){
             $value = $validate->value;
             if(is_array($value)){
@@ -36,6 +43,7 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
                 }
             }
         }
+        */
     }
     if(
         is_array($attribute) &&
@@ -47,7 +55,7 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
         ];
         d($attribute);
         d($value);
-        ddd($object->request('node'));
+        d($object->request('node'));
 
         foreach($attribute as $nr => $record){
             if(array_key_exists($nr, $value)){
