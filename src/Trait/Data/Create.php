@@ -85,24 +85,17 @@ Trait Create {
             unset($list_result);
         }
         foreach($result as $nr => $node) {
-            ddd($node);
             if(is_array($node)){
                 if (array_key_exists('error', $node)) {
                     continue;
                 }
-                if(!array_key_exists('uuid', $node)) {
+                if(!array_key_exists('node', $node)){
                     continue;
                 }
-                $list[] = $node['uuid'];
-            }
-            elseif(is_object($node)){
-                if(property_exists($node, 'error')){
+                if(!array_key_exists('uuid', $node['node'])) {
                     continue;
                 }
-                if(!property_exists($node, 'uuid')){
-                    continue;
-                }
-                $list[] = $node->uuid;
+                $list[] = $node['node']['uuid'];
             }
         }
         ddd($list);
