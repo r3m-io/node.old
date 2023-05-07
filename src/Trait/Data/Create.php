@@ -95,10 +95,12 @@ Trait Create {
                 if(!array_key_exists('uuid', $node['node'])) {
                     continue;
                 }
-                $list[] = $node['node']['uuid'];
+                $item = [
+                    'uuid' => $node['node']['uuid']
+                ];
+                $list[] = $item;
             }
         }
-        ddd($list);
         $list = Sort::list($list)->with([
             'uuid' => 'ASC',
         ], [
@@ -111,6 +113,7 @@ Trait Create {
             $record->{'#index'} = $count;
             $count++;
         }
+        ddd($binarySearch);
         $lines = $binarySearch->write($binary_search_url, 'lines');
         if ($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
             $command = 'chmod 666 ' . $binary_search_url;
