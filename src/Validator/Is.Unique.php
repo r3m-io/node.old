@@ -10,6 +10,7 @@
  */
 use R3m\Io\App;
 use R3m\Io\Module\File;
+use R3m\Io\Module\Parse;
 use R3m\Io\Module\Template\Main;
 
 /**
@@ -82,8 +83,9 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
         throw new Exception('BinarySearch tree not found for Is.Unique (' . $url .')');
     }
     */
-
-    $unique = new Unique();
+    $parse = new Parse($object);
+    $data = new \R3m\Io\Module\Data();
+    $unique = new Unique($parse, $data);
     $record = $unique->record($class, $options);
     d($url);
     d($record);
