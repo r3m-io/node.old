@@ -12,6 +12,10 @@ use R3m\Io\Exception\ObjectException;
 
 Trait Import {
 
+    /**
+     * @throws ObjectException
+     * @throws FileWriteException
+     */
     public function import($class, $options=[]){
         if(!array_key_exists('url', $options)){
             return;
