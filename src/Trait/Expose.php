@@ -20,8 +20,6 @@ Trait Expose {
     public function expose($node, $expose=[], $class='', $function='', $internalRole=false, $parentRole=false): Storage
     {
         $object = $this->object();
-        d($expose);
-        d($function);
         if (!is_array($expose)) {
             return new Storage();
         }
@@ -42,14 +40,6 @@ Trait Expose {
         if (empty($roles)) {
             throw new Exception('Roles failed...');
         }
-        if($parentRole){
-            d($parentRole);
-            d($roles);
-        }
-//        d($class);
-//        d($function);
-//        d($expose);
-//        d($roles);
         $record = [];
         foreach ($roles as $role) {
             if (
@@ -98,7 +88,6 @@ Trait Expose {
                                 property_exists($action, 'attributes') &&
                                 is_array($action->attributes)
                             ) {
-                                d($action);
                                 foreach ($action->attributes as $attribute) {
                                     $assertion = $attribute;
                                     $explode = explode(':', $attribute, 2);
