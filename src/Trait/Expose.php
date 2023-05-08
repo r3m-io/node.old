@@ -17,7 +17,7 @@ Trait Expose {
      * @throws Exception
      * @throws AuthorizationException
      */
-    public function expose($node, $expose=[], $class='', $function='', $internalRole=false, $parentScope=false): Storage
+    public function expose($node, $expose=[], $class='', $function='', $internalRole=false, $parentRole=false): Storage
     {
         $object = $this->object();
         if (!is_array($expose)) {
@@ -71,10 +71,21 @@ Trait Expose {
                     }
                     foreach ($expose as $action) {
                         if (
-                            property_exists($permission, 'name') &&
-                            $permission->name === $class . '.' . $function &&
-                            property_exists($action, 'role') &&
-                            $action->role === $role->name
+                            (
+                                property_exists($permission, 'name') &&
+                                $permission->name === $class . '.' . $function &&
+                                property_exists($action, 'role') &&
+                                $action->role === $role->name
+                            )
+                            ||
+                            (
+                                in_array(
+                                    $function,
+                                    ['child', 'children']
+                                ) &&
+                                property_exists($action, 'role') &&
+                                $action->role === $parentRole
+                            )
                         ) {
                             if (
                                 property_exists($action, 'attributes') &&
@@ -142,6 +153,7 @@ Trait Expose {
                                                     $role,
                                                     $action->role
                                                 );
+                                                ddd($child);
                                                 $record[$attribute] = $child->data();
                                                 ddd($record);
                                             }
