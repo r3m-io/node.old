@@ -17,7 +17,7 @@ Trait Expose {
      * @throws Exception
      * @throws AuthorizationException
      */
-    public function expose($node, $expose=[], $class='', $function='', $internalRole=false, $parentScope=false): array
+    public function expose($node, $expose=[], $class='', $function='', $internalRole=false, $parentScope=false): Storage
     {
         $object = $this->object();
         if (!is_array($expose)) {
