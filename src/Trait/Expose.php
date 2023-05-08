@@ -131,7 +131,6 @@ Trait Expose {
                                         } elseif (
                                             $node->has($attribute)
                                         ) {
-                                            ddd($action);
                                             $record[$attribute] = null;
                                             $child = new Storage($node->get($attribute));
                                             if (!empty($child)) {
@@ -144,6 +143,7 @@ Trait Expose {
                                                     $action->role
                                                 );
                                                 $record[$attribute] = $child->data();
+                                                ddd($record);
                                             }
                                             if (empty($record[$attribute])) {
                                                 $record[$attribute] = null;
