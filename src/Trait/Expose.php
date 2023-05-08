@@ -98,17 +98,6 @@ Trait Expose {
                                                 throw new Exception('Assertion failed: ' . $assertion . ' values [' . $record_attribute . ', ' . $compare . ']');
                                             }
                                         }
-                                    } else {
-                                        d($attribute);
-                                        ddd($node);
-                                        $record_attribute = $node->get($attribute);
-                                        /*
-                                        $methods = explode('_', $attribute);
-                                        foreach ($methods as $nr => $method) {
-                                            $methods[$nr] = ucfirst($method);
-                                        }
-                                        $method = 'get' . implode($methods);
-                                        */
                                     }
                                     if (
                                         property_exists($action, 'objects') &&
