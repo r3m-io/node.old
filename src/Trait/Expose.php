@@ -123,30 +123,27 @@ Trait Expose {
                                                         'children',
                                                         $child_record,
                                                         $role,
-                                                        $action->scope
+                                                        $action->role
                                                     );
                                                     $record[$attribute][] = $child_record;
                                                 }
                                             }
                                         } elseif (
-//                                            $node->has($record_attribute)
                                             $node->has($attribute)
                                         ) {
-                                            $record[$attribute] = [];
-                                            $child = $node->get($attribute);
-                                            ddd($child);
+                                            ddd($action);
+                                            $record[$attribute] = null;
+                                            $child = new Storage($node->get($attribute));
                                             if (!empty($child)) {
-                                                $child_entity = explode('Entity\\', get_class($child));
-                                                $record[$attribute] = $this->expose(
-                                                    $object,
+                                                $child = $this->expose(
                                                     $child,
                                                     $action->objects->$attribute->expose,
-                                                    $child_entity[1],
+                                                    $attribute,
                                                     'child',
-                                                    $record[$attribute],
                                                     $role,
-                                                    $action->scope
+                                                    $action->role
                                                 );
+                                                $record[$attribute] = $child->data();
                                             }
                                             if (empty($record[$attribute])) {
                                                 $record[$attribute] = null;
