@@ -130,20 +130,32 @@ Trait Expose {
                                             $record[$attribute] = [];
                                             $array = $node->get($attribute);
                                             if(is_array($array) || is_object($array)){
-                                                ddd($array);
                                                 foreach ($array as $child) {
-                                                    $child_entity = explode('Entity\\', get_class($child));
-                                                    $child_record = [];
-                                                    $child_record = $this->expose(
+                                                    $child = new Storage($child);
+                                                    $child_expose =[];
+                                                    if(
+                                                        property_exists($action->objects->$attribute, 'objects')
+                                                    ){
+                                                        $child_expose[] = (object) [
+                                                            'attributes' => $action->objects->$attribute->expose,
+                                                            'objects' => $action->objects->$attribute->objects,
+                                                            'role' => $action->role,
+                                                        ];
+                                                    }  else {
+                                                        $child_expose[] = (object) [
+                                                            'attributes' => $action->objects->$attribute->expose,
+                                                            'role' => $action->role,
+                                                        ];
+                                                    }
+                                                    $child = $this->expose(
                                                         $child,
-                                                        $action->objects->$attribute->expose,
-                                                        $child_entity[1],
-                                                        'children',
-                                                        $child_record,
+                                                        $child_expose,
+                                                        $attribute,
+                                                        'child',
                                                         $role,
                                                         $action->role
                                                     );
-                                                    $record[$attribute][] = $child_record;
+                                                    $record[$attribute][] = $child->data();
                                                 }
                                             }
                                         } elseif (
@@ -176,9 +188,7 @@ Trait Expose {
                                                     $role,
                                                     $action->role
                                                 );
-                                                ddd($child);
                                                 $record[$attribute] = $child->data();
-                                                ddd($record);
                                             }
                                             if (empty($record[$attribute])) {
                                                 $record[$attribute] = null;
@@ -188,7 +198,6 @@ Trait Expose {
                                         if ($node->has($attribute)) {
                                             $record[$attribute] = $node->get($attribute);
                                         }
-
                                     }
                                 }
                             }
