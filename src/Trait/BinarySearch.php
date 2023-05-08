@@ -289,12 +289,10 @@ Trait BinarySearch {
                                     ddd($record);
                                     break;
                                 case 'one-many':
-                                    d($record);
-                                    d($relation);
-
-
-
-
+                                    if(property_exists($record, $relation->attribute)){
+                                        d($record);
+                                        ddd($relation);
+                                    }
                                     break;
                                 case 'many-one':
                                     d($record);
