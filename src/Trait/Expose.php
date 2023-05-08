@@ -156,7 +156,16 @@ Trait Expose {
                                             $record[$attribute] = null;
                                             $child = $node->get($attribute);
                                             if (!empty($child)) {
+                                                ddd($action);
                                                 $child = new Storage($child);
+                                                /*
+                                                $child_expose = [
+                                                    'attributes' => $action->object->$attribute->expose,
+                                                    'role' => $action->role,
+                                                ]
+                                                */
+
+
                                                 $child = $this->expose(
                                                     $child,
                                                     $action->objects->$attribute->expose,
