@@ -92,6 +92,10 @@ Trait Expose {
                                 $action->role === $parentRole
                             )
                         ) {
+                            if($function === 'child'){
+                                d($action);
+                                ddd($expose);
+                            }
                             if (
                                 property_exists($action, 'attributes') &&
                                 is_array($action->attributes)
