@@ -80,7 +80,7 @@ Trait Expose {
                                 property_exists($action, 'attributes') &&
                                 is_array($action->attributes)
                             ) {
-                                ddd($action);
+                                d($action);
                                 foreach ($action->attributes as $attribute) {
                                     $assertion = $attribute;
                                     $explode = explode(':', $attribute, 2);
@@ -99,6 +99,8 @@ Trait Expose {
                                             }
                                         }
                                     } else {
+                                        d($attribute);
+                                        ddd($node);
                                         $record_attribute = $node->get($attribute);
                                         /*
                                         $methods = explode('_', $attribute);
