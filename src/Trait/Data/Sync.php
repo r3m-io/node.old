@@ -185,7 +185,7 @@ Trait Sync {
                                             __FUNCTION__,
                                             $role
                                         );
-                                        ddd($record);
+                                        $list->set($uuid, $record->data());
                                     }
                                 } else {
                                     //event out of sync, send mail
