@@ -154,8 +154,6 @@ Trait Expose {
                                         }
                                     } else {
                                         if ($node->has($attribute)) {
-                                            d($node);
-                                            ddd($attribute);
                                             $record[$attribute] = $node->get($attribute);
                                         }
 
