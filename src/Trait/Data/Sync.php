@@ -12,6 +12,7 @@ use R3m\Io\Module\Data as Storage;
 use R3m\Io\Module\Dir;
 use R3m\Io\Module\File;
 use R3m\Io\Module\Sort;
+use stdClass;
 
 Trait Sync {
 
@@ -206,7 +207,18 @@ Trait Sync {
                             foreach ($subList as $key2 => $subSubList) {
                                 $nodeList = [];
                                 foreach ($subSubList as $nr => $node) {
-                                    $item = $data->get($class . '.' . $node->uuid);
+                                    if(
+                                        is_array($node) &&
+                                        array_key_exists('uuid', $node)
+                                    ){
+                                        $item = $data->get($class . '.' . $node['uuid']);
+                                    }
+                                    elseif(
+                                        is_object($node) &&
+                                        property_exists($node, 'uuid')
+                                    ){
+                                        $item = $data->get($class . '.' . $node->uuid);
+                                    }
                                     $item->{'#index'} = $index;
                                     $item->{'#sort'} = new stdClass();
                                     $item->{'#sort'}->{$properties[0]} = $key1;
@@ -237,7 +249,18 @@ Trait Sync {
                             foreach ($subList as $key2 => $subSubList) {
                                 $nodeList = [];
                                 foreach ($subSubList as $nr => $node) {
-                                    $item = $data->get($class . '.' . $node->uuid);
+                                    if(
+                                        is_array($node) &&
+                                        array_key_exists('uuid', $node)
+                                    ){
+                                        $item = $data->get($class . '.' . $node['uuid']);
+                                    }
+                                    elseif(
+                                        is_object($node) &&
+                                        property_exists($node, 'uuid')
+                                    ){
+                                        $item = $data->get($class . '.' . $node->uuid);
+                                    }
                                     $item->{'#index'} = $index;
                                     $item->{'#sort'} = new stdClass();
                                     $item->{'#sort'}->{$properties[0]} = $key1;
@@ -267,10 +290,18 @@ Trait Sync {
                         foreach ($sort as $key => $subList) {
                             $nodeList = [];
                             foreach ($subList as $nr => $node) {
-                                if(is_array($node)){
-                                    d($sort);
+                                if(
+                                    is_array($node) &&
+                                    array_key_exists('uuid', $node)
+                                ){
+                                    $item = $data->get($class . '.' . $node['uuid']);
                                 }
-                                $item = $data->get($class . '.' . $node->uuid);
+                                elseif(
+                                    is_object($node) &&
+                                    property_exists($node, 'uuid')
+                                ){
+                                    $item = $data->get($class . '.' . $node->uuid);
+                                }
                                 $item->{'#index'} = $index;
                                 $item->{'#sort'} = new stdClass();
                                 $item->{'#sort'}->{$properties[0]} = $key;
