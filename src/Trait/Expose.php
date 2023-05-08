@@ -23,7 +23,7 @@ Trait Expose {
         d($expose);
         d($function);
         if (!is_array($expose)) {
-            return [];
+            return new Storage();
         }
         $roles = [];
         if ($internalRole) {
@@ -160,13 +160,14 @@ Trait Expose {
                                                 if(
                                                     property_exists($action->objects->$attribute, 'objects')
                                                 ){
-                                                    $child_expose = (object) [
+                                                    ddd($expose);
+                                                    $child_expose = [
                                                         'attributes' => $action->objects->$attribute->expose,
                                                         'objects' => $action->objects->$attribute->objects,
                                                         'role' => $action->role,
                                                     ];
                                                 }  else {
-                                                    $child_expose = (object) [
+                                                    $child_expose = [
                                                         'attributes' => $action->objects->$attribute->expose,
                                                         'role' => $action->role,
                                                     ];
