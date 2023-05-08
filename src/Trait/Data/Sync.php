@@ -267,6 +267,9 @@ Trait Sync {
                         foreach ($sort as $key => $subList) {
                             $nodeList = [];
                             foreach ($subList as $nr => $node) {
+                                if(is_array($node)){
+                                    d($sort);
+                                }
                                 $item = $data->get($class . '.' . $node->uuid);
                                 $item->{'#index'} = $index;
                                 $item->{'#sort'} = new stdClass();
