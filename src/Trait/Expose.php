@@ -167,6 +167,7 @@ Trait Expose {
                                                         'role' => $action->role,
                                                     ];
                                                 }  else {
+                                                    ddd($expose);
                                                     $child_expose = [
                                                         'attributes' => $action->objects->$attribute->expose,
                                                         'role' => $action->role,
