@@ -172,7 +172,7 @@ Trait Expose {
                 }
             }
         }
-        return = new Storage($record);
+        return new Storage($record);
     }
                     /*
             foreach ($role->permission as $permission) {
