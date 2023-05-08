@@ -94,7 +94,7 @@ Trait Expose {
                                 $action->role === $parentRole
                             )
                         ) {
-                            if($function === 'child'){
+                            if($function == 'child'){
                                 d($action);
                                 ddd($expose);
                             }
