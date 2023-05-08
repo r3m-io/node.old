@@ -157,9 +157,6 @@ Trait Expose {
                                             $child = $node->get($attribute);
                                             if (!empty($child)) {
                                                 $child = new Storage($child);
-
-                                                ddd($action);
-
                                                 $child_expose = [];
                                                 if(
                                                     property_exists($action, 'objects') &&
