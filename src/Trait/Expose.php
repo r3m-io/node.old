@@ -102,7 +102,7 @@ Trait Expose {
                                     if (
                                         property_exists($action, 'objects') &&
                                         property_exists($action->objects, $attribute) &&
-                                        property_exists($action->objects->$attribute, 'toArray')
+                                        property_exists($action->objects->$attribute, 'expose')
                                     ) {
                                         if (
                                             property_exists($action->objects->$attribute, 'multiple') &&
@@ -118,7 +118,7 @@ Trait Expose {
                                                     $child_record = [];
                                                     $child_record = $this->expose(
                                                         $child,
-                                                        $action->objects->$attribute->toArray,
+                                                        $action->objects->$attribute->expose,
                                                         $child_entity[1],
                                                         'children',
                                                         $child_record,
@@ -140,7 +140,7 @@ Trait Expose {
                                                 $record[$attribute] = $this->expose(
                                                     $object,
                                                     $child,
-                                                    $action->objects->$attribute->toArray,
+                                                    $action->objects->$attribute->expose,
                                                     $child_entity[1],
                                                     'child',
                                                     $record[$attribute],
