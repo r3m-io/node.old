@@ -44,6 +44,7 @@ Trait Expose {
         d($function);
         d($expose);
         d($roles);
+        $record = [];
         foreach ($roles as $role) {
             if (
                 property_exists($role, 'uuid') &&
