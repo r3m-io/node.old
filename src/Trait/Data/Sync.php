@@ -302,6 +302,10 @@ Trait Sync {
                                 ){
                                     $item = $data->get($class . '.' . $node->uuid);
                                 }
+                                if(!$item){
+                                    d($node);
+                                    ddd($data);
+                                }
                                 $item->{'#index'} = $index;
                                 $item->{'#sort'} = new stdClass();
                                 $item->{'#sort'}->{$properties[0]} = $key;
