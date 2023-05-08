@@ -20,6 +20,8 @@ Trait Expose {
     public function expose($node, $expose=[], $class='', $function='', $internalRole=false, $parentRole=false): Storage
     {
         $object = $this->object();
+        d($expose);
+        d($function);
         if (!is_array($expose)) {
             return [];
         }
@@ -152,8 +154,9 @@ Trait Expose {
                                             $node->has($attribute)
                                         ) {
                                             $record[$attribute] = null;
-                                            $child = new Storage($node->get($attribute));
+                                            $child = $node->get($attribute);
                                             if (!empty($child)) {
+                                                $child = new Storage($child);
                                                 $child = $this->expose(
                                                     $child,
                                                     $action->objects->$attribute->expose,
