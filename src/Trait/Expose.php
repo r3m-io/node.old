@@ -159,9 +159,6 @@ Trait Expose {
                                                 $child = new Storage($child);
                                                 $child_expose = [];
                                                 if(
-                                                    property_exists($action, 'objects') &&
-                                                    property_exists($action->objects, $attribute) &&
-                                                    property_exists($action->objects->$attribute, 'expose') &&
                                                     property_exists($action->objects->$attribute, 'objects')
                                                 ){
                                                     $child_expose = [
@@ -169,12 +166,7 @@ Trait Expose {
                                                         'objects' => $action->objects->$attribute->objects,
                                                         'role' => $action->role,
                                                     ];
-                                                }
-                                                elseif(
-                                                    property_exists($action, 'objects') &&
-                                                    property_exists($action->objects, $attribute) &&
-                                                    property_exists($action->objects->$attribute, 'expose')
-                                                ){
+                                                }  else {
                                                     $child_expose = [
                                                         'attributes' => $action->objects->$attribute->expose,
                                                         'role' => $action->role,
