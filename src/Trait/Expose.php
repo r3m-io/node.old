@@ -118,30 +118,33 @@ Trait Expose {
                                         if (
                                             property_exists($action->objects->$attribute, 'multiple') &&
                                             $action->objects->$attribute->multiple === true &&
-                                            $node->has($record_attribute)
+                                            $node->has($attribute)
                                         ) {
                                             $record[$attribute] = [];
                                             $array = $node->get($attribute);
-                                            ddd($array);
-                                            foreach ($array as $child) {
-                                                $child_entity = explode('Entity\\', get_class($child));
-                                                $child_record = [];
-                                                $child_record = $this->expose(
-                                                    $child,
-                                                    $action->objects->$attribute->toArray,
-                                                    $child_entity[1],
-                                                    'children',
-                                                    $child_record,
-                                                    $role,
-                                                    $action->scope
-                                                );
-                                                $record[$attribute][] = $child_record;
+                                            if(is_array($array) || is_object($array)){
+                                                ddd($array);
+                                                foreach ($array as $child) {
+                                                    $child_entity = explode('Entity\\', get_class($child));
+                                                    $child_record = [];
+                                                    $child_record = $this->expose(
+                                                        $child,
+                                                        $action->objects->$attribute->toArray,
+                                                        $child_entity[1],
+                                                        'children',
+                                                        $child_record,
+                                                        $role,
+                                                        $action->scope
+                                                    );
+                                                    $record[$attribute][] = $child_record;
+                                                }
                                             }
                                         } elseif (
-                                            $node->has($record_attribute)
+//                                            $node->has($record_attribute)
+                                            $node->has($attribute)
                                         ) {
                                             $record[$attribute] = [];
-                                            $child = $node->get($record_attribute);
+                                            $child = $node->get($attribute);
                                             ddd($child);
                                             if (!empty($child)) {
                                                 $child_entity = explode('Entity\\', get_class($child));
@@ -161,10 +164,10 @@ Trait Expose {
                                             }
                                         }
                                     } else {
-                                        if ($node->has($record_attribute)) {
+                                        if ($node->has($attribute)) {
                                             d($node);
-                                            ddd($record_attribute);
-                                            $record[$attribute] = $node->get($record_attribute);
+                                            ddd($attribute);
+                                            $record[$attribute] = $node->get($attribute);
                                         }
 
                                     }
