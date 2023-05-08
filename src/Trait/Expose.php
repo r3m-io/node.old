@@ -40,6 +40,10 @@ Trait Expose {
         if (empty($roles)) {
             throw new Exception('Roles failed...');
         }
+        if($parentRole){
+            d($parentRole);
+            ddd($roles);
+        }
 //        d($class);
 //        d($function);
 //        d($expose);
@@ -58,7 +62,7 @@ Trait Expose {
                 $permission['attribute'] = [];
                 $permission['role'] = $role->uuid;
                 $role->permission = [];
-                $role->permission[] = (object)$permission;
+                $role->permission[] = (object) $permission;
             }
             if (
                 property_exists($role, 'name') &&
@@ -81,7 +85,8 @@ Trait Expose {
                             (
                                 in_array(
                                     $function,
-                                    ['child', 'children']
+                                    ['child', 'children'],
+                                    true
                                 ) &&
                                 property_exists($action, 'role') &&
                                 $action->role === $parentRole
