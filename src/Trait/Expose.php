@@ -160,13 +160,13 @@ Trait Expose {
                                                 if(
                                                     property_exists($action->objects->$attribute, 'objects')
                                                 ){
-                                                    $child_expose = [
+                                                    $child_expose = (object) [
                                                         'attributes' => $action->objects->$attribute->expose,
                                                         'objects' => $action->objects->$attribute->objects,
                                                         'role' => $action->role,
                                                     ];
                                                 }  else {
-                                                    $child_expose = [
+                                                    $child_expose = (object) [
                                                         'attributes' => $action->objects->$attribute->expose,
                                                         'role' => $action->role,
                                                     ];
