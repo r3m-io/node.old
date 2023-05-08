@@ -160,11 +160,29 @@ Trait Expose {
 
                                                 ddd($action);
 
-                                                $child_expose = [
-                                                    'attributes' => $action->object->$attribute->expose,
-                                                    'objects' => $action->object->$attribute->objects,
-                                                    'role' => $action->role,
-                                                ];
+                                                $child_expose = [];
+                                                if(
+                                                    property_exists($action, 'objects') &&
+                                                    property_exists($action->objects, $attribute) &&
+                                                    property_exists($action->objects->$attribute, 'expose') &&
+                                                    property_exists($action->objects->$attribute, 'objects')
+                                                ){
+                                                    $child_expose = [
+                                                        'attributes' => $action->objects->$attribute->expose,
+                                                        'objects' => $action->objects->$attribute->objects,
+                                                        'role' => $action->role,
+                                                    ];
+                                                }
+                                                elseif(
+                                                    property_exists($action, 'objects') &&
+                                                    property_exists($action->objects, $attribute) &&
+                                                    property_exists($action->objects->$attribute, 'expose')
+                                                ){
+                                                    $child_expose = [
+                                                        'attributes' => $action->objects->$attribute->expose,
+                                                        'role' => $action->role,
+                                                    ];
+                                                }
                                                 $child = $this->expose(
                                                     $child,
                                                     $child_expose,
