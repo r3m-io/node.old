@@ -158,17 +158,14 @@ Trait Expose {
                                             if (!empty($child)) {
                                                 ddd($action);
                                                 $child = new Storage($child);
-                                                /*
                                                 $child_expose = [
                                                     'attributes' => $action->object->$attribute->expose,
+                                                    'objects' => $action->object->$attribute->objects,
                                                     'role' => $action->role,
-                                                ]
-                                                */
-
-
+                                                ];
                                                 $child = $this->expose(
                                                     $child,
-                                                    $action->objects->$attribute->expose,
+                                                    $child_expose,
                                                     $attribute,
                                                     'child',
                                                     $role,
