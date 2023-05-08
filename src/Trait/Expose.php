@@ -17,8 +17,9 @@ Trait Expose {
      * @throws Exception
      * @throws AuthorizationException
      */
-    public static function expose(App $object, $record, $expose=[], $class='', $function='', $internalRole=false, $parentScope=false): Storage
+    public function expose($record, $expose=[], $class='', $function='', $internalRole=false, $parentScope=false): Storage
     {
+        $object = $this->object();
         if(!is_array($expose)){
             return false;
         }
@@ -74,7 +75,99 @@ Trait Expose {
                             property_exists($action, 'role') &&
                             $action->role === $role->name
                         ) {
+                            d($record);
+                            d($action);
                             ddd('found');
+                            if (
+                                property_exists($action, 'attributes') &&
+                                is_array($action->attributes)
+                            ) {
+                                foreach ($action->attributes as $attribute) {
+                                    $assertion = $attribute;
+                                    $explode = explode(':', $attribute, 2);
+                                    $compare = null;
+                                    if (array_key_exists(1, $explode)) {
+                                        $methods = explode('_', $explode[0]);
+                                        foreach ($methods as $nr => $method) {
+                                            $methods[$nr] = ucfirst($method);
+                                        }
+                                        $method = 'get' . implode($methods);
+                                        $compare = $explode[1];
+                                        $attribute = $explode[0];
+                                        if ($compare) {
+                                            $parse = new Parse($object, $object->data());
+                                            $compare = $parse->compile($compare, $object->data());
+                                            d($record);
+                                            ddd($compare);
+                                            /*
+                                            if ($node->$method() !== $compare) {
+                                                throw new Exception('Assertion failed: ' . $assertion . ' values [' . $node->$method() . ', ' . $compare . ']');
+                                            }
+                                            */
+                                        }
+                                    } else {
+                                        $methods = explode('_', $attribute);
+                                        foreach ($methods as $nr => $method) {
+                                            $methods[$nr] = ucfirst($method);
+                                        }
+                                        $method = 'get' . implode($methods);
+                                    }
+                                    if (
+                                        property_exists($action, 'objects') &&
+                                        property_exists($action->objects, $attribute) &&
+                                        property_exists($action->objects->$attribute, 'toArray')
+                                    ) {
+                                        if (
+                                            property_exists($action->objects->$attribute, 'multiple') &&
+                                            $action->objects->$attribute->multiple === true &&
+                                            method_exists($node, $method)
+                                        ) {
+                                            $record[$attribute] = [];
+                                            $array = $node->$method();
+                                            foreach ($array as $child) {
+                                                $child_entity = explode('Entity\\', get_class($child));
+                                                $child_record = [];
+                                                $child_record = $this->expose(
+                                                    $child,
+                                                    $action->objects->$attribute->toArray,
+                                                    $child_entity[1],
+                                                    'children',
+                                                    $child_record,
+                                                    $role,
+                                                    $action->scope
+                                                );
+                                                $record[$attribute][] = $child_record;
+                                            }
+                                        } elseif (
+                                            method_exists($node, $method)
+                                        ) {
+                                            $record[$attribute] = [];
+                                            $child = $node->$method();
+                                            if (!empty($child)) {
+                                                $child_entity = explode('Entity\\', get_class($child));
+                                                $record[$attribute] = $this->expose(
+                                                    $object,
+                                                    $child,
+                                                    $action->objects->$attribute->toArray,
+                                                    $child_entity[1],
+                                                    'child',
+                                                    $record[$attribute],
+                                                    $role,
+                                                    $action->scope
+                                                );
+                                            }
+                                            if (empty($record[$attribute])) {
+                                                $record[$attribute] = null;
+                                            }
+                                        }
+                                    } else {
+                                        if (method_exists($node, $method)) {
+                                            $record[$attribute] = $node->$method();
+                                        }
+                                    }
+                                }
+                            }
+                            break 3;
                         }
                     }
                 }

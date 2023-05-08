@@ -179,7 +179,6 @@ Trait Sync {
                                     }
                                     elseif($expose) {
                                         $record = $this->expose(
-                                            $object,
                                             $record,
                                             $expose,
                                             $class,
