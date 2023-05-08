@@ -158,8 +158,11 @@ Trait Expose {
                                         }
                                     } else {
                                         if ($node->has($record_attribute)) {
+                                            d($node);
+                                            ddd($record_attribute);
+                                            $record[$attribute] = $node->get($record_attribute);
                                         }
-                                        $record[$attribute] = $node->get($record_attribute);
+
                                     }
                                 }
                             }
@@ -169,7 +172,7 @@ Trait Expose {
                 }
             }
         }
-        return $record;
+        return = new Storage($record);
     }
                     /*
             foreach ($role->permission as $permission) {
