@@ -17,53 +17,53 @@ Trait Expose {
      * @throws Exception
      * @throws AuthorizationException
      */
-    public function expose($record, $expose=[], $class='', $function='', $internalRole=false, $parentScope=false): Storage
+    public function expose($node, $expose=[], $class='', $function='', $internalRole=false, $parentScope=false): array
     {
         $object = $this->object();
-        if(!is_array($expose)){
-            return false;
+        if (!is_array($expose)) {
+            return [];
         }
         $roles = [];
-        if($internalRole){
+        if ($internalRole) {
             $roles[] = $internalRole; //same as parent
         } else {
 //            $roles = Permission::getAccessControl($object, $class, $function);
             try {
                 $user = User::getByAuthorization($object);
-                if($user){
+                if ($user) {
                     $roles = $user->getRolesByRank('asc');
                 }
-            } catch (Exception $exception){
+            } catch (Exception $exception) {
 
             }
         }
-        if(empty($roles)){
+        if (empty($roles)) {
             throw new Exception('Roles failed...');
         }
         d($class);
         d($function);
         d($expose);
         d($roles);
-        foreach($roles as $role) {
-            if(
+        foreach ($roles as $role) {
+            if (
                 property_exists($role, 'uuid') &&
                 property_exists($role, 'name') &&
                 $role->name === 'ROLE_SYSTEM' &&
                 !property_exists($role, 'permission')
-            ){
+            ) {
                 $permission = [];
                 $permission['uuid'] = Core::uuid();
                 $permission['name'] = $class . '.' . $function;
-                $permission['attribute'] =[];
+                $permission['attribute'] = [];
                 $permission['role'] = $role->uuid;
                 $role->permission = [];
-                $role->permission[] = (object) $permission;
+                $role->permission[] = (object)$permission;
             }
-            if(
+            if (
                 property_exists($role, 'name') &&
                 property_exists($role, 'permission') &&
                 is_array($role->permission)
-            ){
+            ) {
                 foreach ($role->permission as $permission) {
                     if (is_array($permission)) {
                         ddd($permission);
@@ -75,9 +75,6 @@ Trait Expose {
                             property_exists($action, 'role') &&
                             $action->role === $role->name
                         ) {
-                            d($record);
-                            d($action);
-                            ddd('found');
                             if (
                                 property_exists($action, 'attributes') &&
                                 is_array($action->attributes)
@@ -87,30 +84,27 @@ Trait Expose {
                                     $explode = explode(':', $attribute, 2);
                                     $compare = null;
                                     if (array_key_exists(1, $explode)) {
-                                        $methods = explode('_', $explode[0]);
-                                        foreach ($methods as $nr => $method) {
-                                            $methods[$nr] = ucfirst($method);
-                                        }
-                                        $method = 'get' . implode($methods);
+                                        $record_attribute = $node->get($explode[0]);
                                         $compare = $explode[1];
                                         $attribute = $explode[0];
                                         if ($compare) {
                                             $parse = new Parse($object, $object->data());
                                             $compare = $parse->compile($compare, $object->data());
-                                            d($record);
+                                            d($node);
                                             ddd($compare);
-                                            /*
-                                            if ($node->$method() !== $compare) {
-                                                throw new Exception('Assertion failed: ' . $assertion . ' values [' . $node->$method() . ', ' . $compare . ']');
+                                            if ($record_attribute !== $compare) {
+                                                throw new Exception('Assertion failed: ' . $assertion . ' values [' . $record_attribute . ', ' . $compare . ']');
                                             }
-                                            */
                                         }
                                     } else {
+                                        $record_attribute = $node->get($attribute);
+                                        /*
                                         $methods = explode('_', $attribute);
                                         foreach ($methods as $nr => $method) {
                                             $methods[$nr] = ucfirst($method);
                                         }
                                         $method = 'get' . implode($methods);
+                                        */
                                     }
                                     if (
                                         property_exists($action, 'objects') &&
@@ -120,10 +114,11 @@ Trait Expose {
                                         if (
                                             property_exists($action->objects->$attribute, 'multiple') &&
                                             $action->objects->$attribute->multiple === true &&
-                                            method_exists($node, $method)
+                                            $node->has($record_attribute)
                                         ) {
                                             $record[$attribute] = [];
-                                            $array = $node->$method();
+                                            $array = $node->get($attribute);
+                                            ddd($array);
                                             foreach ($array as $child) {
                                                 $child_entity = explode('Entity\\', get_class($child));
                                                 $child_record = [];
@@ -139,10 +134,11 @@ Trait Expose {
                                                 $record[$attribute][] = $child_record;
                                             }
                                         } elseif (
-                                            method_exists($node, $method)
+                                            $node->has($record_attribute)
                                         ) {
                                             $record[$attribute] = [];
-                                            $child = $node->$method();
+                                            $child = $node->get($record_attribute);
+                                            ddd($child);
                                             if (!empty($child)) {
                                                 $child_entity = explode('Entity\\', get_class($child));
                                                 $record[$attribute] = $this->expose(
@@ -161,17 +157,20 @@ Trait Expose {
                                             }
                                         }
                                     } else {
-                                        if (method_exists($node, $method)) {
-                                            $record[$attribute] = $node->$method();
+                                        if ($node->has($record_attribute)) {
                                         }
+                                        $record[$attribute] = $node->get($record_attribute);
                                     }
                                 }
                             }
-                            break 3;
                         }
+                        break 3;
                     }
                 }
             }
+        }
+        return $record;
+    }
                     /*
             foreach ($role->permission as $permission) {
                 if (is_array($permission)) {
@@ -428,9 +427,7 @@ Trait Expose {
                 }
             }
             */
-        }
-        return $record;
-    }
+
     /**
      * @throws ObjectException
      * @throws Exception
