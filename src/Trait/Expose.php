@@ -40,10 +40,10 @@ Trait Expose {
         if (empty($roles)) {
             throw new Exception('Roles failed...');
         }
-        d($class);
-        d($function);
-        d($expose);
-        d($roles);
+//        d($class);
+//        d($function);
+//        d($expose);
+//        d($roles);
         $record = [];
         foreach ($roles as $role) {
             if (
@@ -80,6 +80,7 @@ Trait Expose {
                                 property_exists($action, 'attributes') &&
                                 is_array($action->attributes)
                             ) {
+                                ddd($action);
                                 foreach ($action->attributes as $attribute) {
                                     $assertion = $attribute;
                                     $explode = explode(':', $attribute, 2);
