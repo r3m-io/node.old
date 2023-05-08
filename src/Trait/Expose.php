@@ -42,7 +42,7 @@ Trait Expose {
         }
         if($parentRole){
             d($parentRole);
-            ddd($roles);
+            d($roles);
         }
 //        d($class);
 //        d($function);
