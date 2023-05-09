@@ -102,10 +102,15 @@ Trait Sync {
                 $object->config('ds') .
                 $class .
                 $object->config('extension.json');
-            $data = $object->data_read($url);
-            if (!$data) {
+            $data_raw = $object->data_read($url);
+            if (!$data_raw) {
                 continue;
             }
+            $data = new Storage();
+            foreach($data_raw->data() as $nr => $raw){
+                ddd($raw);
+            }
+
             $meta = $object->data_read($meta_url, sha1($meta_url));
             if (!$meta) {
                 continue;
