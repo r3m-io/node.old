@@ -226,6 +226,9 @@ Trait Sync {
                                     ){
                                         $item = $data->get($class . '.' . $node->uuid);
                                     }
+                                    if(!$item){
+                                        continue;
+                                    }
                                     $item->{'#index'} = $index;
                                     $item->{'#sort'} = new stdClass();
                                     $item->{'#sort'}->{$properties[0]} = $key1;
@@ -267,6 +270,9 @@ Trait Sync {
                                         property_exists($node, 'uuid')
                                     ){
                                         $item = $data->get($class . '.' . $node->uuid);
+                                    }
+                                    if(!$item){
+                                        continue;
                                     }
                                     $item->{'#index'} = $index;
                                     $item->{'#sort'} = new stdClass();
@@ -310,8 +316,7 @@ Trait Sync {
                                     $item = $data->get($class . '.' . $node->uuid);
                                 }
                                 if(!$item){
-                                    d($node);
-                                    ddd($data);
+                                    continue;
                                 }
                                 $item->{'#index'} = $index;
                                 $item->{'#sort'} = new stdClass();
