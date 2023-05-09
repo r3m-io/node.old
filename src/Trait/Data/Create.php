@@ -264,7 +264,7 @@ Trait Create {
                     }
                     $node->set('url', $url);
                     $node->set('uuid', $uuid);
-                    $list[] = [
+                    $list[] = (object) [
                         'uuid' => $uuid,
                     ];
                     $list = Sort::list($list)->with([
