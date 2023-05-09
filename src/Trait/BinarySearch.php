@@ -292,6 +292,7 @@ Trait BinarySearch {
                                                     $relation_relation->type === 'many-one' &&
                                                     $relation_relation->class === $record->{'#class'}
                                                 ){
+                                                    //don't need cross-reference, parent is this.
                                                     continue;
                                                 }
                                                 ddd('not implemented (nested relations) yet');
@@ -309,20 +310,11 @@ Trait BinarySearch {
                                             __FUNCTION__,
                                             $role
                                         );
-                                        d($relation_data);
-                                        d($expose);
-                                        d($relation->class);
-                                        d(__FUNCTION__);
-                                        d($role);
-                                        d($relation_record);
-                                        //add expose
-                                        $record->{$relation->attribute}[$nr] = $relation_record;
+                                        if($relation_record){
+                                            $record->{$relation->attribute}[$nr] = $relation_record;
+                                        }
                                     }
-
-                                    d($relation_url);
                                 }
-                                d($record);
-                                ddd($relation);
                             }
                             break;
                         case 'many-one':
