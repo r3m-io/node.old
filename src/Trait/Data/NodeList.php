@@ -21,7 +21,7 @@ Trait NodeList {
         $options = Core::object($options, Core::OBJECT_ARRAY);
         $function = __FUNCTION__;
         $object = $this->object();
-        $this->binary_search_list_create($object, $class, $options);
+        $this->binary_search_list_create($class, $options);
         $dir = $object->config('project.dir.data') .
             'Node' .
             $object->config('ds') .

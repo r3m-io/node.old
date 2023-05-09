@@ -22,8 +22,9 @@ Trait BinarySearch {
      * @throws FileWriteException
      * @throws Exception
      */
-    private function binary_search_list_create(App $object, $class, $options=[]): void
+    private function binary_search_list_create($class, $options=[]): void
     {
+        $object = $this->object();
         $name = Controller::name($class);
         $dir_node = $object->config('project.dir.data') .
             'Node' .
