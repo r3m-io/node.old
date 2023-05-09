@@ -2,6 +2,7 @@
 
 namespace R3m\Io\Node\Trait\Data;
 
+use Exception;
 use R3m\Io\App;
 use R3m\Io\Config;
 use R3m\Io\Exception\FileWriteException;
@@ -19,8 +20,9 @@ Trait Sync {
     /**
      * @throws ObjectException
      * @throws FileWriteException
+     * @throws Exception
      */
-    public function sync()
+    public function sync(): void
     {
         $object = $this->object();
         $options = App::options($object);
@@ -66,6 +68,9 @@ Trait Sync {
                         'permission:uuid'
                     ]
                 ]);
+                if(!$role){
+                    throw new Exception('Role ROLE_SYSTEM not found');
+                }
                 $expose = $this->expose_get(
                     $object,
                     $class,
@@ -186,7 +191,6 @@ Trait Sync {
                                     $object->config('extension.json');
                                 $record = $object->data_read($storage_url);
                                 if ($record) {
-                                    ddd($role);
                                     if(in_array($class, $exception, true)){
                                         $list->set($uuid, $record->data());
                                     }
