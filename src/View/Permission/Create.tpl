@@ -19,6 +19,7 @@ Create {{$class}}:
 {{if(!is.empty($role))}}
 {{break()}}
 {{/if}}
+{{dd('{{$this}}')}}
 {{/while}}
 {{$attributes = []}}
 {{while(true)}}
