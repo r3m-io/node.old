@@ -20,7 +20,6 @@ Create {{$class}}:
 {{break()}}
 {{/if}}
 {{/while}}
-{{dd('{{$this}}')}}
 {{$attributes = []}}
 {{while(true)}}
 {{$attribute = terminal.readline('Attribute: ')}}
