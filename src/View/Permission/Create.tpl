@@ -19,8 +19,8 @@ Create {{$class}}:
 {{if(!is.empty($role))}}
 {{break()}}
 {{/if}}
-{{dd('{{$this}}')}}
 {{/while}}
+{{dd('{{$this}}')}}
 {{$attributes = []}}
 {{while(true)}}
 {{$attribute = terminal.readline('Attribute: ')}}
