@@ -311,7 +311,7 @@ Trait BinarySearch {
                                             $role
                                         );
                                         if($relation_record){
-                                            $record->{$relation->attribute}[$nr] = $relation_record;
+                                            $record->{$relation->attribute}[$nr] = $relation_record->data();
                                         }
                                     }
                                 }
