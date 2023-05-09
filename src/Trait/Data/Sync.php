@@ -72,6 +72,7 @@ Trait Sync {
                     $class . '.' . __FUNCTION__ . '.expose'
                 );
             }
+            $list = [];
             $item = $object->data_read($file->url);
 
             $time_start = microtime(true);
