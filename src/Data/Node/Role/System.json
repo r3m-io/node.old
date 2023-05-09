@@ -1,0 +1,15 @@
+{
+  "name" : "ROLE_SYSTEM",
+  "rank" : 1,
+  "uuid": "ba03ca6d-dd82-4c47-91ec-cf6da860401c",
+  "#class": "Role",
+  "permission": [
+    {
+      "name": "Data.sync",
+      "attribute": [],
+      "role": "ba03ca6d-dd82-4c47-91ec-cf6da860401c",
+      "#class": "Permission",
+      "uuid": "67e34d01-903f-40ca-9075-8c9a1f97bf2d"
+    }
+  ]
+}
