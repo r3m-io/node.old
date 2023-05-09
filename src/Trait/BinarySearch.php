@@ -301,16 +301,17 @@ Trait BinarySearch {
                                                 $object->config('extension.json')
                                             ;
                                             $relation_data = $object->data_read($relation_url, sha1($relation_url));
-                                            ddd($relation_data);
                                             if($relation_data){
-                                                /*
                                                 $relation_object_url = $object->config('project.dir.data') .
                                                     'Node' .
                                                     $object->config('ds') .
-                                                    'object' .
+                                                    'Object' .
                                                     $object->config('ds') .
-                                                    //need class of relation
-                                                */
+                                                    $relation_data->get('#class') .
+                                                    $object->config('extension.json')
+                                                ;
+                                                $relation_object_data = $object->data_read($relation_object_url, sha1($relation_object_url));
+                                                d($relation_object_data);
                                             }
 
                                             d($relation_url);
