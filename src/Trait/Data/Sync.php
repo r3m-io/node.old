@@ -201,6 +201,8 @@ Trait Sync {
                             }
                         }
                     }
+                    d($properties);
+                    d($list);
                     if (array_key_exists(1, $properties)) {
                         $sort = Sort::list($list)->with([
                             $properties[0] => 'ASC',
