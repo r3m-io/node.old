@@ -227,8 +227,27 @@ Trait BinarySearch {
         }
     }
 
+    /**
+     * @throws ObjectException
+     * @throws FileWriteException
+     * @throws Exception
+     */
     private function relation($record, $data){
         $object = $this->object();
+        $role = $this->record('Role', [
+            'filter' => [
+                'name' => 'ROLE_SYSTEM'
+            ],
+            'sort' => [
+                'name' => 'ASC'
+            ],
+            'relation' => [
+                'permission:uuid'
+            ]
+        ]);
+        if(!$role){
+            throw new Exception('Role ROLE_SYSTEM not found');
+        }
         if($data){
             $relations = $data->data('relation');
             if(!$relations){
@@ -289,6 +308,20 @@ Trait BinarySearch {
                                                 ddd('not implemented (nested relations) yet');
                                             }
                                         }
+                                        $expose = $this->expose_get(
+                                            $object,
+                                            $relation->class,
+                                            $relation->class . '.' . __FUNCTION__ . '.expose'
+                                        );
+                                        $record = $this->expose(
+                                            $relation_data,
+                                            $expose,
+                                            $relation->class,
+                                            __FUNCTION__,
+                                            $role
+                                        );
+                                        ddd($record);
+                                        //add expose
                                         $record->{$relation->attribute}[$nr] = $relation_data->data();
                                     }
 
