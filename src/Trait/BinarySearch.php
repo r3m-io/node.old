@@ -245,6 +245,7 @@ Trait BinarySearch {
                 'permission:uuid'
             ]
         ]);
+        ddd($role);
         if(!$role){
             throw new Exception('Role ROLE_SYSTEM not found');
         }
