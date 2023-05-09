@@ -186,6 +186,7 @@ Trait Sync {
                                     $object->config('extension.json');
                                 $record = $object->data_read($storage_url);
                                 if ($record) {
+                                    ddd($role);
                                     if(in_array($class, $exception, true)){
                                         $list->set($uuid, $record->data());
                                     }
