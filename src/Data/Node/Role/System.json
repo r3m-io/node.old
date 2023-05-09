@@ -5,7 +5,7 @@
   "#class": "Role",
   "permission": [
     {
-      "name": "Data.sync",
+      "name": "Permission.relation",
       "attribute": [],
       "role": "ba03ca6d-dd82-4c47-91ec-cf6da860401c",
       "#class": "Permission",
