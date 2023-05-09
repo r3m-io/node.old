@@ -85,7 +85,7 @@ Trait Patch {
             d($node);
             d($expose);
             d($class);
-            d($function);
+            d(__FUNCTION__);
             d($role);
             ddd($record);
         }
