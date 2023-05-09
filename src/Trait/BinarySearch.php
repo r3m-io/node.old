@@ -300,6 +300,19 @@ Trait BinarySearch {
                                                 $uuid .
                                                 $object->config('extension.json')
                                             ;
+                                            $relation_data = $object->data_read($relation_url, sha1($relation_url));
+                                            ddd($relation_data);
+                                            if($relation_data){
+                                                /*
+                                                $relation_object_url = $object->config('project.dir.data') .
+                                                    'Node' .
+                                                    $object->config('ds') .
+                                                    'object' .
+                                                    $object->config('ds') .
+                                                    //need class of relation
+                                                */
+                                            }
+
                                             d($relation_url);
                                         }
                                         d($record);
