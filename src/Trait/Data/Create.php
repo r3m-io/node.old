@@ -234,7 +234,6 @@ Trait Create {
                     array_key_exists('is_many', $options) &&
                     $options['is_many'] === true
                 ){
-                    $node->set('url', $url);
                     $node->set('uuid', $uuid);
                     $node->write($url);
                     if($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
@@ -262,7 +261,6 @@ Trait Create {
                         $list = $result;
                         unset($result);
                     }
-                    $node->set('url', $url);
                     $node->set('uuid', $uuid);
                     $list[] = (object) [
                         'uuid' => $uuid,
@@ -324,8 +322,7 @@ Trait Create {
                     );
                     ddd($expose);
                     $record = $this->expose(
-                        $object,
-                        $node->data(),
+                        $node,
                         $expose,
                         $class,
                         $function
