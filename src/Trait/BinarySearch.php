@@ -309,6 +309,11 @@ Trait BinarySearch {
                                             __FUNCTION__,
                                             $role
                                         );
+                                        d($relation_data);
+                                        d($expose);
+                                        d($relation->class);
+                                        d(__FUNCTION__);
+                                        d($role);
                                         ddd($record);
                                         //add expose
                                         $record->{$relation->attribute}[$nr] = $relation_data->data();
