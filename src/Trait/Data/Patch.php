@@ -31,9 +31,6 @@ Trait Patch {
                 ],
                 'sort' => [
                     'uuid' => 'ASC'
-                ],
-                'relation' => [
-                    'permission:uuid'
                 ]
             ]
         );
@@ -79,13 +76,17 @@ Trait Patch {
             $role
         ){
             $record = $this->expose(
-                $object,
                 $node,
                 $expose,
                 $class,
                 __FUNCTION__,
                 $role
             );
+            d($node);
+            d($expose);
+            d($class);
+            d($function);
+            d($role);
             ddd($record);
         }
 
