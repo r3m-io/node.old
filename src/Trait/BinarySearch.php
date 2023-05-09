@@ -286,9 +286,10 @@ Trait BinarySearch {
                                                 ){
                                                     continue;
                                                 }
-                                                ddd('not implemented yet');
+                                                ddd('not implemented (nested relations) yet');
                                             }
                                         }
+                                        $record->{$relation->attribute}[$nr] = $relation_data->data();
                                     }
 
                                     d($relation_url);
