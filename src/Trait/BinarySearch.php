@@ -228,11 +228,15 @@ Trait BinarySearch {
     }
 
     private function relation($record, $data){
-        d($record);
-        ddd($data);
         $object = $this->object();
         if($data){
             $relations = $data->data('relation');
+            if(!$relations){
+                return $record;
+            }
+            if(!is_array($relations)){
+                return $record;
+            }
             foreach($relations as $relation){
                 if(
                     property_exists($relation, 'type') &&
