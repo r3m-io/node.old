@@ -234,9 +234,8 @@ Trait BinarySearch {
      */
     private function relation($record, $data, $role){
         $object = $this->object();
-        ddd($role);
         if(!$role){
-            throw new Exception('Role ROLE_SYSTEM not found');
+            return $record;
         }
         if($data){
             $relations = $data->data('relation');
