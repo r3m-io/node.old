@@ -107,7 +107,7 @@ Trait Sync {
                 continue;
             }
             $data = new Storage();
-            foreach($data_raw->data() as $nr => $raw){
+            foreach($data_raw->data($class) as $nr => $raw){
                 d($url);
                 ddd($raw);
             }
