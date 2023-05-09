@@ -39,6 +39,7 @@ Trait Patch {
         }
         $node = new Storage($node);
         $patch = new Storage($options);
+        //add validate
         foreach($patch->data() as $attribute => $value){
             if(is_array($value)){
                 $list = $node->get($attribute);
@@ -82,6 +83,23 @@ Trait Patch {
                 __FUNCTION__,
                 $role
             );
+            if(
+                $record->has('uuid') &&
+                !empty($record->get('uuid'))
+            ){
+                //save $record
+                $url = $object->config('project.dir.data') .
+                    'Node' .
+                    $object->config('ds') .
+                    'Storage' .
+                    $object->config('ds') .
+                    substr($record->get('uuid'), 0, 2) .
+                    $object->config('ds') .
+                    $record->get('uuid') .
+                    $object->config('extension.json')
+                ;
+                ddd($url);
+            }
             d($node);
             d($expose);
             d($class);
