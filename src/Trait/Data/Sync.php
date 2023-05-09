@@ -108,10 +108,11 @@ Trait Sync {
             }
             $data = new Storage();
             foreach($data_raw->data($class) as $nr => $raw){
-                d($url);
-                ddd($raw);
+                if(property_exists($raw, 'uuid')){
+                    $data->data($class . '.' . $raw->uuid, $raw);
+                }
             }
-
+            unset($data_raw);
             $meta = $object->data_read($meta_url, sha1($meta_url));
             if (!$meta) {
                 continue;
