@@ -302,7 +302,7 @@ Trait BinarySearch {
                                             $relation->class,
                                             $relation->class . '.' . __FUNCTION__ . '.expose'
                                         );
-                                        $record = $this->expose(
+                                        $relation_record = $this->expose(
                                             $relation_data,
                                             $expose,
                                             $relation->class,
@@ -314,9 +314,9 @@ Trait BinarySearch {
                                         d($relation->class);
                                         d(__FUNCTION__);
                                         d($role);
-                                        ddd($record);
+                                        d($relation_record);
                                         //add expose
-                                        $record->{$relation->attribute}[$nr] = $relation_data->data();
+                                        $record->{$relation->attribute}[$nr] = $relation_record;
                                     }
 
                                     d($relation_url);
