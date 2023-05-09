@@ -14,7 +14,7 @@ Trait Patch {
      * @throws ObjectException
      * @throws FileWriteException
      */
-    public function patch($class, $options=[]): false|array|object
+    public function patch($class, $role, $options=[]): false|array|object
     {
         $uuid = $options['uuid'] ?? false;
         if($uuid === false){
@@ -61,6 +61,7 @@ Trait Patch {
             $class,
             $class . '.' . __FUNCTION__ . '.expose'
         );
+        /*
         $role = $this->record('Role', [
             'filter' => [
                 'name' => 'ROLE_SYSTEM'
@@ -72,6 +73,7 @@ Trait Patch {
                 'permission:uuid'
             ]
         ]);
+        */
         if(
             $expose &&
             $role

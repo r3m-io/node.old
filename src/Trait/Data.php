@@ -2,10 +2,7 @@
 
 namespace R3m\Io\Node\Trait;
 
-//use R3m\Io\Module\Filter;
-
 use SplFileObject;
-use stdClass;
 
 use R3m\Io\App;
 use R3m\Io\Config;
@@ -14,14 +11,8 @@ use R3m\Io\Module\Controller;
 use R3m\Io\Module\Core;
 use R3m\Io\Module\Data as Storage;
 use R3m\Io\Module\Dir;
-use R3m\Io\Module\Event;
 use R3m\Io\Module\File;
-use R3m\Io\Module\Sort;
 use R3m\Io\Module\Validate;
-use R3m\Io\Module\Parse;
-
-use R3m\Io\Node\Service\Role;
-use R3m\Io\Node\Service\User;
 
 use Exception;
 
@@ -34,6 +25,7 @@ Trait Data {
     use Where;
     use Filter;
     use Expose;
+    use Role;
 
     use Data\Create;
     use Data\Delete;

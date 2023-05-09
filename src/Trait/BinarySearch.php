@@ -232,19 +232,8 @@ Trait BinarySearch {
      * @throws FileWriteException
      * @throws Exception
      */
-    private function relation($record, $data){
+    private function relation($record, $data, $role){
         $object = $this->object();
-        $role = $this->record('Role', [
-            'filter' => [
-                'name' => 'ROLE_SYSTEM'
-            ],
-            'sort' => [
-                'name' => 'ASC'
-            ],
-            'relation' => [
-                'permission:uuid'
-            ]
-        ]);
         ddd($role);
         if(!$role){
             throw new Exception('Role ROLE_SYSTEM not found');
@@ -372,7 +361,7 @@ Trait BinarySearch {
     /**
      * @throws Exception
      */
-    private function binary_search_page($file, $options=[]): array
+    private function binary_search_page($file, $role, $options=[]): array
     {
         $object = $this->object();
         $index = 0;
@@ -413,7 +402,7 @@ Trait BinarySearch {
                     $object->config('extension.json')
                 ;
                 $object_data = $object->data_read($object_url, sha1($object_url));
-                $record =$this->relation($record, $object_data);
+                $record =$this->relation($record, $object_data, $role);
 
                 //need object file, so need $class
                 //load relations so we can filter / where on them

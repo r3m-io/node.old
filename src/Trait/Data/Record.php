@@ -14,6 +14,8 @@ Trait Record {
     public function record($class='', $options=[]){
         $options['limit'] = 1;
         $options['page'] = 1;
+
+
         $list = $this->list($class, $options);
         if(
             is_array($list) &&

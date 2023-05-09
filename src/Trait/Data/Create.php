@@ -150,7 +150,7 @@ Trait Create {
      * @throws FileWriteException
      * @throws Exception
      */
-    public function create($class='', $node=[], $options=[]): false|array
+    public function create($class, $role, $node=[], $options=[]): false|array
     {
         $function = __FUNCTION__;
         $name = Controller::name($class);
@@ -325,7 +325,8 @@ Trait Create {
                         $node,
                         $expose,
                         $class,
-                        $function
+                        $function,
+                        $role
                     );
                 }
                 $response['node'] = Core::object($record, Core::OBJECT_ARRAY);

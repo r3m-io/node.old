@@ -29,7 +29,10 @@ Create {{$class}}:
 {{$attributes[] = $attribute|trim}}
 {{/if}}
 {{/while}}
-{{$response = R3m.Io.Node:Data:create("{{$class}}", [
+{{$response = R3m.Io.Node:Data:create(
+$class,
+$role,
+[
 'name' => $name,
 'attribute' => $attributes,
 'role' => $role.uuid
@@ -38,7 +41,10 @@ Create {{$class}}:
 {{$role.permission = []}}
 {{/if}}
 {{$role.permission[] = $response.node.uuid}}
-{{$role = R3m.Io.Node:Data:patch('Role', [
+{{$role = R3m.Io.Node:Data:patch(
+'Role',
+$role,
+[
 'uuid' => $role.uuid,
 'permission' => $role.permission
 ])}}

@@ -14,9 +14,11 @@ Trait NodeList {
      * @throws ObjectException
      * @throws FileWriteException
      * @throws Exception
+     * @throws \Exception
      */
-    public function list($class='', $options=[]): false|array
+    public function list($class, $options=[]): false|array
     {
+        $role = $this->role_system();
         $name = Controller::name($class);
         $options = Core::object($options, Core::OBJECT_ARRAY);
         $function = __FUNCTION__;
@@ -102,6 +104,7 @@ Trait NodeList {
                         $options['filter']['#key'] = $key;
                         $list = $this->binary_search_page(
                             $file,
+                            $role,
                             [
                                 'filter' => $options['filter'],
                                 'page' => $options['page'],
@@ -123,6 +126,7 @@ Trait NodeList {
                             $file = new SplFileObject($url);
                             $list = $this->binary_search_page(
                                 $file,
+                                $role,
                                 [
                                     'filter' => $options['filter'],
                                     'page' => $options['page'],
@@ -176,6 +180,7 @@ Trait NodeList {
                         ];
                         $list = $this->binary_search_page(
                             $file,
+                            $role,
                             [
                                 'where' => $where,
                                 'page' => $options['page'],
@@ -197,6 +202,7 @@ Trait NodeList {
                             $file = new SplFileObject($url);
                             $list = $this->binary_search_page(
                                 $file,
+                                $role,
                                 [
                                     'where' => $options['where'],
                                     'page' => $options['page'],
