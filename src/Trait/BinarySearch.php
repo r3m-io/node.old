@@ -295,9 +295,20 @@ Trait BinarySearch {
                                                     //don't need cross-reference, parent is this.
                                                     continue;
                                                 }
+                                                if(
+                                                    property_exists($relation_relation, 'type') &&
+                                                    property_exists($relation_relation, 'class') &&
+                                                    property_exists($record, '#class') &&
+                                                    $relation_relation->type === 'one-one' &&
+                                                    $relation_relation->class === $record->{'#class'}
+                                                ){
+                                                    //don't need cross-reference, parent is this.
+                                                    continue;
+                                                }
                                                 ddd('not implemented (nested relations) yet');
                                             }
                                         }
+                                        d($relation);
                                         $expose = $this->expose_get(
                                             $object,
                                             $relation->class,
