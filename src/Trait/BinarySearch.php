@@ -227,6 +227,109 @@ Trait BinarySearch {
         }
     }
 
+    private function relation($record, $data){
+        d($record);
+        ddd($data);
+        $object = $this->object();
+        if($data){
+            $relations = $data->data('relation');
+            foreach($relations as $relation){
+                if(
+                    property_exists($relation, 'type') &&
+                    property_exists($relation, 'class') &&
+                    property_exists($relation, 'attribute')
+                ){
+                    switch(strtolower($relation->type)){
+                        case 'one-one':
+                            d($relation);
+                            ddd($record);
+                            break;
+                        case 'one-many':
+                            if(
+                                property_exists($record, $relation->attribute) &&
+                                is_array($record->{$relation->attribute})
+                            ){
+                                foreach($record->{$relation->attribute} as $nr => $uuid){
+                                    $relation_url = $object->config('project.dir.data') .
+                                        'Node' .
+                                        $object->config('ds') .
+                                        'Storage' .
+                                        $object->config('ds') .
+                                        substr($uuid, 0, 2) .
+                                        $object->config('ds') .
+                                        $uuid .
+                                        $object->config('extension.json')
+                                    ;
+                                    $relation_data = $object->data_read($relation_url, sha1($relation_url));
+                                    if($relation_data){
+                                        $relation_object_url = $object->config('project.dir.data') .
+                                            'Node' .
+                                            $object->config('ds') .
+                                            'Object' .
+                                            $object->config('ds') .
+                                            $relation_data->get('#class') .
+                                            $object->config('extension.json')
+                                        ;
+                                        $relation_object_data = $object->data_read($relation_object_url, sha1($relation_object_url));
+                                        if($relation_object_data){
+                                            foreach($relation_object_data->get('relation') as $relation_nr => $relation_relation){
+                                                if(
+                                                    property_exists($relation_relation, 'type') &&
+                                                    property_exists($relation_relation, 'class') &&
+                                                    property_exists($record, '#class') &&
+                                                    $relation_relation->type === 'many-one' &&
+                                                    $relation_relation->class === $record->{'#class'}
+                                                ){
+                                                    continue;
+                                                }
+                                                ddd('not implemented yet');
+                                            }
+                                        }
+                                    }
+
+                                    d($relation_url);
+                                }
+                                d($record);
+                                ddd($relation);
+                            }
+                            break;
+                        case 'many-one':
+                            d($record);
+                            ddd($relation);
+                            break;
+                        /*
+                        if(
+                            property_exists($record, {$relation->attribute}) &&
+                            is_array($record->{$relation->attribute})
+                        ){
+                            ddd($record);
+
+                            /*
+                            $relation_url = $object->config('project.dir.data') .
+                                'Node' .
+                                $object->config('ds') .
+                                'Object' .
+                                $object->config('ds') .
+                                ucfirst($relation->class) .
+                                $object->config('extension.json')
+                            ;
+                            $relation_data = $object->data_read($relation_url, sha1($relation_url));
+                            if($relation_data){
+                                $relation_data = $relation_data->data();
+                                $relation_data = $relation_data->{$relation->attribute};
+                                $record->{$relation->attribute} = $relation_data;
+                            }
+                            */
+                        /*
+                            }
+                        */
+                    }
+                }
+            }
+        }
+        return $record;
+    }
+
     /**
      * @throws Exception
      */
@@ -271,89 +374,8 @@ Trait BinarySearch {
                     $object->config('extension.json')
                 ;
                 $object_data = $object->data_read($object_url, sha1($object_url));
-                if($object_data){
-                    $relations = $object_data->data('relation');
-                    foreach($relations as $relation){
-                        if(
-                            property_exists($relation, 'type') &&
-                            property_exists($relation, 'class') &&
-                            property_exists($relation, 'attribute')
-                        ){
-                            switch(strtolower($relation->type)){
-                                case 'one-one':
-                                    d($relation);
-                                    ddd($record);
-                                    break;
-                                case 'one-many':
-                                    if(
-                                        property_exists($record, $relation->attribute) &&
-                                        is_array($record->{$relation->attribute})
-                                    ){
-                                        foreach($record->{$relation->attribute} as $nr => $uuid){
-                                            $relation_url = $object->config('project.dir.data') .
-                                                'Node' .
-                                                $object->config('ds') .
-                                                'Storage' .
-                                                $object->config('ds') .
-                                                substr($uuid, 0, 2) .
-                                                $object->config('ds') .
-                                                $uuid .
-                                                $object->config('extension.json')
-                                            ;
-                                            $relation_data = $object->data_read($relation_url, sha1($relation_url));
-                                            if($relation_data){
-                                                $relation_object_url = $object->config('project.dir.data') .
-                                                    'Node' .
-                                                    $object->config('ds') .
-                                                    'Object' .
-                                                    $object->config('ds') .
-                                                    $relation_data->get('#class') .
-                                                    $object->config('extension.json')
-                                                ;
-                                                $relation_object_data = $object->data_read($relation_object_url, sha1($relation_object_url));
-                                                d($relation_object_data);
-                                            }
+                $record =$this->relation($record, $object_data);
 
-                                            d($relation_url);
-                                        }
-                                        d($record);
-                                        ddd($relation);
-                                    }
-                                    break;
-                                case 'many-one':
-                                    d($record);
-                                    ddd($relation);
-                                    break;
-                                    /*
-                                    if(
-                                        property_exists($record, {$relation->attribute}) &&
-                                        is_array($record->{$relation->attribute})
-                                    ){
-                                        ddd($record);
-
-                                        /*
-                                        $relation_url = $object->config('project.dir.data') .
-                                            'Node' .
-                                            $object->config('ds') .
-                                            'Object' .
-                                            $object->config('ds') .
-                                            ucfirst($relation->class) .
-                                            $object->config('extension.json')
-                                        ;
-                                        $relation_data = $object->data_read($relation_url, sha1($relation_url));
-                                        if($relation_data){
-                                            $relation_data = $relation_data->data();
-                                            $relation_data = $relation_data->{$relation->attribute};
-                                            $record->{$relation->attribute} = $relation_data;
-                                        }
-                                        */
-                                /*
-                                    }
-                                */
-                            }
-                        }
-                    }
-                }
                 //need object file, so need $class
                 //load relations so we can filter / where on them
                 if(!empty($options['filter'])){
