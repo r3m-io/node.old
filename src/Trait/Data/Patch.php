@@ -98,21 +98,9 @@ Trait Patch {
                     $record->get('uuid') .
                     $object->config('extension.json')
                 ;
-                d($record);
-                ddd($url);
+                $record->write($url);
             }
-            d($node);
-            d($expose);
-            d($class);
-            d(__FUNCTION__);
-            d($role);
-            ddd($record);
         }
-
-
-
-        ddd($expose);
-
         return $node->data();
    }
 }
