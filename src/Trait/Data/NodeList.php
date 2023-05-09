@@ -101,7 +101,6 @@ Trait NodeList {
                         $file = new SplFileObject($filter_url);
                         $options['filter']['#key'] = $key;
                         $list = $this->binary_search_page(
-                            $object,
                             $file,
                             [
                                 'filter' => $options['filter'],
@@ -123,7 +122,6 @@ Trait NodeList {
                         ){
                             $file = new SplFileObject($url);
                             $list = $this->binary_search_page(
-                                $object,
                                 $file,
                                 [
                                     'filter' => $options['filter'],
@@ -177,7 +175,6 @@ Trait NodeList {
                             'operator' => '==='
                         ];
                         $list = $this->binary_search_page(
-                            $object,
                             $file,
                             [
                                 'where' => $where,
@@ -199,7 +196,6 @@ Trait NodeList {
                         ){
                             $file = new SplFileObject($url);
                             $list = $this->binary_search_page(
-                                $object,
                                 $file,
                                 [
                                     'where' => $options['where'],

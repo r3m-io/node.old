@@ -229,7 +229,7 @@ Trait BinarySearch {
     /**
      * @throws Exception
      */
-    private function binary_search_page(App $object, $file, $options=[]): array
+    private function binary_search_page($file, $options=[]): array
     {
         $object = $this->object();
         $index = 0;
@@ -284,7 +284,23 @@ Trait BinarySearch {
                                     ddd($record);
                                     break;
                                 case 'one-many':
-                                    if(property_exists($record, $relation->attribute)){
+                                    if(
+                                        property_exists($record, $relation->attribute) &&
+                                        is_array($record->{$relation->attribute})
+                                    ){
+                                        foreach($record->{$relation->attribute} as $nr => $uuid){
+                                            $relation_url = $object->config('project.dir.data') .
+                                                'Node' .
+                                                $object->config('ds') .
+                                                'Storage' .
+                                                $object->config('ds') .
+                                                substr($uuid, 0, 2) .
+                                                $object->config('ds') .
+                                                $uuid .
+                                                $object->config('extension.json')
+                                            ;
+                                            d($relation_url);
+                                        }
                                         d($record);
                                         ddd($relation);
                                     }
