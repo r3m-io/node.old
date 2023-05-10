@@ -41,6 +41,7 @@ Trait Expose {
             throw new Exception('Roles failed...');
         }
         $record = [];
+        d($roles);
         foreach ($roles as $role) {
             if (
                 property_exists($role, 'uuid') &&
