@@ -196,7 +196,7 @@ Trait Expose {
                 }
             }
         }
-        return new Storage($record);
+        return new Storage((object) $record);
     }
                     /*
             foreach ($role->permission as $permission) {
