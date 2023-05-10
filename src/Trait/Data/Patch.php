@@ -16,8 +16,6 @@ Trait Patch {
      */
     public function patch($class, $role, $options=[]): false|array|object
     {
-        d($options);
-        ddd($role);
         $uuid = $options['uuid'] ?? false;
         if($uuid === false){
             return false;
