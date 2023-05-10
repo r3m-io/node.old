@@ -16,6 +16,7 @@ Trait Patch {
      */
     public function patch($class, $role, $options=[]): false|array|object
     {
+        ddd($role);
         $uuid = $options['uuid'] ?? false;
         if($uuid === false){
             return false;
@@ -103,7 +104,7 @@ Trait Patch {
                 $record->write($url);
             }
         }
-        return $node->data();
+        return $record->data();
    }
 }
 

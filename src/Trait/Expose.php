@@ -63,8 +63,6 @@ Trait Expose {
             ) {
                 foreach ($role->permission as $permission) {
                     if (is_array($permission)) {
-                        $debug = debug_backtrace(true);
-                        d($debug);
                         ddd($permission);
                     }
                     foreach ($expose as $action) {
