@@ -53,7 +53,7 @@ $role,
 {{$permissions[] = $response.node.uuid}}
 {{$role.patched = R3m.Io.Node:Data:patch(
 'Role',
-$role.selected,
+$role.system,
 [
 'uuid' => $role.selected.uuid,
 'permission' => $permissions
