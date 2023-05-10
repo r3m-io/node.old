@@ -35,7 +35,6 @@ Trait Patch {
                 ]
             ]
         );
-        ddd($node);
         if(!$node){
             return false;
         }
