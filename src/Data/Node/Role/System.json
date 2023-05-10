@@ -10,6 +10,13 @@
       "role": "ba03ca6d-dd82-4c47-91ec-cf6da860401c",
       "#class": "Permission",
       "uuid": "67e34d01-903f-40ca-9075-8c9a1f97bf2d"
+    },
+    {
+      "name": "Role.permission",
+      "attribute": [],
+      "role": "ba03ca6d-dd82-4c47-91ec-cf6da860401c",
+      "#class": "Permission",
+      "uuid": "aadc9427-c044-47bb-9078-aa11cfa2cbfe"
     }
   ]
 }
