@@ -25,6 +25,7 @@ Trait Patch {
         $object = $this->object();
         $node = $this->record(
             $name,
+            $role,
             [
                 'filter' => [
                     'uuid' => $uuid
