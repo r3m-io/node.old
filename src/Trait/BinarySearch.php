@@ -308,17 +308,11 @@ Trait BinarySearch {
                                                 ddd('not implemented (nested relations) yet');
                                             }
                                         }
-                                        d($relation);
                                         $expose = $this->expose_get(
                                             $object,
                                             $relation->class,
                                             $relation->class . '.' . __FUNCTION__ . '.expose'
                                         );
-                                        d($expose);
-                                        d($relation->class);
-                                        d(__FUNCTION__);
-                                        d($role);
-                                        d($relation_data);
                                         $relation_record = $this->expose(
                                             $relation_data,
                                             $expose,
@@ -327,7 +321,6 @@ Trait BinarySearch {
                                             $role
                                         );
                                         if($relation_record){
-                                            ddd($relation_record);
                                             $record->{$relation->attribute}[$nr] = $relation_record->data();
                                         }
                                     }
