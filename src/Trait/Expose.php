@@ -190,17 +190,14 @@ Trait Expose {
                                         }
                                     }
                                 }
+                                if(!empty($record)){
+                                    break 3;
+                                }
                             }
-                        } else {
-                            d($class);
-                            d($function);
-                            d($action);
-                            d($permission);
-                            d($record);
                         }
-                        break 3;
                     }
                 }
+                break;
             }
         }
         return new Storage((object) $record);
