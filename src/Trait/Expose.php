@@ -196,6 +196,7 @@ Trait Expose {
                             d($function);
                             d($action);
                             d($permission);
+                            d($record);
                         }
                         break 3;
                     }
