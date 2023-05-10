@@ -6,7 +6,7 @@ Create {{$class}}:
 {{$role.name = string.trim(terminal.readline('Role: '))}}
 {{$role.system = R3m.Io.Node:Role:role_system()}}
 {{dd($role)}}
-{{$role = R3m.Io.Node:Data:record(
+{{$role.selected = R3m.Io.Node:Data:record(
 'Role',
 $role.system,
 [
@@ -21,7 +21,7 @@ $role.system,
     'name' => 'ASC'
 ]
 ])}}
-{{if(!is.empty($role))}}
+{{if(!is.empty($role.selected))}}
 {{break()}}
 {{/if}}
 {{/while}}
@@ -40,10 +40,10 @@ $role,
 [
 'name' => $name,
 'attribute' => $attributes,
-'role' => $role.uuid
+'role' => $role.selected.uuid
 ])}}
-{{if(is.empty($role.permission))}}
-{{$role.permission = []}}
+{{if(is.empty($role.selected.permission))}}
+{{$role.selected.permission = []}}
 {{/if}}
 {{$permissions = $role.permission}}
 {{for.each($permissions as $nr => $permission)}}
@@ -52,11 +52,11 @@ $role,
 {{/if}}
 {{/for.each}}
 {{$permissions[] = $response.node.uuid}}
-{{$role = R3m.Io.Node:Data:patch(
+{{$role.patched = R3m.Io.Node:Data:patch(
 'Role',
-$role,
+$role.selected,
 [
-'uuid' => $role.uuid,
+'uuid' => $role.selected.uuid,
 'permission' => $permissions
 ])}}
 {{$response|json.encode:'JSON_PRETTY_PRINT'}}
