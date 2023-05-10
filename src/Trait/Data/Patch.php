@@ -76,6 +76,10 @@ Trait Patch {
             ]
         ]);
         */
+        d($expose);
+        d($role);
+        d($class);
+        d(__FUNCTION__);
         if(
             $expose &&
             $role
@@ -87,6 +91,7 @@ Trait Patch {
                 __FUNCTION__,
                 $role
             );
+            ddd($record);
             if(
                 $record->has('uuid') &&
                 !empty($record->get('uuid'))
