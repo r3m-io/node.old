@@ -197,7 +197,6 @@ Trait Expose {
                         }
                     }
                 }
-                break;
             }
         }
         return new Storage((object) $record);
