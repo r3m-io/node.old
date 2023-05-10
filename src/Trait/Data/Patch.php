@@ -90,6 +90,10 @@ Trait Patch {
                 __FUNCTION__,
                 $role
             );
+            d($node);
+            d($expose);
+            d($class);
+            d(__FUNCTION__);
             ddd($record);
             if(
                 $record->has('uuid') &&
