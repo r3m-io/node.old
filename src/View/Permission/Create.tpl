@@ -3,17 +3,17 @@
 Create {{$class}}:
 {{$name = string.trim(terminal.readline('Name: '))}}
 {{while(true)}}
-{{$role_name = string.trim(terminal.readline('Role: '))}}
-{{$role = R3m.Io.Node:Role:role_system()}}
+{{$role.name = string.trim(terminal.readline('Role: '))}}
+{{$role.system = R3m.Io.Node:Role:role_system()}}
 {{dd($role)}}
 {{$role = R3m.Io.Node:Data:record(
 'Role',
-$role,
+$role.system,
 [
 'where' => [
 [
 'attribute' => 'name',
-'value' => $role_name,
+'value' => $role.name,
 'operator' => 'partial'
 ]
 ],
