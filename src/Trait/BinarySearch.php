@@ -318,7 +318,7 @@ Trait BinarySearch {
                                         d($relation->class);
                                         d(__FUNCTION__);
                                         d($role);
-                                        ddd($relation_data);
+                                        d($relation_data);
                                         $relation_record = $this->expose(
                                             $relation_data,
                                             $expose,
