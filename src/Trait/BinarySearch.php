@@ -73,7 +73,7 @@ Trait BinarySearch {
 
         $url_key = 'url.';
 
-        if(!array_key_exists($options['sort'])){
+        if(!array_key_exists('sort', $options)){
             $debug = debug_backtrace(true);
             ddd($debug[0]['file'] . ' ' . $debug[0]['line']);
         }
