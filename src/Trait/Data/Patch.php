@@ -47,6 +47,16 @@ Trait Patch {
                 if(empty($list)){
                     $list = [];
                 }
+                elseif(is_array($list)) {
+                    foreach($list as $nr => $record){
+                        if(
+                            is_object($record) &&
+                            property_exists($record, 'uuid')
+                        ){
+                            $list[$nr] = $record->uuid;
+                        }
+                    }
+                }
                 foreach($value as $record){
                     if(!in_array($record, $list, true)){
                         $list[] = $record;
