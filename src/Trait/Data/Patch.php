@@ -85,10 +85,6 @@ Trait Patch {
             ]
         ]);
         */
-        d($expose);
-        d($role);
-        d($class);
-        d(__FUNCTION__);
         if(
             $expose &&
             $role
@@ -100,11 +96,6 @@ Trait Patch {
                 __FUNCTION__,
                 $role
             );
-            d($node);
-            d($expose);
-            d($class);
-            d(__FUNCTION__);
-            ddd($record);
             if(
                 $record->has('uuid') &&
                 !empty($record->get('uuid'))
@@ -121,9 +112,10 @@ Trait Patch {
                     $object->config('extension.json')
                 ;
                 $record->write($url);
+                return $record->data();
             }
         }
-        return $record->data();
+        return false;
    }
 }
 
