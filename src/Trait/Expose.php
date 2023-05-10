@@ -191,6 +191,11 @@ Trait Expose {
                                     }
                                 }
                             }
+                        } else {
+                            d($class);
+                            d($function);
+                            d($action);
+                            d($permission);
                         }
                         break 3;
                     }
