@@ -11,12 +11,12 @@ Trait Record {
      * @throws ObjectException
      * @throws FileWriteException
      */
-    public function record($class='', $options=[]){
+    public function record($class, $role, $options=[]){
         $options['limit'] = 1;
         $options['page'] = 1;
 
 
-        $list = $this->list($class, $options);
+        $list = $this->list($class, $role, $options);
         if(
             is_array($list) &&
             array_key_exists('list', $list) &&

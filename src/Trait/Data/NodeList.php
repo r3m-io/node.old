@@ -16,9 +16,8 @@ Trait NodeList {
      * @throws Exception
      * @throws \Exception
      */
-    public function list($class, $options=[]): false|array
+    public function list($class, $role, $options=[]): false|array
     {
-        $role = $this->role_system();
         $name = Controller::name($class);
         $options = Core::object($options, Core::OBJECT_ARRAY);
         $function = __FUNCTION__;
