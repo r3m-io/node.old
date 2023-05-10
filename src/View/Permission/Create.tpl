@@ -3,12 +3,17 @@
 Create {{$class}}:
 {{$name = string.trim(terminal.readline('Name: '))}}
 {{while(true)}}
-{{$role = string.trim(terminal.readline('Role: '))}}
-{{$role = R3m.Io.Node:Data:record('Role', [
+{{$role_name = string.trim(terminal.readline('Role: '))}}
+{{$role = R3m.Io.Node:Role:role_system()}}
+{{dd($role)}}
+{{$role = R3m.Io.Node:Data:record(
+'Role',
+$role,
+[
 'where' => [
 [
 'attribute' => 'name',
-'value' => $role,
+'value' => $role_name,
 'operator' => 'partial'
 ]
 ],
@@ -40,13 +45,19 @@ $role,
 {{if(is.empty($role.permission))}}
 {{$role.permission = []}}
 {{/if}}
-{{$role.permission[] = $response.node.uuid}}
+{{$permissions = $role.permission}}
+{{for.each($permissions as $nr => $permission)}}
+{{if(!is.empty($permission.uuid))}}
+{{$permissions[$nr] = $permission.uuid}}
+{{/if}}
+{{/for.each}}
+{{$permissions[] = $response.node.uuid}}
 {{$role = R3m.Io.Node:Data:patch(
 'Role',
 $role,
 [
 'uuid' => $role.uuid,
-'permission' => $role.permission
+'permission' => $permissions
 ])}}
 {{$response|json.encode:'JSON_PRETTY_PRINT'}}
 
