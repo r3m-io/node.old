@@ -5,7 +5,6 @@ Create {{$class}}:
 {{while(true)}}
 {{$role.name = string.trim(terminal.readline('Role: '))}}
 {{$role.system = R3m.Io.Node:Role:role_system()}}
-{{dd($role)}}
 {{$role.selected = R3m.Io.Node:Data:record(
 'Role',
 $role.system,
