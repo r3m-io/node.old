@@ -327,6 +327,7 @@ Trait BinarySearch {
                                             $role
                                         );
                                         if($relation_record){
+                                            ddd($relation_record);
                                             $record->{$relation->attribute}[$nr] = $relation_record->data();
                                         }
                                     }
@@ -414,7 +415,7 @@ Trait BinarySearch {
                     $object->config('extension.json')
                 ;
                 $object_data = $object->data_read($object_url, sha1($object_url));
-                $record =$this->relation($record, $object_data, $role);
+                $record = $this->relation($record, $object_data, $role);
 
                 //need object file, so need $class
                 //load relations so we can filter / where on them
