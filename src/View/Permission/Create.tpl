@@ -44,7 +44,7 @@ $role,
 {{if(is.empty($role.selected.permission))}}
 {{$role.selected.permission = []}}
 {{/if}}
-{{$permissions = $role.permission}}
+{{$permissions = $role.selected.permission}}
 {{for.each($permissions as $nr => $permission)}}
 {{if(!is.empty($permission.uuid))}}
 {{$permissions[$nr] = $permission.uuid}}
