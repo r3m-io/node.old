@@ -344,8 +344,6 @@ Trait Sync {
                             }
                             $result->set($class . '.' . $key, $nodeList);
                         }
-                        d($result);
-                        d($url_property_asc);
                         $lines = $result->write($url_property_asc, 'lines');
                         File::touch($url_property_asc, $mtime);
                     }
