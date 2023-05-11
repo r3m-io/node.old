@@ -332,8 +332,6 @@ Trait BinarySearch {
                             }
                             break;
                         case 'many-one':
-                            d($relation->attribute);
-                            ddd($record->{$relation->attribute});
                             if(
                                 property_exists($record, $relation->attribute) &&
                                 is_string($record->{$relation->attribute})
@@ -349,7 +347,6 @@ Trait BinarySearch {
                                     $record->{$relation->attribute} .
                                     $object->config('extension.json')
                                 ;
-                                ddd($relation_url);
                                 $relation_data = $object->data_read($relation_url, sha1($relation_url));
                                 if($relation_data){
                                     $relation_object_url = $object->config('project.dir.data') .
