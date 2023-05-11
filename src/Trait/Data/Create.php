@@ -251,7 +251,6 @@ Trait Create {
                         __FUNCTION__,
                         $role
                     );
-                    ddd($record);
                     if (
                         $record->has('uuid') &&
                         !empty($record->get('uuid'))
@@ -338,6 +337,7 @@ Trait Create {
                                 exec($command);
                             }
                         }
+                        d($record)l
                         $response['node'] = Core::object($record, Core::OBJECT_ARRAY);
                         Event::trigger($object, 'r3m.io.node.data.create', [
                             'class' => $class,
