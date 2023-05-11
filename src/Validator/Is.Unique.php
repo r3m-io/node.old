@@ -40,7 +40,8 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
                     foreach($explode as $explode_nr => $explode_value){
                         $explode[$explode_nr] = trim($explode_value);
                     }
-                    ddd($record);
+                    d($object->request());
+                    d($record);
                     $value[$nr] = $object->request('node.' . $record);
                 }
             }
