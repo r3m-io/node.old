@@ -42,9 +42,6 @@ Trait Expose {
         }
         $record = [];
         d($roles);
-        $debug = debug_backtrace(true);
-        d($debug[0]);
-        d($debug[1]);
         foreach ($roles as $role) {
             if (
                 property_exists($role, 'uuid') &&
