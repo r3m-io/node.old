@@ -213,7 +213,7 @@ Trait Sync {
                             }
                         }
                     }
-                    d($options['sort']);
+                    d($properties);
                     d($list);
                     if (array_key_exists(1, $properties)) {
                         $sort = Sort::list($list)->with([
