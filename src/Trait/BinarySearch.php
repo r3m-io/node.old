@@ -332,6 +332,8 @@ Trait BinarySearch {
                             }
                             break;
                         case 'many-one':
+                            d($relation->attribute);
+                            ddd($record->{$relation->attribute});
                             if(
                                 property_exists($record, $relation->attribute) &&
                                 is_string($record->{$relation->attribute})
