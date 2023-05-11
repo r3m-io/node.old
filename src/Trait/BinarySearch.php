@@ -370,11 +370,21 @@ Trait BinarySearch {
                                                 //don't need cross-reference, parent is this.
                                                 continue;
                                             }
-                                            if(
+                                            elseif(
                                                 property_exists($relation_relation, 'type') &&
                                                 property_exists($relation_relation, 'class') &&
                                                 property_exists($record, '#class') &&
                                                 $relation_relation->type === 'one-one' &&
+                                                $relation_relation->class === $record->{'#class'}
+                                            ){
+                                                //don't need cross-reference, parent is this.
+                                                continue;
+                                            }
+                                            elseif(
+                                                property_exists($relation_relation, 'type') &&
+                                                property_exists($relation_relation, 'class') &&
+                                                property_exists($record, '#class') &&
+                                                $relation_relation->type === 'one-many' &&
                                                 $relation_relation->class === $record->{'#class'}
                                             ){
                                                 //don't need cross-reference, parent is this.
