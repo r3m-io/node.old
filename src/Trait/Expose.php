@@ -41,6 +41,7 @@ Trait Expose {
             throw new Exception('Roles failed...');
         }
         $record = [];
+        $is_expose = false;
         foreach ($roles as $role) {
             if (
                 property_exists($role, 'uuid') &&
@@ -84,6 +85,7 @@ Trait Expose {
                                 $action->role === $parentRole
                             )
                         ) {
+                            $is_expose = true;
                             if (
                                 property_exists($action, 'attributes') &&
                                 is_array($action->attributes)
@@ -197,6 +199,9 @@ Trait Expose {
                     }
                 }
             }
+        }
+        if($is_expose === false){
+            throw new Exception('No expose found for ' . $class . '.' . $function);
         }
         return new Storage((object) $record);
     }
