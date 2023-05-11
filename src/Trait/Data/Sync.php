@@ -180,7 +180,8 @@ Trait Sync {
                         continue;
                     }
                     if(in_array('role.name', $properties, true)){
-                        ddd($list);
+                        d($list);
+                        ddd('test');
                     }
                     if (empty($list)) {
                         $list = new Storage();
