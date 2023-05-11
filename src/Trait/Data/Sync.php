@@ -49,6 +49,7 @@ Trait Sync {
         foreach ($read as $file) {
             $expose = false;
             $class = File::basename($file->name, $object->config('extension.json'));
+            $role = $this->role_system();
             if(property_exists($options, 'class')){
                 if(!in_array($class, $options->class, 1)){
                     continue;
@@ -57,7 +58,7 @@ Trait Sync {
             if(in_array($class, $exception, 1)){
 
             } else {
-                $role = $this->role_system();
+
                 /*
                 $role = $this->record('Role', $role, [
                     'filter' => [
@@ -198,6 +199,25 @@ Trait Sync {
                                     $node->uuid .
                                     $object->config('extension.json');
                                 $record = $object->data_read($storage_url);
+                                //need relations
+
+
+                                $object_url = $object->config('project.dir.data') .
+                                    'Node' .
+                                    $object->config('ds') .
+                                    'Object' .
+                                    $object->config('ds') .
+                                    ucfirst($record->{'#class'}) .
+                                    $object->config('extension.json')
+                                ;
+                                $object_data = $object->data_read($object_url, sha1($object_url));
+                                $record = $this->relation($record, $object_data, $role);
+
+
+
+
+
+
                                 if(in_array('role.name', $properties, true)){
                                     d($storage_url);
                                     ddd($record);
