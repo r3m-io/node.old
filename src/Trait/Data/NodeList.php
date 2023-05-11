@@ -22,6 +22,10 @@ Trait NodeList {
         $options = Core::object($options, Core::OBJECT_ARRAY);
         $function = __FUNCTION__;
         $object = $this->object();
+        if(!array_key_exists('sort', $options)){
+            $debug = debug_backtrace(true);
+            ddd($debug[0]['file'] . ' ' . $debug[0]['line']);
+        }
         $this->binary_search_list_create($class, $options);
         $dir = $object->config('project.dir.data') .
             'Node' .
