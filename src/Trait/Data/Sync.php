@@ -230,12 +230,6 @@ Trait Sync {
                         }
                     }
                     if (array_key_exists(1, $properties)) {
-                        if(in_array('role.name', $properties, true)){
-                            d($properties);
-                            d($list);
-                            ddd('test');
-                        }
-
                         $sort = Sort::list($list)->with([
                             $properties[0] => 'ASC',
                             $properties[1] => 'ASC'
