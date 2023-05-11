@@ -13,6 +13,7 @@
 
 use R3m\Io\App;
 
+use R3m\Io\Module\File;
 use R3m\Io\Node\Model\Unique;
 use R3m\Io\Module\Data as Storage;
 use R3m\Io\Module\Parse;
@@ -78,14 +79,15 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
             ]
         ];
     }
-    /*
     if($url === false){
         throw new Exception('Url not set for Is.Unique');
     }
     if(File::exist($url) === false){
         throw new Exception('BinarySearch tree not found for Is.Unique (' . $url .')');
     }
-    */
+    if($class === false){
+        throw new Exception('Class not set for Is.Unique');
+    }
     $unique = $object->data('Is.Unique');
     if (empty($unique)) {
         $parse = new Parse($object);
@@ -93,8 +95,6 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
         $unique = new Unique($parse, $data);
         $object->data('Is.Unique', $unique);
     }
-    d($options);
-    d($class);
     $record = $unique->record($class, $unique->role_system(), $options);
     if (empty($record)) {
         return true;
