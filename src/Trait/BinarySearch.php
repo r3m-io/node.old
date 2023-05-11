@@ -95,6 +95,7 @@ Trait BinarySearch {
                 'sort' => $options['sort']
             ];
             $key = sha1(Core::object($key, Core::OBJECT_JSON));
+            d($url_property);
             $file = new SplFileObject($url_property);
             $limit = $meta->get('Filter.' . $class . '.' . $key . '.limit') ?? 1000;
             $filter_list = $this->binary_search_list($file, [
