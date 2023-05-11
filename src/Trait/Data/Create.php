@@ -347,6 +347,8 @@ Trait Create {
                             'meta_url' => $meta_url,
                             'node' => $node->data(),
                         ]);
+                    } else {
+                       throw new Exception('Make sure, you have the right permission (' . $class . '.' . __FUNCTION__ .')');
                     }
                 }
             } else {
