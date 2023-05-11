@@ -38,6 +38,13 @@
       "role": "ba03ca6d-dd82-4c47-91ec-cf6da860401c",
       "#class": "Permission",
       "uuid": "aadc9427-c044-47bb-9078-aa11cfa2cbfe"
+    },
+    {
+      "name": "Role.relation",
+      "attribute": [],
+      "role": "ba03ca6d-dd82-4c47-91ec-cf6da860401c",
+      "#class": "Permission",
+      "uuid": "ea344829-2b31-4028-9f43-e127662eb534"
     }
   ]
 }
