@@ -342,9 +342,6 @@ Trait Create {
                             'node' => $node->data(),
                         ]);
                     }
-                } else {
-                    d($expose);
-                    ddd($role);
                 }
             } else {
                 $response['error'] = $validate->test;
@@ -361,6 +358,7 @@ Trait Create {
         } else {
             throw new Exception('Cannot validate node at: ' . $validate_url);
         }
+        ddd($response);
         return $response;
     }
 }
