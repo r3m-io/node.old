@@ -57,7 +57,9 @@ Trait Sync {
             if(in_array($class, $exception, 1)){
 
             } else {
-                $role = $this->record('Role', [
+                $role = $this->role_system();
+                /*
+                $role = $this->record('Role', $role, [
                     'filter' => [
                         'name' => 'ROLE_SYSTEM'
                     ],
@@ -68,6 +70,7 @@ Trait Sync {
                         'permission:uuid'
                     ]
                 ]);
+                */
                 if(!$role){
                     throw new Exception('Role ROLE_SYSTEM not found');
                 }
