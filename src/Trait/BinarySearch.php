@@ -332,6 +332,74 @@ Trait BinarySearch {
                             }
                             break;
                         case 'many-one':
+                            if(
+                                property_exists($record, $relation->attribute) &&
+                                is_string($record->{$relation->attribute})
+                                //add is_uuid
+                            ){
+                                $relation_url = $object->config('project.dir.data') .
+                                    'Node' .
+                                    $object->config('ds') .
+                                    'Storage' .
+                                    $object->config('ds') .
+                                    substr($record->{$relation->attribute}, 0, 2) .
+                                    $object->config('ds') .
+                                    $record->{$relation->attribute} .
+                                    $object->config('extension.json')
+                                ;
+                                $relation_data = $object->data_read($relation_url, sha1($relation_url));
+                                if($relation_data){
+                                    $relation_object_url = $object->config('project.dir.data') .
+                                        'Node' .
+                                        $object->config('ds') .
+                                        'Object' .
+                                        $object->config('ds') .
+                                        $relation_data->get('#class') .
+                                        $object->config('extension.json')
+                                    ;
+                                    $relation_object_data = $object->data_read($relation_object_url, sha1($relation_object_url));
+                                    if($relation_object_data){
+                                        foreach($relation_object_data->get('relation') as $relation_nr => $relation_relation){
+                                            if(
+                                                property_exists($relation_relation, 'type') &&
+                                                property_exists($relation_relation, 'class') &&
+                                                property_exists($record, '#class') &&
+                                                $relation_relation->type === 'many-one' &&
+                                                $relation_relation->class === $record->{'#class'}
+                                            ){
+                                                //don't need cross-reference, parent is this.
+                                                continue;
+                                            }
+                                            if(
+                                                property_exists($relation_relation, 'type') &&
+                                                property_exists($relation_relation, 'class') &&
+                                                property_exists($record, '#class') &&
+                                                $relation_relation->type === 'one-one' &&
+                                                $relation_relation->class === $record->{'#class'}
+                                            ){
+                                                //don't need cross-reference, parent is this.
+                                                continue;
+                                            }
+                                            ddd('not implemented (nested relations) yet');
+                                        }
+                                    }
+                                    $expose = $this->expose_get(
+                                        $object,
+                                        $relation->class,
+                                        $relation->class . '.' . __FUNCTION__ . '.expose'
+                                    );
+                                    $relation_record = $this->expose(
+                                        $relation_data,
+                                        $expose,
+                                        $relation->class,
+                                        __FUNCTION__,
+                                        $role
+                                    );
+                                    if($relation_record){
+                                        $record->{$relation->attribute} = $relation_record->data();
+                                    }
+                                }
+                            }
                             d($record);
                             ddd($relation);
                             break;
