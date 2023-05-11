@@ -193,6 +193,10 @@ Trait Sync {
                                     $node->uuid .
                                     $object->config('extension.json');
                                 $record = $object->data_read($storage_url);
+                                if(in_array('role.name', $properties, true)){
+                                    d($storage_url);
+                                    ddd($record);
+                                }
                                 if ($record) {
                                     if(in_array($class, $exception, true)){
                                         $list->set($uuid, $record->data());
