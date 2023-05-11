@@ -179,9 +179,13 @@ Trait Sync {
                         //same cache
                         continue;
                     }
+                    if(in_array('role.name', $properties, true)){
+                        ddd($data);
+                    }
                     if (empty($list)) {
                         $list = new Storage();
                         foreach ($data->data($class) as $uuid => $node) {
+
                             if (property_exists($node, 'uuid')) {
                                 $storage_url = $object->config('project.dir.data') .
                                     'Node' .
