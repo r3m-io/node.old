@@ -180,10 +180,6 @@ Trait Sync {
                         //same cache
                         continue;
                     }
-                    if(in_array('role.name', $properties, true)){
-                        d($list);
-                        ddd('test');
-                    }
                     if (empty($list)) {
                         $list = new Storage();
                         foreach ($data->data($class) as $uuid => $node) {
@@ -213,19 +209,11 @@ Trait Sync {
                                     $object_data = $object->data_read($object_url, sha1($object_url));
                                     $record->data($this->relation($record->data(), $object_data, $role));
                                 }
-                                if(in_array('role.name', $properties, true)){
-                                    d($storage_url);
-                                    ddd($record);
-                                }
                                 if ($record) {
                                     if(in_array($class, $exception, true)){
                                         $list->set($uuid, $record->data());
                                     }
                                     elseif($expose) {
-                                        if(in_array('role.name', $properties, true)){
-                                            d($record);
-                                            d($expose);
-                                        }
                                         $record = $this->expose(
                                             $record,
                                             $expose,
@@ -233,10 +221,6 @@ Trait Sync {
                                             __FUNCTION__,
                                             $role
                                         );
-                                        if(in_array('role.name', $properties, true)){
-                                            d($class);
-                                            d(__FUNCTION__);
-                                        }
                                         $list->set($uuid, $record->data());
                                     }
                                 } else {
