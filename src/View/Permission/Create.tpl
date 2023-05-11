@@ -35,7 +35,7 @@ $role.system,
 {{/while}}
 {{$response = R3m.Io.Node:Data:create(
 $class,
-$role,
+$role.system,
 [
 'name' => $name,
 'attribute' => $attributes,
