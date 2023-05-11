@@ -235,11 +235,6 @@ Trait Create {
                 $node = new Storage();
                 $node->data($object->request('node'));
                 $node->set('#class', $class);
-                d($expose);
-                d($role);
-                d($node);
-                d($class);
-                d(__FUNCTION__);
                 if(
                     $expose &&
                     $role
@@ -365,7 +360,6 @@ Trait Create {
         } else {
             throw new Exception('Cannot validate node at: ' . $validate_url);
         }
-        ddd($response);
         return $response;
     }
 }
