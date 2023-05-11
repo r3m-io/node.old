@@ -235,6 +235,9 @@ Trait Create {
                 $node = new Storage();
                 $node->data($object->request('node'));
                 $node->set('#class', $class);
+                d($expose);
+                d($role);
+                ddd($node);
                 if(
                     $expose &&
                     $role
