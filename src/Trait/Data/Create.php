@@ -337,8 +337,7 @@ Trait Create {
                                 exec($command);
                             }
                         }
-                        d($record);
-                        $response['node'] = Core::object($record, Core::OBJECT_ARRAY);
+                        $response['node'] = Core::object($record->data(), Core::OBJECT_ARRAY);
                         Event::trigger($object, 'r3m.io.node.data.create', [
                             'class' => $class,
                             'options' => $options,
