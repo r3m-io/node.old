@@ -237,7 +237,9 @@ Trait Create {
                 $node->set('#class', $class);
                 d($expose);
                 d($role);
-                ddd($node);
+                d($node);
+                d($class);
+                d(__FUNCTION__);
                 if(
                     $expose &&
                     $role
@@ -249,6 +251,7 @@ Trait Create {
                         __FUNCTION__,
                         $role
                     );
+                    ddd($record);
                     if (
                         $record->has('uuid') &&
                         !empty($record->get('uuid'))
