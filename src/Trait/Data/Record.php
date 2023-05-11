@@ -15,7 +15,10 @@ Trait Record {
         $options['limit'] = 1;
         $options['page'] = 1;
 
-
+        if(!array_key_exists('sort', $options)){
+            $debug = debug_backtrace(true);
+            ddd($debug[0]['file'] . ' ' . $debug[0]['line']);
+        }
         $list = $this->list($class, $role, $options);
         if(
             is_array($list) &&
