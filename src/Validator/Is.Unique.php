@@ -40,9 +40,7 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
                     foreach($explode as $explode_nr => $explode_value){
                         $explode[$explode_nr] = trim($explode_value);
                     }
-                    d($object->request());
-                    d($record);
-                    $value[$nr] = $object->request('node.' . $record);
+                    $value[$nr] = $object->request('node.' . $explode[0]);
                 }
             }
         }
@@ -61,8 +59,13 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
                 foreach($explode as $explode_nr => $explode_value){
                     $explode[$explode_nr] = trim($explode_value);
                 }
-                $options['filter'][$explode[0]] = $value[$nr];
-                $options['sort'][$explode[0]] = 'ASC';
+                if(array_key_exists(1, $explode)){
+                    $options['filter'][$explode[1]] = $value[$nr];
+                    $options['sort'][$explode[1]] = 'ASC';
+                } else {
+                    $options['filter'][$explode[0]] = $value[$nr];
+                    $options['sort'][$explode[0]] = 'ASC';
+                }
             }
         }
     } else {
