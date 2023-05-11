@@ -201,23 +201,19 @@ Trait Sync {
                                 $record = $object->data_read($storage_url);
                                 //need relations
 
-
-                                $object_url = $object->config('project.dir.data') .
-                                    'Node' .
-                                    $object->config('ds') .
-                                    'Object' .
-                                    $object->config('ds') .
-                                    ucfirst($record->{'#class'}) .
-                                    $object->config('extension.json')
-                                ;
-                                $object_data = $object->data_read($object_url, sha1($object_url));
-                                $record = $this->relation($record, $object_data, $role);
-
-
-
-
-
-
+                                if($record->has('#class')){
+                                    $object_url = $object->config('project.dir.data') .
+                                        'Node' .
+                                        $object->config('ds') .
+                                        'Object' .
+                                        $object->config('ds') .
+                                        ucfirst($record->get('#class')) .
+                                        $object->config('extension.json')
+                                    ;
+                                    $object_data = $object->data_read($object_url, sha1($object_url));
+                                    $record = $this->relation($record, $object_data, $role);
+                                    ddd($record);
+                                }
                                 if(in_array('role.name', $properties, true)){
                                     d($storage_url);
                                     ddd($record);
