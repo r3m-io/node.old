@@ -412,35 +412,7 @@ Trait BinarySearch {
                                     }
                                 }
                             }
-                            d($record);
-                            ddd($relation);
                             break;
-                        /*
-                        if(
-                            property_exists($record, {$relation->attribute}) &&
-                            is_array($record->{$relation->attribute})
-                        ){
-                            ddd($record);
-
-                            /*
-                            $relation_url = $object->config('project.dir.data') .
-                                'Node' .
-                                $object->config('ds') .
-                                'Object' .
-                                $object->config('ds') .
-                                ucfirst($relation->class) .
-                                $object->config('extension.json')
-                            ;
-                            $relation_data = $object->data_read($relation_url, sha1($relation_url));
-                            if($relation_data){
-                                $relation_data = $relation_data->data();
-                                $relation_data = $relation_data->{$relation->attribute};
-                                $record->{$relation->attribute} = $relation_data;
-                            }
-                            */
-                        /*
-                            }
-                        */
                     }
                 }
             }
