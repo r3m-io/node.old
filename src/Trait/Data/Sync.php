@@ -212,7 +212,6 @@ Trait Sync {
                                     ;
                                     $object_data = $object->data_read($object_url, sha1($object_url));
                                     $record = $this->relation($record, $object_data, $role);
-                                    ddd($record);
                                 }
                                 if(in_array('role.name', $properties, true)){
                                     d($storage_url);
