@@ -19,6 +19,13 @@
       "uuid": "d2175cab-091a-4533-b4d1-129feddda37b"
     },
     {
+      "name": "Permission.sync",
+      "attribute": [],
+      "role": "ba03ca6d-dd82-4c47-91ec-cf6da860401c",
+      "#class": "Permission",
+      "uuid": "d0247be7-657e-4d52-9fcc-c0f9cc74ecaa"
+    },
+    {
       "name": "Event.sync",
       "attribute": [],
       "role": "ba03ca6d-dd82-4c47-91ec-cf6da860401c",
