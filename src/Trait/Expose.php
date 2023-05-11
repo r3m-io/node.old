@@ -201,6 +201,7 @@ Trait Expose {
             }
         }
         if($is_expose === false){
+            d($record);
             throw new Exception('No expose found for ' . $class . '.' . $function);
         }
         return new Storage((object) $record);
