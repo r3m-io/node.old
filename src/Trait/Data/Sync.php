@@ -198,6 +198,10 @@ Trait Sync {
                                         $list->set($uuid, $record->data());
                                     }
                                     elseif($expose) {
+                                        if(in_array('role.name', $properties, true)){
+                                            d($record);
+                                            d($expose);
+                                        }
                                         $record = $this->expose(
                                             $record,
                                             $expose,
@@ -205,6 +209,10 @@ Trait Sync {
                                             __FUNCTION__,
                                             $role
                                         );
+                                        if(in_array('role.name', $properties, true)){
+                                            d($class);
+                                            d(__FUNCTION__);
+                                        }
                                         $list->set($uuid, $record->data());
                                     }
                                 } else {
