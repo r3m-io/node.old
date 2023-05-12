@@ -24,6 +24,7 @@ Trait NodeList {
         $object = $this->object();
         if(!array_key_exists('sort', $options)){
             $debug = debug_backtrace(true);
+            d($options);
             ddd($debug[0]['file'] . ' ' . $debug[0]['line']);
         }
         $this->binary_search_list_create($class, $options);
