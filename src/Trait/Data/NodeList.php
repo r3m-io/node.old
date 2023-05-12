@@ -27,6 +27,10 @@ Trait NodeList {
             d($options);
             ddd($debug[0]['file'] . ' ' . $debug[0]['line']);
         }
+        d($class);
+        d(__FUNCTION__);
+        d($role);
+        d($options);
         $this->binary_search_list_create($class, $options);
         $dir = $object->config('project.dir.data') .
             'Node' .
