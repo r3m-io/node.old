@@ -232,12 +232,29 @@ Trait NodeList {
                     return $result;
                 } else {
                     // no filter, no where
-                    $key = [
-                        'sort' => $options['sort']
-                    ];
-                    $key = sha1(Core::object($options['sort'], Core::OBJECT_JSON));
-                    $lines = $meta->get('Sort.' . $name . '.' . $key . '.lines');
-                    ddd($lines);
+                    $properties = [];
+
+                    $url_key = 'url.';
+
+                    if(
+                        array_key_exists('sort', $options) &&
+                        is_array($options['sort'])
+                    ){
+                        foreach($options['sort'] as $key => $order) {
+                            if(empty($properties)){
+                                $url_key .= 'asc.';
+                            } else {
+                                $url_key .= strtolower($order) . '.';
+                            }
+                            $properties[] = $key;
+                        }
+                    }
+                    $url_key = substr($url_key, 0, -1);
+                    $sort_key = sha1(Core::object($properties, Core::OBJECT_JSON));
+                    $url_property = $meta->get('Sort.' . $class . '.' . $sort_key . '.'. $url_key);
+                    $sort_lines = $meta->get('Sort.' . $class . '.' . $sort_key . '.lines');
+                    d($url_property);
+                    ddd($sort_lines);
                     $where_url = $object->config('project.dir.data') .
                         'Node' .
                         $object->config('ds') .
