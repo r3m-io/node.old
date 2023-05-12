@@ -235,7 +235,7 @@ Trait NodeList {
                     $key = [
                         'sort' => $options['sort']
                     ];
-                    $key = sha1(Core::object($key, Core::OBJECT_JSON));
+                    $key = sha1(Core::object($options['sort'], Core::OBJECT_JSON));
                     $lines = $meta->get('Sort.' . $name . '.' . $key . '.lines');
                     ddd($lines);
                     $where_url = $object->config('project.dir.data') .
