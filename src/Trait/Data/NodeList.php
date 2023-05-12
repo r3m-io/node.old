@@ -251,22 +251,33 @@ Trait NodeList {
                     }
                     $url_key = substr($url_key, 0, -1);
                     $sort_key = sha1(Core::object($properties, Core::OBJECT_JSON));
-                    $url_property = $meta->get('Sort.' . $class . '.' . $sort_key . '.'. $url_key);
-                    $sort_lines = $meta->get('Sort.' . $class . '.' . $sort_key . '.lines');
-                    d($url_property);
-                    ddd($sort_lines);
-                    $where_url = $object->config('project.dir.data') .
-                        'Node' .
-                        $object->config('ds') .
-                        'Where' .
-                        $object->config('ds') .
-                        $name .
-                        $object->config('ds') .
-                        $key .
-                        $object->config('extension.json')
-                    ;
-                    $where_mtime = File::mtime($where_url);
-                    ddd($options);
+                    $url = $meta->get('Sort.' . $class . '.' . $sort_key . '.'. $url_key);
+                    $lines = $meta->get('Sort.' . $class . '.' . $sort_key . '.lines');
+                    if(
+                        File::exist($url) &&
+                        $lines > 0
+                    ){
+                        $file = new SplFileObject($url);
+                        $list = $this->binary_search_page(
+                            $file,
+                            $role,
+                            [
+                                'page' => $options['page'],
+                                'limit' => $options['limit'],
+                                'lines'=> $lines,
+                                'counter' => 0,
+                                'direction' => 'next',
+                                'url' => $url
+                            ]
+                        );
+                        $result = [];
+                        $result['page'] = $options['page'];
+                        $result['limit'] = $options['limit'];
+                        $result['list'] = $list;
+                        $result['sort'] = $options['sort'];
+                        $result['where'] = $options['where'] ?? [];
+                        return $result;
+                    }
                 }
             }
         }
