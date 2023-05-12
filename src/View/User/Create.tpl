@@ -16,6 +16,7 @@ Passwords do not match!
 {{/while}}
 {{$response = R3m.Io.Node:Data:list(
 'Role',
+R3m.Io.Node:Role:role_system(),
 [
 'sort' => [
 'rank' => 'ASC',
