@@ -47,12 +47,15 @@ Use ',' to separate roles, 'All' for all roles.
 {{/if}}
 {{/for.each}}
 {{/if}}
+{{for.each($roles as $nr => $role)}}
+{{$roles[$nr] = $role.uuid}}
+{{/for.each}}
 {{$response = R3m.Io.Node:Data:create(
 'User',
 [
 'email' => $email,
 'password' => password.hash($password, 13),
-'Role' => R3m.Io.Node:Data:list_attribute($roles, ['uuid', 'name', 'rank']),
+'role' => $roles
 ])}}
 
 {{$response|json.encode:'JSON_PRETTY_PRINT'}}
