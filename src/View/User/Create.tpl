@@ -53,9 +53,11 @@ Use ',' to separate roles, 'All' for all roles.
 {{/for.each}}
 {{$response = R3m.Io.Node:Data:create(
 'User',
+R3m.Io.Node:Role:role_system(),
 [
 'email' => $email,
 'password' => password.hash($password, 13),
+'password_confirmation' => $password_confirmation,
 'role' => $roles
 ])}}
 
