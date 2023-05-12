@@ -156,6 +156,7 @@ Trait Create {
         $name = Controller::name($class);
         $object = $this->object();
         $object->request('node', (object) $node);
+        d($object->request());
         $dir_node = $object->config('project.dir.data') .
             'Node' .
             $object->config('ds')
