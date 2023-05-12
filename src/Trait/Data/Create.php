@@ -156,7 +156,6 @@ Trait Create {
         $name = Controller::name($class);
         $object = $this->object();
         $object->request('node', (object) $node);
-        d($object->request());
         $dir_node = $object->config('project.dir.data') .
             'Node' .
             $object->config('ds')
@@ -255,8 +254,8 @@ Trait Create {
                             array_key_exists('is_many', $options) &&
                             $options['is_many'] === true
                         ){
-                            $node->set('uuid', $uuid);
-                            $node->write($url);
+                            $record->set('uuid', $uuid);
+                            $record->write($url);
                             if($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
                                 $command = 'chmod 666 ' . $url;
                                 exec($command);
@@ -282,7 +281,7 @@ Trait Create {
                                 $list = $result;
                                 unset($result);
                             }
-                            $node->set('uuid', $uuid);
+                            $record->set('uuid', $uuid);
                             $list[] = (object) [
                                 'uuid' => $uuid,
                             ];
@@ -319,7 +318,7 @@ Trait Create {
                             $meta->set('Sort.' . $class . '.' . $key . '.count', $count);
                             $meta->set('Sort.' . $class . '.' . $key . '.url.asc', $binary_search_url);
                             $meta->write($meta_url);
-                            $node->write($url);
+                            $record->write($url);
                             if ($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
                                 $command = 'chmod 666 ' . $url;
                                 exec($command);
