@@ -231,6 +231,24 @@ Trait NodeList {
                     $result['where'] = $options['where'] ?? [];
                     return $result;
                 } else {
+                    // no filter, no where
+                    $key = [
+                        'sort' => $options['sort']
+                    ];
+                    $key = sha1(Core::object($key, Core::OBJECT_JSON));
+                    $lines = $meta->get('Sort.' . $name . '.' . $key . '.lines');
+                    ddd($lines);
+                    $where_url = $object->config('project.dir.data') .
+                        'Node' .
+                        $object->config('ds') .
+                        'Where' .
+                        $object->config('ds') .
+                        $name .
+                        $object->config('ds') .
+                        $key .
+                        $object->config('extension.json')
+                    ;
+                    $where_mtime = File::mtime($where_url);
                     ddd($options);
                 }
             }
