@@ -83,7 +83,8 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
         throw new Exception('Url not set for Is.Unique');
     }
     if(File::exist($url) === false){
-        throw new Exception('BinarySearch tree not found for Is.Unique (' . $url .')');
+        //log url doesn't exist for is.unique (maybe new object)
+        return true;
     }
     if($class === false){
         throw new Exception('Class not set for Is.Unique');
