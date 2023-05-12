@@ -45,6 +45,13 @@
       "role": "ba03ca6d-dd82-4c47-91ec-cf6da860401c",
       "#class": "Permission",
       "uuid": "ea344829-2b31-4028-9f43-e127662eb534"
+    },
+    {
+      "name": "User.create",
+      "attribute": [],
+      "role": "ba03ca6d-dd82-4c47-91ec-cf6da860401c",
+      "#class": "Permission",
+      "uuid": "95fb4b78-f50f-4bb6-8fe6-0dd036ca2bdf"
     }
   ]
 }
