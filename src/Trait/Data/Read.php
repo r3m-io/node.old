@@ -12,10 +12,16 @@ Trait Read {
      * @throws ObjectException
      * @throws FileWriteException
      */
-    public function read($class='', $options=[]): false|array|object
+    public function read($class, $role, $options=[]): false|array|object
     {
 //        $name = Controller::name($class);
         $options = Core::object($options, Core::OBJECT_ARRAY);
+
+        d($class);
+        d($role);
+        ddd($options);
+
+
         $one = [
             'sort' => [
                 'uuid' => 'asc'
