@@ -309,6 +309,8 @@ Trait BinarySearch {
                                                     //don't need cross-reference, parent is this.
                                                     continue;
                                                 }
+                                                d($relation_relation);
+                                                d($record);
                                                 ddd('not implemented (nested relations) yet');
                                             }
                                         }
