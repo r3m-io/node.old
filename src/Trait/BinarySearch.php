@@ -309,10 +309,15 @@ Trait BinarySearch {
                                                     //don't need cross-reference, parent is this.
                                                     continue;
                                                 }
-                                                d($relation_data);
-                                                d($relation_relation);
-                                                $list = $relation_data->get($relation_relation->class);
-                                                ddd($list);
+                                                if(
+                                                    property_exists($relation_relation, 'attribute')
+                                                ){
+                                                    d($relation_data);
+                                                    d($relation_relation);
+                                                    $list = $relation_data->get($relation_relation->attribute);
+                                                    ddd($list);
+                                                }
+
 
 //                                                $relation_data->set( . $relation_nr . '.attribute', $relation->attribute);
                                                 d($relation_data);
