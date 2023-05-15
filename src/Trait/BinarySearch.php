@@ -315,22 +315,29 @@ Trait BinarySearch {
                                                     $list = $relation_data->get($relation_relation->attribute);
                                                     if(is_array($list)){
                                                         foreach($list as $relation_data_nr => $relation_data_uuid){
-                                                            ddd($relation_data_uuid);
+                                                            $relation_data_url = $object->config('project.dir.data') .
+                                                                'Node' .
+                                                                $object->config('ds') .
+                                                                'Storage' .
+                                                                $object->config('ds') .
+                                                                substr($relation_data_uuid, 0, 2) .
+                                                                $object->config('ds') .
+                                                                $relation_data_uuid .
+                                                                $object->config('extension.json')
+                                                            ;
+                                                            $relation_data_data = $object->data_read($relation_data_url, sha1($relation_data_url));
+                                                            if($relation_data_data){
+                                                                $list[$nr] = $relation_data_data->data();
+                                                            } else {
+                                                                //old data, remove from list
+                                                                unset($list[$nr]);
+                                                            }
                                                         }
                                                     }
-
                                                     d($relation_data);
-                                                    d($relation_relation);
-
                                                     ddd($list);
                                                 }
 
-
-//                                                $relation_data->set( . $relation_nr . '.attribute', $relation->attribute);
-                                                d($relation_data);
-                                                d($relation_relation);
-                                                d($record);
-                                                ddd('not implemented (nested relations) yet');
                                             }
                                             $expose = $this->expose_get(
                                                 $object,
