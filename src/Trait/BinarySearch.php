@@ -335,6 +335,8 @@ Trait BinarySearch {
                                                         }
                                                     } else {
                                                         d('not implemented yet');
+                                                        d($relation_data);
+                                                        d($relation_relation);
                                                         ddd($list);
                                                     }
                                                     $relation_data->set($relation_relation->attribute, $list);
