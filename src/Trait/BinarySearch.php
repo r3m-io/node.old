@@ -334,8 +334,7 @@ Trait BinarySearch {
                                                             }
                                                         }
                                                     }
-                                                    d($relation_data);
-                                                    ddd($list);
+                                                    $relation_data->set($relation_relation->attribute, $list);
                                                 }
 
                                             }
