@@ -231,7 +231,8 @@ Trait BinarySearch {
         }
     }
 
-    private function relation_many($relation, $list=[]){
+    private function relation_many($relation, $list=[]): false|array
+    {
         if(!is_array($list)){
             return false;
         }
