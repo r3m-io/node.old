@@ -333,10 +333,12 @@ Trait BinarySearch {
                                                                 unset($list[$nr]);
                                                             }
                                                         }
+                                                    } else {
+                                                        d('not implemented yet');
+                                                        ddd($list);
                                                     }
                                                     $relation_data->set($relation_relation->attribute, $list);
                                                 }
-
                                             }
                                             $expose = $this->expose_get(
                                                 $object,
@@ -353,22 +355,24 @@ Trait BinarySearch {
                                             if($relation_record){
                                                 $record->{$relation->attribute}[$nr] = $relation_record->data();
                                             }
+                                        } else {
+                                            $expose = $this->expose_get(
+                                                $object,
+                                                $relation->class,
+                                                $relation->class . '.' . __FUNCTION__ . '.expose'
+                                            );
+                                            $relation_record = $this->expose(
+                                                $relation_data,
+                                                $expose,
+                                                $relation->class,
+                                                __FUNCTION__,
+                                                $role
+                                            );
+                                            if($relation_record){
+                                                $record->{$relation->attribute}[$nr] = $relation_record->data();
+                                            }
                                         }
-                                        $expose = $this->expose_get(
-                                            $object,
-                                            $relation->class,
-                                            $relation->class . '.' . __FUNCTION__ . '.expose'
-                                        );
-                                        $relation_record = $this->expose(
-                                            $relation_data,
-                                            $expose,
-                                            $relation->class,
-                                            __FUNCTION__,
-                                            $role
-                                        );
-                                        if($relation_record){
-                                            $record->{$relation->attribute}[$nr] = $relation_record->data();
-                                        }
+
                                     }
                                 }
                             }
