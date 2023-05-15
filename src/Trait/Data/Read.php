@@ -34,6 +34,7 @@ Trait Read {
         ];
         $data = $this->record($name, $role, $options_record);
         if($data){
+            d($data);
             return $data->data();
         }
         return false;
