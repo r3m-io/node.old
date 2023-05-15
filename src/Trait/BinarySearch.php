@@ -354,10 +354,6 @@ Trait BinarySearch {
                                                 __FUNCTION__,
                                                 $role
                                             );
-                                            d($relation->class);
-                                            d(__FUNCTION__);
-                                            d($relation_record);
-                                            ddd($record);
                                             if($relation_record){
                                                 $record->{$relation->attribute}[$nr] = $relation_record->data();
                                             }
