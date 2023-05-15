@@ -327,10 +327,10 @@ Trait BinarySearch {
                                                             ;
                                                             $relation_data_data = $object->data_read($relation_data_url, sha1($relation_data_url));
                                                             if($relation_data_data){
-                                                                $list[$nr] = $relation_data_data->data();
+                                                                $list[$relation_data_nr] = $relation_data_data->data();
                                                             } else {
                                                                 //old data, remove from list
-                                                                unset($list[$nr]);
+                                                                unset($list[$relation_data_nr]);
                                                             }
                                                         }
                                                     } else {
