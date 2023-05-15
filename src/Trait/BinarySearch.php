@@ -231,6 +231,37 @@ Trait BinarySearch {
         }
     }
 
+    private function relation_many($relation, $list=[]){
+        if(!is_array($list)){
+            return false;
+        }
+        $object = $this->object();
+        foreach($list as $relation_data_nr => $relation_data_uuid){
+            $relation_data_url = $object->config('project.dir.data') .
+                'Node' .
+                $object->config('ds') .
+                'Storage' .
+                $object->config('ds') .
+                substr($relation_data_uuid, 0, 2) .
+                $object->config('ds') .
+                $relation_data_uuid .
+                $object->config('extension.json')
+            ;
+            $relation_data_data = $object->data_read($relation_data_url, sha1($relation_data_url));
+            if($relation_data_data){
+                $record = $relation_data_data->data();
+                //need object
+                d($record);
+                ddd($relation);
+                $list[$relation_data_nr] = $record;
+            } else {
+                //old data, remove from list
+                unset($list[$relation_data_nr]);
+            }
+        }
+        return $list;
+    }
+
     /**
      * @throws ObjectException
      * @throws FileWriteException
@@ -314,25 +345,7 @@ Trait BinarySearch {
                                                 ){
                                                     $list = $relation_data->get($relation_relation->attribute);
                                                     if(is_array($list)){
-                                                        foreach($list as $relation_data_nr => $relation_data_uuid){
-                                                            $relation_data_url = $object->config('project.dir.data') .
-                                                                'Node' .
-                                                                $object->config('ds') .
-                                                                'Storage' .
-                                                                $object->config('ds') .
-                                                                substr($relation_data_uuid, 0, 2) .
-                                                                $object->config('ds') .
-                                                                $relation_data_uuid .
-                                                                $object->config('extension.json')
-                                                            ;
-                                                            $relation_data_data = $object->data_read($relation_data_url, sha1($relation_data_url));
-                                                            if($relation_data_data){
-                                                                $list[$relation_data_nr] = $relation_data_data->data();
-                                                            } else {
-                                                                //old data, remove from list
-                                                                unset($list[$relation_data_nr]);
-                                                            }
-                                                        }
+                                                        $list = $this->relation_many($relation_relation, $list);
                                                     } else {
                                                         d('not implemented yet');
                                                         d($relation_data);
