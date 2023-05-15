@@ -312,9 +312,16 @@ Trait BinarySearch {
                                                 if(
                                                     property_exists($relation_relation, 'attribute')
                                                 ){
+                                                    $list = $relation_data->get($relation_relation->attribute);
+                                                    if(is_array($list)){
+                                                        foreach($list as $relation_data_nr => $relation_data_uuid){
+                                                            ddd($relation_data_uuid);
+                                                        }
+                                                    }
+
                                                     d($relation_data);
                                                     d($relation_relation);
-                                                    $list = $relation_data->get($relation_relation->attribute);
+
                                                     ddd($list);
                                                 }
 
