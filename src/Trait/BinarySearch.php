@@ -242,7 +242,6 @@ Trait BinarySearch {
                 if(!is_array($data)){
                     return false;
                 }
-                $object = $this->object();
                 foreach($data as $relation_data_nr => $relation_data_uuid){
                     $relation_data_url = $object->config('project.dir.data') .
                         'Node' .
@@ -317,6 +316,21 @@ Trait BinarySearch {
                 }
             break;
             case 'many-one':
+                $relation_data_url = $object->config('project.dir.data') .
+                    'Node' .
+                    $object->config('ds') .
+                    'Storage' .
+                    $object->config('ds') .
+                    substr($data, 0, 2) .
+                    $object->config('ds') .
+                    $data .
+                    $object->config('extension.json')
+                ;
+                $relation_data = $object->data_read($relation_data_url, sha1($relation_data_url));
+                if($relation_data) {
+                    $record = $relation_data->data();
+                    ddd($record);
+                }
                 d($data);
                 ddd($relation);
             break;
