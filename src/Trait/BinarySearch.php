@@ -494,6 +494,7 @@ Trait BinarySearch {
                                                 __FUNCTION__,
                                                 $role
                                             );
+                                            ddd($relation_record);
                                             if($relation_record){
                                                 $record->{$relation->attribute}[$nr] = $relation_record->data();
                                             }
@@ -652,10 +653,7 @@ Trait BinarySearch {
                     $object->config('extension.json')
                 ;
                 $object_data = $object->data_read($object_url, sha1($object_url));
-                $is_loaded = $object->data('R3m.Io.Node.BinarySearch.relation');
-                if(empty($is_loaded)){
-                    $is_loaded = [];
-                }
+                $is_loaded = [];
                 if(property_exists($record, '#class')){
                     $is_loaded[] = $record->{'#class'};
                     $object->data('R3m.Io.Node.BinarySearch.relation', $is_loaded);
