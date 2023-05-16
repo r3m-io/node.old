@@ -20,7 +20,9 @@ Trait NodeList {
     {
         $name = Controller::name($class);
         $options = Core::object($options, Core::OBJECT_ARRAY);
-        $function = __FUNCTION__;
+        if(!array_key_exists('function', $options)){
+            $options['function'] = __FUNCTION__;
+        }
         $object = $this->object();
         if(!array_key_exists('sort', $options)){
             $debug = debug_backtrace(true);
@@ -123,7 +125,7 @@ Trait NodeList {
                                 'counter' => 0,
                                 'direction' => 'next',
                                 'url' => $filter_url,
-                                'debug' => true
+                                'function' => $options['function']
                             ]
                         );
                     } else {
@@ -144,7 +146,8 @@ Trait NodeList {
                                     'lines'=> $lines,
                                     'counter' => 0,
                                     'direction' => 'next',
-                                    'url' => $url
+                                    'url' => $url,
+                                    'function' => $options['function']
                                 ]
                             );
                         }
@@ -199,7 +202,7 @@ Trait NodeList {
                                 'counter' => 0,
                                 'direction' => 'next',
                                 'url' => $where_url,
-                                'debug' => true
+                                'function' => $options['function']
                             ]
                         );
                     } else {
@@ -220,7 +223,8 @@ Trait NodeList {
                                     'lines'=> $lines,
                                     'counter' => 0,
                                     'direction' => 'next',
-                                    'url' => $url
+                                    'url' => $url,
+                                    'function' => $options['function']
                                 ]
                             );
                         }

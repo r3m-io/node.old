@@ -665,13 +665,13 @@ Trait BinarySearch {
                 $expose = $this->expose_get(
                     $object,
                     $record->{'#class'},
-                    $record->{'#class'} . '.list.expose'
+                    $record->{'#class'} . '.' . $options['function'] . '.expose'
                 );
                 $record = $this->expose(
                     new Storage($record),
                     $expose,
                     $record->{'#class'},
-                    'list',
+                    $options['function'],
                     $role
                 );
                 $record = $record->data();
