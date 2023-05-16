@@ -221,6 +221,7 @@ class Cli extends Controller {
                 $scan['subcommand'][] = $subcommand;
             }
         }
+        d($scan);
         return $scan;
     }
 }
