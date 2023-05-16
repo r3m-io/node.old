@@ -9,11 +9,14 @@ R3m.Io.Node:Role:role_system(),
 'sort' => [
 'email' => 'ASC',
 ],
-'filter' => [
-'email' => [
+'where' => [
+'(',
+[
+'attribute' => 'email',
 'value' => $email,
 'operator' => 'partial'
-]
+],
+')'
 ]
 ])}}
 {{dd($response)}}
