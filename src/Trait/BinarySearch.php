@@ -296,6 +296,7 @@ Trait BinarySearch {
                                     */
                                 }
                                 $selected = $relation_data->get($relation_object_relation_data->attribute);
+                                $selected = $this->relation_inner($relation_object_relation_data, $selected);
                                 ddd($selected);
 
                                 d($relation_data);
