@@ -231,48 +231,88 @@ Trait BinarySearch {
         }
     }
 
-    private function relation_many($relation, $list=[], $objects=[]): false|array
+    private function relation_inner($relation, $data=[]): false|array
     {
-        if(!is_array($list)){
+        if(!property_exists($relation, 'type')){
             return false;
         }
         $object = $this->object();
-        foreach($list as $relation_data_nr => $relation_data_uuid){
-            $relation_data_url = $object->config('project.dir.data') .
-                'Node' .
-                $object->config('ds') .
-                'Storage' .
-                $object->config('ds') .
-                substr($relation_data_uuid, 0, 2) .
-                $object->config('ds') .
-                $relation_data_uuid .
-                $object->config('extension.json')
-            ;
-            $relation_data = $object->data_read($relation_data_url, sha1($relation_data_url));
-            if($relation_data){
-                $record = $relation_data->data();
+        switch($relation->type){
+            case 'one-many':
+                if(!is_array($data)){
+                    return false;
+                }
+                $object = $this->object();
+                foreach($data as $relation_data_nr => $relation_data_uuid){
+                    $relation_data_url = $object->config('project.dir.data') .
+                        'Node' .
+                        $object->config('ds') .
+                        'Storage' .
+                        $object->config('ds') .
+                        substr($relation_data_uuid, 0, 2) .
+                        $object->config('ds') .
+                        $relation_data_uuid .
+                        $object->config('extension.json')
+                    ;
+                    $relation_data = $object->data_read($relation_data_url, sha1($relation_data_url));
+                    if($relation_data){
+                        $record = $relation_data->data();
 
-                $relation_object_url = $object->config('project.dir.data') .
-                    'Node' .
-                    $object->config('ds') .
-                    'Object' .
-                    $object->config('ds') .
-                    $relation->class .
-                    $object->config('extension.json')
-                ;
-                $relation_object_data = $object->data_read($relation_object_url, sha1($relation_object_url));
-                d($relation_object_data);
+                        $relation_object_url = $object->config('project.dir.data') .
+                            'Node' .
+                            $object->config('ds') .
+                            'Object' .
+                            $object->config('ds') .
+                            $relation->class .
+                            $object->config('extension.json')
+                        ;
+                        $relation_object_data = $object->data_read($relation_object_url, sha1($relation_object_url));
+                        $relation_object_relation = $relation_object_data->data('relation');
+                        $is_loaded = $object->data('R3m.Io.Node.BinarySearch.relation');
+                        if(empty($is_loaded)){
+                            $is_loaded = [];
+                        }
+                        if(property_exists($record, '#class')){
+                            $is_loaded[] = $record->{'#class'};
+                            $object->data('R3m.Io.Node.BinarySearch.relation', $is_loaded);
+                        }
+                        if(is_array($relation_object_relation)){
+                            foreach($relation_object_relation as $relation_object_relation_nr => $relation_object_relation_data){
+                                if(property_exists($relation_object_relation_data, 'class')){
+                                    if(
+                                        in_array(
+                                            $relation_object_relation_data->class,
+                                            $is_loaded,
+                                            true
+                                        )
+                                    ){
+                                        //already loaded
+                                        continue;
+                                    }
+                                }
+                                ddd($relation_object_relation_data);
+                            }
+                        }
+                        d($relation_object_data);
 
-                //need object
-                d($record);
+                        //need object
+                        d($record);
+                        ddd($relation);
+                        $data[$relation_data_nr] = $record;
+                    } else {
+                        //old data, remove from list
+                        unset($data[$relation_data_nr]);
+                    }
+                }
+            break;
+            case 'many-one':
                 ddd($relation);
-                $list[$relation_data_nr] = $record;
-            } else {
-                //old data, remove from list
-                unset($list[$relation_data_nr]);
-            }
+            break;
+            case 'one-one':
+                ddd($relation);
+            break;
         }
-        return $list;
+        return $data;
     }
 
     /**
@@ -322,6 +362,14 @@ Trait BinarySearch {
                                     ;
                                     $relation_data = $object->data_read($relation_url, sha1($relation_url));
                                     if($relation_data){
+                                        $is_loaded = $object->data('R3m.Io.Node.BinarySearch.relation');
+                                        if(empty($is_loaded)){
+                                            $is_loaded = [];
+                                        }
+                                        if(property_exists($record, '#class')){
+                                            $is_loaded[] = $relation_data->get('#class');
+                                            $object->data('R3m.Io.Node.BinarySearch.relation', $is_loaded);
+                                        }
                                         $relation_object_url = $object->config('project.dir.data') .
                                             'Node' .
                                             $object->config('ds') .
@@ -358,7 +406,7 @@ Trait BinarySearch {
                                                 ){
                                                     $list = $relation_data->get($relation_relation->attribute);
                                                     if(is_array($list)){
-                                                        $list = $this->relation_many($relation_relation, $list);
+                                                        $list = $this->relation_inner($relation_relation, $list);
                                                     } else {
                                                         d('not implemented yet');
                                                         d($relation_data);
@@ -538,6 +586,14 @@ Trait BinarySearch {
                     $object->config('extension.json')
                 ;
                 $object_data = $object->data_read($object_url, sha1($object_url));
+                $is_loaded = $object->data('R3m.Io.Node.BinarySearch.relation');
+                if(empty($is_loaded)){
+                    $is_loaded = [];
+                }
+                if(property_exists($record, '#class')){
+                    $is_loaded[] = $record->{'#class'};
+                    $object->data('R3m.Io.Node.BinarySearch.relation', $is_loaded);
+                }
                 $record = $this->relation($record, $object_data, $role);
 
                 //need object file, so need $class
