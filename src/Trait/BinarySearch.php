@@ -303,7 +303,7 @@ Trait BinarySearch {
                             }
                         }
                         d($relation_object_data);
-
+                        d($data);
                         //need object
                         d($record);
                         ddd($relation);
