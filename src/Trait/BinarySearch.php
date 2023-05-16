@@ -297,9 +297,9 @@ Trait BinarySearch {
                                         continue;
                                     }
                                 }
-                                $selected = $relation_data->get($relation_object_relation_data->attribute);
+                                $selected = $record->{$relation_object_relation_data->attribute};
                                 $selected = $this->relation_inner($relation_object_relation_data, $selected, $counter);
-
+                                $record->{$relation_object_relation_data->attribute} = $selected;
                             }
                         }
                         d($relation_object_data);
@@ -364,21 +364,15 @@ Trait BinarySearch {
                                     continue;
                                 }
                             }
-                            $selected = $relation_data->get($relation_object_relation_data->attribute);
-                            if($counter > 12){
-                                ddd($selected);
-                            }
+                            $selected = $record->{$relation_object_relation_data->attribute};
                             $selected = $this->relation_inner($relation_object_relation_data, $selected, $counter);
-                            ddd($selected);
-
-                            d($relation_data);
-                            d($relation_object_data);
-                            ddd($relation_object_relation_data);
+                            $record->{$relation_object_relation_data->attribute} = $selected;
                         }
                     }
                     d($relation_object_data);
 
                     //need object
+                    d($data);
                     d($record);
                     ddd($relation);
                 }
