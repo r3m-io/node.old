@@ -66,6 +66,13 @@
       "role": "ba03ca6d-dd82-4c47-91ec-cf6da860401c",
       "#class": "Permission",
       "uuid": "ff2c1bcd-957d-454f-96af-0ece5613b1cc"
+    },
+    {
+      "name": "User.record",
+      "attribute": [],
+      "role": "ba03ca6d-dd82-4c47-91ec-cf6da860401c",
+      "#class": "Permission",
+      "uuid": "1605cd58-d136-463e-b03f-d27787c8411e"
     }
   ]
 }
