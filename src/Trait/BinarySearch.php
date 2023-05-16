@@ -475,6 +475,7 @@ Trait BinarySearch {
                                                     $relation_data->set($relation_relation->attribute, $relation_data_data);
                                                 }
                                             }
+                                            /*
                                             $expose = $this->expose_get(
                                                 $object,
                                                 $relation->class,
@@ -487,11 +488,13 @@ Trait BinarySearch {
                                                 __FUNCTION__,
                                                 $role
                                             );
-                                            d($relation_record);
-                                            if($relation_record){
-                                                $record->{$relation->attribute}[$nr] = $relation_record->data();
+                                            */
+//                                            d($relation_record);
+                                            if($relation_data){
+                                                $record->{$relation->attribute}[$nr] = $relation_data->data();
                                             }
                                         } else {
+                                            /*
                                             $expose = $this->expose_get(
                                                 $object,
                                                 $relation->class,
@@ -504,11 +507,11 @@ Trait BinarySearch {
                                                 __FUNCTION__,
                                                 $role
                                             );
-                                            if($relation_record){
-                                                $record->{$relation->attribute}[$nr] = $relation_record->data();
+                                            */
+                                            if($relation_data){
+                                                $record->{$relation->attribute}[$nr] = $relation_data->data();
                                             }
                                         }
-
                                     }
                                 }
                             }
@@ -581,6 +584,7 @@ Trait BinarySearch {
                                             }
                                         }
                                     }
+                                    /*
                                     $expose = $this->expose_get(
                                         $object,
                                         $relation->class,
@@ -593,9 +597,10 @@ Trait BinarySearch {
                                         __FUNCTION__,
                                         $role
                                     );
-                                    ddd($relation_record);
-                                    if($relation_record){
-                                        $record->{$relation->attribute} = $relation_record->data();
+                                    */
+//                                    ddd($relation_record);
+                                    if($relation_data){
+                                        $record->{$relation->attribute} = $relation_data->data();
                                     }
                                 }
                             }
@@ -604,6 +609,7 @@ Trait BinarySearch {
                 }
             }
         }
+        ddd($record);
         return $record;
     }
 
