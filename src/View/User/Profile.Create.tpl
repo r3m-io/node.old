@@ -25,6 +25,7 @@ R3m.Io.Node:Role:role_system(),
 Cannot find user...
 {{/if}}
 {{/while}}
+{{dd($user)}}
 /*
 {{$response = R3m.Io.Node:Data:list(
 'Role',
