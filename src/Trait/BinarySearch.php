@@ -286,7 +286,6 @@ Trait BinarySearch {
                                     property_exists($relation_object_relation_data, 'class') &&
                                     property_exists($relation_object_relation_data, 'attribute')
                                 ){
-                                    /*
                                     if(
                                         in_array(
                                             $relation_object_relation_data->class,
@@ -297,7 +296,6 @@ Trait BinarySearch {
                                         //already loaded
                                         continue;
                                     }
-                                    */
                                 }
                                 $selected = $relation_data->get($relation_object_relation_data->attribute);
                                 $selected = $this->relation_inner($relation_object_relation_data, $selected, $counter);
@@ -355,7 +353,6 @@ Trait BinarySearch {
                                 property_exists($relation_object_relation_data, 'class') &&
                                 property_exists($relation_object_relation_data, 'attribute')
                             ){
-                                /*
                                 if(
                                     in_array(
                                         $relation_object_relation_data->class,
@@ -366,7 +363,6 @@ Trait BinarySearch {
                                     //already loaded
                                     continue;
                                 }
-                                */
                             }
                             $selected = $relation_data->get($relation_object_relation_data->attribute);
                             if($counter > 12){
