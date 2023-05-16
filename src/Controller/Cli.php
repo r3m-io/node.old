@@ -64,6 +64,10 @@ class Cli extends Controller {
             $command = false;
         }
         $subcommand = $object->parameter($object, $node, 4);
+        d($module);
+        d($submodule);
+        d($command);
+        d($subcommand);
         if(
             !in_array(
                 $subcommand,
