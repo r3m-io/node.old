@@ -309,11 +309,6 @@ Trait BinarySearch {
                                 $record->{$relation_object_relation_data->attribute} = $selected;
                             }
                         }
-                        d($relation_object_data);
-                        d($data);
-                        //need object
-                        d($record);
-                        ddd($relation);
                         $data[$relation_data_nr] = $record;
                     } else {
                         //old data, remove from list
