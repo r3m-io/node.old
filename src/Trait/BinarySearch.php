@@ -329,7 +329,58 @@ Trait BinarySearch {
                 $relation_data = $object->data_read($relation_data_url, sha1($relation_data_url));
                 if($relation_data) {
                     $record = $relation_data->data();
-                    ddd($record);
+
+                    $relation_object_url = $object->config('project.dir.data') .
+                        'Node' .
+                        $object->config('ds') .
+                        'Object' .
+                        $object->config('ds') .
+                        $relation->class .
+                        $object->config('extension.json')
+                    ;
+                    $relation_object_data = $object->data_read($relation_object_url, sha1($relation_object_url));
+                    $relation_object_relation = $relation_object_data->data('relation');
+                    $is_loaded = $object->data('R3m.Io.Node.BinarySearch.relation');
+                    if(empty($is_loaded)){
+                        $is_loaded = [];
+                    }
+                    if(property_exists($record, '#class')){
+                        $is_loaded[] = $record->{'#class'};
+                        $object->data('R3m.Io.Node.BinarySearch.relation', $is_loaded);
+                    }
+                    if(is_array($relation_object_relation)){
+                        foreach($relation_object_relation as $relation_object_relation_nr => $relation_object_relation_data){
+                            if(
+                                property_exists($relation_object_relation_data, 'class') &&
+                                property_exists($relation_object_relation_data, 'attribute')
+                            ){
+                                /*
+                                if(
+                                    in_array(
+                                        $relation_object_relation_data->class,
+                                        $is_loaded,
+                                        true
+                                    )
+                                ){
+                                    //already loaded
+                                    continue;
+                                }
+                                */
+                            }
+                            $selected = $relation_data->get($relation_object_relation_data->attribute);
+                            $selected = $this->relation_inner($relation_object_relation_data, $selected);
+                            ddd($selected);
+
+                            d($relation_data);
+                            d($relation_object_data);
+                            ddd($relation_object_relation_data);
+                        }
+                    }
+                    d($relation_object_data);
+
+                    //need object
+                    d($record);
+                    ddd($relation);
                 }
                 d($data);
                 ddd($relation);
