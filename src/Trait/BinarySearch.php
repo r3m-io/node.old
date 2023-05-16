@@ -371,15 +371,8 @@ Trait BinarySearch {
                             $record->{$relation_object_relation_data->attribute} = $selected;
                         }
                     }
-                    d($relation_object_data);
-
-                    //need object
-                    d($data);
-                    d($record);
-                    ddd($relation);
+                    $data = $record;
                 }
-                d($data);
-                ddd($relation);
             break;
             case 'one-one':
                 ddd($relation);
