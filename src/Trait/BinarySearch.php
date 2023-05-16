@@ -248,9 +248,9 @@ Trait BinarySearch {
                 $relation_data_uuid .
                 $object->config('extension.json')
             ;
-            $relation_data_data = $object->data_read($relation_data_url, sha1($relation_data_url));
-            if($relation_data_data){
-                $record = $relation_data_data->data();
+            $relation_data = $object->data_read($relation_data_url, sha1($relation_data_url));
+            if($relation_data){
+                $record = $relation_data->data();
 
                 $relation_object_url = $object->config('project.dir.data') .
                     'Node' .
