@@ -1,6 +1,6 @@
 Create UserProfile:
-{{$user = false}}
-{{while($user === false)}}
+{{$user = null}}
+{{while($user === null)}}
 {{$email = terminal.readline('Email: ')}}
 {{$user = R3m.Io.Node:Data:record(
 'User',
