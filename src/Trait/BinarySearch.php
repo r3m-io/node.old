@@ -663,7 +663,19 @@ Trait BinarySearch {
                     $object->data('R3m.Io.Node.BinarySearch.relation', $is_loaded);
                 }
                 $record = $this->relation($record, $object_data, $role);
-
+                $expose = $this->expose_get(
+                    $object,
+                    $record->{'#class'},
+                    $record->{'#class'} . '.list.expose'
+                );
+                $record = $this->expose(
+                    new Storage($record),
+                    $expose,
+                    $record->{'#class'},
+                    'list',
+                    $role
+                );
+                $record = $record->data();
                 //need object file, so need $class
                 //load relations so we can filter / where on them
                 if(!empty($options['filter'])){

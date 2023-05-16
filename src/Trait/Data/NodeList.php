@@ -149,6 +149,9 @@ Trait NodeList {
                             );
                         }
                     }
+                    foreach($list as $nr => $record){
+
+                    }
                     $result = [];
                     $result['page'] = $options['page'];
                     $result['limit'] = $options['limit'];
