@@ -487,7 +487,7 @@ Trait BinarySearch {
                                                 __FUNCTION__,
                                                 $role
                                             );
-                                            ddd($relation_record);
+                                            d($relation_record);
                                             if($relation_record){
                                                 $record->{$relation->attribute}[$nr] = $relation_record->data();
                                             }
