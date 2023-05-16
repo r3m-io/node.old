@@ -609,7 +609,6 @@ Trait BinarySearch {
                 }
             }
         }
-        ddd($record);
         return $record;
     }
 
