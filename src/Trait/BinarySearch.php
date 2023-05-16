@@ -231,8 +231,9 @@ Trait BinarySearch {
         }
     }
 
-    private function relation_inner($relation, $data=[]): false|array
+    private function relation_inner($relation, $data=[], &$counter=0): false|array
     {
+        $counter++;
         if(!property_exists($relation, 'type')){
             return false;
         }
@@ -295,12 +296,10 @@ Trait BinarySearch {
                                     */
                                 }
                                 $selected = $relation_data->get($relation_object_relation_data->attribute);
-                                $selected = $this->relation_inner($relation_object_relation_data, $selected);
-                                ddd($selected);
-
-                                d($relation_data);
-                                d($relation_object_data);
-                                ddd($relation_object_relation_data);
+                                $selected = $this->relation_inner($relation_object_relation_data, $selected, $counter);
+                                if($counter > 12){
+                                    ddd($selected);
+                                }
                             }
                         }
                         d($relation_object_data);
@@ -368,8 +367,10 @@ Trait BinarySearch {
                                 */
                             }
                             $selected = $relation_data->get($relation_object_relation_data->attribute);
-                            ddd($selected);
-                            $selected = $this->relation_inner($relation_object_relation_data, $selected);
+                            if($counter > 12){
+                                ddd($selected);
+                            }
+                            $selected = $this->relation_inner($relation_object_relation_data, $selected, $counter);
                             ddd($selected);
 
                             d($relation_data);
