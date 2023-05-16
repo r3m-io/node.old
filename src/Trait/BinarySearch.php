@@ -292,6 +292,7 @@ Trait BinarySearch {
                                     }
                                     */
                                 }
+                                d($relation_object_data);
                                 ddd($relation_object_relation_data);
                             }
                         }
