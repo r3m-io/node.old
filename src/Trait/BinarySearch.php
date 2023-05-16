@@ -470,16 +470,9 @@ Trait BinarySearch {
                                                 if(
                                                     property_exists($relation_relation, 'attribute')
                                                 ){
-                                                    $list = $relation_data->get($relation_relation->attribute);
-                                                    if(is_array($list)){
-                                                        $list = $this->relation_inner($relation_relation, $list);
-                                                    } else {
-                                                        d('not implemented yet');
-                                                        d($relation_data);
-                                                        d($relation_relation);
-                                                        ddd($list);
-                                                    }
-                                                    $relation_data->set($relation_relation->attribute, $list);
+                                                    $relation_data_data = $relation_data->get($relation_relation->attribute);
+                                                    $relation_data_data = $this->relation_inner($relation_relation, $relation_data_data);
+                                                    $relation_data->set($relation_relation->attribute, $relation_data_data);
                                                 }
                                             }
                                             $expose = $this->expose_get(
@@ -579,9 +572,13 @@ Trait BinarySearch {
                                                 //don't need cross-reference, parent is this.
                                                 continue;
                                             }
-                                            d($relation_relation);
-                                            d($record);
-                                            ddd('not implemented (nested relations) yet');
+                                            if(
+                                                property_exists($relation_relation, 'attribute')
+                                            ){
+                                                $relation_data_data = $relation_data->get($relation_relation->attribute);
+                                                $relation_data_data = $this->relation_inner($relation_relation, $relation_data_data);
+                                                $relation_data->set($relation_relation->attribute, $relation_data_data);
+                                            }
                                         }
                                     }
                                     $expose = $this->expose_get(
@@ -596,6 +593,7 @@ Trait BinarySearch {
                                         __FUNCTION__,
                                         $role
                                     );
+                                    ddd($relation_record);
                                     if($relation_record){
                                         $record->{$relation->attribute} = $relation_record->data();
                                     }
