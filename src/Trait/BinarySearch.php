@@ -234,6 +234,10 @@ Trait BinarySearch {
     private function relation_inner($relation, $data=[], &$counter=0): false|array
     {
         $counter++;
+        if($counter > 12){
+            d($relation);
+            ddd($data);
+        }
         if(!property_exists($relation, 'type')){
             return false;
         }
@@ -297,9 +301,7 @@ Trait BinarySearch {
                                 }
                                 $selected = $relation_data->get($relation_object_relation_data->attribute);
                                 $selected = $this->relation_inner($relation_object_relation_data, $selected, $counter);
-                                if($counter > 12){
-                                    ddd($selected);
-                                }
+
                             }
                         }
                         d($relation_object_data);
