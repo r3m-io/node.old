@@ -1,8 +1,8 @@
 Create UserProfile:
-{{$is_user = false}}
-{{while($is_user === false)}}
+{{$user = false}}
+{{while($user === false)}}
 {{$email = terminal.readline('Email: ')}}
-{{$response = R3m.Io.Node:Data:record(
+{{$user = R3m.Io.Node:Data:record(
 'User',
 R3m.Io.Node:Role:role_system(),
 [
@@ -19,7 +19,11 @@ R3m.Io.Node:Role:role_system(),
 ')'
 ]
 ])}}
-{{dd($response)}}
+{{if($user)}}
+{{break()}}
+{{else}}
+Cannot find user...
+{{/if}}
 {{/while}}
 /*
 {{$response = R3m.Io.Node:Data:list(
