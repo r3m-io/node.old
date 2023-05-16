@@ -231,7 +231,7 @@ Trait BinarySearch {
         }
     }
 
-    private function relation_many($relation, $list=[]): false|array
+    private function relation_many($relation, $list=[], $objects=[]): false|array
     {
         if(!is_array($list)){
             return false;
@@ -251,6 +251,18 @@ Trait BinarySearch {
             $relation_data_data = $object->data_read($relation_data_url, sha1($relation_data_url));
             if($relation_data_data){
                 $record = $relation_data_data->data();
+
+                $relation_object_url = $object->config('project.dir.data') .
+                    'Node' .
+                    $object->config('ds') .
+                    'Object' .
+                    $object->config('ds') .
+                    $relation->class .
+                    $object->config('extension.json')
+                ;
+                $relation_object_data = $object->data_read($relation_object_url, sha1($relation_object_url));
+                d($relation_object_data);
+
                 //need object
                 d($record);
                 ddd($relation);
