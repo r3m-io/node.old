@@ -317,6 +317,7 @@ Trait BinarySearch {
                 }
             break;
             case 'many-one':
+                d($data);
                 ddd($relation);
             break;
             case 'one-one':
