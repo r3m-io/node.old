@@ -278,7 +278,10 @@ Trait BinarySearch {
                         }
                         if(is_array($relation_object_relation)){
                             foreach($relation_object_relation as $relation_object_relation_nr => $relation_object_relation_data){
-                                if(property_exists($relation_object_relation_data, 'class')){
+                                if(
+                                    property_exists($relation_object_relation_data, 'class') &&
+                                    property_exists($relation_object_relation_data, 'attribute')
+                                ){
                                     /*
                                     if(
                                         in_array(
@@ -292,6 +295,9 @@ Trait BinarySearch {
                                     }
                                     */
                                 }
+                                $selected = $relation_data->get($relation_object_relation_data->attribute);
+                                ddd($selected);
+
                                 d($relation_data);
                                 d($relation_object_data);
                                 ddd($relation_object_relation_data);
