@@ -10,7 +10,10 @@ R3m.Io.Node:Role:role_system(),
 'email' => 'ASC',
 ],
 'filter' => [
-'email' => $email
+'email' => [
+'value' => $email,
+'operator' => 'partial'
+]
 ]
 ])}}
 {{dd($response)}}
