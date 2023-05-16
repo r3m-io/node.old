@@ -25,6 +25,7 @@ Trait Record {
             array_key_exists('list', $list) &&
             array_key_exists(0, $list['list'])
         ){
+            ddd($list['list'][0]);
             return $list['list'][0];
         }
         return null;
