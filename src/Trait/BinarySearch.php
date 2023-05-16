@@ -287,6 +287,7 @@ Trait BinarySearch {
                                         )
                                     ){
                                         //already loaded
+                                        ddd($relation_object_relation_data->class);
                                         continue;
                                     }
                                 }
