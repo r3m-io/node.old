@@ -42,4 +42,5 @@ R3m.Io.Node:Role:role_system(),
 'profile' => $response.node.uuid
 ])}}
 {{$response|json.encode:'JSON_PRETTY_PRINT'}}
+{{/if}}
 
