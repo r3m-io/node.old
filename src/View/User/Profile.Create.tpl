@@ -28,7 +28,7 @@ Cannot find user...
 {{$birthday = terminal.readline('Birthday (YYYY-MM-DD): ')}}
 {{if(is.empty($user.profile))}}
 {{$profile = R3m.Io.Node:Data:create(
-'Profile',
+'User.Profile',
 R3m.Io.Node:Role:role_system(),
 [
 'birthday' => $birthday
