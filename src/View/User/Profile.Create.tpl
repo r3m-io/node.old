@@ -25,7 +25,20 @@ R3m.Io.Node:Role:role_system(),
 Cannot find user...
 {{/if}}
 {{/while}}
-{{dd($user)}}
+{{$birthday = terminal.readline('Birthday (YYYY-MM-DD): ')}}
+{{if(is.empty($user.profile))}}
+{{$profile = R3m.Io.Node:Data:create(
+'Profile',
+R3m.Io.Node:Role:role_system(),
+[
+'birthday' => $birthday
+]
+)}}
+{{dd($profile)}}
+{{/if}}
+
+
+
 /*
 {{$response = R3m.Io.Node:Data:list(
 'Role',
