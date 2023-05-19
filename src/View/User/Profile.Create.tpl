@@ -32,8 +32,8 @@ Cannot find user...
 R3m.Io.Node:Role:role_system(),
 [
 'birthday' => $birthday
-]
-)}}
+'user' => $user.uuid
+])}}
 {{dd($profile)}}
 {{/if}}
 
