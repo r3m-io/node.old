@@ -54,6 +54,13 @@
       "uuid": "95fb4b78-f50f-4bb6-8fe6-0dd036ca2bdf"
     },
     {
+      "name": "User.patch",
+      "attribute": [],
+      "role": "ba03ca6d-dd82-4c47-91ec-cf6da860401c",
+      "#class": "Permission",
+      "uuid": "10cb186a-f8db-4375-87ad-97120d3cc507"
+    },
+    {
       "name": "User.sync",
       "attribute": [],
       "role": "ba03ca6d-dd82-4c47-91ec-cf6da860401c",
