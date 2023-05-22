@@ -238,7 +238,7 @@ Trait BinarySearch {
         }
     }
 
-    private function relation_inner($relation, $data=[], &$counter=0): false|array
+    private function relation_inner($relation, $data=[], &$counter=0): false|array|stdClass
     {
         $counter++;
         if($counter > 12){
