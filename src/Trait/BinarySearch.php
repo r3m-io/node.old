@@ -631,8 +631,10 @@ Trait BinarySearch {
         }
         if(!array_key_exists('function', $options)){
             $debug = debug_backtrace(true);
-            d($debug);
-            ddd($debug[1]['file'] . ' ' . $debug[1]['line']);
+            d($debug[0]['file'] . ' ' . $debug[0]['line']);
+            d($debug[1]['file'] . ' ' . $debug[1]['line']);
+            d($debug[2]['file'] . ' ' . $debug[2]['line']);
+            ddd($debug[3]['file'] . ' ' . $debug[3]['line']);
         }
         $start = $index;
         $end = $start + $options['limit'];
