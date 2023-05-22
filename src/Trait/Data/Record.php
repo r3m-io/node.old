@@ -12,8 +12,10 @@ Trait Record {
     /**
      * @throws ObjectException
      * @throws FileWriteException
+     * @throws Exception
      */
-    public function record($class, $role, $options=[]){
+    public function record($class, $role, $options=[]): ?array
+    {
         $options['limit'] = 1;
         $options['page'] = 1;
         $options['function'] = __FUNCTION__;
