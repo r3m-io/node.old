@@ -8,6 +8,7 @@
 {{/if}}
 {{$response = R3m.Io.Node:Data:list(
 'User',
+R3m.Io.Node:Role:role_system(),
 [
 'sort' => [
 'email' => 'ASC'
