@@ -29,6 +29,11 @@ Trait NodeList {
             d($options);
             ddd($debug[0]['file'] . ' ' . $debug[0]['line']);
         }
+        if(!array_key_exists('function', $options)){
+            $debug = debug_backtrace(true);
+            d($options);
+            ddd($debug[1]['file'] . ' ' . $debug[1]['line']);
+        }
         /*
         d($class);
         d(__FUNCTION__);
