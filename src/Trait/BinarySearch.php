@@ -462,8 +462,6 @@ Trait BinarySearch {
                                                     $relation_relation->class === $record->{'#class'}
                                                 ) {
                                                     //don't need cross-reference, parent is this.
-                                                    d($relation_relation->class);
-                                                    d('happend');
                                                     continue;
                                                 }
                                                 if (
