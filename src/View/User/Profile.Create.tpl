@@ -24,8 +24,8 @@ Cannot find user...
 {{/if}}
 {{/while}}
 {{$user = $response.node}}
-{{$birthday = terminal.readline('Birthday (YYYY-MM-DD): ')}}
 {{if(is.empty($user.profile))}}
+{{$birthday = terminal.readline('Birthday (YYYY-MM-DD): ')}}
 {{$response = R3m.Io.Node:Data:create(
 'User.Profile',
 R3m.Io.Node:Role:role_system(),
@@ -41,5 +41,7 @@ R3m.Io.Node:Role:role_system(),
 'profile' => $response.node.uuid
 ])}}
 {{$response|json.encode:'JSON_PRETTY_PRINT'}}
+{{else}}
+User already has a profile ({{$user.profile.uuid}})...
 {{/if}}
 
