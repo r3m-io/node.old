@@ -631,7 +631,7 @@ Trait BinarySearch {
         }
         if(!array_key_exists('function', $options)){
             $debug = debug_backtrace(true);
-            d($debug[1]['function'] . ' is missing function in options');
+            d($debug);
             ddd($debug[1]['file'] . ' ' . $debug[1]['line']);
         }
         $start = $index;
