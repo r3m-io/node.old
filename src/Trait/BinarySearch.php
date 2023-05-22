@@ -396,6 +396,7 @@ Trait BinarySearch {
             return $record;
         }
         if($data){
+            $node = new Storage($record);
             $relations = $data->data('relation');
             if(!$relations){
                 return $record;
@@ -411,15 +412,100 @@ Trait BinarySearch {
                 ){
                     switch(strtolower($relation->type)){
                         case 'one-one':
-                            d($relation);
-                            ddd($record);
+                            if($node->has($relation->attribute)){
+                                $uuid = $node->get($relation->attribute);
+                                if(!is_string($uuid)){
+                                    break;
+                                }
+                                $relation_url = $object->config('project.dir.data') .
+                                    'Node' .
+                                    $object->config('ds') .
+                                    'Storage' .
+                                    $object->config('ds') .
+                                    substr($uuid, 0, 2) .
+                                    $object->config('ds') .
+                                    $uuid .
+                                    $object->config('extension.json')
+                                ;
+                                $relation_data = $object->data_read($relation_url, sha1($relation_url));
+                                if($relation_data) {
+                                    $is_loaded = $object->data('R3m.Io.Node.BinarySearch.relation');
+                                    if (empty($is_loaded)) {
+                                        $is_loaded = [];
+                                    }
+                                    $relation_object_url = $object->config('project.dir.data') .
+                                        'Node' .
+                                        $object->config('ds') .
+                                        'Object' .
+                                        $object->config('ds') .
+                                        $relation_data->get('#class') .
+                                        $object->config('extension.json');
+                                    $relation_object_data = $object->data_read($relation_object_url, sha1($relation_object_url));
+                                    if (
+                                        $relation_object_data &&
+                                        $relation_object_data->has('relation')
+                                    ) {
+                                        $relation_object_relation = $relation_object_data->get('relation');
+                                        if (is_array($relation_object_relation)) {
+                                            foreach ($relation_object_relation as $relation_nr => $relation_relation) {
+                                                if (
+                                                    property_exists($relation_relation, 'type') &&
+                                                    property_exists($relation_relation, 'class') &&
+                                                    property_exists($record, '#class') &&
+                                                    $relation_relation->type === 'many-one' &&
+                                                    $relation_relation->class === $record->{'#class'}
+                                                ) {
+                                                    //don't need cross-reference, parent is this.
+                                                    continue;
+                                                }
+                                                if (
+                                                    property_exists($relation_relation, 'type') &&
+                                                    property_exists($relation_relation, 'class') &&
+                                                    property_exists($record, '#class') &&
+                                                    $relation_relation->type === 'one-one' &&
+                                                    $relation_relation->class === $record->{'#class'}
+                                                ) {
+                                                    //don't need cross-reference, parent is this.
+                                                    continue;
+                                                }
+                                                if (
+                                                    property_exists($relation_relation, 'attribute')
+                                                ) {
+                                                    $relation_data_data = $relation_data->get($relation_relation->attribute);
+                                                    $relation_data_data = $this->relation_inner($relation_relation, $relation_data_data);
+                                                    $relation_data->set($relation_relation->attribute, $relation_data_data);
+                                                }
+                                            }
+                                        }
+                                        if ($relation_data) {
+                                            $node->set($relation->attribute, $relation_data->data());
+                                        }
+                                    } else {
+                                        if ($relation_data) {
+                                            $node->set($relation->attribute, $relation_data->data());
+                                        }
+                                    }
+                                    if ($relation_data->has('#class')) {
+                                        $is_loaded[] = $relation_data->get('#class');
+                                        $object->data('R3m.Io.Node.BinarySearch.relation', $is_loaded);
+                                    }
+                                }
+                            }
+                            $record = $node->data();
                             break;
                         case 'one-many':
                             if(
-                                property_exists($record, $relation->attribute) &&
-                                is_array($record->{$relation->attribute})
+                                $node->has($relation->attribute)
                             ){
-                                foreach($record->{$relation->attribute} as $nr => $uuid){
+                                $one_many = $node->get($relation->attribute);
+                                if(!is_array($one_many)){
+                                    break;
+                                }
+                                $is_loaded = $object->data('R3m.Io.Node.BinarySearch.relation');
+                                if(empty($is_loaded)){
+                                    $is_loaded = [];
+                                }
+                                foreach($one_many as $nr => $uuid){
                                     if(!is_string($uuid)){
                                         continue;
                                     }
@@ -435,14 +521,108 @@ Trait BinarySearch {
                                     ;
                                     $relation_data = $object->data_read($relation_url, sha1($relation_url));
                                     if($relation_data){
-                                        $is_loaded = $object->data('R3m.Io.Node.BinarySearch.relation');
-                                        if(empty($is_loaded)){
-                                            $is_loaded = [];
+                                        if(
+                                            $relation_data->has('#class') &&
+                                            !in_array(
+                                                $relation_data->get('#class'),
+                                                $is_loaded,
+                                                true
+                                            )
+                                        ){
+                                            $relation_object_url = $object->config('project.dir.data') .
+                                                'Node' .
+                                                $object->config('ds') .
+                                                'Object' .
+                                                $object->config('ds') .
+                                                $relation_data->get('#class') .
+                                                $object->config('extension.json')
+                                            ;
+                                            $relation_object_data = $object->data_read($relation_object_url, sha1($relation_object_url));
+                                            if(
+                                                $relation_object_data &&
+                                                $relation_object_data->has('relation')
+                                            ){
+                                                $relation_object_relation = $relation_object_data->get('relation');
+                                                if(is_array($relation_object_relation)){
+                                                    foreach($relation_object_relation as $relation_nr => $relation_relation){
+                                                        if(
+                                                            property_exists($relation_relation, 'type') &&
+                                                            property_exists($relation_relation, 'class') &&
+                                                            property_exists($record, '#class') &&
+                                                            $relation_relation->type === 'many-one' &&
+                                                            $relation_relation->class === $record->{'#class'}
+                                                        ){
+                                                            //don't need cross-reference, parent is this.
+                                                            continue;
+                                                        }
+                                                        if(
+                                                            property_exists($relation_relation, 'type') &&
+                                                            property_exists($relation_relation, 'class') &&
+                                                            property_exists($record, '#class') &&
+                                                            $relation_relation->type === 'one-one' &&
+                                                            $relation_relation->class === $record->{'#class'}
+                                                        ){
+                                                            //don't need cross-reference, parent is this.
+                                                            continue;
+                                                        }
+                                                        if(
+                                                            property_exists($relation_relation, 'attribute')
+                                                        ){
+                                                            $relation_data_data = $relation_data->get($relation_relation->attribute);
+                                                            $relation_data_data = $this->relation_inner($relation_relation, $relation_data_data);
+                                                            $relation_data->set($relation_relation->attribute, $relation_data_data);
+                                                        }
+                                                    }
+                                                }
+                                                if($relation_data){
+                                                    $one_many[$nr] = $relation_data->data();
+                                                }
+                                            } else {
+                                                if($relation_data){
+                                                    $one_many[$nr] = $relation_data->data();
+                                                }
+                                            }
                                         }
-                                        if(property_exists($record, '#class')){
-                                            $is_loaded[] = $relation_data->get('#class');
-                                            $object->data('R3m.Io.Node.BinarySearch.relation', $is_loaded);
-                                        }
+                                    }
+                                }
+                                $is_loaded[] = $relation_data->get('#class');
+                                $object->data('R3m.Io.Node.BinarySearch.relation', $is_loaded);
+                            }
+                            $record = $node->data();
+                            break;
+                        case 'many-one':
+                            if(
+                                $node->has($relation->attribute)
+                                //add is_uuid
+                            ){
+                                $uuid = $node->get($relation->attribute);
+                                if(!is_string($uuid)){
+                                    break;
+                                }
+                                $relation_url = $object->config('project.dir.data') .
+                                    'Node' .
+                                    $object->config('ds') .
+                                    'Storage' .
+                                    $object->config('ds') .
+                                    substr($uuid, 0, 2) .
+                                    $object->config('ds') .
+                                    $uuid .
+                                    $object->config('extension.json')
+                                ;
+                                $relation_data = $object->data_read($relation_url, sha1($relation_url));
+                                if($relation_data){
+                                    $is_loaded = $object->data('R3m.Io.Node.BinarySearch.relation');
+                                    if(empty($is_loaded)){
+                                        $is_loaded = [];
+                                    }
+                                    if(
+                                        $relation_data->has('#class') &&
+                                        !in_array(
+                                            $relation_data->get('#class'),
+                                            $is_loaded,
+                                            true
+                                        )
+                                    ) {
                                         $relation_object_url = $object->config('project.dir.data') .
                                             'Node' .
                                             $object->config('ds') .
@@ -452,171 +632,56 @@ Trait BinarySearch {
                                             $object->config('extension.json')
                                         ;
                                         $relation_object_data = $object->data_read($relation_object_url, sha1($relation_object_url));
-                                        if(
-                                            $relation_object_data &&
-                                            $relation_object_data->has('relation')
-                                        ){
-                                            $relation_object_relation = $relation_object_data->get('relation');
-                                            if(is_array($relation_object_relation)){
-                                                foreach($relation_object_relation as $relation_nr => $relation_relation){
-                                                    if(
-                                                        property_exists($relation_relation, 'type') &&
-                                                        property_exists($relation_relation, 'class') &&
-                                                        property_exists($record, '#class') &&
-                                                        $relation_relation->type === 'many-one' &&
-                                                        $relation_relation->class === $record->{'#class'}
-                                                    ){
-                                                        //don't need cross-reference, parent is this.
-                                                        continue;
-                                                    }
-                                                    if(
-                                                        property_exists($relation_relation, 'type') &&
-                                                        property_exists($relation_relation, 'class') &&
-                                                        property_exists($record, '#class') &&
-                                                        $relation_relation->type === 'one-one' &&
-                                                        $relation_relation->class === $record->{'#class'}
-                                                    ){
-                                                        //don't need cross-reference, parent is this.
-                                                        continue;
-                                                    }
-                                                    if(
-                                                        property_exists($relation_relation, 'attribute')
-                                                    ){
-                                                        $relation_data_data = $relation_data->get($relation_relation->attribute);
-                                                        $relation_data_data = $this->relation_inner($relation_relation, $relation_data_data);
-                                                        $relation_data->set($relation_relation->attribute, $relation_data_data);
-                                                    }
+                                        if($relation_object_data){
+                                            foreach($relation_object_data->get('relation') as $relation_nr => $relation_relation){
+                                                if(
+                                                    property_exists($relation_relation, 'type') &&
+                                                    property_exists($relation_relation, 'class') &&
+                                                    property_exists($record, '#class') &&
+                                                    $relation_relation->type === 'many-one' &&
+                                                    $relation_relation->class === $record->{'#class'}
+                                                ){
+                                                    //don't need cross-reference, parent is this.
+                                                    continue;
+                                                }
+                                                elseif(
+                                                    property_exists($relation_relation, 'type') &&
+                                                    property_exists($relation_relation, 'class') &&
+                                                    property_exists($record, '#class') &&
+                                                    $relation_relation->type === 'one-one' &&
+                                                    $relation_relation->class === $record->{'#class'}
+                                                ){
+                                                    //don't need cross-reference, parent is this.
+                                                    continue;
+                                                }
+                                                elseif(
+                                                    property_exists($relation_relation, 'type') &&
+                                                    property_exists($relation_relation, 'class') &&
+                                                    property_exists($record, '#class') &&
+                                                    $relation_relation->type === 'one-many' &&
+                                                    $relation_relation->class === $record->{'#class'}
+                                                ){
+                                                    //don't need cross-reference, parent is this.
+                                                    continue;
+                                                }
+                                                if(
+                                                    property_exists($relation_relation, 'attribute')
+                                                ){
+                                                    $relation_data_data = $relation_data->get($relation_relation->attribute);
+                                                    $relation_data_data = $this->relation_inner($relation_relation, $relation_data_data);
+                                                    $relation_data->set($relation_relation->attribute, $relation_data_data);
                                                 }
                                             }
-                                            /*
-                                            $expose = $this->expose_get(
-                                                $object,
-                                                $relation->class,
-                                                $relation->class . '.' . __FUNCTION__ . '.expose'
-                                            );
-                                            $relation_record = $this->expose(
-                                                $relation_data,
-                                                $expose,
-                                                $relation->class,
-                                                __FUNCTION__,
-                                                $role
-                                            );
-                                            */
-//                                            d($relation_record);
-                                            if($relation_data){
-                                                $record->{$relation->attribute}[$nr] = $relation_data->data();
-                                            }
-                                        } else {
-                                            /*
-                                            $expose = $this->expose_get(
-                                                $object,
-                                                $relation->class,
-                                                $relation->class . '.' . __FUNCTION__ . '.expose'
-                                            );
-                                            $relation_record = $this->expose(
-                                                $relation_data,
-                                                $expose,
-                                                $relation->class,
-                                                __FUNCTION__,
-                                                $role
-                                            );
-                                            */
-                                            if($relation_data){
-                                                $record->{$relation->attribute}[$nr] = $relation_data->data();
-                                            }
                                         }
+                                        if($relation_data){
+                                            $node->set($relation->attribute, $relation_data->data());
+                                        }
+                                        $is_loaded[] = $relation_data->get('#class');
+                                        $object->data('R3m.Io.Node.BinarySearch.relation', $is_loaded);
                                     }
                                 }
                             }
-                            break;
-                        case 'many-one':
-                            if(
-                                property_exists($record, $relation->attribute) &&
-                                is_string($record->{$relation->attribute})
-                                //add is_uuid
-                            ){
-                                $relation_url = $object->config('project.dir.data') .
-                                    'Node' .
-                                    $object->config('ds') .
-                                    'Storage' .
-                                    $object->config('ds') .
-                                    substr($record->{$relation->attribute}, 0, 2) .
-                                    $object->config('ds') .
-                                    $record->{$relation->attribute} .
-                                    $object->config('extension.json')
-                                ;
-                                $relation_data = $object->data_read($relation_url, sha1($relation_url));
-                                if($relation_data){
-                                    $relation_object_url = $object->config('project.dir.data') .
-                                        'Node' .
-                                        $object->config('ds') .
-                                        'Object' .
-                                        $object->config('ds') .
-                                        $relation_data->get('#class') .
-                                        $object->config('extension.json')
-                                    ;
-                                    $relation_object_data = $object->data_read($relation_object_url, sha1($relation_object_url));
-                                    if($relation_object_data){
-                                        foreach($relation_object_data->get('relation') as $relation_nr => $relation_relation){
-                                            if(
-                                                property_exists($relation_relation, 'type') &&
-                                                property_exists($relation_relation, 'class') &&
-                                                property_exists($record, '#class') &&
-                                                $relation_relation->type === 'many-one' &&
-                                                $relation_relation->class === $record->{'#class'}
-                                            ){
-                                                //don't need cross-reference, parent is this.
-                                                continue;
-                                            }
-                                            elseif(
-                                                property_exists($relation_relation, 'type') &&
-                                                property_exists($relation_relation, 'class') &&
-                                                property_exists($record, '#class') &&
-                                                $relation_relation->type === 'one-one' &&
-                                                $relation_relation->class === $record->{'#class'}
-                                            ){
-                                                //don't need cross-reference, parent is this.
-                                                continue;
-                                            }
-                                            elseif(
-                                                property_exists($relation_relation, 'type') &&
-                                                property_exists($relation_relation, 'class') &&
-                                                property_exists($record, '#class') &&
-                                                $relation_relation->type === 'one-many' &&
-                                                $relation_relation->class === $record->{'#class'}
-                                            ){
-                                                //don't need cross-reference, parent is this.
-                                                continue;
-                                            }
-                                            if(
-                                                property_exists($relation_relation, 'attribute')
-                                            ){
-                                                $relation_data_data = $relation_data->get($relation_relation->attribute);
-                                                $relation_data_data = $this->relation_inner($relation_relation, $relation_data_data);
-                                                $relation_data->set($relation_relation->attribute, $relation_data_data);
-                                            }
-                                        }
-                                    }
-                                    /*
-                                    $expose = $this->expose_get(
-                                        $object,
-                                        $relation->class,
-                                        $relation->class . '.' . __FUNCTION__ . '.expose'
-                                    );
-                                    $relation_record = $this->expose(
-                                        $relation_data,
-                                        $expose,
-                                        $relation->class,
-                                        __FUNCTION__,
-                                        $role
-                                    );
-                                    */
-//                                    ddd($relation_record);
-                                    if($relation_data){
-                                        $record->{$relation->attribute} = $relation_data->data();
-                                    }
-                                }
-                            }
+                            $record = $node->data();
                             break;
                     }
                 }
