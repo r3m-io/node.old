@@ -10,10 +10,10 @@
 'User',
 [
 'sort' => [
-'email' => 'ASC',
+'email' => 'ASC'
 ],
 'limit' => (int) $options.limit,
-'page' => (int) $options.page,
+'page' => (int) $options.page
 ])}}
 {{if($options.format === 'json')}}
 {{$response|json.encode:'JSON_PRETTY_PRINT'}}
