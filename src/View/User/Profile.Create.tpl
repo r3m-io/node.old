@@ -43,5 +43,6 @@ R3m.Io.Node:Role:role_system(),
 {{$response|json.encode:'JSON_PRETTY_PRINT'}}
 {{else}}
 User already has a profile ({{$user.profile.uuid}})...
+{{$user|json.encode:'JSON_PRETTY_PRINT'}}
 {{/if}}
 
