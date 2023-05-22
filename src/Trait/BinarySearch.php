@@ -420,6 +420,9 @@ Trait BinarySearch {
                                 is_array($record->{$relation->attribute})
                             ){
                                 foreach($record->{$relation->attribute} as $nr => $uuid){
+                                    if(!is_string($uuid)){
+                                        continue;
+                                    }
                                     $relation_url = $object->config('project.dir.data') .
                                         'Node' .
                                         $object->config('ds') .
@@ -628,13 +631,6 @@ Trait BinarySearch {
             array_key_exists('limit', $options)
         ){
             $index = ($options['page'] * $options['limit']) - $options['limit'];
-        }
-        if(!array_key_exists('function', $options)){
-            $debug = debug_backtrace(true);
-            d($debug[0]['file'] . ' ' . $debug[0]['line']);
-            d($debug[1]['file'] . ' ' . $debug[1]['line']);
-            d($debug[2]['file'] . ' ' . $debug[2]['line']);
-            ddd($debug[3]['file'] . ' ' . $debug[3]['line']);
         }
         $start = $index;
         $end = $start + $options['limit'];
