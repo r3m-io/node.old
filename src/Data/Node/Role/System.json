@@ -33,6 +33,13 @@
       "uuid": "90bf5373-4c6c-414c-8471-64c705b6c1c2"
     },
     {
+      "name": "Role.list",
+      "attribute": [],
+      "role": "ba03ca6d-dd82-4c47-91ec-cf6da860401c",
+      "#class": "Permission",
+      "uuid": "d1c69c68-401e-4be6-8084-7f82aea2e0b9"
+    },
+    {
       "name": "Role.patch",
       "attribute": [],
       "role": "ba03ca6d-dd82-4c47-91ec-cf6da860401c",
