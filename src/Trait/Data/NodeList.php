@@ -2,12 +2,16 @@
 
 namespace R3m\Io\Node\Trait\Data;
 
-use R3m\Io\Exception\FileWriteException;
-use R3m\Io\Exception\ObjectException;
+use SplFileObject;
+
 use R3m\Io\Module\Controller;
 use R3m\Io\Module\Core;
 use R3m\Io\Module\File;
-use SplFileObject;
+
+use Exception;
+
+use R3m\Io\Exception\FileWriteException;
+use R3m\Io\Exception\ObjectException;
 
 Trait NodeList {
     /**
@@ -19,31 +23,15 @@ Trait NodeList {
     public function list($class, $role, $options=[]): false|array
     {
         $name = Controller::name($class);
-        d($class);
         $debug = debug_backtrace(true);
-        d($options);
-        d($debug[0]['file'] . ' ' . $debug[0]['line']);
-        d($debug[1]['file'] . ' ' . $debug[1]['line']);
-        ddd($debug[2]['file'] . ' ' . $debug[2]['line']);
-        ddd($options);
         $options = Core::object($options, Core::OBJECT_ARRAY);
         if(!array_key_exists('function', $options)){
             $options['function'] = __FUNCTION__;
         }
         $object = $this->object();
         if(!array_key_exists('sort', $options)){
-            $debug = debug_backtrace(true);
-            d($options);
-            d($debug[0]['file'] . ' ' . $debug[0]['line']);
-            d($debug[1]['file'] . ' ' . $debug[1]['line']);
-            ddd($debug[2]['file'] . ' ' . $debug[2]['line']);
+            throw new Exception('Sort is missing in options for ' . $name . '::' . $options['function'] . '()');
         }
-        /*
-        d($class);
-        d(__FUNCTION__);
-        d($role);
-        d($options);
-        */
         $this->binary_search_list_create($class, $options);
         $dir = $object->config('project.dir.data') .
             'Node' .
