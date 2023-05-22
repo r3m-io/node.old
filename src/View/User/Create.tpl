@@ -36,7 +36,7 @@ Use ',' to separate roles, 'All' for all roles.
 {{/if}}
 
 {{$roles = terminal.readline('Choose Role(s): ')}}
-{{$roles = preg_replace('/\s+/', ' ', $roles)}}
+{{$roles = preg.replace('/\s+/', ' ', $roles)}}
 {{$roles = string.replace(', ', ',', $roles)}}
 {{if(string.contains.case.insensitive($roles, 'all'))}}
 {{$roles = $response.list}}

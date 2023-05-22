@@ -629,6 +629,10 @@ Trait BinarySearch {
         ){
             $index = ($options['page'] * $options['limit']) - $options['limit'];
         }
+        if(!array_key_exists('function', $options)){
+            $debug = debug_backtrace(true);
+            ddd($debug[0]['function'] . ' is missing function in options');
+        }
         $start = $index;
         $end = $start + $options['limit'];
         $page = [];
