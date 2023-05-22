@@ -2,6 +2,8 @@
 
 namespace R3m\Io\Node\Trait\Data;
 
+use Exception;
+
 use R3m\Io\Exception\FileWriteException;
 use R3m\Io\Exception\ObjectException;
 
@@ -16,8 +18,7 @@ Trait Record {
         $options['page'] = 1;
         $options['function'] = __FUNCTION__;
         if(!array_key_exists('sort', $options)){
-            $debug = debug_backtrace(true);
-            ddd($debug[0]['file'] . ' ' . $debug[0]['line']);
+            throw new Exception('Sort is missing in options');
         }
         $list = $this->list($class, $role, $options);
         if(
