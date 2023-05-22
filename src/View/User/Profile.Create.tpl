@@ -10,13 +10,11 @@ R3m.Io.Node:Role:role_system(),
 'email' => 'ASC',
 ],
 'where' => [
-'(',
 [
 'attribute' => 'email',
 'value' => $email,
 'operator' => 'partial'
-],
-')'
+]
 ]
 ])}}
 {{if($response)}}
