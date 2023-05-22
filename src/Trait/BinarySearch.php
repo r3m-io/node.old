@@ -452,34 +452,40 @@ Trait BinarySearch {
                                             $object->config('extension.json')
                                         ;
                                         $relation_object_data = $object->data_read($relation_object_url, sha1($relation_object_url));
-                                        if($relation_object_data){
-                                            foreach($relation_object_data->get('relation') as $relation_nr => $relation_relation){
-                                                if(
-                                                    property_exists($relation_relation, 'type') &&
-                                                    property_exists($relation_relation, 'class') &&
-                                                    property_exists($record, '#class') &&
-                                                    $relation_relation->type === 'many-one' &&
-                                                    $relation_relation->class === $record->{'#class'}
-                                                ){
-                                                    //don't need cross-reference, parent is this.
-                                                    continue;
-                                                }
-                                                if(
-                                                    property_exists($relation_relation, 'type') &&
-                                                    property_exists($relation_relation, 'class') &&
-                                                    property_exists($record, '#class') &&
-                                                    $relation_relation->type === 'one-one' &&
-                                                    $relation_relation->class === $record->{'#class'}
-                                                ){
-                                                    //don't need cross-reference, parent is this.
-                                                    continue;
-                                                }
-                                                if(
-                                                    property_exists($relation_relation, 'attribute')
-                                                ){
-                                                    $relation_data_data = $relation_data->get($relation_relation->attribute);
-                                                    $relation_data_data = $this->relation_inner($relation_relation, $relation_data_data);
-                                                    $relation_data->set($relation_relation->attribute, $relation_data_data);
+                                        if(
+                                            $relation_object_data &&
+                                            $relation_object_data->has('relation')
+                                        ){
+                                            $relation_object_relation = $relation_object_data->get('relation');
+                                            if(is_array($relation_object_relation)){
+                                                foreach($relation_object_relation as $relation_nr => $relation_relation){
+                                                    if(
+                                                        property_exists($relation_relation, 'type') &&
+                                                        property_exists($relation_relation, 'class') &&
+                                                        property_exists($record, '#class') &&
+                                                        $relation_relation->type === 'many-one' &&
+                                                        $relation_relation->class === $record->{'#class'}
+                                                    ){
+                                                        //don't need cross-reference, parent is this.
+                                                        continue;
+                                                    }
+                                                    if(
+                                                        property_exists($relation_relation, 'type') &&
+                                                        property_exists($relation_relation, 'class') &&
+                                                        property_exists($record, '#class') &&
+                                                        $relation_relation->type === 'one-one' &&
+                                                        $relation_relation->class === $record->{'#class'}
+                                                    ){
+                                                        //don't need cross-reference, parent is this.
+                                                        continue;
+                                                    }
+                                                    if(
+                                                        property_exists($relation_relation, 'attribute')
+                                                    ){
+                                                        $relation_data_data = $relation_data->get($relation_relation->attribute);
+                                                        $relation_data_data = $this->relation_inner($relation_relation, $relation_data_data);
+                                                        $relation_data->set($relation_relation->attribute, $relation_data_data);
+                                                    }
                                                 }
                                             }
                                             /*

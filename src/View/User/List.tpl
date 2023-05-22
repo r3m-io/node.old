@@ -9,7 +9,7 @@
 {{$response = R3m.Io.Node:Data:list(
 'User',
 [
-'order' => [
+'sort' => [
 'email' => 'ASC',
 ],
 'limit' => (int) $options.limit,
@@ -22,10 +22,11 @@ List Users:
 {{for.each($response.list as $nr => $user)}}
 {{$selector = $nr + 1}}
 {{$user_role = []}}
-{{if(is.array($user.Role))}}
-{{for.each($user.Role as $role)}}
+{{if(is.array($user.role))}}
+{{for.each($user.role as $role)}}
 {{$user_role[] = $role.name}}
 {{/for.each}}
+{{$user_role = array.sort($user_role, 'ASC')}}
 {{/if}}
 [{{$selector}}] {{$user.email}} ({{implode(', ', $user_role)}})
 {{/for.each}}
