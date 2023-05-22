@@ -25,9 +25,10 @@ Trait Record {
             array_key_exists('list', $list) &&
             array_key_exists(0, $list['list'])
         ){
-            ddd($list);
+            $record = $list;
             $record['node'] = $list['list'][0];
-//            $record['limit'] = $options['limit']
+            unset($record['list']);
+            return $record;
         }
         return null;
     }
