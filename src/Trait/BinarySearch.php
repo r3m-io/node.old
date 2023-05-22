@@ -429,13 +429,6 @@ Trait BinarySearch {
                                 ;
                                 $relation_data = $object->data_read($relation_url, sha1($relation_url));
                                 if($relation_data) {
-                                    $is_loaded = $object->data('R3m.Io.Node.BinarySearch.relation');
-                                    if (empty($is_loaded)) {
-                                        $is_loaded = [];
-                                    }
-                                    if ($relation_data->has('#class')) {
-//                                        $is_loaded[] = $relation_data->get('#class');
-                                    }
                                     $relation_object_url = $object->config('project.dir.data') .
                                         'Node' .
                                         $object->config('ds') .
@@ -474,9 +467,6 @@ Trait BinarySearch {
                                                 if (
                                                     property_exists($relation_relation, 'attribute')
                                                 ) {
-                                                    if ($relation_data->has('#class')) {
-                                                        $object->data('R3m.Io.Node.BinarySearch.relation', $is_loaded);
-                                                    }
                                                     $relation_data_data = $relation_data->get($relation_relation->attribute);
                                                     $relation_data_data = $this->relation_inner($relation_relation, $relation_data_data);
                                                     $relation_data->set($relation_relation->attribute, $relation_data_data);
@@ -491,9 +481,6 @@ Trait BinarySearch {
                                             $node->set($relation->attribute, $relation_data->data());
                                         }
                                     }
-                                    if ($relation_data->has('#class')) {
-                                        $object->data('R3m.Io.Node.BinarySearch.relation', $is_loaded);
-                                    }
                                 }
                             }
                             $record = $node->data();
@@ -505,10 +492,6 @@ Trait BinarySearch {
                                 $one_many = $node->get($relation->attribute);
                                 if(!is_array($one_many)){
                                     break;
-                                }
-                                $is_loaded = $object->data('R3m.Io.Node.BinarySearch.relation');
-                                if(empty($is_loaded)){
-                                    $is_loaded = [];
                                 }
                                 foreach($one_many as $nr => $uuid){
                                     if(!is_string($uuid)){
@@ -591,8 +574,6 @@ Trait BinarySearch {
                                     }
                                 }
                                 $node->set($relation->attribute, $one_many);
-//                                $is_loaded[] = $relation_data->get('#class');
-//                                $object->data('R3m.Io.Node.BinarySearch.relation', $is_loaded);
                             }
                             $record = $node->data();
                             break;
@@ -617,19 +598,9 @@ Trait BinarySearch {
                                 ;
                                 $relation_data = $object->data_read($relation_url, sha1($relation_url));
                                 if($relation_data){
-                                    $is_loaded = $object->data('R3m.Io.Node.BinarySearch.relation');
-                                    if(empty($is_loaded)){
-                                        $is_loaded = [];
-                                    }
                                     if(
-                                        $relation_data->has('#class') &&
-                                        !in_array(
-                                            $relation_data->get('#class'),
-                                            $is_loaded,
-                                            true
-                                        )
+                                        $relation_data->has('#class')
                                     ) {
-//                                        $is_loaded[] = $relation_data->get('#class');
                                         $relation_object_url = $object->config('project.dir.data') .
                                             'Node' .
                                             $object->config('ds') .
@@ -683,7 +654,6 @@ Trait BinarySearch {
                                         if($relation_data){
                                             $node->set($relation->attribute, $relation_data->data());
                                         }
-                                        $object->data('R3m.Io.Node.BinarySearch.relation', $is_loaded);
                                     }
                                 }
                             }
