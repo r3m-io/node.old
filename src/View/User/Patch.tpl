@@ -11,54 +11,32 @@
 Update User:
 
 {{/if}}
-{{$response = R3m.Io.Node:Data:list(
+{{$user = null}}
+{{while($user === null)}}
+{{$email = terminal.readline('Email: ')}}
+{{$response = R3m.Io.Node:Data:record(
 'User',
+R3m.Io.Node:Role:role_system(),
 [
-'order' => [
-'email' => 'ASC'
+'sort' => [
+'email' => 'ASC',
 ],
-'limit' => (int) $options.limit,
-'page' => (int) $options.page,
-])}}
-{{if(is.array($response.list))}}
-{{for.each($response.list as $nr => $user)}}
-{{$selector = $nr + 1}}
-{{$user_role = []}}
-{{if(is.array($user.Role))}}
-{{for.each($user.Role as $role)}}
-{{$user_role[] = $role.name}}
-{{/for.each}}
-{{/if}}
-{{$users = $options.user}}
-{{if(is.empty($users))}}
-[{{$selector}}] {{$user.email}} ({{implode(', ', $user_role)}})
-{{/if}}
-{{/for.each}}
-{{/if}}
-{{if(is.empty($users))}}
-{{$users = terminal.readline('User: ')}}
-{{/if}}
-{{$users = preg_replace('/\s+/', ' ', $users)}}
-{{$users = string.replace(', ', ',', $users)}}
-{{if(string.contains.case.insensitive($users, 'all'))}}
-{{$users = $response.list}}
-{{else}}
-{{$users = explode(',', $users)}}
-{{for.each($users as $nr => $selector)}}
-{{$selector = (int) $selector}}
-{{if(array.key.exist($selector - 1, $response.list))}}
-{{$users[$nr] = $response.list[$selector - 1]}}
-{{/if}}
-{{/for.each}}
-{{/if}}
-{{if(is.array($users))}}
-{{for.each($users as $nr => $user)}}
-{{$patch.uuid = $user.uuid}}
-{{$patch = R3m.Io.Node:Data:read(
-'User',
+'where' => [
 [
-'uuid' => $patch.uuid
+'attribute' => 'email',
+'value' => $email,
+'operator' => 'partial'
+]
+]
 ])}}
+{{if($response)}}
+{{break()}}
+{{else}}
+Cannot find user...
+{{/if}}
+{{/while}}
+{{$user = $response.node}}
+{{$patch = $user}}
 {{if($options.email)}}
 {{$patch.email = $options.email}}
 {{/if}}
@@ -69,6 +47,7 @@ $options.password === $options['password-repeat']
 )}}
 {{$patch.password = password.hash($options.password, 13)}}
 {{/if}}
+/*
 {{if($options.role)}}
 {{if(!$options.role_page)}}
 {{$options.role_page = 1}}
@@ -104,17 +83,19 @@ $options.password === $options['password-repeat']
 {{if(is.array($roles))}}
 {{$list = R3m.Io.Node:Data:list_attribute($roles, ['uuid', 'name', 'rank'])}}
 {{for.each($list as $patch_nr => $patch_role)}}
-{{for.each($patch.Role as $nr => $role)}}
+{{for.each($patch.role as $nr => $role)}}
 {{if($role.uuid === $patch_role.uuid)}}
-{{$patch.Role[$nr] = $patch_role}}
+{{$patch.role[$nr] = $patch_role}}
 {{/if}}
 {{/for.each}}
 {{/for.each}}
-{{$patch.Role = data.sort($patch.Role, [
+{{$patch.role = data.sort($patch.role, [
 'rank' => 'ASC',
 'name' => 'ASC'
 ], true)}}
 {{/if}}
+*/
+{{dd($patch)}}
 {{$response = R3m.Io.Node:Data:patch('User', $patch)}}
 {{$response|json.encode:'JSON_PRETTY_PRINT'}}
 {{/for.each}}
