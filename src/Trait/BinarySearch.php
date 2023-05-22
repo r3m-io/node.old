@@ -585,6 +585,7 @@ Trait BinarySearch {
                                         }
                                     }
                                 }
+                                $node->set($relation->attribute, $one_many);
                                 $is_loaded[] = $relation_data->get('#class');
                                 $object->data('R3m.Io.Node.BinarySearch.relation', $is_loaded);
                             }
