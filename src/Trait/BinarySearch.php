@@ -510,12 +510,7 @@ Trait BinarySearch {
                                     $relation_data = $object->data_read($relation_url, sha1($relation_url));
                                     if($relation_data){
                                         if(
-                                            $relation_data->has('#class') &&
-                                            !in_array(
-                                                $relation_data->get('#class'),
-                                                $is_loaded,
-                                                true
-                                            )
+                                            $relation_data->has('#class')
                                         ){
                                             $relation_object_url = $object->config('project.dir.data') .
                                                 'Node' .
