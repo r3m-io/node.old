@@ -273,7 +273,8 @@ Trait NodeList {
                                 'lines'=> $lines,
                                 'counter' => 0,
                                 'direction' => 'next',
-                                'url' => $url
+                                'url' => $url,
+                                'function' => $options['function']
                             ]
                         );
                         $result = [];
