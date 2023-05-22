@@ -589,6 +589,7 @@ Trait BinarySearch {
                                 $object->data('R3m.Io.Node.BinarySearch.relation', $is_loaded);
                             }
                             $record = $node->data();
+                            ddd($record);
                             break;
                         case 'many-one':
                             if(
