@@ -27,7 +27,9 @@ Trait NodeList {
         if(!array_key_exists('sort', $options)){
             $debug = debug_backtrace(true);
             d($options);
-            ddd($debug[0]['file'] . ' ' . $debug[0]['line']);
+            d($debug[0]['file'] . ' ' . $debug[0]['line']);
+            d($debug[1]['file'] . ' ' . $debug[1]['line']);
+            ddd($debug[2]['file'] . ' ' . $debug[2]['line']);
         }
         /*
         d($class);
