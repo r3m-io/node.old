@@ -433,6 +433,9 @@ Trait BinarySearch {
                                     if (empty($is_loaded)) {
                                         $is_loaded = [];
                                     }
+                                    if ($relation_data->has('#class')) {
+                                        $is_loaded[] = $relation_data->get('#class');
+                                    }
                                     $relation_object_url = $object->config('project.dir.data') .
                                         'Node' .
                                         $object->config('ds') .
@@ -486,7 +489,6 @@ Trait BinarySearch {
                                         }
                                     }
                                     if ($relation_data->has('#class')) {
-                                        $is_loaded[] = $relation_data->get('#class');
                                         $object->data('R3m.Io.Node.BinarySearch.relation', $is_loaded);
                                     }
                                 }
@@ -529,6 +531,7 @@ Trait BinarySearch {
                                                 true
                                             )
                                         ){
+                                            $is_loaded[] = $relation_data->get('#class');
                                             $relation_object_url = $object->config('project.dir.data') .
                                                 'Node' .
                                                 $object->config('ds') .
@@ -586,7 +589,6 @@ Trait BinarySearch {
                                     }
                                 }
                                 $node->set($relation->attribute, $one_many);
-                                $is_loaded[] = $relation_data->get('#class');
                                 $object->data('R3m.Io.Node.BinarySearch.relation', $is_loaded);
                             }
                             $record = $node->data();
@@ -625,6 +627,7 @@ Trait BinarySearch {
                                             true
                                         )
                                     ) {
+                                        $is_loaded[] = $relation_data->get('#class');
                                         $relation_object_url = $object->config('project.dir.data') .
                                             'Node' .
                                             $object->config('ds') .
@@ -678,7 +681,6 @@ Trait BinarySearch {
                                         if($relation_data){
                                             $node->set($relation->attribute, $relation_data->data());
                                         }
-                                        $is_loaded[] = $relation_data->get('#class');
                                         $object->data('R3m.Io.Node.BinarySearch.relation', $is_loaded);
                                     }
                                 }
