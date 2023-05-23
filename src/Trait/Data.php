@@ -192,7 +192,7 @@ Trait Data {
         if($data){
             $validate = $data->data($type . '.validate');
             if(empty($validate)){
-                return false;
+                throw new Exception('No validation found for ' . $type . ' in ' . $url . '.');
             }
             return Validate::validate($object, $validate);
         }
