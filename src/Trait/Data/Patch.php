@@ -76,7 +76,7 @@ Trait Patch {
         $expose = $this->expose_get(
             $object,
             $class,
-            $class . '.' . __FUNCTION__ . 'write.expose'
+            $class . '.' . __FUNCTION__ . '.write.expose'
         );
         /*
         $role = $this->record('Role', [
