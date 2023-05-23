@@ -242,6 +242,8 @@ Trait BinarySearch {
     {
         $counter++;
         if($counter > 12){
+            $is_loaded = $object->data('R3m.Io.Node.BinarySearch.relation');
+            d($is_loaded);
             d($relation);
             ddd($data);
         }
@@ -365,23 +367,22 @@ Trait BinarySearch {
                         ;
                         $relation_object_data = $object->data_read($relation_object_url, sha1($relation_object_url));
                         $relation_object_relation = $relation_object_data->data('relation');
-                        /*
+
                         $is_loaded = $object->data('R3m.Io.Node.BinarySearch.relation');
                         if(empty($is_loaded)){
                             $is_loaded = [];
                         }
-                        if(property_exists($record, '#class')){
-                            $is_loaded[] = $record->{'#class'};
+                        if($relation_data->has('#class')){
+                            $is_loaded[] = $relation_data->get('#class');
                             $object->data('R3m.Io.Node.BinarySearch.relation', $is_loaded);
                         }
-                        */
                         if(is_array($relation_object_relation)){
                             foreach($relation_object_relation as $relation_object_relation_nr => $relation_object_relation_data){
                                 if(
                                     property_exists($relation_object_relation_data, 'class') &&
                                     property_exists($relation_object_relation_data, 'attribute')
                                 ){
-                                    /*
+
                                     if(
                                         in_array(
                                             $relation_object_relation_data->class,
@@ -392,7 +393,6 @@ Trait BinarySearch {
                                         //already loaded
                                         continue;
                                     }
-                                    */
                                 }
                                 $selected = $relation_data->get($relation_object_relation_data->attribute);
                                 $selected = $this->relation_inner($relation_object_relation_data, $selected, $options, $counter);
