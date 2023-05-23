@@ -31,7 +31,7 @@ Trait Patch {
                 'uuid' => 'ASC'
             ],
             'relation' => false,
-            'function' => 'read'
+            'function' => __FUNCTION__ . '.read'
         ];
         $node = $this->record(
             $name,

@@ -68,6 +68,20 @@
       "uuid": "10cb186a-f8db-4375-87ad-97120d3cc507"
     },
     {
+      "name": "User.patch.read",
+      "attribute": [],
+      "role": "ba03ca6d-dd82-4c47-91ec-cf6da860401c",
+      "#class": "Permission",
+      "uuid": "df096063-aca0-4434-bdc3-ddea658d5fc0"
+    },
+    {
+      "name": "User.read",
+      "attribute": [],
+      "role": "ba03ca6d-dd82-4c47-91ec-cf6da860401c",
+      "#class": "Permission",
+      "uuid": "8d20f272-05f2-4ef2-9893-4feb4c53cecf"
+    },
+    {
       "name": "User.sync",
       "attribute": [],
       "role": "ba03ca6d-dd82-4c47-91ec-cf6da860401c",
