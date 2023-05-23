@@ -1028,7 +1028,6 @@ Trait BinarySearch {
             } else {
                 d($options['search']);
                 d($options);
-                ddd($options);
             }
 
             if(
