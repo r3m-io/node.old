@@ -251,26 +251,27 @@ Trait BinarySearch {
         if(!property_exists($relation, 'type')){
             return false;
         }
+        $is_allowed = false;
+        d($options);
+        $options_relation = $options['relation'] ?? [];
+        if(is_bool($options_relation) && $options_relation === true){
+            $is_allowed = true;
+        }
+        elseif(is_bool($options_relation) && $options_relation === false){
+            $is_allowed = false;
+        }
+        elseif(is_array($options_relation)){
+            foreach($options_relation as $option){
+                if(strtolower($option) === strtolower($relation->class)){
+                    $is_allowed = true;
+                    break;
+                }
+            }
+        }
         switch($relation->type){
             case 'one-many':
                 if(!is_array($data)){
                     return false;
-                }
-                $is_allowed = false;
-                $options_relation = $options['relation'] ?? [];
-                if(is_bool($options_relation) && $options_relation === true){
-                    $is_allowed = true;
-                }
-                elseif(is_bool($options_relation) && $options_relation === false){
-                    $is_allowed = false;
-                }
-                elseif(is_array($options_relation)){
-                    foreach($options_relation as $option){
-                        if(strtolower($option) === strtolower($relation->class)){
-                            $is_allowed = true;
-                            break;
-                        }
-                    }
                 }
                 foreach($data as $relation_data_nr => $relation_data_uuid){
                     if(
@@ -341,7 +342,10 @@ Trait BinarySearch {
                 }
             break;
             case 'many-one':
-                if(is_string($data)){
+                if(
+                    $is_allowed &&
+                    is_string($data)
+                ){
                     $relation_data_url = $object->config('project.dir.data') .
                         'Node' .
                         $object->config('ds') .
