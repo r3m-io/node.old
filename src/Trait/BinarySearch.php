@@ -736,7 +736,6 @@ Trait BinarySearch {
         $time_start = microtime(true);
         $record_index = $index;
         for($i = $start; $i < $end; $i++){
-            d($i);
             $record = $this->binary_search_index($file, [
                 'page' => $options['page'],
                 'limit' => $options['limit'],
@@ -746,7 +745,6 @@ Trait BinarySearch {
                 'search' => [],
                 'url' => $options['url'],
             ]);
-            d($record);
             if(
                 $record
             ){
@@ -792,16 +790,11 @@ Trait BinarySearch {
                 //need object file, so need $class
                 //load relations so we can filter / where on them
                 if(!empty($options['filter'])){
-                    d($options['filter']);
                     $record = $this->filter($record, $options['filter'], $options);
-                    d($record);
                 }
                 elseif(!empty($options['where'])){
-                    d($options['where']);
                     $record = $this->where($record, $options['where'], $options);
-                    d($record);
                 }
-                d($record);
                 if($record){
                     $record->{'#index'} = $record_index;
                     $page[] = $record;
@@ -940,7 +933,6 @@ Trait BinarySearch {
 
     private function parse_index($data=[]): false|int
     {
-        d($data);
         foreach($data as $nr => $line){
             if(strpos($line, '#index') !== false){
                 $line = str_replace('"#index"', '', $line);
