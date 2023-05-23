@@ -23,6 +23,14 @@ Trait Patch {
         unset($options['uuid']);
         $name = Controller::name($class);
         $object = $this->object();
+        $dir_node = $object->config('project.dir.data') .
+            'Node' .
+            $object->config('ds')
+        ;
+        $dir_validate = $dir_node .
+            'Validate'.
+            $object->config('ds')
+        ;
         $node_options = [
             'filter' => [
                 'uuid' => $uuid
@@ -46,6 +54,17 @@ Trait Patch {
         }
         $node = new Storage($node['node']);
         $patch = new Storage($options);
+
+        ddd($options);
+
+
+        $validate_url =
+            $dir_validate .
+            $name .
+            $object->config('extension.json');
+        $validate = $this->validate($object, $validate_url,  $class . '.patch');
+
+
         //add validate
         foreach($patch->data() as $attribute => $value){
             if(is_array($value)){
