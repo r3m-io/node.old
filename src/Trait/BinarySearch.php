@@ -1064,6 +1064,7 @@ Trait BinarySearch {
                             $object->logger($object->config('project.log.name'))->error('Cannot find index in view: ' . $options['url'], $data);
                         }
                         if ($options['index'] === $index) {
+                            d('yes');
                             return $this->binary_search_node($data, [
                                 'seek' => $seek,
                                 ...$options
