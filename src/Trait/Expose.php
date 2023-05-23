@@ -91,8 +91,13 @@ Trait Expose {
                                 property_exists($action, 'attributes') &&
                                 is_array($action->attributes)
                             ) {
-                                d($action->attributes);
+
                                 foreach ($action->attributes as $attribute) {
+                                    $is_optional = false;
+                                    if(substr($attribute, 0, 1) === '?'){
+                                        $is_optional = true;
+                                        $attribute = substr($attribute, 1);
+                                    }
                                     $assertion = $attribute;
                                     $explode = explode(':', $attribute, 2);
                                     $compare = null;
