@@ -1029,10 +1029,8 @@ Trait BinarySearch {
                 if($options['max'] >= $options['min']){
                     $seek = $options['min'];
                 } else {
-                    ddd($options);
+                    return false;
                 }
-                d($options['search']);
-                d($options);
             }
             if(
                 $direction === 'down' &&
@@ -1079,18 +1077,14 @@ Trait BinarySearch {
                     if($depth === 0){
                         $data[] = $symbol;
                         $index = $this->parse_index($data);
-                        d($options['index']);
-                        d($index);
                         if($index === false){
                             $object->logger($object->config('project.log.name'))->error('Cannot find index (' . $index .')in view: ' . $options['url'], $data);
                         }
                         if ($options['index'] === $index) {
-                            d('yes');
                             $node = $this->binary_search_node($data, [
                                 'seek' => $seek,
                                 ...$options
                             ]);
-                            d($node);
                             return $node;
                         }
                         elseif(
@@ -1110,7 +1104,6 @@ Trait BinarySearch {
                             elseif(!$is_per_line) {
                                 $direction = 'up';
                             }
-                            d($index);
                             $options['min'] = $seek + 1;
                             break;
                         }
@@ -1127,9 +1120,6 @@ Trait BinarySearch {
                 if($is_collect){
                     $data[]= $line;
                 }
-                d($options['search']);
-                d($direction);
-                d($seek);
                 if($direction === 'up'){
                     $seek--;
                     if($seek < 0){
