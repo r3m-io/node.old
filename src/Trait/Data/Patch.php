@@ -38,7 +38,6 @@ Trait Patch {
             $role,
             $node_options
         );
-        ddd($node);
         if(!$node){
             return false;
         }
@@ -107,6 +106,7 @@ Trait Patch {
                 $record->has('uuid') &&
                 !empty($record->get('uuid'))
             ){
+                ddd($record);
                 //save $record
                 $url = $object->config('project.dir.data') .
                     'Node' .
