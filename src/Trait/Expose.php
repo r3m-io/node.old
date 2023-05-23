@@ -8,6 +8,7 @@ use R3m\Io\Exception\ObjectException;
 use R3m\Io\Module\Core;
 use R3m\Io\Module\Data as Storage;
 use R3m\Io\Module\File;
+use R3m\Io\Module\Parse;
 use R3m\Io\Node\Service\User;
 
 Trait Expose {
@@ -90,6 +91,7 @@ Trait Expose {
                                 property_exists($action, 'attributes') &&
                                 is_array($action->attributes)
                             ) {
+                                d($action->attributes);
                                 foreach ($action->attributes as $attribute) {
                                     $assertion = $attribute;
                                     $explode = explode(':', $attribute, 2);
