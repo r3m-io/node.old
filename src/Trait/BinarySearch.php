@@ -1026,10 +1026,14 @@ Trait BinarySearch {
             if($is_per_line === false){
                 $seek = $options['min'] + floor(($options['max'] - $options['min']) / 2);
             } else {
+                if($options['max'] >= $options['min']){
+                    $seek = $options['min'];
+                } else {
+                    ddd($options);
+                }
                 d($options['search']);
                 d($options);
             }
-
             if(
                 $direction === 'down' &&
                 !in_array($seek, $options['search'], true)
@@ -1102,7 +1106,8 @@ Trait BinarySearch {
                             if(in_array($seek, $options['search'], true)){
                                 $direction = 'down';
                                 $is_per_line = true;
-                            } else {
+                            }
+                            elseif(!$is_per_line) {
                                 $direction = 'up';
                             }
                             d($index);
