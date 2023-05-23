@@ -63,7 +63,7 @@ Trait Patch {
         foreach($patch->data() as $attribute => $value){
             if(is_array($value)){
                 $list = $node->get($attribute);
-                if(empty($list)){
+                if(empty($list) || !is_array($list)){
                     $list = [];
                 }
                 elseif(is_array($list)) {
