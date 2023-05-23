@@ -55,7 +55,7 @@ Trait Patch {
         $node = new Storage($node['node']);
         $patch = new Storage($options);
 
-        $object->request('node', $patch->data());
+        $object->request('node', (object) $options);
 
         d($object->request());
         ddd($options);
