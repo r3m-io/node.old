@@ -10,6 +10,8 @@ Trait Filter {
 
         $list = [];
         $list[] = $record;
+        d($record);
+        d($filter);
         $list = \R3m\Io\Module\Filter::list($list)->where($filter);
         if(!empty($list)){
             return $record;
