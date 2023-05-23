@@ -18,7 +18,9 @@ Trait Record {
     {
         $options['limit'] = 1;
         $options['page'] = 1;
-        $options['function'] = __FUNCTION__;
+        if(!array_key_exists('function', $options)){
+            $options['function'] = __FUNCTION__;
+        }
         if(!array_key_exists('sort', $options)){
             throw new Exception('Sort is missing in options');
         }
