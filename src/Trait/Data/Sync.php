@@ -174,6 +174,7 @@ Trait Sync {
                         $url_property_desc = false;
                         $mtime_property = File::mtime($url_property_asc);
                     }
+                    $mtime_property = false;
                     if ($mtime === $mtime_property) {
                         //same cache
                         continue;
