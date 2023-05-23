@@ -43,7 +43,7 @@ Trait Patch {
             return false;
         }
         $node = new Storage($node['node']);
-        ddd($node);
+        ddd($node->get('role'));
         $patch = new Storage($options);
         //add validate
         foreach($patch->data() as $attribute => $value){
