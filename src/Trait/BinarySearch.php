@@ -422,6 +422,7 @@ Trait BinarySearch {
         if(!$role){
             return $record;
         }
+        d($record);
         d($options);
         if($data){
             $node = new Storage($record);
