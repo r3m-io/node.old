@@ -37,8 +37,6 @@ Trait Patch {
                 'function' => __FUNCTION__
             ]
         );
-        d($name);
-        d($node);
         if(!$node){
             return false;
         }
@@ -46,8 +44,6 @@ Trait Patch {
             return false;
         }
         $node = new Storage($node['node']);
-        d($node);
-        die;
         $patch = new Storage($options);
         //add validate
         foreach($patch->data() as $attribute => $value){
