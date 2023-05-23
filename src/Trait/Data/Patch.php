@@ -31,6 +31,10 @@ Trait Patch {
             'Validate'.
             $object->config('ds')
         ;
+        $validate_url =
+            $dir_validate .
+            $name .
+            $object->config('extension.json');
         $node_options = [
             'filter' => [
                 'uuid' => $uuid
@@ -54,21 +58,6 @@ Trait Patch {
         }
         $node = new Storage($node['node']);
         $patch = new Storage($options);
-
-        $object->request('node', (object) $options);
-
-        d($object->request());
-        d($options);
-
-
-        $validate_url =
-            $dir_validate .
-            $name .
-            $object->config('extension.json');
-        $validate = $this->validate($object, $validate_url,  $class . '.patch');
-
-        ddd($validate);
-
 
         //add validate
         foreach($patch->data() as $attribute => $value){
@@ -97,6 +86,17 @@ Trait Patch {
                 $node->set($attribute, $value);
             }
         }
+
+        $object->request('node', $node->data());
+
+        d($object->request());
+        d($options);
+
+        $validate = $this->validate($object, $validate_url,  $class . '.patch');
+
+        ddd($validate);
+
+
         $expose = $this->expose_get(
             $object,
             $class,
