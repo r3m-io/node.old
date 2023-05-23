@@ -788,7 +788,7 @@ Trait BinarySearch {
                     $role
                 );
                 $record = $record->data();
-                d($options['filter']);
+                d($options);
                 d($record);
                 //need object file, so need $class
                 //load relations so we can filter / where on them
