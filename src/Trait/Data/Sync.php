@@ -181,56 +181,63 @@ Trait Sync {
                     }
                     if (empty($list)) {
                         $list = new Storage();
-                        foreach ($data->data($class) as $uuid => $node) {
-
-                            if (property_exists($node, 'uuid')) {
-                                $storage_url = $object->config('project.dir.data') .
-                                    'Node' .
-                                    $object->config('ds') .
-                                    'Storage' .
-                                    $object->config('ds') .
-                                    substr($node->uuid, 0, 2) .
-                                    $object->config('ds') .
-                                    $node->uuid .
-                                    $object->config('extension.json');
-                                $record = $object->data_read($storage_url);
-                                d($record);
-                                //need relations
-
-                                if($record && $record->has('#class')){
-                                    $object_url = $object->config('project.dir.data') .
+                        $original = $data->data($class);
+                        $data = [];
+                        if(is_array($original) || is_object($original)){
+                            foreach ($original as $uuid => $node) {
+                                if (property_exists($node, 'uuid')) {
+                                    $storage_url = $object->config('project.dir.data') .
                                         'Node' .
                                         $object->config('ds') .
-                                        'Object' .
+                                        'Storage' .
                                         $object->config('ds') .
-                                        ucfirst($record->get('#class')) .
-                                        $object->config('extension.json')
-                                    ;
-                                    $object_data = $object->data_read($object_url, sha1($object_url));
-                                    $record->data($this->relation($record->data(), $object_data, $role));
-                                }
-                                if ($record) {
-                                    if(in_array($class, $exception, true)){
-                                        $list->set($uuid, $record->data());
+                                        substr($node->uuid, 0, 2) .
+                                        $object->config('ds') .
+                                        $node->uuid .
+                                        $object->config('extension.json');
+                                    $record = $object->data_read($storage_url);
+                                    if($record === false){
+                                        //object no longer exists.
+                                        continue;
                                     }
-                                    elseif($expose) {
-                                        $record = $this->expose(
-                                            $record,
-                                            $expose,
-                                            $class,
-                                            __FUNCTION__,
-                                            $role
-                                        );
-                                        $list->set($uuid, $record->data());
+                                    if($record && $record->has('#class')){
+                                        $data[] =$node;
+                                        $object_url = $object->config('project.dir.data') .
+                                            'Node' .
+                                            $object->config('ds') .
+                                            'Object' .
+                                            $object->config('ds') .
+                                            ucfirst($record->get('#class')) .
+                                            $object->config('extension.json')
+                                        ;
+                                        $object_data = $object->data_read($object_url, sha1($object_url));
+                                        $record->data($this->relation($record->data(), $object_data, $role));
                                     }
-                                } else {
-                                    d($record);
-                                    ddd($storage_url);
+                                    if ($record) {
+                                        if(in_array($class, $exception, true)){
+                                            $list->set($uuid, $record->data());
+                                        }
+                                        elseif($expose) {
+                                            $record = $this->expose(
+                                                $record,
+                                                $expose,
+                                                $class,
+                                                __FUNCTION__,
+                                                $role
+                                            );
+                                            $list->set($uuid, $record->data());
+                                        }
+                                    } else {
+                                        d($record);
+                                        ddd($storage_url);
 
-                                    //event out of sync, send mail
+                                        //event out of sync, send mail
+                                    }
                                 }
                             }
                         }
+                        d($class);
+                        ddd($data);
                     }
                     if (array_key_exists(1, $properties)) {
                         $sort = Sort::list($list)->with([
