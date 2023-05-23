@@ -28,6 +28,9 @@ Trait NodeList {
         if(!array_key_exists('function', $options)){
             $options['function'] = __FUNCTION__;
         }
+        if(!array_key_exists('relation', $options)){
+            $options['relation'] = true;
+        }
         $object = $this->object();
         if(!array_key_exists('sort', $options)){
             throw new Exception('Sort is missing in options for ' . $name . '::' . $options['function'] . '()');
@@ -122,7 +125,8 @@ Trait NodeList {
                                 'counter' => 0,
                                 'direction' => 'next',
                                 'url' => $filter_url,
-                                'function' => $options['function']
+                                'function' => $options['function'],
+                                'relation' => $options['relation']
                             ]
                         );
                     } else {
@@ -144,7 +148,8 @@ Trait NodeList {
                                     'counter' => 0,
                                     'direction' => 'next',
                                     'url' => $url,
-                                    'function' => $options['function']
+                                    'function' => $options['function'],
+                                    'relation' => $options['relation']
                                 ]
                             );
                         }
@@ -199,7 +204,8 @@ Trait NodeList {
                                 'counter' => 0,
                                 'direction' => 'next',
                                 'url' => $where_url,
-                                'function' => $options['function']
+                                'function' => $options['function'],
+                                'relation' => $options['relation']
                             ]
                         );
                     } else {
@@ -221,7 +227,8 @@ Trait NodeList {
                                     'counter' => 0,
                                     'direction' => 'next',
                                     'url' => $url,
-                                    'function' => $options['function']
+                                    'function' => $options['function'],
+                                    'relation' => $options['relation']
                                 ]
                             );
                         }
@@ -271,7 +278,8 @@ Trait NodeList {
                                 'counter' => 0,
                                 'direction' => 'next',
                                 'url' => $url,
-                                'function' => $options['function']
+                                'function' => $options['function'],
+                                'relation' => $options['relation']
                             ]
                         );
                         $result = [];

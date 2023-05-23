@@ -32,7 +32,8 @@ Trait Patch {
                 ],
                 'sort' => [
                     'uuid' => 'ASC'
-                ]
+                ],
+                'relation' => false
             ]
         );
         if(!$node){
