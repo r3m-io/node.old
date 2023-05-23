@@ -745,6 +745,7 @@ Trait BinarySearch {
                 'search' => [],
                 'url' => $options['url'],
             ]);
+            d($record);
             if(
                 $record
             ){
