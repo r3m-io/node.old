@@ -227,11 +227,6 @@ Trait Sync {
                                             );
                                             $list->set($uuid, $record->data());
                                         }
-                                    } else {
-                                        d($record);
-                                        ddd($storage_url);
-
-                                        //event out of sync, send mail
                                     }
                                 }
                             }
