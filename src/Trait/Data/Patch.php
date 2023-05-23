@@ -128,11 +128,21 @@ Trait Patch {
                         ;
                         $record->write($url);
                         $response['node'] = Core::object($record->data(), Core::OBJECT_ARRAY);
-                        Event::trigger($object, 'r3m.io.node.data.create', [
+                        Event::trigger($object, 'r3m.io.node.data.patch', [
                             'class' => $class,
                             'options' => $options,
                             'url' => $url,
                             'node' => $record->data(),
+                        ]);
+                    } else {
+                        $response['error']['uuid']['validate_has_uuid'] = [
+                            false
+                        ];
+                        Event::trigger($object, 'r3m.io.node.data.patch.error', [
+                            'class' => $class,
+                            'options' => $options,
+                            'node' => $object->request('node'),
+                            'error' => $response,
                         ]);
                     }
                 }
