@@ -794,6 +794,7 @@ Trait BinarySearch {
                 //load relations so we can filter / where on them
                 if(!empty($options['filter'])){
                     $record = $this->filter($record, $options['filter'], $options);
+                    d($record);
                 }
                 elseif(!empty($options['where'])){
                     $record = $this->where($record, $options['where'], $options);
