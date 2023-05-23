@@ -36,6 +36,7 @@ Trait Patch {
             'relation' => false,
             'function' => __FUNCTION__
         ];
+        d($node_options);
         $node = $this->record(
             $name,
             $role,
