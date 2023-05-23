@@ -752,7 +752,6 @@ Trait BinarySearch {
                 if($read){
                     $record = Core::object_merge($record, $read->data());
                 }
-                d($record);
                 if(!property_exists($record, '#class')){
                     //need to trigger sync
                     continue;
@@ -774,13 +773,11 @@ Trait BinarySearch {
                 }
                 */
                 $record = $this->relation($record, $object_data, $role, $options);
-                d($record);
                 $expose = $this->expose_get(
                     $object,
                     $record->{'#class'},
                     $record->{'#class'} . '.' . $options['function'] . '.expose'
                 );
-                d($expose);
                 $record = $this->expose(
                     new Storage($record),
                     $expose,
@@ -789,8 +786,6 @@ Trait BinarySearch {
                     $role
                 );
                 $record = $record->data();
-                d($options);
-                d($record);
                 //need object file, so need $class
                 //load relations so we can filter / where on them
                 if(!empty($options['filter'])){
@@ -799,8 +794,8 @@ Trait BinarySearch {
                 }
                 elseif(!empty($options['where'])){
                     d($options['where']);
-                    d($record);
                     $record = $this->where($record, $options['where'], $options);
+                    d($record);
                 }
                 d($record);
                 if($record){
