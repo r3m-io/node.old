@@ -1068,10 +1068,12 @@ Trait BinarySearch {
                         }
                         if ($options['index'] === $index) {
                             d('yes');
-                            return $this->binary_search_node($data, [
+                            $node = $this->binary_search_node($data, [
                                 'seek' => $seek,
                                 ...$options
                             ]);
+                            d($node);
+                            return $node;
                         }
                         elseif(
                             $options['index'] < $index
