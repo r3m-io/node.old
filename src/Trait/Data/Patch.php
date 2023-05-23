@@ -21,21 +21,25 @@ Trait Patch {
             return false;
         }
         unset($options['uuid']);
+        d($options);
+        d($uuid);
+        d($class);
         $name = Controller::name($class);
         $object = $this->object();
+        $node_options = [
+            'filter' => [
+                'uuid' => $uuid
+            ],
+            'sort' => [
+                'uuid' => 'ASC'
+            ],
+            'relation' => false,
+            'function' => __FUNCTION__
+        ];
         $node = $this->record(
             $name,
             $role,
-            [
-                'filter' => [
-                    'uuid' => $uuid
-                ],
-                'sort' => [
-                    'uuid' => 'ASC'
-                ],
-                'relation' => false,
-                'function' => __FUNCTION__
-            ]
+            $node_options
         );
         ddd($node);
         if(!$node){
