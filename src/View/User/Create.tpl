@@ -41,9 +41,8 @@ Use ',' to separate roles, 'All' for all roles.
 {{if(string.contains.case.insensitive($roles, 'all'))}}
 {{$roles = $response.list}}
 {{else}}
-{{dd($roles)}}
 {{$roles = explode(',', $roles)}}
-{{for.each($roles as $nr => $selector)}}
+{{for.each($roles as $nr => (int) $selector)}}
 {{if(array.key.exist($selector - 1, $response.list))}}
 {{$roles[$nr] = $response.list[$selector - 1]}}
 {{/if}}
