@@ -31,6 +31,7 @@ Trait NodeList {
         if(!array_key_exists('relation', $options)){
             $options['relation'] = true;
         }
+        d($options);
         $object = $this->object();
         if(!array_key_exists('sort', $options)){
             throw new Exception('Sort is missing in options for ' . $name . '::' . $options['function'] . '()');
