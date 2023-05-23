@@ -242,7 +242,7 @@ Trait BinarySearch {
     {
         $object = $this->object();
         $counter++;
-        if($counter > 12){
+        if($counter > 1024){
             $is_loaded = $object->data('R3m.Io.Node.BinarySearch.relation');
             d($is_loaded);
             d($relation);
@@ -260,7 +260,6 @@ Trait BinarySearch {
                 $options_relation = $options['relation'] ?? [];
                 if(is_bool($options_relation) && $options_relation === true){
                     $is_allowed = true;
-
                 }
                 elseif(is_bool($options_relation) && $options_relation === false){
                     $is_allowed = false;
