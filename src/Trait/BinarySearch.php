@@ -788,6 +788,7 @@ Trait BinarySearch {
                     $role
                 );
                 $record = $record->data();
+                d($options['filter']);
                 d($record);
                 //need object file, so need $class
                 //load relations so we can filter / where on them
@@ -797,6 +798,7 @@ Trait BinarySearch {
                 elseif(!empty($options['where'])){
                     $record = $this->where($record, $options['where'], $options);
                 }
+                d($record);
                 if($record){
                     $record->{'#index'} = $record_index;
                     $page[] = $record;
