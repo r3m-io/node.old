@@ -240,6 +240,7 @@ Trait BinarySearch {
 
     private function relation_inner($relation, $data=[], $options=[], &$counter=0): false|array|stdClass
     {
+        $object = $this->object();
         $counter++;
         if($counter > 12){
             $is_loaded = $object->data('R3m.Io.Node.BinarySearch.relation');
@@ -250,7 +251,6 @@ Trait BinarySearch {
         if(!property_exists($relation, 'type')){
             return false;
         }
-        $object = $this->object();
         switch($relation->type){
             case 'one-many':
                 if(!is_array($data)){
