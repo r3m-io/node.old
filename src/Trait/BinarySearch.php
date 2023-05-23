@@ -1067,6 +1067,8 @@ Trait BinarySearch {
                     if($depth === 0){
                         $data[] = $symbol;
                         $index = $this->parse_index($data);
+                        d($options['index']);
+                        d($index);
                         if($index === false){
                             $object->logger($object->config('project.log.name'))->error('Cannot find index (' . $index .')in view: ' . $options['url'], $data);
                         }
