@@ -42,8 +42,8 @@ Trait Patch {
         if(!array_key_exists('node', $node)){
             return false;
         }
-        ddd($node);
         $node = new Storage($node['node']);
+        ddd($node);
         $patch = new Storage($options);
         //add validate
         foreach($patch->data() as $attribute => $value){
