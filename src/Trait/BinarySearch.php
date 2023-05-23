@@ -252,13 +252,6 @@ Trait BinarySearch {
             return false;
         }
         $is_allowed = false;
-        d($options);
-        if(is_object($options)){
-            $debug = debug_backtrace(true);
-            d($debug[0]['function'] . ':' . $debug[0]['line'] . ':' . $debug[0]['file']);
-            d($debug[1]['function'] . ':' . $debug[1]['line'] . ':' . $debug[1]['file']);
-            ddd($debug[2]['function'] . ':' . $debug[2]['line'] . ':' . $debug[2]['file']);
-        }
         $options_relation = $options['relation'] ?? [];
         if(is_bool($options_relation) && $options_relation === true){
             $is_allowed = true;
