@@ -38,7 +38,6 @@ Trait Patch {
             $role,
             $node_options
         );
-        ddd($node);
         if(!$node){
             return false;
         }
@@ -77,7 +76,7 @@ Trait Patch {
         $expose = $this->expose_get(
             $object,
             $class,
-            $class . '.' . __FUNCTION__ . '.expose'
+            $class . '.' . __FUNCTION__ . 'write.expose'
         );
         /*
         $role = $this->record('Role', [
@@ -100,7 +99,7 @@ Trait Patch {
                 $node,
                 $expose,
                 $class,
-                __FUNCTION__,
+                __FUNCTION__ . '.write',
                 $role
             );
             if(
