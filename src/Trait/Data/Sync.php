@@ -231,8 +231,9 @@ Trait Sync {
                                 }
                             }
                         }
-                        d($class);
-                        ddd($data);
+                        $storage = new Storage();
+                        $storage->set($class, $data);
+                        $storage->write($url);
                     }
                     if (array_key_exists(1, $properties)) {
                         $sort = Sort::list($list)->with([
