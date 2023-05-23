@@ -1027,6 +1027,7 @@ Trait BinarySearch {
                 $seek = $options['min'] + floor(($options['max'] - $options['min']) / 2);
             } else {
                 d($options['search']);
+                d($options);
                 ddd($options);
             }
 
