@@ -31,13 +31,14 @@ Trait Patch {
                 'uuid' => 'ASC'
             ],
             'relation' => false,
-            'function' => __FUNCTION__
+            'function' => 'read'
         ];
         $node = $this->record(
             $name,
             $role,
             $node_options
         );
+        ddd($node);
         if(!$node){
             return false;
         }
