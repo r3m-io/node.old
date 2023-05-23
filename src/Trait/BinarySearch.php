@@ -736,6 +736,7 @@ Trait BinarySearch {
         $time_start = microtime(true);
         $record_index = $index;
         for($i = $start; $i < $end; $i++){
+            d($i);
             $record = $this->binary_search_index($file, [
                 'page' => $options['page'],
                 'limit' => $options['limit'],
@@ -745,6 +746,7 @@ Trait BinarySearch {
                 'search' => [],
                 'url' => $options['url'],
             ]);
+            d($record);
             if(
                 $record
             ){
