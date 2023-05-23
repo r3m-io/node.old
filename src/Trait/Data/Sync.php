@@ -194,6 +194,7 @@ Trait Sync {
                                     $node->uuid .
                                     $object->config('extension.json');
                                 $record = $object->data_read($storage_url);
+                                d($record);
                                 //need relations
 
                                 if($record->has('#class')){
