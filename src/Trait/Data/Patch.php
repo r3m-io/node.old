@@ -89,6 +89,7 @@ Trait Patch {
 
         $object->request('node', $node->data());
 
+        d($validate_url);
         d($object->request());
         d($options);
 
