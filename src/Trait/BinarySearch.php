@@ -1093,6 +1093,8 @@ Trait BinarySearch {
                             $options['index'] > $index
                         ){
                             if(in_array($seek, $options['search'], true)){
+                                d($seek);
+                                d($options['search']);
                                 d('yes trugger');
                                 $direction = 'down';
                             } else {
