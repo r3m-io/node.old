@@ -211,7 +211,10 @@ Trait Sync {
                                             $object->config('extension.json')
                                         ;
                                         $object_data = $object->data_read($object_url, sha1($object_url));
-                                        $record->data($this->relation($record->data(), $object_data, $role, $options));
+                                        $relation_options = [
+                                            'relation' => true
+                                        ];
+                                        $record->data($this->relation($record->data(), $object_data, $role, $relation_options));
                                     }
                                     if ($record) {
                                         if(in_array($class, $exception, true)){
