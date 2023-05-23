@@ -197,7 +197,7 @@ Trait Sync {
                                 d($record);
                                 //need relations
 
-                                if($record->has('#class')){
+                                if($record && $record->has('#class')){
                                     $object_url = $object->config('project.dir.data') .
                                         'Node' .
                                         $object->config('ds') .
