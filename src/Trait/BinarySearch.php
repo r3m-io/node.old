@@ -940,6 +940,7 @@ Trait BinarySearch {
 
     private function parse_index($data=[]): false|int
     {
+        d($data);
         foreach($data as $nr => $line){
             if(strpos($line, '#index') !== false){
                 $line = str_replace('"#index"', '', $line);
