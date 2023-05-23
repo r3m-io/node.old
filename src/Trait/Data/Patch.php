@@ -45,7 +45,7 @@ Trait Patch {
             return false;
         }
         $node = new Storage($node['node']);
-        d($node->get('role'));
+        d($node);
         die;
         $patch = new Storage($options);
         //add validate
