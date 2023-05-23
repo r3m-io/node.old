@@ -1097,6 +1097,7 @@ Trait BinarySearch {
                             } else {
                                 $direction = 'up';
                             }
+                            d($index);
                             $options['min'] = $seek + 1;
                             break;
                         }
@@ -1113,6 +1114,8 @@ Trait BinarySearch {
                 if($is_collect){
                     $data[]= $line;
                 }
+                d($direction);
+                d($seek);
                 if($direction === 'up'){
                     $seek--;
                     if($seek < 0){
