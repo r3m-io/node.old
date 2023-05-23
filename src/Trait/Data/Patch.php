@@ -105,7 +105,7 @@ Trait Patch {
                     $role
                 ){
                     $record = $this->expose(
-                        $object->request('node'),
+                        new Storage($object->request('node')),
                         $expose,
                         $class,
                         __FUNCTION__ . '.write',
