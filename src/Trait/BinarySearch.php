@@ -724,6 +724,9 @@ Trait BinarySearch {
                 if($read){
                     $record = Core::object_merge($record, $read->data());
                 }
+                if(!property_exists($record, '#class')){
+                    ddd($record);
+                }
                 $object_url = $object->config('project.dir.data') .
                     'Node' .
                     $object->config('ds') .
