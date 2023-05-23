@@ -798,6 +798,7 @@ Trait BinarySearch {
                 }
                 elseif(!empty($options['where'])){
                     d($options['where']);
+                    d($record);
                     $record = $this->where($record, $options['where'], $options);
                 }
                 d($record);
