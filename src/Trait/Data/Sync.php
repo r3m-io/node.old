@@ -201,7 +201,7 @@ Trait Sync {
                                         continue;
                                     }
                                     if($record && $record->has('#class')){
-                                        $data[] =$node;
+                                        $data[] = $node;
                                         $object_url = $object->config('project.dir.data') .
                                             'Node' .
                                             $object->config('ds') .
@@ -211,7 +211,7 @@ Trait Sync {
                                             $object->config('extension.json')
                                         ;
                                         $object_data = $object->data_read($object_url, sha1($object_url));
-                                        $record->data($this->relation($record->data(), $object_data, $role));
+                                        $record->data($this->relation($record->data(), $object_data, $role, $options));
                                     }
                                     if ($record) {
                                         if(in_array($class, $exception, true)){
@@ -252,13 +252,15 @@ Trait Sync {
                                         is_array($node) &&
                                         array_key_exists('uuid', $node)
                                     ){
-                                        $item = $list->get($node['uuid']);
+                                        $item = $data->data($class . '.' . $node['uuid']);
+//                                        $item = $list->get($node['uuid']);
                                     }
                                     elseif(
                                         is_object($node) &&
                                         property_exists($node, 'uuid')
                                     ){
-                                        $item = $list->get($node->uuid);
+                                        $item = $data->data($class . '.' . $node->uuid);
+//                                        $item = $list->get($node->uuid);
                                     }
                                     if(!$item){
                                         continue;
@@ -297,13 +299,15 @@ Trait Sync {
                                         is_array($node) &&
                                         array_key_exists('uuid', $node)
                                     ){
-                                        $item = $list->get($node['uuid']);
+                                        $item = $data->data($class . '.' . $node['uuid']);
+//                                        $item = $list->get($node['uuid']);
                                     }
                                     elseif(
                                         is_object($node) &&
                                         property_exists($node, 'uuid')
                                     ){
-                                        $item = $list->get($node->uuid);
+                                        $item = $data->data($class . '.' . $node->uuid);
+//                                        $item = $list->get($node->uuid);
                                     }
                                     if(!$item){
                                         continue;
@@ -341,13 +345,15 @@ Trait Sync {
                                     is_array($node) &&
                                     array_key_exists('uuid', $node)
                                 ){
-                                    $item = $list->get($node['uuid']);
+                                    $item = $data->data($class . '.' . $node['uuid']);
+//                                    $item = $list->get($node['uuid']);
                                 }
                                 elseif(
                                     is_object($node) &&
                                     property_exists($node, 'uuid')
                                 ){
-                                    $item = $list->get($node->uuid);
+                                    $item = $data->data($class . '.' . $node->uuid);
+//                                    $item = $list->get($node->uuid);
                                 }
                                 if(!$item){
                                     continue;
