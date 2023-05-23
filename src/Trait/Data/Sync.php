@@ -119,7 +119,6 @@ Trait Sync {
             $data = new Storage();
             foreach($data_raw->data($class) as $nr => $raw){
                 if(property_exists($raw, 'uuid')){
-
                     $data->data($class . '.' . $raw->uuid, $raw);
                 }
             }
@@ -182,7 +181,7 @@ Trait Sync {
                     if (empty($list)) {
                         $list = new Storage();
                         $original = $data->data($class);
-                        $data = [];
+                        $storage = [];
                         if(is_array($original) || is_object($original)){
                             foreach ($original as $uuid => $node) {
                                 if (property_exists($node, 'uuid')) {
@@ -201,7 +200,7 @@ Trait Sync {
                                         continue;
                                     }
                                     if($record && $record->has('#class')){
-                                        $data[] = $node;
+                                        $storage[] = $node;
                                         $object_url = $object->config('project.dir.data') .
                                             'Node' .
                                             $object->config('ds') .
@@ -234,9 +233,9 @@ Trait Sync {
                                 }
                             }
                         }
-                        $storage = new Storage();
-                        $storage->set($class, $data);
-                        $storage->write($url);
+                        $object_storage = new Storage();
+                        $object_storage->set($class, $storage);
+                        $object_storage->write($url);
                     }
                     if (array_key_exists(1, $properties)) {
                         $sort = Sort::list($list)->with([
