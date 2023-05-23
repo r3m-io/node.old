@@ -923,7 +923,7 @@ Trait BinarySearch {
         foreach($data as $nr => $line){
             $data[$nr] = ltrim($line);
         }
-        d($data);
+        ddd($data);
         $record  = Core::object($data, Core::OBJECT_OBJECT);
         if(!is_object($record)){
             return false;
