@@ -119,6 +119,7 @@ Trait Sync {
             $data = new Storage();
             foreach($data_raw->data($class) as $nr => $raw){
                 if(property_exists($raw, 'uuid')){
+
                     $data->data($class . '.' . $raw->uuid, $raw);
                 }
             }
@@ -221,6 +222,9 @@ Trait Sync {
                                         $list->set($uuid, $record->data());
                                     }
                                 } else {
+                                    d($record);
+                                    ddd($storage_url);
+
                                     //event out of sync, send mail
                                 }
                             }
