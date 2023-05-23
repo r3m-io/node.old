@@ -21,9 +21,6 @@ Trait Patch {
             return false;
         }
         unset($options['uuid']);
-        d($options);
-        d($uuid);
-        d($class);
         $name = Controller::name($class);
         $object = $this->object();
         $node_options = [
@@ -36,7 +33,6 @@ Trait Patch {
             'relation' => false,
             'function' => __FUNCTION__
         ];
-        d($node_options);
         $node = $this->record(
             $name,
             $role,
