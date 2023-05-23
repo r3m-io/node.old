@@ -58,7 +58,7 @@ Trait Patch {
         $object->request('node', (object) $options);
 
         d($object->request());
-        ddd($options);
+        d($options);
 
 
         $validate_url =
@@ -66,6 +66,8 @@ Trait Patch {
             $name .
             $object->config('extension.json');
         $validate = $this->validate($object, $validate_url,  $class . '.patch');
+
+        ddd($validate);
 
 
         //add validate
