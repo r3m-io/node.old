@@ -428,6 +428,13 @@ Trait BinarySearch {
             if(!$relations){
                 return $record;
             }
+            if(
+                array_key_exists('relation', $options) &&
+                is_bool($options['relation']) &&
+                $options['relation'] === false
+            ){
+                return $record;
+            }
             if(!is_array($relations)){
                 return $record;
             }
@@ -437,9 +444,28 @@ Trait BinarySearch {
                     property_exists($relation, 'class') &&
                     property_exists($relation, 'attribute')
                 ){
+                    $is_allowed = false;
+                    $options_relation = $options['relation'] ?? [];
+                    if(is_bool($options_relation) && $options_relation === true){
+                        $is_allowed = true;
+                    }
+                    elseif(is_bool($options_relation) && $options_relation === false){
+                        $is_allowed = false;
+                    }
+                    elseif(is_array($options_relation)){
+                        foreach($options_relation as $option){
+                            if(strtolower($option) === strtolower($relation->class)){
+                                $is_allowed = true;
+                                break;
+                            }
+                        }
+                    }
                     switch(strtolower($relation->type)){
                         case 'one-one':
-                            if($node->has($relation->attribute)){
+                            if(
+                                $is_allowed &&
+                                $node->has($relation->attribute)
+                            ){
                                 $uuid = $node->get($relation->attribute);
                                 if(!is_string($uuid)){
                                     break;
@@ -514,6 +540,7 @@ Trait BinarySearch {
                             break;
                         case 'one-many':
                             if(
+                                $is_allowed &&
                                 $node->has($relation->attribute)
                             ){
                                 $one_many = $node->get($relation->attribute);
@@ -601,6 +628,7 @@ Trait BinarySearch {
                             break;
                         case 'many-one':
                             if(
+                                $is_allowed &&
                                 $node->has($relation->attribute)
                                 //add is_uuid
                             ){
