@@ -78,19 +78,6 @@ Trait Patch {
             $class,
             $class . '.' . __FUNCTION__ . '.write.expose'
         );
-        /*
-        $role = $this->record('Role', [
-            'filter' => [
-                'name' => 'ROLE_SYSTEM'
-            ],
-            'sort' => [
-                'name' => 'ASC'
-            ],
-            'relation' => [
-                'permission:uuid'
-            ]
-        ]);
-        */
         if(
             $expose &&
             $role
@@ -106,7 +93,6 @@ Trait Patch {
                 $record->has('uuid') &&
                 !empty($record->get('uuid'))
             ){
-                ddd($record);
                 //save $record
                 $url = $object->config('project.dir.data') .
                     'Node' .

@@ -551,7 +551,6 @@ Trait BinarySearch {
                                     if(!is_string($uuid)){
                                         continue;
                                     }
-                                    d($uuid);
                                     $relation_url = $object->config('project.dir.data') .
                                         'Node' .
                                         $object->config('ds') .
