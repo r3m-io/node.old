@@ -742,6 +742,7 @@ Trait BinarySearch {
                     $object->data('R3m.Io.Node.BinarySearch.relation', $is_loaded);
                 }
                 */
+                d($options);
                 $record = $this->relation($record, $object_data, $role, $options);
                 $expose = $this->expose_get(
                     $object,
