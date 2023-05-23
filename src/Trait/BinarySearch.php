@@ -774,6 +774,7 @@ Trait BinarySearch {
                 }
                 */
                 $record = $this->relation($record, $object_data, $role, $options);
+                d($record);
                 $expose = $this->expose_get(
                     $object,
                     $record->{'#class'},
@@ -787,6 +788,7 @@ Trait BinarySearch {
                     $role
                 );
                 $record = $record->data();
+                d($record);
                 //need object file, so need $class
                 //load relations so we can filter / where on them
                 if(!empty($options['filter'])){
