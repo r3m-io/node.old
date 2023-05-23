@@ -37,6 +37,7 @@ Trait Patch {
                 'function' => __FUNCTION__
             ]
         );
+        d($node);
         if(!$node){
             return false;
         }

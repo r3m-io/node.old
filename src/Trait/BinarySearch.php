@@ -460,8 +460,6 @@ Trait BinarySearch {
                             }
                         }
                     }
-                    d($options_relation);
-                    d($is_allowed);
                     switch(strtolower($relation->type)){
                         case 'one-one':
                             if(
