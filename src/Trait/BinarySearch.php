@@ -757,7 +757,8 @@ Trait BinarySearch {
                     $record = Core::object_merge($record, $read->data());
                 }
                 if(!property_exists($record, '#class')){
-                    ddd($record);
+                    //need to trigger sync
+                    continue;
                 }
                 $object_url = $object->config('project.dir.data') .
                     'Node' .
@@ -775,6 +776,7 @@ Trait BinarySearch {
                     $object->data('R3m.Io.Node.BinarySearch.relation', $is_loaded);
                 }
                 */
+                d($record);
                 $record = $this->relation($record, $object_data, $role, $options);
                 $expose = $this->expose_get(
                     $object,
@@ -789,6 +791,7 @@ Trait BinarySearch {
                     $role
                 );
                 $record = $record->data();
+                d($record);
                 //need object file, so need $class
                 //load relations so we can filter / where on them
                 if(!empty($options['filter'])){
