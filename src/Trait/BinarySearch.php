@@ -895,6 +895,7 @@ Trait BinarySearch {
                 'counter' => 0,
                 'index' => $i,
                 'search' => [],
+                'direction' => [],
                 'url' => $options['url'],
             ]);
             if($record){
@@ -1029,8 +1030,11 @@ Trait BinarySearch {
                 !in_array($seek, $options['search'], true)
             ){
                 $options['search'][] = $seek;
+                $options['direction'][] = $direction;
             }
-            elseif($direction === 'down'  && $is_per_line === false) {
+            elseif($direction === 'down') {
+                d($options);
+                ddd('end');
                 //not found
                 return false;
             }
@@ -1121,9 +1125,11 @@ Trait BinarySearch {
                     }
                     $file->seek($seek);
                     $options['search'][] = $seek;
+                    $options['direction'][] = $seek;
                 } else {
                     $seek++;
                     $options['search'][] = $seek;
+                    $options['direction'][] = $seek;
                     $file->next();
                     if($seek === $options['lines'] - 1){
                         $direction = 'up';
