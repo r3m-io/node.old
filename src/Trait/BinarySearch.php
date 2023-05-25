@@ -1035,15 +1035,14 @@ Trait BinarySearch {
             elseif($direction === 'down') {
                 foreach($options['search'] as $nr => $search){
                     if($search === $seek){
-                        d($nr);
-                        d($options['direction']);
+                        if(array_key_exists($nr, $options['direction'])){
+                            if($options['direction'][$nr] === 'down'){
+                                //not found
+                                return false;
+                            }
+                        }
                     }
                 }
-
-                d($options);
-                ddd('end');
-                //not found
-                return false;
             }
             $file->seek($seek);
             $depth = false;
