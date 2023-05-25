@@ -808,9 +808,9 @@ Trait BinarySearch {
         $time_end = microtime(true);
         $duration = $time_end - $time_start;
         if($duration < 1) {
-            echo 'Duration: ' . round($duration * 1000, 2) . ' msec' . PHP_EOL;
+            echo 'Duration: ' . round($duration * 1000, 2) . ' msec url: ' . $options['url'] . PHP_EOL;
         } else {
-            echo 'Duration: ' . round($duration, 2) . ' sec' . PHP_EOL;
+            echo 'Duration: ' . round($duration, 2) . ' sec url:' . $options['url'] . PHP_EOL;
         }
         return $page;
     }

@@ -47,7 +47,7 @@ Trait Patch {
                 'uuid' => 'ASC'
             ],
             'relation' => false,
-            'function' => __FUNCTION__ . '.read'
+            'function' => __FUNCTION__
         ];
         $node = $this->record(
             $name,
@@ -98,7 +98,7 @@ Trait Patch {
                 $expose = $this->expose_get(
                     $object,
                     $class,
-                    $class . '.' . __FUNCTION__ . '.write.expose'
+                    $class . '.' . __FUNCTION__ . '.expose'
                 );
                 if(
                     $expose &&
@@ -108,7 +108,7 @@ Trait Patch {
                         new Storage($object->request('node')),
                         $expose,
                         $class,
-                        __FUNCTION__ . '.write',
+                        __FUNCTION__,
                         $role
                     );
                     if(
@@ -135,7 +135,7 @@ Trait Patch {
                             'node' => $record->data(),
                         ]);
                     } else {
-                        throw new Exception('Make sure, you have the right permission (' . $class . '.' . __FUNCTION__ . '.write)');
+                        throw new Exception('Make sure, you have the right permission (' . $class . '.' . __FUNCTION__ . ')');
                     }
                 }
             } else {
