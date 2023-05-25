@@ -33,6 +33,13 @@
       "uuid": "90bf5373-4c6c-414c-8471-64c705b6c1c2"
     },
     {
+      "name": "Event.list",
+      "attribute": [],
+      "role": "ba03ca6d-dd82-4c47-91ec-cf6da860401c",
+      "#class": "Permission",
+      "uuid": "10cb186a-f8db-4375-87ad-97120d3cc507"
+    },
+    {
       "name": "Role.list",
       "attribute": [],
       "role": "ba03ca6d-dd82-4c47-91ec-cf6da860401c",
@@ -66,13 +73,6 @@
       "role": "ba03ca6d-dd82-4c47-91ec-cf6da860401c",
       "#class": "Permission",
       "uuid": "df096063-aca0-4434-bdc3-ddea658d5fc0"
-    },
-    {
-      "name": "User.patch.write",
-      "attribute": [],
-      "role": "ba03ca6d-dd82-4c47-91ec-cf6da860401c",
-      "#class": "Permission",
-      "uuid": "10cb186a-f8db-4375-87ad-97120d3cc507"
     },
     {
       "name": "User.read",
