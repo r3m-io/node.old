@@ -254,6 +254,7 @@ Trait Create {
                             array_key_exists('is_many', $options) &&
                             $options['is_many'] === true
                         ){
+                            ddd('is_many');
                             $record->set('uuid', $uuid);
                             $record->write($url);
                             if($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
@@ -292,6 +293,7 @@ Trait Create {
                             ]);
                             $binarySearch->delete($class);
                             $binarySearch->data($class, $list);
+                            ddd($binarySearch);
                             $count = 0;
                             foreach ($binarySearch->data($class) as $item) {
                                 $item->{'#index'} = $count;
