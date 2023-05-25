@@ -1,36 +1,36 @@
 {{R3M}}
 {{$options = options()}}
 {{$is.all = false}}
-{{if(empty($options))}}
+{{if(is.empty($options))}}
 {{$is.all = true}}
 {{/if}}
-{{if(!empty($options.create) || !empty($is.all))}}
+{{if(!is.empty($options.create) || !is.empty($is.all))}}
 {{dd('{{$this}}')}}
 ## Create
 
 
 {{/if}}
-{{if(!empty($options.create) || !empty($is.all))}}
+{{if(!is.empty($options.create) || !is.empty($is.all))}}
 ## Create
 
 
 {{/if}}
-{{if(!empty($options.create) || !empty($is.all))}}
+{{if(!is.empty($options.create) || !is.empty($is.all))}}
 ## Create
 
 
 {{/if}}
-{{if(!empty($options.create) || !empty($is.all))}}
+{{if(!is.empty($options.create) || !is.empty($is.all))}}
 ## Create
 
 
 {{/if}}
-{{if(!empty($options.create) || !empty($is.all))}}
+{{if(!is.empty($options.create) || !is.empty($is.all))}}
 ## Create
 
 
 {{/if}}
-{{if(!empty($options.create) || !empty($is.all))}}
+{{if(!is.empty($options.create) || !is.empty($is.all))}}
 ## Create
 
 
