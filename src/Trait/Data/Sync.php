@@ -357,6 +357,7 @@ Trait Sync {
 //                                    $item = $list->get($node->uuid);
                                 }
                                 if(!$item){
+                                    ddd('found');
                                     continue;
                                 }
                                 $item->{'#index'} = $index;
