@@ -6,6 +6,7 @@
 {{/if}}
 
 {{$files = dir.read(config('controller.dir.view') + 'Object/Info/')}}
+{{$files = data.sort($files, ['url' => 'ASC'])}}
 {{dd($files)}}
 
 {{if(!is.empty($options.create) || !is.empty($is.all))}}
