@@ -12,5 +12,35 @@ Module: object
 {{binary()}} r3m-io/node object drop
 {{binary()}} r3m-io/node object truncate
 {{binary()}} r3m-io/node object clear
-{{binary()}} r3m-io/node object sync -class="..., ..."
 {{binary()}} r3m-io/node object sync
+
+## Create
+
+## Read
+
+## Patch
+
+## Put
+
+## Delete
+
+## Import
+
+## Export
+
+## List
+
+## Drop
+
+## Truncate
+
+## Clear
+Clears the filter & where.
+#### Options:
+- -class="..., ..." - comma separated list of classes to clear
+- -force - force clear
+
+## Sync
+Sync lists of objects.
+#### Options:
+- -class="..., ..." - comma separated list of classes to sync
