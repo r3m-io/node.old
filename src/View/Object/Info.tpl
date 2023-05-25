@@ -11,7 +11,7 @@
     {{$file.basename = file.basename($file->name, config('extension.tpl'))}}
     {{$option = $options[$file.basename]}}
     {{$options[$file.basename] = $option}}
-    {dd($option)}}
+    {{dd($option)}}
 {{/for.each}}
 {{dd($files)}}
 
