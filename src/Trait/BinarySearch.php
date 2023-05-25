@@ -1047,7 +1047,7 @@ Trait BinarySearch {
                 $line_match = str_replace('"', '', $line_match);
                 $explode = explode(':', $line_match);
                 $index = false;
-//                echo $seek . ', ' . $direction . ', ' . $line . PHP_EOL;
+                echo $seek . ', ' . $direction . ', ' . $line . PHP_EOL;
                 $symbol = trim($explode[0], " \t\n\r\0\x0B,");
                 $symbol_right = null;
                 if(array_key_exists(1, $explode)){
@@ -1069,6 +1069,7 @@ Trait BinarySearch {
                         $data[] = $symbol;
                         $index = $this->parse_index($data);
                         if($index === false){
+                            ddd($data);
                             $object->logger($object->config('project.log.name'))->error('Cannot find index (' . $index .')in view: ' . $options['url'], $data);
                         }
                         if ($options['index'] === $index) {
