@@ -1033,6 +1033,13 @@ Trait BinarySearch {
                 $options['direction'][] = $direction;
             }
             elseif($direction === 'down') {
+                foreach($options['search'] as $nr => $search){
+                    if($search === $seek){
+                        d($nr);
+                        d($options['direction']);
+                    }
+                }
+
                 d($options);
                 ddd('end');
                 //not found
