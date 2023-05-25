@@ -1012,7 +1012,7 @@ Trait BinarySearch {
         }
         $direction = 'up';
         $is_per_line = false;
-        echo '--------------------------------------' . PHP_EOL;
+//        echo '--------------------------------------' . PHP_EOL;
         while($options['min'] <= $options['max']){
             if($is_per_line === false){
                 $seek = $options['min'] + floor(($options['max'] - $options['min']) / 2);
@@ -1055,8 +1055,7 @@ Trait BinarySearch {
                 $line_match = str_replace(' ', '', $line);
                 $line_match = str_replace('"', '', $line_match);
                 $explode = explode(':', $line_match);
-                $index = false;
-                echo $seek . ', ' . $direction . ', ' . $line . PHP_EOL;
+//                echo $seek . ', ' . $direction . ', ' . $line . PHP_EOL;
                 $symbol = trim($explode[0], " \t\n\r\0\x0B,");
                 $symbol_right = null;
                 if(array_key_exists(1, $explode)){
