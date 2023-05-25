@@ -198,6 +198,7 @@ Trait Sync {
                                         //object no longer exists.
                                         continue;
                                     }
+                                    d($record);
                                     if($record && $record->has('#class')){
                                         $storage[] = $node;
                                         $object_url = $object->config('project.dir.data') .
