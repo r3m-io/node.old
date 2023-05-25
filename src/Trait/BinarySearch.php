@@ -740,6 +740,7 @@ Trait BinarySearch {
                 'search' => [],
                 'url' => $options['url'],
             ]);
+            d($i);
             d($record);
             if(
                 $record
