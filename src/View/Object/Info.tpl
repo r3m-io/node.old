@@ -9,8 +9,9 @@
 {{$files = data.sort($files, ['url' => 'ASC'])}}
 {{for.each($files as $file)}}
     {{$file.basename = file.basename($file->name, config('extension.tpl'))}}
-    {dd($options[$file.basename])}}
-    {{if(!is.empty($options.create) || !is.empty($is.all))}}
+    {{$option = $options[$file.basename]}}
+    {{$options[$file.basename] = $option}}
+    {dd($option)}}
 {{/for.each}}
 {{dd($files)}}
 
