@@ -30,6 +30,7 @@ Create Event:
 {{/if}}
 {{$response = R3m.Io.Node:Data:create(
 'Event',
+R3m.Io.Node:Role:role_system(),
 [
 'action' => $action,
 'options' => [

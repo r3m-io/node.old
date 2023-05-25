@@ -1,0 +1,28 @@
+{{R3M}}
+{{$options = options()}}
+{{if(!$options.page)}}
+{{$options.page = 1}}
+{{/if}}
+{{if(!$options.limit)}}
+{{$options.limit = 255}}
+{{/if}}
+{{$response = R3m.Io.Node:Data:list(
+'Event',
+R3m.Io.Node:Role:role.system(),
+[
+'sort' => [
+'email' => 'ASC'
+],
+'limit' => (int) $options.limit,
+'page' => (int) $options.page
+])}}
+{{if($options.format === 'json')}}
+{{$response|json.encode:'JSON_PRETTY_PRINT'}}
+{{else}}
+List Events:
+{{for.each($response.list as $nr => $event)}}
+{{$selector = $nr + 1}}
+[{{$selector}}] {{$event.action}} ({{$event.options.priority)}})
+{{/for.each}}
+{{/if}}
+

@@ -8,6 +8,7 @@ Create Init:
 {{/if}}
 {{$response = R3m.Io.Node:Data:create(
 'Init',
+R3m.Io.Node:Role:role_system(),
 [
 'name' => $name,
 'controller' => $controller,

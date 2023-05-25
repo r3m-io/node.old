@@ -9,6 +9,11 @@ Read Event:
 You can use list to get the uuid.
 {{$options.uuid = terminal.readline('Uuid: ')}}
 {{/if}}
-{{$response = R3m.Io.Node:Data:read('Event', ['uuid' => $options.uuid])}}
+{{$response = R3m.Io.Node:Data:read(
+'Event',
+R3m.Io.Node:Role:role_system(),
+[
+'uuid' => $options.uuid
+])}}
 {{$response|json.encode:'JSON_PRETTY_PRINT'}}
 
