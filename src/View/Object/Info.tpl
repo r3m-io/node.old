@@ -9,8 +9,7 @@
 {{$files = data.sort($files, ['url' => 'ASC'])}}
 {{for.each($files as $file)}}
     {{$file.basename = file.basename($file.name, config('extension.tpl'))}}
-    {{$option = $options[$file.basename]}}
-    {{$options[$file.basename] = $option}}
+    {{$option = $options[$file.basename|lowercase]}}
     {{dd($option)}}
 {{/for.each}}
 {{dd($files)}}
