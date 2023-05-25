@@ -200,7 +200,6 @@ Trait Sync {
                                     }
                                     d($record);
                                     if($record && $record->has('#class')){
-                                        $storage[] = $node;
                                         $object_url = $object->config('project.dir.data') .
                                             'Node' .
                                             $object->config('ds') .
@@ -216,6 +215,7 @@ Trait Sync {
                                         $record->data($this->relation($record->data(), $object_data, $role, $relation_options));
                                     }
                                     if ($record) {
+                                        $storage[] = $node;
                                         if(in_array($class, $exception, true)){
                                             $list->set($uuid, $record->data());
                                         }
