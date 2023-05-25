@@ -23,7 +23,7 @@ Trait NodeList {
     public function list($class, $role, $options=[]): false|array
     {
         d($class);
-        ddd($options);
+        d($options);
         $name = Controller::name($class);
         $debug = debug_backtrace(true);
         $options = Core::object($options, Core::OBJECT_ARRAY);
@@ -279,6 +279,7 @@ Trait NodeList {
                                 'relation' => $options['relation']
                             ]
                         );
+                        ddd($list);
                         $result = [];
                         $result['page'] = $options['page'];
                         $result['limit'] = $options['limit'];
