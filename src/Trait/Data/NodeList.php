@@ -279,7 +279,6 @@ Trait NodeList {
                                 'relation' => $options['relation']
                             ]
                         );
-                        ddd($list);
                         $result = [];
                         $result['page'] = $options['page'];
                         $result['limit'] = $options['limit'];
