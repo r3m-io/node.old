@@ -8,7 +8,7 @@
 {{$files = dir.read(config('controller.dir.view') + 'Object/Info/')}}
 {{$files = data.sort($files, ['url' => 'ASC'])}}
 {{for.each($files as $file)}}
-    {{$file.basename = file.basename($file->name, config('extension.tpl'))}}
+    {{$file.basename = file.basename($file.name, config('extension.tpl'))}}
     {{$option = $options[$file.basename]}}
     {{$options[$file.basename] = $option}}
     {{dd($option)}}
