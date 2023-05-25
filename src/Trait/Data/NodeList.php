@@ -206,6 +206,7 @@ Trait NodeList {
                     } else {
                         $sort_key = sha1(Core::object($properties, Core::OBJECT_JSON));
                         $lines = $meta->get('Sort.' . $class . '.' . $sort_key . '.lines');
+                        ddd($options['where']);
                         if(
                             File::exist($url) &&
                             $lines > 0
