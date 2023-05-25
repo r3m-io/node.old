@@ -2,9 +2,6 @@ Package: R3m/Io/Node
 
 {{binary()}} r3m-io/node setup
 
-{{binary()}} r3m-io/node sync -class="..., ..."
-{{binary()}} r3m-io/node sync
-
 {{binary()}} r3m-io/node object
 {{binary()}} r3m-io/node expose
 {{binary()}} r3m-io/node validate

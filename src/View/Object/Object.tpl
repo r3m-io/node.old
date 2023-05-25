@@ -11,4 +11,6 @@ Module: object
 {{binary()}} r3m-io/node object list
 {{binary()}} r3m-io/node object drop
 {{binary()}} r3m-io/node object truncate
-
+{{binary()}} r3m-io/node object clear
+{{binary()}} r3m-io/node object sync -class="..., ..."
+{{binary()}} r3m-io/node object sync
