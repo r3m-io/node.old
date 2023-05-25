@@ -23,7 +23,7 @@ R3m.Io.Node:Role:role.system(),
 List Events:
 {{for.each($response.list as $nr => $event)}}
 {{$selector = $nr + 1}}
-[{{$selector}}] {{$event.action}} ({{$event.options.priority)}})
+[{{$selector}}] {{$event.uuid)}} {{$event.action}} ({{$event.options.priority)}})
 {{/for.each}}
 {{/if}}
 
