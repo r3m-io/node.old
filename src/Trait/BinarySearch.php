@@ -1013,6 +1013,7 @@ Trait BinarySearch {
         }
         $direction = 'up';
         $is_per_line = false;
+        echo '--------------------------------------' . PHP_EOL;
         while($options['min'] <= $options['max']){
             if($is_per_line === false){
                 $seek = $options['min'] + floor(($options['max'] - $options['min']) / 2);
@@ -1031,6 +1032,7 @@ Trait BinarySearch {
             }
             elseif($direction === 'down') {
                 //not found
+                ddd('yes');
                 return false;
             }
             $file->seek($seek);
