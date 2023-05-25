@@ -14,6 +14,15 @@ Package: R3m/Io/Node
 {{binary()}} r3m-io/node event put
 {{binary()}} r3m-io/node event read
 
+{{binary()}} r3m-io/node expose create
+{{binary()}} r3m-io/node expose read
+{{binary()}} r3m-io/node expose patch
+{{binary()}} r3m-io/node expose put
+{{binary()}} r3m-io/node expose delete
+{{binary()}} r3m-io/node expose import
+{{binary()}} r3m-io/node expose export
+{{binary()}} r3m-io/node expose list
+
 {{binary()}} r3m-io/node filter create
 {{binary()}} r3m-io/node filter delete
 {{binary()}} r3m-io/node filter import
@@ -40,6 +49,16 @@ Package: R3m/Io/Node
 {{binary()}} r3m-io/node middleware patch
 {{binary()}} r3m-io/node middleware put
 {{binary()}} r3m-io/node middleware read
+
+{{binary()}} r3m-io/node object create
+{{binary()}} r3m-io/node object read
+{{binary()}} r3m-io/node object patch
+{{binary()}} r3m-io/node object put
+{{binary()}} r3m-io/node object delete
+{{binary()}} r3m-io/node object import
+{{binary()}} r3m-io/node object export
+{{binary()}} r3m-io/node object list
+{{binary()}} r3m-io/node object truncate
 
 {{binary()}} r3m-io/node permission create
 {{binary()}} r3m-io/node permission delete
@@ -79,3 +98,11 @@ Package: R3m/Io/Node
 {{binary()}} r3m-io/node user put
 {{binary()}} r3m-io/node user read
 
+{{binary()}} r3m-io/node validate create
+{{binary()}} r3m-io/node validate read
+{{binary()}} r3m-io/node validate patch
+{{binary()}} r3m-io/node validate put
+{{binary()}} r3m-io/node validate delete
+{{binary()}} r3m-io/node validate import
+{{binary()}} r3m-io/node validate export
+{{binary()}} r3m-io/node validate list
