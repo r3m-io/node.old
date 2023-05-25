@@ -1,7 +1,7 @@
 {{R3M}}
 {{$options = options()}}
 {{$is.all = false}}
-{{if(is.empty($options))}}
+{{if(is.empty.object($options))}}
 {{$is.all = true}}
 {{/if}}
 {{dd($options)}}
