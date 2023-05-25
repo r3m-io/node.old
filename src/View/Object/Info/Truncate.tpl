@@ -1,3 +1,3 @@
 ## Truncate
-Truncate the class objects. (Clears the objects, leaf the relations intact)
+Truncate the class objects. (removes the objects, leaf the object details intact)
 
