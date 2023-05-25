@@ -8,14 +8,12 @@
 {{$files = dir.read(config('controller.dir.view') + 'Object/Info/')}}
 {{$files = data.sort($files, ['url' => 'ASC'])}}
 {{for.each($files as $file)}}
-    {{$file.basename = file.basename($file.name, config('extension.tpl'))}}
-    {{$option = $options[$file.basename|lowercase]}}
-    {{d($options)}}
-    {{d($file.basename)}}
-    {{dd($option)}}
+{{$file.basename = file.basename($file.name, config('extension.tpl'))}}
+{{if(!is.empty($options[$file.basename|lowercase]) || !is.empty($is.all))}}
+{{require($file.url)}}
+{{/if}}
 {{/for.each}}
-{{dd($files)}}
-
+/*
 {{if(!is.empty($options.create) || !is.empty($is.all))}}
 {{require(config('controller.dir.view') + 'Object/Info/Create.tpl')}}
 {{/if}}
@@ -52,27 +50,5 @@
 {{if(!is.empty($options.sync) || !is.empty($is.all))}}
 {{require(config('controller.dir.view') + 'Object/Info/Sync.tpl')}}
 {{/if}}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+*/
 
