@@ -26,6 +26,13 @@
       "uuid": "d0247be7-657e-4d52-9fcc-c0f9cc74ecaa"
     },
     {
+      "name": "Event.create",
+      "attribute": [],
+      "role": "ba03ca6d-dd82-4c47-91ec-cf6da860401c",
+      "#class": "Permission",
+      "uuid": "ae34be7e-a217-467c-99b7-7c685bb05c3d"
+    },
+    {
       "name": "Event.read",
       "attribute": [],
       "role": "ba03ca6d-dd82-4c47-91ec-cf6da860401c",
