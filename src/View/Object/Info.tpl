@@ -5,7 +5,7 @@
 {{$is.all = true}}
 {{/if}}
 {{if(!is.empty($options.create) || !is.empty($is.all))}}
-{{dd('{{$this}}')}}
+{{dd('{{config()}}')}}
 ## Create
 
 
