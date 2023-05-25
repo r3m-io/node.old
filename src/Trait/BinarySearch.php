@@ -184,7 +184,7 @@ Trait BinarySearch {
                     $where[$key][$index] = [
                         'uuid' => $node->uuid,
                         '#index' => $index,
-                        '#key' => $key
+//                        '#key' => $key
                     ];
                 }
                 $where_dir = $dir_node .
