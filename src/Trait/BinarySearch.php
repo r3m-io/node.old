@@ -118,7 +118,7 @@ Trait BinarySearch {
                     $filter[$key][$index] = [
                         'uuid' => $node->uuid,
                         '#index' => $index,
-                        '#key' => $key
+//                        '#key' => $key
                     ];
                 }
                 $filter_dir = $dir_node .
@@ -818,6 +818,7 @@ Trait BinarySearch {
     /**
      * @throws Exception
      */
+    /*
     private function binary_search_one($file, $options=[]): array
     {
         $object = $this->object();
@@ -870,6 +871,7 @@ Trait BinarySearch {
         }
         return $page;
     }
+    */
 
     /**
      * @throws Exception

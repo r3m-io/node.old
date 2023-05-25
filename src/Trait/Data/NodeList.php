@@ -113,7 +113,7 @@ Trait NodeList {
                         $lines >= 0
                     ){
                         $file = new SplFileObject($filter_url);
-                        $options['filter']['#key'] = $key;
+//                        $options['filter']['#key'] = $key;
                         $list = $this->binary_search_page(
                             $file,
                             $role,
