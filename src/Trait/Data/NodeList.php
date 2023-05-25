@@ -181,7 +181,6 @@ Trait NodeList {
                         $object->config('extension.json')
                     ;
                     $where_mtime = File::mtime($where_url);
-                    $where_mtime = false;
                     if(
                         File::exist($where_url) &&
                         $mtime === $where_mtime &&
