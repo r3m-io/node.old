@@ -4,7 +4,6 @@
 {{if(is.empty.object($options))}}
 {{$is.all = true}}
 {{/if}}
-{{dd($options)}}
 {{dd($is.all)}}
 {{$files = dir.read(config('controller.dir.view') + 'Object/Info/')}}
 {{$files = data.sort($files, ['url' => 'ASC'])}}
