@@ -10,6 +10,8 @@
 {{for.each($files as $file)}}
     {{$file.basename = file.basename($file.name, config('extension.tpl'))}}
     {{$option = $options[$file.basename|lowercase]}}
+    {{d($options)}}
+    {{d($file.basename)}}
     {{dd($option)}}
 {{/for.each}}
 {{dd($files)}}
