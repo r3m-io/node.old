@@ -1125,11 +1125,11 @@ Trait BinarySearch {
                     }
                     $file->seek($seek);
                     $options['search'][] = $seek;
-                    $options['direction'][] = $seek;
+                    $options['direction'][] = $direction;
                 } else {
                     $seek++;
                     $options['search'][] = $seek;
-                    $options['direction'][] = $seek;
+                    $options['direction'][] = $direction;
                     $file->next();
                     if($seek === $options['lines'] - 1){
                         $direction = 'up';
