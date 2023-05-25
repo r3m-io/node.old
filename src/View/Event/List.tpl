@@ -11,7 +11,8 @@
 R3m.Io.Node:Role:role.system(),
 [
 'sort' => [
-'email' => 'ASC'
+'action' => 'ASC',
+'options.priority' => 'ASC'
 ],
 'limit' => (int) $options.limit,
 'page' => (int) $options.page
