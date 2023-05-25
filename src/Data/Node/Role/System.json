@@ -26,6 +26,13 @@
       "uuid": "d0247be7-657e-4d52-9fcc-c0f9cc74ecaa"
     },
     {
+      "name": "Event.read",
+      "attribute": [],
+      "role": "ba03ca6d-dd82-4c47-91ec-cf6da860401c",
+      "#class": "Permission",
+      "uuid": "ca66dd48-f5ca-409f-a241-cc0857e69ea3"
+    },
+    {
       "name": "Event.sync",
       "attribute": [],
       "role": "ba03ca6d-dd82-4c47-91ec-cf6da860401c",
@@ -115,13 +122,6 @@
       "role": "ba03ca6d-dd82-4c47-91ec-cf6da860401c",
       "#class": "Permission",
       "uuid": "749a7228-2bbb-433f-848d-1cdb1bf18101"
-    },
-    {
-      "name": "User.Profile.patch.write",
-      "attribute": [],
-      "role": "ba03ca6d-dd82-4c47-91ec-cf6da860401c",
-      "#class": "Permission",
-      "uuid": "ca66dd48-f5ca-409f-a241-cc0857e69ea3"
     }
   ]
 }

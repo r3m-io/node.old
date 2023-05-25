@@ -30,7 +30,8 @@ Trait Read {
                     'operator' => '===',
                     'value' => $options['uuid'],
                 ]
-            ]
+            ],
+            'function' => __FUNCTION__
         ];
         $data = $this->record($name, $role, $options_record);
         if($data){
