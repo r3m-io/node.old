@@ -14,6 +14,15 @@ Package: R3m/Io/Node
 {{binary()}} r3m-io/node event put
 {{binary()}} r3m-io/node event read
 
+{{binary()}} r3m-io/node filter create
+{{binary()}} r3m-io/node filter delete
+{{binary()}} r3m-io/node filter import
+{{binary()}} r3m-io/node filter export
+{{binary()}} r3m-io/node filter list
+{{binary()}} r3m-io/node filter patch
+{{binary()}} r3m-io/node filter put
+{{binary()}} r3m-io/node filter read
+
 {{binary()}} r3m-io/node init create
 {{binary()}} r3m-io/node init delete
 {{binary()}} r3m-io/node init import
@@ -22,6 +31,15 @@ Package: R3m/Io/Node
 {{binary()}} r3m-io/node init patch
 {{binary()}} r3m-io/node init put
 {{binary()}} r3m-io/node init read
+
+{{binary()}} r3m-io/node middleware create
+{{binary()}} r3m-io/node middleware delete
+{{binary()}} r3m-io/node middleware import
+{{binary()}} r3m-io/node middleware export
+{{binary()}} r3m-io/node middleware list
+{{binary()}} r3m-io/node middleware patch
+{{binary()}} r3m-io/node middleware put
+{{binary()}} r3m-io/node middleware read
 
 {{binary()}} r3m-io/node permission create
 {{binary()}} r3m-io/node permission delete
@@ -40,6 +58,15 @@ Package: R3m/Io/Node
 {{binary()}} r3m-io/node role patch
 {{binary()}} r3m-io/node role put
 {{binary()}} r3m-io/node role read
+
+{{binary()}} r3m-io/node task create
+{{binary()}} r3m-io/node task delete
+{{binary()}} r3m-io/node task import
+{{binary()}} r3m-io/node task export
+{{binary()}} r3m-io/node task list
+{{binary()}} r3m-io/node task patch
+{{binary()}} r3m-io/node task put
+{{binary()}} r3m-io/node task read
 
 {{binary()}} r3m-io/node user create
 {{binary()}} r3m-io/node user delete
