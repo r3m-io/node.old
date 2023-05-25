@@ -232,6 +232,10 @@ Trait Sync {
                                 }
                             }
                         }
+                        d($list);
+                        d($storage);
+                        d($url);
+                        ddd($url);
                         $object_storage = new Storage();
                         $object_storage->set($class, $storage);
                         $object_storage->write($url);
@@ -357,7 +361,6 @@ Trait Sync {
 //                                    $item = $list->get($node->uuid);
                                 }
                                 if(!$item){
-                                    ddd('found');
                                     continue;
                                 }
                                 $item->{'#index'} = $index;
