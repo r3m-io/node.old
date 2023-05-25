@@ -61,7 +61,7 @@
       "uuid": "95fb4b78-f50f-4bb6-8fe6-0dd036ca2bdf"
     },
     {
-      "name": "User.patch.read",
+      "name": "User.patch",
       "attribute": [],
       "role": "ba03ca6d-dd82-4c47-91ec-cf6da860401c",
       "#class": "Permission",
@@ -110,7 +110,7 @@
       "uuid": "f68059e5-75d0-48e3-9453-40df079e2876"
     },
     {
-      "name": "User.Profile.patch.read",
+      "name": "User.Profile.patch",
       "attribute": [],
       "role": "ba03ca6d-dd82-4c47-91ec-cf6da860401c",
       "#class": "Permission",
