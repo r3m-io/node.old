@@ -188,11 +188,6 @@ Trait NodeList {
                     ){
                         $file = new SplFileObject($where_url);
                         $where = [];
-                        $where[] = [
-                            'value' => $key,
-                            'attribute' => '#key',
-                            'operator' => '==='
-                        ];
                         $list = $this->binary_search_page(
                             $file,
                             $role,
