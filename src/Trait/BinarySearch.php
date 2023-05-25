@@ -1030,9 +1030,8 @@ Trait BinarySearch {
             ){
                 $options['search'][] = $seek;
             }
-            elseif($direction === 'down') {
+            elseif($direction === 'down'  && $is_per_line === false) {
                 //not found
-                ddd('yes');
                 return false;
             }
             $file->seek($seek);
