@@ -5,10 +5,7 @@
 {{$is.all = true}}
 {{/if}}
 {{if(!is.empty($options.create) || !is.empty($is.all))}}
-{{dd(config())}}
-## Create
-
-
+{{require(config('controller.dir.view') + 'Object/Info/Create.tpl')}}
 {{/if}}
 {{if(!is.empty($options.create) || !is.empty($is.all))}}
 ## Create
