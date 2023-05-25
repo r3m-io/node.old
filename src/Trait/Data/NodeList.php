@@ -22,6 +22,8 @@ Trait NodeList {
      */
     public function list($class, $role, $options=[]): false|array
     {
+        d($class);
+        ddd($options);
         $name = Controller::name($class);
         $debug = debug_backtrace(true);
         $options = Core::object($options, Core::OBJECT_ARRAY);
