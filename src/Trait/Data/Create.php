@@ -293,8 +293,6 @@ Trait Create {
                             ]);
                             $binarySearch->delete($class);
                             $binarySearch->data($class, $list);
-                            d($uuid);
-                            ddd($binarySearch);
                             $count = 0;
                             foreach ($binarySearch->data($class) as $item) {
                                 $item->{'#index'} = $count;
