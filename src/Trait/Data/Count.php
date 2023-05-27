@@ -41,7 +41,7 @@ Trait Count {
             $options['filter'] = [];
         }
         if(!array_key_exists('relation', $options)){
-            $options['relation'] = false;
+            $options['relation'] = false; //maybe true (depends on speedtest)
         }
         if(!array_key_exists('sort', $options)){
             $options['sort'] = [
@@ -91,48 +91,91 @@ Trait Count {
                 $lines > 0
             ){
                 $file = new SplFileObject($url);
+                $mtime = File::mtime($url);
                 if(!empty($options['filter'])){
-                    $count = $this->binary_search_count(
-                        $file,
-                        $role,
-                        [
-                            'filter' => $options['filter'],
-                            'lines'=> $lines,
-                            'counter' => 0,
-                            'direction' => 'next',
-                            'url' => $url,
-                            'function' => $options['function'],
-                            'relation' => $options['relation']
-                        ]
-                    );
+                    $count_key = [
+                        'properties' => $properties,
+                        'filter' => $options['filter'],
+                        'mtime' => $mtime
+                    ];
+                    $count_key = sha1(Core::object($count_key, Core::OBJECT_JSON));
+                    $count = $meta->get('Count.' . $name . '.' . $count_key . '.count');
+                    if($count){
+                        return $count;
+                    } else {
+                        $count = $this->binary_search_count(
+                            $file,
+                            $role,
+                            [
+                                'filter' => $options['filter'],
+                                'lines'=> $lines,
+                                'counter' => 0,
+                                'direction' => 'next',
+                                'url' => $url,
+                                'function' => $options['function'],
+                                'relation' => $options['relation']
+                            ]
+                        );
+                        $meta->set('Count.' . $name . '.' . $count_key . '.count', $count);
+                        $meta->set('Count.' . $name . '.' . $count_key . '.mtime', $mtime);
+                        $meta->write($meta_url);
+                    }
                 }
                 elseif(!empty($options['where'])){
-                    $count = $this->binary_search_count(
-                        $file,
-                        $role,
-                        [
-                            'where' => $options['where'],
-                            'lines'=> $lines,
-                            'counter' => 0,
-                            'direction' => 'next',
-                            'url' => $url,
-                            'function' => $options['function'],
-                            'relation' => $options['relation']
-                        ]
-                    );
+                    $count_key = [
+                        'properties' => $properties,
+                        'where' => $options['where'],
+                        'mtime' => File::mtime($url)
+                    ];
+                    $count_key = sha1(Core::object($count_key, Core::OBJECT_JSON));
+                    $count = $meta->get('Count.' . $name . '.' . $count_key . '.count');
+                    if($count){
+                        return $count;
+                    } else {
+                        $count = $this->binary_search_count(
+                            $file,
+                            $role,
+                            [
+                                'where' => $options['where'],
+                                'lines'=> $lines,
+                                'counter' => 0,
+                                'direction' => 'next',
+                                'url' => $url,
+                                'function' => $options['function'],
+                                'relation' => $options['relation']
+                            ]
+                        );
+                        $meta->set('Count.' . $name . '.' . $count_key . '.count', $count);
+                        $meta->set('Count.' . $name . '.' . $count_key . '.mtime', $mtime);
+                        $meta->write($meta_url);
+                    }
+
                 } else {
-                    $count = $this->binary_search_count(
-                        $file,
-                        $role,
-                        [
-                            'lines'=> $lines,
-                            'counter' => 0,
-                            'direction' => 'next',
-                            'url' => $url,
-                            'function' => $options['function'],
-                            'relation' => $options['relation']
-                        ]
-                    );
+                    $count_key = [
+                        'properties' => $properties,
+                        'mtime' => File::mtime($url)
+                    ];
+                    $count_key = sha1(Core::object($count_key, Core::OBJECT_JSON));
+                    $count = $meta->get('Count.' . $name . '.' . $count_key . '.count');
+                    if($count){
+                        return $count;
+                    } else {
+                        $count = $this->binary_search_count(
+                            $file,
+                            $role,
+                            [
+                                'lines'=> $lines,
+                                'counter' => 0,
+                                'direction' => 'next',
+                                'url' => $url,
+                                'function' => $options['function'],
+                                'relation' => $options['relation']
+                            ]
+                        );
+                        $meta->set('Count.' . $name . '.' . $count_key . '.count', $count);
+                        $meta->set('Count.' . $name . '.' . $count_key . '.mtime', $mtime);
+                        $meta->write($meta_url);
+                    }
                 }
             }
             return $count;
