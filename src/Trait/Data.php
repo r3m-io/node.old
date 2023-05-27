@@ -27,6 +27,7 @@ Trait Data {
     use Expose;
     use Role;
 
+    use Data\Count;
     use Data\Create;
     use Data\Delete;
     use Data\Import;
