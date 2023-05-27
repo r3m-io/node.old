@@ -72,7 +72,14 @@ Trait NodeList {
                 $object->config('extension.json')
             ;
             if(!File::exist($url)){
-                return false;
+                $list = [];
+                $result = [];
+                $result['page'] = $options['page'];
+                $result['limit'] = $options['limit'];
+                $result['list'] = $list;
+                $result['sort'] = $options['sort'];
+                $result['filter'] = $options['filter'] ?? [];
+                return $result;
             }
             $mtime = File::mtime($url);
             $list = [];
