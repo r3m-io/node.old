@@ -825,7 +825,6 @@ Trait BinarySearch {
         $object = $this->object();
         $index = 0;
         $count = 0;
-        $class = false;
         $time_start = microtime(true);
         while(true){
             $record = $this->binary_search_index($file, [
