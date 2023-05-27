@@ -736,8 +736,8 @@ Trait BinarySearch {
         $record_index = $index;
         for($i = $start; $i < $end; $i++){
             $record = $this->binary_search_index($file, [
-                'page' => $options['page'],
-                'limit' => $options['limit'],
+//                'page' => $options['page'],
+//                'limit' => $options['limit'],
                 'lines'=> $options['lines'],
                 'counter' => 0,
                 'index' => $i,
@@ -813,6 +813,83 @@ Trait BinarySearch {
             echo 'Duration: ' . round($duration, 2) . ' sec url:' . $options['url'] . PHP_EOL;
         }
         return $page;
+    }
+
+    /**
+     * @throws ObjectException
+     * @throws FileWriteException
+     * @throws Exception
+     */
+    private function binary_search_count($file, $role, $options=[]): array
+    {
+        $object = $this->object();
+        $index = 0;
+        $count = 0;
+        $time_start = microtime(true);
+        while(true){
+            $record = $this->binary_search_index($file, [
+                'lines'=> $options['lines'],
+                'counter' => 0,
+                'index' => $index,
+                'search' => [],
+                'url' => $options['url'],
+            ]);
+            if($record){
+                $index++;
+
+                $read = $object->data_read($record->{'#read'}->url, sha1($record->{'#read'}->url));
+                if($read){
+                    $record = Core::object_merge($record, $read->data());
+                }
+                if(!property_exists($record, '#class')){
+                    //need to trigger sync
+                    continue;
+                }
+                $object_url = $object->config('project.dir.data') .
+                    'Node' .
+                    $object->config('ds') .
+                    'Object' .
+                    $object->config('ds') .
+                    ucfirst($record->{'#class'}) .
+                    $object->config('extension.json')
+                ;
+                $options_json = Core::object($options, Core::OBJECT_JSON);
+                $object_data = $object->data_read($object_url, sha1($object_url . '.' . $options_json));
+                $record = $this->relation($record, $object_data, $role, $options);
+                $expose = $this->expose_get(
+                    $object,
+                    $record->{'#class'},
+                    $record->{'#class'} . '.' . $options['function'] . '.expose'
+                );
+                $record = $this->expose(
+                    new Storage($record),
+                    $expose,
+                    $record->{'#class'},
+                    $options['function'],
+                    $role
+                );
+                $record = $record->data();
+                if(!empty($options['filter'])){
+                    $record = $this->filter($record, $options['filter'], $options);
+                }
+                elseif(!empty($options['where'])){
+                    $record = $this->where($record, $options['where'], $options);
+                }
+                if($record){
+                    $count++;
+                }
+            } else {
+                break;
+            }
+        }
+        $time_end = microtime(true);
+        $duration = $time_end - $time_start;
+        if($duration < 1) {
+            echo 'Duration: ' . round($duration * 1000, 2) . ' msec url: ' . $options['url'] . PHP_EOL;
+        } else {
+            echo 'Duration: ' . round($duration, 2) . ' sec url:' . $options['url'] . PHP_EOL;
+        }
+        return $count;
     }
 
     /**

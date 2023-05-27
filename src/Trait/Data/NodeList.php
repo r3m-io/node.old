@@ -124,7 +124,6 @@ Trait NodeList {
                         $lines >= 0
                     ){
                         $file = new SplFileObject($filter_url);
-                        $count = $meta->get('Filter.' . $name . '.' . $key . '.count');
 //                        $options['filter']['#key'] = $key;
                         $list = $this->binary_search_page(
                             $file,
@@ -143,7 +142,7 @@ Trait NodeList {
                         );
                     } else {
                         $sort_key = sha1(Core::object($properties, Core::OBJECT_JSON));
-                        $lines = $meta->get('Sort.' . $class . '.' . $sort_key . '.lines');
+                        $lines = $meta->get('Sort.' . $name . '.' . $sort_key . '.lines');
                         if(
                             File::exist($url) &&
                             $lines > 0
@@ -167,9 +166,8 @@ Trait NodeList {
                         }
                     }
                     $result = [];
-                    $result['page'] = $options['page'];
-                    $result['count'] = $count;
-                    $result['limit'] = $options['limit'];
+                    $result['page'] = $options['page'] ?? 1;
+                    $result['limit'] = $options['limit'] ?? 1000;
                     $result['list'] = $list;
                     $result['sort'] = $options['sort'];
                     $result['filter'] = $options['filter'] ?? [];
@@ -180,8 +178,8 @@ Trait NodeList {
                     $key = [
                         'where' => $options['where'],
                         'sort' => $options['sort'],
-                        'page' => $options['page'],
-                        'limit' => $options['limit'],
+                        'page' => $options['page'] ?? 1,
+                        'limit' => $options['limit'] ?? 1000,
                     ];
                     $key = sha1(Core::object($key, Core::OBJECT_JSON));
                     $lines = $meta->get('Where.' . $name . '.' . $key . '.lines');
@@ -201,7 +199,6 @@ Trait NodeList {
                         $mtime === $where_mtime &&
                         $lines >= 0
                     ){
-                        $count = $meta->get('Where.' . $name . '.' . $key . '.count');
                         $file = new SplFileObject($where_url);
                         $where = [];
                         $list = $this->binary_search_page(
@@ -209,8 +206,8 @@ Trait NodeList {
                             $role,
                             [
                                 'where' => $where,
-                                'page' => $options['page'],
-                                'limit' => $options['limit'],
+                                'page' => $options['page'] ?? 1,
+                                'limit' => $options['limit'] ?? 1000,
                                 'lines'=> $lines,
                                 'counter' => 0,
                                 'direction' => 'next',
@@ -232,8 +229,8 @@ Trait NodeList {
                                 $role,
                                 [
                                     'where' => $options['where'],
-                                    'page' => $options['page'],
-                                    'limit' => $options['limit'],
+                                    'page' => $options['page'] ?? 1,
+                                    'limit' => $options['limit'] ?? 1000,
                                     'lines'=> $lines,
                                     'counter' => 0,
                                     'direction' => 'next',
@@ -245,9 +242,8 @@ Trait NodeList {
                         }
                     }
                     $result = [];
-                    $result['page'] = $options['page'];
-                    $result['limit'] = $options['limit'];
-                    $result['count'] = $count;
+                    $result['page'] = $options['page'] ?? 1;
+                    $result['limit'] = $options['limit'] ?? 1000;
                     $result['list'] = $list;
                     $result['sort'] = $options['sort'];
                     $result['where'] = $options['where'] ?? [];
@@ -285,8 +281,8 @@ Trait NodeList {
                             $file,
                             $role,
                             [
-                                'page' => $options['page'],
-                                'limit' => $options['limit'],
+                                'page' => $options['page'] ?? 1,
+                                'limit' => $options['limit'] ?? 1000,
                                 'lines'=> $lines,
                                 'counter' => 0,
                                 'direction' => 'next',
@@ -296,9 +292,8 @@ Trait NodeList {
                             ]
                         );
                         $result = [];
-                        $result['page'] = $options['page'];
-                        $result['count'] = $count;
-                        $result['limit'] = $options['limit'];
+                        $result['page'] = $options['page'] ?? 1;
+                        $result['limit'] = $options['limit'] ?? 1000;
                         $result['list'] = $list;
                         $result['sort'] = $options['sort'];
                         $result['where'] = $options['where'] ?? [];
