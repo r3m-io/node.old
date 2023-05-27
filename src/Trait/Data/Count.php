@@ -40,6 +40,9 @@ Trait Count {
         if(!array_key_exists('filter', $options)){
             $options['filter'] = [];
         }
+        if(!array_key_exists('relation', $options)){
+            $options['relation'] = false;
+        }
         if(!array_key_exists('sort', $options)){
             $options['sort'] = [
                 'uuid' => 'ASC'
