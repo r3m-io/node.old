@@ -836,6 +836,7 @@ Trait BinarySearch {
                 'url' => $options['url'],
             ]);
             if($record){
+                $index++;
                 $read = $object->data_read($record->{'#read'}->url, sha1($record->{'#read'}->url));
                 if($read){
                     $record = Core::object_merge($record, $read->data());
@@ -878,7 +879,6 @@ Trait BinarySearch {
                 if($record){
                     $count++;
                 }
-                $index++;
             } else {
                 break;
             }
