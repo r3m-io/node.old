@@ -24,7 +24,7 @@ Trait Count {
     {
         $count = 0;
         $name = Controller::name($class);
-        $options['function'] = __FUNCTION__;
+        $options['function'] = 'list';
         $object = $this->object();
         $dir = $object->config('project.dir.data') .
             'Node' .
