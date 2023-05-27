@@ -825,6 +825,7 @@ Trait BinarySearch {
         $object = $this->object();
         $index = 0;
         $count = 0;
+        $class = false;
         $time_start = microtime(true);
         while(true){
             $record = $this->binary_search_index($file, [
@@ -835,7 +836,6 @@ Trait BinarySearch {
                 'url' => $options['url'],
             ]);
             if($record){
-                $index++;
                 $read = $object->data_read($record->{'#read'}->url, sha1($record->{'#read'}->url));
                 if($read){
                     $record = Core::object_merge($record, $read->data());
@@ -844,12 +844,13 @@ Trait BinarySearch {
                     //need to trigger sync
                     continue;
                 }
+                $class = $record->{'#class'};
                 $object_url = $object->config('project.dir.data') .
                     'Node' .
                     $object->config('ds') .
                     'Object' .
                     $object->config('ds') .
-                    ucfirst($record->{'#class'}) .
+                    ucfirst($class) .
                     $object->config('extension.json')
                 ;
                 $options_json = Core::object($options, Core::OBJECT_JSON);
@@ -857,13 +858,13 @@ Trait BinarySearch {
                 $record = $this->relation($record, $object_data, $role, $options);
                 $expose = $this->expose_get(
                     $object,
-                    $record->{'#class'},
-                    $record->{'#class'} . '.' . $options['function'] . '.expose'
+                    $class,
+                    $class . '.' . $options['function'] . '.expose'
                 );
                 $record = $this->expose(
                     new Storage($record),
                     $expose,
-                    $record->{'#class'},
+                    $class,
                     $options['function'],
                     $role
                 );
@@ -877,6 +878,7 @@ Trait BinarySearch {
                 if($record){
                     $count++;
                 }
+                $index++;
             } else {
                 break;
             }

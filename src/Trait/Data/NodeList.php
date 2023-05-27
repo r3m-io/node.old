@@ -23,9 +23,7 @@ Trait NodeList {
     public function list($class, $role, $options=[]): false|array
     {
         $name = Controller::name($class);
-        $debug = debug_backtrace(true);
         $options = Core::object($options, Core::OBJECT_ARRAY);
-        $count = false;
         if(!array_key_exists('function', $options)){
             $options['function'] = __FUNCTION__;
         }

@@ -102,7 +102,9 @@ Trait Count {
                             'direction' => 'next',
                             'url' => $url,
                             'function' => $options['function'],
-                            'relation' => $options['relation']
+                            'relation' => $options['relation'],
+                            'page' => $options['page'] ?? null,
+                            'limit' => $options['limit'] ?? null
                         ]
                     );
                     d($count);
@@ -118,7 +120,9 @@ Trait Count {
                             'direction' => 'next',
                             'url' => $url,
                             'function' => $options['function'],
-                            'relation' => $options['relation']
+                            'relation' => $options['relation'],
+                            'page' => $options['page'] ?? null,
+                            'limit' => $options['limit'] ?? null
                         ]
                     );
                 } else {
@@ -131,12 +135,14 @@ Trait Count {
                             'direction' => 'next',
                             'url' => $url,
                             'function' => $options['function'],
-                            'relation' => $options['relation']
+                            'relation' => $options['relation'],
+                            'page' => $options['page'] ?? null,
+                            'limit' => $options['limit'] ?? null
                         ]
                     );
                 }
             }
-            ddd($count);
+            return $count;
         }
         return false;
     }
