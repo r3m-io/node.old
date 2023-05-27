@@ -102,12 +102,9 @@ Trait Count {
                             'direction' => 'next',
                             'url' => $url,
                             'function' => $options['function'],
-                            'relation' => $options['relation'],
-                            'page' => $options['page'] ?? null,
-                            'limit' => $options['limit'] ?? null
+                            'relation' => $options['relation']
                         ]
                     );
-                    d($count);
                 }
                 elseif(!empty($options['where'])){
                     $count = $this->binary_search_count(
@@ -120,9 +117,7 @@ Trait Count {
                             'direction' => 'next',
                             'url' => $url,
                             'function' => $options['function'],
-                            'relation' => $options['relation'],
-                            'page' => $options['page'] ?? null,
-                            'limit' => $options['limit'] ?? null
+                            'relation' => $options['relation']
                         ]
                     );
                 } else {
@@ -135,9 +130,7 @@ Trait Count {
                             'direction' => 'next',
                             'url' => $url,
                             'function' => $options['function'],
-                            'relation' => $options['relation'],
-                            'page' => $options['page'] ?? null,
-                            'limit' => $options['limit'] ?? null
+                            'relation' => $options['relation']
                         ]
                     );
                 }
