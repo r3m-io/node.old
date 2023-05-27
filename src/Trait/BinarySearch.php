@@ -820,7 +820,7 @@ Trait BinarySearch {
      * @throws FileWriteException
      * @throws Exception
      */
-    private function binary_search_count($file, $role, $options=[]): array
+    private function binary_search_count($file, $role, $options=[]): int
     {
         $object = $this->object();
         $index = 0;
