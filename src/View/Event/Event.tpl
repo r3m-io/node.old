@@ -1,6 +1,7 @@
 Package: R3m/Io/Node
 Module: event
 
+{{binary()}} r3m-io/node event info
 {{binary()}} r3m-io/node event create
 {{binary()}} r3m-io/node event delete
 {{binary()}} r3m-io/node event import

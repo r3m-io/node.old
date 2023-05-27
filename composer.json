@@ -5,7 +5,6 @@
     "keywords" : ["node", "r3m", "library", "framework"],
     "homepage": "https://r3m.io",
     "require" : {
-        "r3m/framework": "dev-dev",
         "ext-posix": "*"
     },
     "license" : "MIT",

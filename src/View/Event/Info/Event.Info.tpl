@@ -7,7 +7,7 @@
 {{$files = dir.read(config('controller.dir.view') + 'Object/Info/')}}
 {{$files = data.sort($files, ['url' => 'ASC'])}}
 {{for.each($files as $file)}}
-{{if($file->name == 'Object.Info.tpl')}}
+{{if($file->name == 'Event.Info.tpl')}}
 {{continue}}
 {{/if}}
 {{$file.basename = file.basename($file.name, config('extension.tpl'))}}
