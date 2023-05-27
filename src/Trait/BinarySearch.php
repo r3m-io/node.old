@@ -95,7 +95,9 @@ Trait BinarySearch {
         if(!empty($options['filter'])){
             $key = [
                 'filter' => $options['filter'],
-                'sort' => $options['sort']
+                'sort' => $options['sort'],
+                'page' => $options['page'] ?? 1,
+                'limit' => $options['limit'] ?? 1000,
             ];
             $key = sha1(Core::object($key, Core::OBJECT_JSON));
             $file = new SplFileObject($url_property);
@@ -161,7 +163,9 @@ Trait BinarySearch {
             $options['where'] = $this->where_convert($options['where']);
             $key = [
                 'where' => $options['where'],
-                'sort' => $options['sort']
+                'sort' => $options['sort'],
+                'page' => $options['page'] ?? 1,
+                'limit' => $options['limit'] ?? 1000,
             ];
             $key = sha1(Core::object($key, Core::OBJECT_JSON));
             $file = new SplFileObject($url_property);
