@@ -377,6 +377,7 @@ Trait Sync {
                     $sortable = new Storage();
                     $sortable->set('property', $properties);
                     $sortable->set('count', $count);
+                    $sortable->set('mtime', $mtime);
                     $sortable->set('lines', $lines);
                     if(!empty($url_property_asc_asc)){
                         $sortable->set('url.asc.asc', $url_property_asc_asc);
