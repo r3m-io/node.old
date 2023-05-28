@@ -86,7 +86,33 @@ Trait BinarySearch {
             $properties[] = $key;
         }
         $url_key = substr($url_key, 0, -1);
-        $sort_key = sha1(Core::object($properties, Core::OBJECT_JSON));
+
+        if(array_key_exists('filter', $options)){
+            $sort_key = [
+//                'filter' => $options['filter'],
+                'sort' => $options['sort'],
+                'page' => $options['page'] ?? 1,
+                'limit' => $options['limit'] ?? 1000,
+                'mtime' => $mtime,
+            ];
+        }
+        elseif(array_key_exists('where', $options)){
+            $sort_key = [
+//                'where' => $options['where'],
+                'sort' => $options['sort'],
+                'page' => $options['page'] ?? 1,
+                'limit' => $options['limit'] ?? 1000,
+                'mtime' => $mtime,
+            ];
+        } else {
+            $sort_key = [
+                'sort' => $options['sort'],
+                'page' => $options['page'] ?? 1,
+                'limit' => $options['limit'] ?? 1000,
+                'mtime' => $mtime,
+            ];
+        }
+        $sort_key = sha1(Core::object($sort_key, Core::OBJECT_JSON));
         $url_property = $meta->get('Sort.' . $class . '.' . $sort_key . '.'. $url_key);
         if(empty($url_property)){
             throw new Exception('Binary search list not found in meta file. properties: ['. implode(', ', $properties) . ']');
@@ -139,6 +165,7 @@ Trait BinarySearch {
                 $meta->set('Filter.' . $class . '.' . $key . '.lines', $lines);
                 $meta->set('Filter.' . $class . '.' . $key . '.count', $count);
                 $meta->set('Filter.' . $class . '.' . $key . '.limit', $limit);
+                $meta->set('Filter.' . $class . '.' . $key . '.mtime', $mtime);
                 $meta->set('Filter.' . $class . '.' . $key . '.filter', $options['filter']);
                 $meta->set('Filter.' . $class . '.' . $key . '.sort', $options['sort']);
                 if($object->config(Config::POSIX_ID) === 0){
@@ -166,6 +193,7 @@ Trait BinarySearch {
                 'sort' => $options['sort'],
                 'page' => $options['page'] ?? 1,
                 'limit' => $options['limit'] ?? 1000,
+                'mtime' => $mtime,
             ];
             $key = sha1(Core::object($key, Core::OBJECT_JSON));
             $file = new SplFileObject($url_property);
@@ -207,6 +235,7 @@ Trait BinarySearch {
                 $meta->set('Where.' . $class . '.' . $key . '.lines', $lines);
                 $meta->set('Where.' . $class . '.' . $key . '.count', $count);
                 $meta->set('Where.' . $class . '.' . $key . '.limit', $limit);
+                $meta->set('Where.' . $class . '.' . $key . '.mtime', $mtime);
                 $meta->set('Where.' . $class . '.' . $key . '.where', $options['where']);
                 $meta->set('Where.' . $class . '.' . $key . '.sort', $options['sort']);
                 if($object->config(Config::POSIX_ID) === 0){
