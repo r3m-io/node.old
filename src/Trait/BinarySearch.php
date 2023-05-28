@@ -87,7 +87,7 @@ Trait BinarySearch {
         }
         $url_key = substr($url_key, 0, -1);
         $sort_key = [
-            'sort' => $options['sort'],
+            'property' => $properties,
         ];
         $sort_key = sha1(Core::object($sort_key, Core::OBJECT_JSON));
         $url_property = $meta->get('Sort.' . $class . '.' . $sort_key . '.'. $url_key);
