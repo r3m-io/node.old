@@ -384,8 +384,13 @@ Trait Sync {
                     } else {
                         $sortable->set('url.asc', $url_property_asc);
                     }
-
-                    $key = sha1(Core::object($properties, Core::OBJECT_JSON));
+                    $key = [
+                        'sort' => $options['sort'],
+                        'page' => $options['page'] ?? 1,
+                        'limit' => $options['limit'] ?? 1000,
+                        'mtime' => $mtime
+                    ];
+                    $key = sha1(Core::object($key, Core::OBJECT_JSON));
                     $meta->set('Sort.' . $class . '.' . $key, $sortable->data());
                     $meta->write($meta_url);
                     if ($object->config(Config::POSIX_ID) === 0) {

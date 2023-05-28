@@ -124,6 +124,7 @@ Trait BinarySearch {
                 'sort' => $options['sort'],
                 'page' => $options['page'] ?? 1,
                 'limit' => $options['limit'] ?? 1000,
+                'mtime' => $mtime,
             ];
             $key = sha1(Core::object($key, Core::OBJECT_JSON));
             $file = new SplFileObject($url_property);
