@@ -36,11 +36,8 @@ Trait NodeList {
         }
         if(
             array_key_exists('ramdisk', $options) &&
-            is_array($options['ramdisk']) &&
-            array_key_exists('class', $options['ramdisk'])
+            $options['ramdisk'] === true
         ){
-            $properties = [];
-            $has_descending = false;
             $package_dir = $object->config('ramdisk.url') .
                 'Package' . $object->config('ds');
             $namespace_dir = $package_dir . 'R3m-Io' . $object->config('ds');
@@ -57,7 +54,6 @@ Trait NodeList {
                 'limit' => $options['limit'] ?? 1000,
             ];
             $ramdisk_key = sha1(Core::object($ramdisk_key, Core::OBJECT_JSON));
-            $property = implode('-', $properties);
             $ramdisk_url = $ramdisk_dir .
                 $ramdisk_file .
                 $ramdisk_key .
