@@ -41,10 +41,10 @@ Trait NodeList {
         ){
             $properties = [];
             $has_descending = false;
-            $ramdisk_dir = $object->config('ramdisk.url') .
-                'Package' . $object->config('ds') .
-                'R3m'. '-' .
-                'Io'. $object->config('ds') .
+            $package_dir = $object->config('ramdisk.url') .
+                'Package' . $object->config('ds');
+            $namespace_dir = $package_dir . 'R3m-Io' . $object->config('ds');
+            $ramdisk_dir = $namespace_dir .
                 'Node' . $object->config('ds')
             ;
             foreach($options['sort'] as $key => $order){
