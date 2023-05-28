@@ -47,6 +47,7 @@ Trait NodeList {
             $ramdisk_dir = $namespace_dir .
                 'Node' . $object->config('ds')
             ;
+            $ramdisk_file = $name . '-';
             foreach($options['sort'] as $key => $order){
                 if(empty($properties)){
                     $properties[] = $key;
@@ -58,11 +59,11 @@ Trait NodeList {
                         $has_descending = true;
                     }
                 }
-                $ramdisk_dir .= ucfirst($order) . '-';
+                $ramdisk_file .= ucfirst($order) . '-';
             }
             $property = implode('-', $properties);
             $ramdisk_url = $ramdisk_dir .
-                $name . '-' .
+                $ramdisk_file .
                 Controller::name($property) .
                 $object->config('extension.json')
             ;
