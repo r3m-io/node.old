@@ -112,7 +112,7 @@ Trait NodeList {
             ;
             $ramdisk_data = $object->data_read($ramdisk_url);
             if($ramdisk_data){
-                return $ramdisk_data->data();
+                return (array) $ramdisk_data->data();
             }
         }
         $this->binary_search_list_create($class, $options);
