@@ -67,6 +67,7 @@ Trait NodeList {
                 Controller::name($property) .
                 $object->config('extension.json')
             ;
+            d($ramdisk_url);
             ddd($ramdisk_url);
         } else {
             $this->binary_search_list_create($class, $options);
