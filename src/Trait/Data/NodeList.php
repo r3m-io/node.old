@@ -36,13 +36,14 @@ Trait NodeList {
         }
         if(
             array_key_exists('ramdisk', $options) &&
-            $options['ramdisk'] === true
+            is_array($options['ramdisk']) &&
+            array_key_exists('class', $options['ramdisk'])
         ){
             $properties = [];
             $has_descending = false;
             $dir = $object->config('ramdisk.url') .
                 'Package' . $object->config('ds') .
-                'R3m'. $object->config('ds') .
+                'R3m'. '-' .
                 'Io'. $object->config('ds') .
                 'Node' . $object->config('ds')
             ;
@@ -57,7 +58,7 @@ Trait NodeList {
                         $has_descending = true;
                     }
                 }
-                $dir .= ucfirst($order) . $object->config('ds');
+                $dir .= ucfirst($order) . '-';
             }
             $property = implode('-', $properties);
             $url = $dir .
