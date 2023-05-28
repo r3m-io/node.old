@@ -47,11 +47,12 @@ Trait NodeList {
             $ramdisk_dir = $namespace_dir .
                 'Node' . $object->config('ds')
             ;
-            $ramdisk_file = $name . '-';
+            $ramdisk_file = $name . '-' . $options['function'] . '-';
             $ramdisk_key = [
                 'sort' => $options['sort'],
                 'filter' => $options['filter'] ?? [],
                 'where' => $options['where'] ?? [],
+                'relation' => $options['relation'],
                 'page' => $options['page'] ?? 1,
                 'limit' => $options['limit'] ?? 1000,
             ];
