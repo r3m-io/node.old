@@ -7,6 +7,7 @@ use SplFileObject;
 use R3m\Io\Module\Controller;
 use R3m\Io\Module\Core;
 use R3m\Io\Module\File;
+use R3m\Io\Module\Data as Storage;
 
 use Exception;
 
@@ -80,6 +81,7 @@ Trait NodeList {
         ;
         $url = $this->url($dir, $options);
         $mtime = false;
+        $ramdisk_url = false;
         if(
             File::exist($url) &&
             array_key_exists('ramdisk', $options) &&
@@ -110,6 +112,8 @@ Trait NodeList {
             ;
             $ramdisk_data = $object->data_read($ramdisk_url);
             if($ramdisk_data){
+                d($ramdisk_url);
+                ddd($ramdisk_data);
                 return $ramdisk_data->data();
             }
         }
@@ -200,7 +204,7 @@ Trait NodeList {
                     );
                 } else {
                     $sort_key = [
-                        'sort' => $options['sort'],
+                        'property' => $properties,
                     ];
                     $sort_key = sha1(Core::object($sort_key, Core::OBJECT_JSON));
                     $lines = $meta->get('Sort.' . $name . '.' . $sort_key . '.lines');
@@ -233,6 +237,10 @@ Trait NodeList {
                 $result['sort'] = $options['sort'];
                 $result['filter'] = $options['filter'];
                 $result['relation'] = $options['relation'];
+                if($ramdisk_url){
+                    $ramdisk_data = new Storage($result);
+                    $ramdisk_data->write($ramdisk_url);
+                }
                 return $result;
             }
             elseif(!empty($options['where'])){
@@ -314,6 +322,10 @@ Trait NodeList {
                 $result['sort'] = $options['sort'];
                 $result['where'] = $options['where'];
                 $result['relation'] = $options['relation'];
+                if($ramdisk_url){
+                    $ramdisk_data = new Storage($result);
+                    $ramdisk_data->write($ramdisk_url);
+                }
                 return $result;
             } else {
                 // no filter, no where
@@ -359,6 +371,10 @@ Trait NodeList {
                     $result['list'] = $list;
                     $result['sort'] = $options['sort'];
                     $result['relation'] = $options['relation'];
+                    if($ramdisk_url){
+                        $ramdisk_data = new Storage($result);
+                        $ramdisk_data->write($ramdisk_url);
+                    }
                     return $result;
                 }
             }
