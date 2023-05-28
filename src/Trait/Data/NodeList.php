@@ -41,7 +41,7 @@ Trait NodeList {
         ){
             $properties = [];
             $has_descending = false;
-            $dir = $object->config('ramdisk.url') .
+            $ramdisk_dir = $object->config('ramdisk.url') .
                 'Package' . $object->config('ds') .
                 'R3m'. '-' .
                 'Io'. $object->config('ds') .
@@ -58,14 +58,14 @@ Trait NodeList {
                         $has_descending = true;
                     }
                 }
-                $dir .= ucfirst($order) . '-';
+                $ramdisk_dir .= ucfirst($order) . '-';
             }
             $property = implode('-', $properties);
-            $url = $dir .
+            $ramdisk_url = $ramdisk_dir .
                 Controller::name($property) .
                 $object->config('extension.json')
             ;
-            ddd($url);
+            ddd($ramdisk_url);
         } else {
             $this->binary_search_list_create($class, $options);
             $dir = $object->config('project.dir.data') .
