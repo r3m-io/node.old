@@ -89,7 +89,7 @@ Trait BinarySearch {
         $sort_key = sha1(Core::object($sort_key, Core::OBJECT_JSON));
         $url_property = $meta->get('Sort.' . $class . '.' . $sort_key . '.'. $url_key);
         if(empty($url_property)){
-            throw new Exception('Binary search list not found in meta file (class: ' . $class . '). properties: ['. implode(', ', $properties) . ']');
+            throw new Exception('Binary search list not found in meta file (class: ' . $class . '). properties: ['. implode(', ', $properties) . '] sort key: ' . $sort_key . ' url key: ' . $url_key);
         }
         $sort_lines = $meta->get('Sort.' . $class . '.' . $sort_key . '.lines');
         if(!empty($options['filter'])){
