@@ -81,6 +81,7 @@ Trait NodeList {
         ;
         $url = $this->url($dir, $options);
         d($url);
+        d($options);
         $mtime = false;
         $ramdisk_url = false;
         if(
