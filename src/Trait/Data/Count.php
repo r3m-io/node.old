@@ -84,7 +84,10 @@ Trait Count {
             if(!$meta){
                 return false;
             }
-            $sort_key = sha1(Core::object($properties, Core::OBJECT_JSON));
+            $sort_key = [
+                'property' => $properties
+            ];
+            $sort_key = sha1(Core::object($sort_key, Core::OBJECT_JSON));
             $lines = $meta->get('Sort.' . $name . '.' . $sort_key . '.lines');
             if(
                 File::exist($url) &&
