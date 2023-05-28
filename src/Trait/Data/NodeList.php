@@ -62,6 +62,7 @@ Trait NodeList {
             }
             $property = implode('-', $properties);
             $ramdisk_url = $ramdisk_dir .
+                $name . '-' .
                 Controller::name($property) .
                 $object->config('extension.json')
             ;
