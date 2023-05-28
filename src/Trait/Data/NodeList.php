@@ -110,10 +110,8 @@ Trait NodeList {
                 $ramdisk_key .
                 $object->config('extension.json')
             ;
-            d($ramdisk_url);
             $ramdisk_data = $object->data_read($ramdisk_url);
             if($ramdisk_data){
-                ddd($ramdisk_data);
                 return $ramdisk_data->data();
             }
         }
