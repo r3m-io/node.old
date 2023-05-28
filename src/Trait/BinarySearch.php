@@ -86,32 +86,9 @@ Trait BinarySearch {
             $properties[] = $key;
         }
         $url_key = substr($url_key, 0, -1);
-
-        if(array_key_exists('filter', $options)){
-            $sort_key = [
-//                'filter' => $options['filter'],
-                'sort' => $options['sort'],
-                'page' => $options['page'] ?? 1,
-                'limit' => $options['limit'] ?? 1000,
-                'mtime' => $mtime,
-            ];
-        }
-        elseif(array_key_exists('where', $options)){
-            $sort_key = [
-//                'where' => $options['where'],
-                'sort' => $options['sort'],
-                'page' => $options['page'] ?? 1,
-                'limit' => $options['limit'] ?? 1000,
-                'mtime' => $mtime,
-            ];
-        } else {
-            $sort_key = [
-                'sort' => $options['sort'],
-                'page' => $options['page'] ?? 1,
-                'limit' => $options['limit'] ?? 1000,
-                'mtime' => $mtime,
-            ];
-        }
+        $sort_key = [
+            'sort' => $options['sort'],
+        ];
         $sort_key = sha1(Core::object($sort_key, Core::OBJECT_JSON));
         $url_property = $meta->get('Sort.' . $class . '.' . $sort_key . '.'. $url_key);
         if(empty($url_property)){
@@ -139,6 +116,7 @@ Trait BinarySearch {
             ]);
             if(!empty($filter_list)){
                 $filter = [];
+                $index = false;
                 foreach($filter_list as $index => $node){
                     $filter[$key][$index] = [
                         'uuid' => $node->uuid,
@@ -162,7 +140,11 @@ Trait BinarySearch {
                 $storage = new Storage($filter);
                 $lines = $storage->write($filter_url, 'lines');
                 File::touch($filter_url, $mtime);
-                $count = $index + 1;
+                if($index === false){
+                    $count = 0;
+                } else {
+                    $count = $index + 1;
+                }
                 $meta->set('Filter.' . $class . '.' . $key . '.lines', $lines);
                 $meta->set('Filter.' . $class . '.' . $key . '.count', $count);
                 $meta->set('Filter.' . $class . '.' . $key . '.limit', $limit);
@@ -209,6 +191,7 @@ Trait BinarySearch {
             ]);
             if(!empty($where_list)){
                 $where = [];
+                $index = false;
                 foreach($where_list as $index => $node){
                     $where[$key][$index] = [
                         'uuid' => $node->uuid,
@@ -232,7 +215,11 @@ Trait BinarySearch {
                 $storage = new Storage($where);
                 $lines = $storage->write($where_url, 'lines');
                 File::touch($where_url, $mtime);
-                $count = $index + 1;
+                if($index === false){
+                    $count = 0;
+                } else {
+                    $count = $index + 1;
+                }
                 $meta->set('Where.' . $class . '.' . $key . '.lines', $lines);
                 $meta->set('Where.' . $class . '.' . $key . '.count', $count);
                 $meta->set('Where.' . $class . '.' . $key . '.limit', $limit);

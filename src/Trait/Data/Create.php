@@ -126,9 +126,14 @@ Trait Create {
         if (!$meta) {
             $meta = new Storage();
         }
+        $key = [
+            'property' => [
+                'uuid'
+            ]
+        ];
         $property = [];
         $property[] = 'uuid';
-        $key = sha1(Core::object($property, Core::OBJECT_JSON));
+        $key = sha1(Core::object($key, Core::OBJECT_JSON));
         $meta->set('Sort.' . $class . '.' . $key . '.property', $property);
         $meta->set('Sort.' . $class . '.' . $key . '.lines', $lines);
         $meta->set('Sort.' . $class . '.' . $key . '.count', $count);
@@ -311,9 +316,14 @@ Trait Create {
                             if (!$meta) {
                                 $meta = new Storage();
                             }
+                            $key = [
+                                'property' => [
+                                    'uuid'
+                                ]
+                            ];
                             $property = [];
                             $property[] = 'uuid';
-                            $key = sha1(Core::object($property, Core::OBJECT_JSON));
+                            $key = sha1(Core::object($key, Core::OBJECT_JSON));
                             $meta->set('Sort.' . $class . '.' . $key . '.property', $property);
                             $meta->set('Sort.' . $class . '.' . $key . '.lines', $lines);
                             $meta->set('Sort.' . $class . '.' . $key . '.count', $count);

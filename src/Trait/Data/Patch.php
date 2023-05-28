@@ -62,8 +62,6 @@ Trait Patch {
         }
         $node = new Storage($node['node']);
         $patch = new Storage($options);
-
-        //add validate
         foreach($patch->data() as $attribute => $value){
             if(is_array($value)){
                 $list = $node->get($attribute);

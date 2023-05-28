@@ -66,6 +66,10 @@ Trait NodeList {
         if(!array_key_exists('sort', $options)){
             throw new Exception('Sort is missing in options for ' . $name . '::' . $options['function'] . '()');
         }
+        $properties = [];
+        foreach($options['sort'] as $key => $unused){
+            $properties[] = $key;
+        }
         $dir = $object->config('project.dir.data') .
             'Node' .
             $object->config('ds') .
@@ -196,11 +200,7 @@ Trait NodeList {
                     );
                 } else {
                     $sort_key = [
-//                        'filter' => $options['filter'],
                         'sort' => $options['sort'],
-                        'page' => $options['page'] ?? 1,
-                        'limit' => $options['limit'] ?? 1000,
-                        'mtime' => $mtime
                     ];
                     $sort_key = sha1(Core::object($sort_key, Core::OBJECT_JSON));
                     $lines = $meta->get('Sort.' . $name . '.' . $sort_key . '.lines');
@@ -281,11 +281,7 @@ Trait NodeList {
                     );
                 } else {
                     $sort_key = [
-//                        'where' => $options['where'],
-                        'sort' => $options['sort'],
-                        'page' => $options['page'] ?? 1,
-                        'limit' => $options['limit'] ?? 1000,
-                        'mtime' => $mtime
+                        'property' => $properties,
                     ];
                     $sort_key = sha1(Core::object($sort_key, Core::OBJECT_JSON));
                     $lines = $meta->get('Sort.' . $class . '.' . $sort_key . '.lines');
@@ -321,26 +317,20 @@ Trait NodeList {
                 return $result;
             } else {
                 // no filter, no where
-                $sort_key = [
-                    'sort' => $options['sort'],
-                    'page' => $options['page'] ?? 1,
-                    'limit' => $options['limit'] ?? 1000,
-                    'mtime' => $mtime
-                ];
                 $url_key = 'url.';
-                if(
-                    array_key_exists('sort', $options) &&
-                    is_array($options['sort'])
-                ){
-                    foreach($options['sort'] as $key => $order) {
-                        if(empty($properties)){
-                            $url_key .= 'asc.';
-                        } else {
-                            $url_key .= strtolower($order) . '.';
-                        }
+                $first = true;
+                foreach($options['sort'] as $key => $order) {
+                    if($first){
+                        $url_key .= 'asc.';
+                        $first = false;
+                    } else {
+                        $url_key .= strtolower($order) . '.';
                     }
                 }
                 $url_key = substr($url_key, 0, -1);
+                $sort_key = [
+                    'property' => $properties
+                ];
                 $sort_key = sha1(Core::object($sort_key, Core::OBJECT_JSON));
                 $url = $meta->get('Sort.' . $class . '.' . $sort_key . '.'. $url_key);
                 $lines = $meta->get('Sort.' . $class . '.' . $sort_key . '.lines');

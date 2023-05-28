@@ -385,10 +385,7 @@ Trait Sync {
                         $sortable->set('url.asc', $url_property_asc);
                     }
                     $key = [
-                        'sort' => $options['sort'],
-                        'page' => $options['page'] ?? 1,
-                        'limit' => $options['limit'] ?? 1000,
-                        'mtime' => $mtime
+                        'property' => $properties
                     ];
                     $key = sha1(Core::object($key, Core::OBJECT_JSON));
                     $meta->set('Sort.' . $class . '.' . $key, $sortable->data());
