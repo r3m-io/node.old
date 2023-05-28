@@ -80,8 +80,6 @@ Trait NodeList {
             $object->config('ds')
         ;
         $url = $this->url($dir, $options);
-        d($url);
-        d($options);
         $mtime = false;
         $ramdisk_url = false;
         if(
