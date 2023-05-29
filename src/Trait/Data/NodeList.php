@@ -112,6 +112,7 @@ Trait NodeList {
             ;
             $ramdisk_data = $object->data_read($ramdisk_url);
             if($ramdisk_data){
+                //add mtime to ramdisk data
                 return (array) $ramdisk_data->data();
             }
         }
@@ -128,6 +129,7 @@ Trait NodeList {
             $result = [];
             $result['page'] = $options['page'] ?? 1;
             $result['limit'] = $options['limit'] ?? 1000;
+            $result['count'] = 0;
             $result['list'] = $list;
             $result['sort'] = $options['sort'];
             if(!empty($options['filter'])) {
@@ -137,6 +139,7 @@ Trait NodeList {
                 $result['where'] = $options['where'];
             }
             $result['relation'] = $options['relation'];
+            $result['mtime'] = $mtime;
             return $result;
         }
         if($mtime === false) {
@@ -144,6 +147,7 @@ Trait NodeList {
         }
         $has_descending = $this->has_descending($options);
         $list = [];
+        $counter = 0;
         if(!$has_descending){
             $meta_url = $object->config('project.dir.data') .
                 'Node' .
@@ -188,6 +192,7 @@ Trait NodeList {
                     $list = $this->binary_search_page(
                         $file,
                         $role,
+                        $counter,
                         [
                             'filter' => $options['filter'],
                             'page' => $options['page'] ?? 1,
@@ -214,6 +219,7 @@ Trait NodeList {
                         $list = $this->binary_search_page(
                             $file,
                             $role,
+                            $counter,
                             [
                                 'filter' => $options['filter'],
                                 'page' => $options['page'] ?? 1,
@@ -231,10 +237,12 @@ Trait NodeList {
                 $result = [];
                 $result['page'] = $options['page'] ?? 1;
                 $result['limit'] = $options['limit'] ?? 1000;
+                $result['count'] = $counter;
                 $result['list'] = $list;
                 $result['sort'] = $options['sort'];
                 $result['filter'] = $options['filter'];
                 $result['relation'] = $options['relation'];
+                $result['mtime'] = $mtime;
                 if($ramdisk_url){
                     $ramdisk_data = new Storage($result);
                     $ramdisk_data->write($ramdisk_url);
@@ -273,6 +281,7 @@ Trait NodeList {
                     $list = $this->binary_search_page(
                         $file,
                         $role,
+                        $counter,
                         [
                             'where' => $where,
                             'page' => $options['page'] ?? 1,
@@ -299,6 +308,7 @@ Trait NodeList {
                         $list = $this->binary_search_page(
                             $file,
                             $role,
+                            $counter,
                             [
                                 'where' => $options['where'],
                                 'page' => $options['page'] ?? 1,
@@ -316,10 +326,12 @@ Trait NodeList {
                 $result = [];
                 $result['page'] = $options['page'] ?? 1;
                 $result['limit'] = $options['limit'] ?? 1000;
+                $result['count'] = $counter;
                 $result['list'] = $list;
                 $result['sort'] = $options['sort'];
                 $result['where'] = $options['where'];
                 $result['relation'] = $options['relation'];
+                $result['mtime'] = $mtime;
                 if($ramdisk_url){
                     $ramdisk_data = new Storage($result);
                     $ramdisk_data->write($ramdisk_url);
@@ -352,6 +364,7 @@ Trait NodeList {
                     $list = $this->binary_search_page(
                         $file,
                         $role,
+                        $counter,
                         [
                             'page' => $options['page'] ?? 1,
                             'limit' => $options['limit'] ?? 1000,
@@ -366,13 +379,14 @@ Trait NodeList {
                     $result = [];
                     $result['page'] = $options['page'] ?? 1;
                     $result['limit'] = $options['limit'] ?? 1000;
+                    $result['count'] = $counter;
                     $result['list'] = $list;
                     $result['sort'] = $options['sort'];
                     $result['relation'] = $options['relation'];
+                    $result['mtime'] = $mtime;
                     if($ramdisk_url){
                         $ramdisk_data = new Storage($result);
                         $ramdisk_data->write($ramdisk_url);
-                        ddd($ramdisk_data);
                     }
                     return $result;
                 }

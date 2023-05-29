@@ -733,7 +733,7 @@ Trait BinarySearch {
     /**
      * @throws Exception
      */
-    private function binary_search_page($file, $role, $options=[]): array
+    private function binary_search_page($file, $role, &$counter=0, $options=[]): array
     {
         $object = $this->object();
         $index = 0;
@@ -812,6 +812,7 @@ Trait BinarySearch {
                     $record->{'#index'} = $record_index;
                     $page[] = $record;
                     $record_index++;
+                    $counter++;
                 } else {
                     $end++;
                 }

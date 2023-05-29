@@ -162,6 +162,7 @@ Trait Data {
                 $list = $this->binary_search_page(
                     $object,
                     $file,
+                    $counter,
                     [
                         'filter' => $options['filter'],
                         'limit' => 1,
