@@ -10,7 +10,15 @@ Trait Role {
     public function role_system()
     {
         $object = $this->object();
-        if($object->config(Config::POSIX_ID) === 0){
+        if(
+            in_array(
+                $object->config(Config::POSIX_ID),
+            [
+                0,
+                33,     //remove this, how to handle www-data events, middleware and filter
+            ]
+            )
+        ){
             $url = $object->config('project.dir.data') . 'App' . $object->config('ds') . 'System.json';
             $data = $object->data_read($url);
             return $data->data();
