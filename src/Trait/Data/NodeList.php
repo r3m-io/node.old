@@ -2,6 +2,8 @@
 
 namespace R3m\Io\Node\Trait\Data;
 
+use R3m\Io\Config;
+use R3m\Io\Module\Dir;
 use SplFileObject;
 
 use R3m\Io\Module\Controller;
@@ -47,6 +49,50 @@ Trait NodeList {
         return false;
     }
 
+    private function ramdisk_permission($options=[]): void
+    {
+        if(!array_key_exists('ramdisk_url', $options)){
+            return;
+        }
+        if(!array_key_exists('ramdisk_dir', $options)){
+            return;
+        }
+        if(!array_key_exists('namespace_dir', $options)){
+            return;
+        }
+        if(!array_key_exists('package_dir', $options)){
+            return;
+        }
+        if(!array_key_exists('user_dir', $options)){
+            return;
+        }
+        $object = $this->object();
+        if($object->config(Config::POSIX_ID) === 0){
+            $command = 'chown www-data:www-data ' . $options['ramdisk_url'];
+            exec($command);
+            $command = 'chown www-data:www-data ' . $options['ramdisk_dir'];
+            exec($command);
+            $command = 'chown www-data:www-data ' . $options['namespace_dir'];
+            exec($command);
+            $command = 'chown www-data:www-data ' . $options['package_dir'];
+            exec($command);
+            $command = 'chown www-data:www-data ' . $options['user_dir'];
+            exec($command);
+        }
+        if($object->config('framework.environment') === Config::MODE_DEVELOPMENT){
+            $command = 'chmod 666 ' . $options['ramdisk_url'];
+            exec($command);
+            $command = 'chmod 777 ' . $options['ramdisk_dir'];
+            exec($command);
+            $command = 'chmod 777 ' . $options['namespace_dir'];
+            exec($command);
+            $command = 'chmod 777 ' . $options['package_dir'];
+            exec($command);
+            $command = 'chmod 777 ' . $options['user_dir'];
+            exec($command);
+        }
+    }
+
     /**
      * @throws ObjectException
      * @throws FileWriteException
@@ -88,11 +134,21 @@ Trait NodeList {
             $options['ramdisk'] === true
         ){
             $mtime = File::mtime($url);
-            $package_dir = $object->config('ramdisk.url') .
-                'Package' . $object->config('ds');
-            $namespace_dir = $package_dir . 'R3m-Io' . $object->config('ds');
+            $user_dir = $object->config('ramdisk.url') .
+                $object->config(Config::POSIX_ID) .
+                $object->config('ds')
+            ;
+            $package_dir = $user_dir .
+                'Package' .
+                $object->config('ds')
+            ;
+            $namespace_dir = $package_dir .
+                'R3m-Io' .
+                $object->config('ds')
+            ;
             $ramdisk_dir = $namespace_dir .
-                'Node' . $object->config('ds')
+                'Node' .
+                $object->config('ds')
             ;
             $ramdisk_file = $name . '-' . $options['function'] . '-';
             $ramdisk_key = [
@@ -246,6 +302,13 @@ Trait NodeList {
                 if($ramdisk_url){
                     $ramdisk_data = new Storage($result);
                     $ramdisk_data->write($ramdisk_url);
+                    $this->ramdisk_permission([
+                        'user_dir' => $user_dir,
+                        'package_dir' => $package_dir,
+                        'namespace_dir' => $namespace_dir,
+                        'ramdisk_dir' => $ramdisk_dir,
+                        'ramdisk_url' => $ramdisk_url,
+                    ]);
                 }
                 return $result;
             }
@@ -335,6 +398,13 @@ Trait NodeList {
                 if($ramdisk_url){
                     $ramdisk_data = new Storage($result);
                     $ramdisk_data->write($ramdisk_url);
+                    $this->ramdisk_permission([
+                        'user_dir' => $user_dir,
+                        'package_dir' => $package_dir,
+                        'namespace_dir' => $namespace_dir,
+                        'ramdisk_dir' => $ramdisk_dir,
+                        'ramdisk_url' => $ramdisk_url,
+                    ]);
                 }
                 return $result;
             } else {
@@ -387,6 +457,13 @@ Trait NodeList {
                     if($ramdisk_url){
                         $ramdisk_data = new Storage($result);
                         $ramdisk_data->write($ramdisk_url);
+                        $this->ramdisk_permission([
+                            'user_dir' => $user_dir,
+                            'package_dir' => $package_dir,
+                            'namespace_dir' => $namespace_dir,
+                            'ramdisk_dir' => $ramdisk_dir,
+                            'ramdisk_url' => $ramdisk_url,
+                        ]);
                     }
                     return $result;
                 }
