@@ -1,6 +1,6 @@
 <?php
 
-namespace R3m\Io\Node\Controller;
+namespace R3m\Io\Node\oldController;
 
 use R3m\Io\App;
 use R3m\Io\Config;
