@@ -509,7 +509,31 @@ Trait Expose {
         $result = [];
         $attribute = Cli::read('input', 'Object name (depth (' . $depth . ')): ');
         while(!empty($attribute)){
-            $multiple = (bool) Cli::read('input', 'Multiple (boolean): ');
+            $multiple = Cli::read('input', 'Multiple (boolean): ');
+            if(
+                in_array(
+                    $multiple,
+                    [
+                        'true',
+                        1
+                    ],
+                    true
+                )
+            ) {
+                $multiple = true;
+            }
+            if(
+                in_array(
+                    $multiple ,
+                    [
+                        'false',
+                        0
+                    ],
+                    true
+                 )
+            ) {
+                $multiple = false;
+            }
             $expose = Cli::read('input', 'Expose (attribute): ');
             while(!empty($expose)){
                 $attributes[] = $expose;
