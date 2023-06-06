@@ -5,6 +5,7 @@ namespace R3m\Io\Node\Trait;
 use Exception;
 use R3m\Io\App;
 use R3m\Io\Exception\ObjectException;
+use R3m\Io\Module\Cli;
 use R3m\Io\Module\Core;
 use R3m\Io\Module\Data as Storage;
 use R3m\Io\Module\File;
@@ -497,5 +498,17 @@ Trait Expose {
             }
             return $get;
         }
+    }
+
+    /**
+     * @throws ObjectException
+     */
+    public function expose_create_cli(){
+        $expose = new Storage();
+        $class = Cli::read('input', 'Class: ');
+        $action = Cli::read('input', 'Action: ');
+        d($class);
+        ddd($action);
+
     }
 }
