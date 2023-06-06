@@ -503,10 +503,46 @@ Trait Expose {
     /**
      * @throws ObjectException
      */
+    private function expose_objects_create_cli(){
+        $result = [];
+        $attribute = Cli::read('input', 'Attribute: ');
+        while(!empty($attribute)){
+            $multiple = (bool) Cli::read('input', 'Multiple: ');
+            $expose = Cli::read('input', 'Expose (attribute): ');
+            while(!empty($expose)){
+                $attributes[] = $expose;
+                $expose = Cli::read('input', 'Expose (attribute): ');
+            }
+            $object = [];
+            $object['multiple'] = $multiple;
+            $object['expose'] = $attributes;
+            $object['objects'] = $this->expose_objects_create_cli();
+            if(empty($object['objects'])){
+                unset($object['objects']);
+            }
+            $result[$attribute] = $object;
+            $attribute = Cli::read('input', 'Attribute: ');
+        }
+        return $result;
+    }
+
+    /**
+     * @throws ObjectException
+     */
     public function expose_create_cli(){
         $expose = new Storage();
         $class = Cli::read('input', 'Class: ');
         $action = Cli::read('input', 'Action: ');
+        $role = Cli::read('input', 'Role: ');
+        $attribute = Cli::read('input', 'Attribute: ');
+        $attributes = [];
+        while(!empty($attribute)){
+            $attributes[] = $attribute;
+            $attribute = Cli::read('input', 'Attribute: ');
+        }
+        $objects = $this->expose_objects_create_cli();
+        d($attributes);
+        d($objects);
         d($class);
         ddd($action);
 
