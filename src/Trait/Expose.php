@@ -505,9 +505,9 @@ Trait Expose {
      */
     private function expose_objects_create_cli(){
         $result = [];
-        $attribute = Cli::read('input', 'Attribute: ');
+        $attribute = Cli::read('input', 'Object name: ');
         while(!empty($attribute)){
-            $multiple = (bool) Cli::read('input', 'Multiple: ');
+            $multiple = (bool) Cli::read('input', 'Multiple (boolean): ');
             $expose = Cli::read('input', 'Expose (attribute): ');
             while(!empty($expose)){
                 $attributes[] = $expose;
@@ -521,7 +521,7 @@ Trait Expose {
                 unset($object['objects']);
             }
             $result[$attribute] = $object;
-            $attribute = Cli::read('input', 'Attribute: ');
+            $attribute = Cli::read('input', 'Object name: ');
         }
         return $result;
     }
