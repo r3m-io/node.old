@@ -591,16 +591,25 @@ Trait Expose {
                     array_key_exists('role', $record)
                 ){
                     if($record['role'] === $role){
-                        unset($list[$nr]);
+                        if(is_array($list)){
+                            unset($list[$nr]);
+                        }
+                        elseif(is_object($list)){
+                            unset($list->$nr);
+                        }
                     }
                 }
                 elseif(
                     is_object($record) &&
                     property_exists($record, 'role')
-
                 ){
                     if($record->role === $role){
-                        unset($list[$nr]);
+                        if(is_array($list)){
+                            unset($list[$nr]);
+                        }
+                        elseif(is_object($list)){
+                            unset($list->$nr);
+                        }
                     }
                 }
             }
