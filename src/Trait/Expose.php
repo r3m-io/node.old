@@ -4,6 +4,7 @@ namespace R3m\Io\Node\Trait;
 
 use Exception;
 use R3m\Io\App;
+use R3m\Io\Exception\FileWriteException;
 use R3m\Io\Exception\ObjectException;
 use R3m\Io\Module\Cli;
 use R3m\Io\Module\Core;
@@ -522,17 +523,28 @@ Trait Expose {
                 unset($object['objects']);
             }
             $result[$attribute] = $object;
-            $attribute = Cli::read('input', 'Object name: ');
+            $attribute = Cli::read('input', 'Object name (depth (' . $depth . ')): ');
         }
         return $result;
     }
 
     /**
      * @throws ObjectException
+     * @throws FileWriteException
      */
-    public function expose_create_cli(){
-        $expose = new Storage();
+    public function expose_create_cli(): void
+    {
+        $object = $this->object();
         $class = Cli::read('input', 'Class: ');
+        $url = $object->config('project.dir.data') .
+            'Node' .
+            $object->config('ds') .
+            'Expose' .
+            $object->config('ds') .
+            $class .
+            $object->config('extension.json')
+        ;
+        $expose = $object->data_read($url);
         $action = Cli::read('input', 'Action: ');
         $role = Cli::read('input', 'Role: ');
         $attribute = Cli::read('input', 'Attribute: ');
@@ -542,10 +554,39 @@ Trait Expose {
             $attribute = Cli::read('input', 'Attribute: ');
         }
         $objects = $this->expose_objects_create_cli();
-        d($attributes);
-        d($objects);
-        d($class);
-        ddd($action);
+        if(!$expose){
+            $expose = new Storage();
+        }
+        $list = $expose->get($class . '.' . $action . '.expose');
+        if(empty($list)){
+            $list = [];
+        } else {
+            foreach ($list as $nr => $record){
+                if(
+                    is_array($record) &&
+                    array_key_exists('role', $record)
+                ){
+                    if($record['role'] === $role){
+                        unset($list[$nr]);
+                    }
+                }
+                elseif(
+                    is_object($record) &&
+                    property_exists($record, 'role')
 
+                ){
+                    if($record->role === $role){
+                        unset($list[$nr]);
+                    }
+                }
+            }
+        }
+        $record = [];
+        $record['role'] = $role;
+        $record['attributes'] = $attributes;
+        $record['objects'] = $objects;
+        $list[] = $record;
+        $expose->set($class . '.' . $action . '.expose', $list);
+        $expose->write($url);
     }
 }
