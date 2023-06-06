@@ -581,7 +581,7 @@ Trait Expose {
         if(!$expose){
             $expose = new Storage();
         }
-        $list = $expose->get($class . '.' . $action . '.expose');
+        $list = (array) $expose->get($class . '.' . $action . '.expose');
         if(empty($list)){
             $list = [];
         } else {
