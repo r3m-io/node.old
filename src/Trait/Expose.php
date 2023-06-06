@@ -610,7 +610,11 @@ Trait Expose {
         $record['attributes'] = $attributes;
         $record['objects'] = $objects;
         $list[] = $record;
-        $expose->set($class . '.' . $action . '.expose', $list);
+        $result = [];
+        foreach ($list as $record){
+            $result[] = $record;
+        }
+        $expose->set($class . '.' . $action . '.expose', $result);
         $expose->write($url);
     }
 }
