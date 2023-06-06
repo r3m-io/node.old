@@ -4,6 +4,7 @@ namespace R3m\Io\Node\Trait;
 
 use Exception;
 use R3m\Io\App;
+use R3m\Io\Config;
 use R3m\Io\Exception\FileWriteException;
 use R3m\Io\Exception\ObjectException;
 use R3m\Io\Module\Cli;
@@ -559,6 +560,9 @@ Trait Expose {
     public function expose_create_cli(): void
     {
         $object = $this->object();
+        if($object->config(Config::POSIX_ID) !== 0){
+            return;
+        }
         $class = Cli::read('input', 'Class: ');
         $url = $object->config('project.dir.data') .
             'Node' .
@@ -625,5 +629,11 @@ Trait Expose {
         }
         $expose->set($class . '.' . $action . '.expose', $result);
         $expose->write($url);
+        $command = 'chown www-data:www-data ' . $url;
+        exec($command);
+        if($object->config('framework.environment') === Config::MODE_DEVELOPMENT){
+            $command = 'chmod 666 ' . $url;
+            exec($command);
+        }
     }
 }
