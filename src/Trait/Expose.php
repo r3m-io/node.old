@@ -523,7 +523,7 @@ Trait Expose {
                 unset($object['objects']);
             }
             $result[$attribute] = $object;
-            $attribute = Cli::read('input', 'Object name (depth (' . $depth . ')): ');
+            $attribute = Cli::read('input', 'Object name (depth (' . --$depth . ')): ');
         }
         return $result;
     }
