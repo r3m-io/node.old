@@ -792,6 +792,7 @@ Trait BinarySearch {
                     $options['name'] ?? $record->{'#class'},
                     $options['name'] ?? $record->{'#class'} . '.' . $options['function'] . '.expose'
                 );
+                ddd($expose);
                 $record = $this->expose(
                     new Storage($record),
                     $expose,
