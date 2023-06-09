@@ -228,18 +228,18 @@ Trait Create {
             'Uuid' .
             $object->config('extension.json');
         $meta_url = $dir_meta . $name . $object->config('extension.json');
-        $validate = $this->validate($object, $validate_url,  $class . '.create');
+        $validate = $this->validate($object, $validate_url,  $name . '.create');
         $response = [];
         if($validate) {
             if($validate->success === true) {
                 $expose = $this->expose_get(
                     $object,
-                    $class,
-                    $class . '.' . __FUNCTION__ . '.expose'
+                    $name,
+                    $name . '.' . __FUNCTION__ . '.expose'
                 );
                 $node = new Storage();
                 $node->data($object->request('node'));
-                $node->set('#class', $class);
+                $node->set('#class', $name);
                 if(
                     $expose &&
                     $role
@@ -247,7 +247,7 @@ Trait Create {
                     $record = $this->expose(
                         $node,
                         $expose,
-                        $class,
+                        $name,
                         __FUNCTION__,
                         $role
                     );
@@ -296,10 +296,10 @@ Trait Create {
                             ], [
                                 'key_reset' => true,
                             ]);
-                            $binarySearch->delete($class);
-                            $binarySearch->data($class, $list);
+                            $binarySearch->delete($name);
+                            $binarySearch->data($name, $list);
                             $count = 0;
-                            foreach ($binarySearch->data($class) as $item) {
+                            foreach ($binarySearch->data($name) as $item) {
                                 $item->{'#index'} = $count;
                                 $count++;
                             }
@@ -345,7 +345,7 @@ Trait Create {
                         }
                         $response['node'] = Core::object($record->data(), Core::OBJECT_ARRAY);
                         Event::trigger($object, 'r3m.io.node.data.create', [
-                            'class' => $class,
+                            'class' => $name,
                             'options' => $options,
                             'url' => $url,
                             'binary_search_url' => $binary_search_url,
@@ -353,13 +353,13 @@ Trait Create {
                             'node' => $node->data(),
                         ]);
                     } else {
-                       throw new Exception('Make sure, you have the right permission (' . $class . '.' . __FUNCTION__ .')');
+                       throw new Exception('Make sure, you have the right permission (' . $name . '.' . __FUNCTION__ .')');
                     }
                 }
             } else {
                 $response['error'] = $validate->test;
                 Event::trigger($object, 'r3m.io.node.data.create.error', [
-                    'class' => $class,
+                    'class' => $name,
                     'options' => $options,
                     'url' => $url,
                     'binary_search_url' => $binary_search_url,
