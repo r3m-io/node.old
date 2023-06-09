@@ -23,7 +23,9 @@ Trait Put {
             return false;
         }
         unset($options['uuid']);
+        d($class);
         $name = Controller::name($class);
+        ddd($name);
         $object = $this->object();
         $dir_node = $object->config('project.dir.data') .
             'Node' .
