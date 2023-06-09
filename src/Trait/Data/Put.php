@@ -3,66 +3,144 @@
 namespace R3m\Io\Node\Trait\Data;
 
 use R3m\Io\Module\Controller;
+use R3m\Io\Module\Core;
 use R3m\Io\Module\Data as Storage;
+use R3m\Io\Module\Event;
 
 Trait Put {
-    public function put($class, $options=[]): false|array|object{
+    public function put($class, $role, $options=[]): false|array|object
+    {
+        d($class);
+        d($options);
+        ddd($role);
+        $uuid = $options['uuid'] ?? false;
+        if($uuid === false){
+            return false;
+        }
+        unset($options['uuid']);
         $name = Controller::name($class);
         $object = $this->object();
-        $node = new Storage( (object) $options);
         $dir_node = $object->config('project.dir.data') .
             'Node' .
             $object->config('ds')
         ;
-        $dir_class = $dir_node .
-            $name .
+        $dir_validate = $dir_node .
+            'Validate'.
             $object->config('ds')
         ;
-        $url = $dir_class . 'Data.json';
-        $data = $object->data_read($url);
-        if(!$data){
+        $validate_url =
+            $dir_validate .
+            $name .
+            $object->config('extension.json');
+        $node_options = [
+            'filter' => [
+                'uuid' => $uuid
+            ],
+            'sort' => [
+                'uuid' => 'ASC'
+            ],
+            'relation' => false,
+            'function' => __FUNCTION__
+        ];
+        $node = $this->record(
+            $name,
+            $role,
+            $node_options
+        );
+        if(!$node){
             return false;
         }
-        $list = $data->get($class);
-        if(empty($list)){
-            $list = [];
+        if(!array_key_exists('node', $node)){
+            return false;
         }
-        $uuid = $node->get('uuid');
-        $is_found = false;
-        $record = false;
-        foreach($list as $nr => $record){
-            if(
-                is_array($record) &&
-                array_key_exists('uuid', $record) &&
-                $record['uuid'] === $uuid
-            ){
-                $list[$nr] = [];
-                foreach($node->data() as $attribute => $value){
-                    $list[$nr][$attribute] = $value;
+        $node = new Storage($node['node']);
+        $patch = new Storage($options);
+        foreach($patch->data() as $attribute => $value){
+            if(is_array($value)){
+                $list = $node->get($attribute);
+                if(empty($list) || !is_array($list)){
+                    $list = [];
                 }
-                $record = $list[$nr];
-                $is_found = true;
-                break;
-            }
-            elseif(
-                is_object($record) &&
-                property_exists($record,'uuid') &&
-                $record->uuid === $uuid
-            ){
-                $list[$nr] = new stdClass();
-                foreach($node->data() as $attribute => $value){
-                    $list[$nr]->{$attribute} = $value;
+                elseif(is_array($list)) {
+                    foreach($list as $nr => $record){
+                        if(
+                            is_object($record) &&
+                            property_exists($record, 'uuid')
+                        ){
+                            $list[$nr] = $record->uuid;
+                        }
+                    }
                 }
-                $record = $list[$nr];
-                $is_found = true;
-                break;
+                foreach($value as $record){
+                    if(!in_array($record, $list, true)){
+                        $list[] = $record;
+                    }
+                }
+                $node->set($attribute, $list);
+            } else {
+                $node->set($attribute, $value);
             }
         }
-        if($is_found){
-            $data->set($class, $list);
-            $data->write($url);
-            return $record;
+        $object->request('node', $node->data());
+        $validate = $this->validate($object, $validate_url,  $class . '.patch');
+        $response = [];
+        if($validate){
+            if($validate->success === true){
+                $expose = $this->expose_get(
+                    $object,
+                    $class,
+                    $class . '.' . __FUNCTION__ . '.expose'
+                );
+                if(
+                    $expose &&
+                    $role
+                ){
+                    $record = $this->expose(
+                        new Storage($object->request('node')),
+                        $expose,
+                        $class,
+                        __FUNCTION__,
+                        $role
+                    );
+                    if(
+                        $record->has('uuid') &&
+                        !empty($record->get('uuid'))
+                    ){
+                        //save $record
+                        $url = $object->config('project.dir.data') .
+                            'Node' .
+                            $object->config('ds') .
+                            'Storage' .
+                            $object->config('ds') .
+                            substr($record->get('uuid'), 0, 2) .
+                            $object->config('ds') .
+                            $record->get('uuid') .
+                            $object->config('extension.json')
+                        ;
+                        $record->write($url);
+                        $response['node'] = Core::object($record->data(), Core::OBJECT_ARRAY);
+                        Event::trigger($object, 'r3m.io.node.data.patch', [
+                            'class' => $class,
+                            'options' => $options,
+                            'url' => $url,
+                            'node' => $record->data(),
+                        ]);
+                    } else {
+                        throw new Exception('Make sure, you have the right permission (' . $class . '.' . __FUNCTION__ . ')');
+                    }
+                }
+            } else {
+                $response['error'] = $validate->test;
+                Event::trigger($object, 'r3m.io.node.data.patch.error', [
+                    'class' => $class,
+                    'options' => $options,
+                    'node' => $object->request('node'),
+                    'error' => $validate->test,
+                ]);
+            }
+        } else {
+            throw new Exception('Cannot validate node at: ' . $validate_url);
         }
-        return false;
+        return $response;
     }
 }
