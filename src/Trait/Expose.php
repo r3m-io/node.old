@@ -23,6 +23,8 @@ Trait Expose {
      */
     public function expose($node, $expose=[], $class='', $function='', $internalRole=false, $parentRole=false): Storage
     {
+        d($node);
+        d($expose);
         $object = $this->object();
         if (!is_array($expose)) {
             return new Storage();
