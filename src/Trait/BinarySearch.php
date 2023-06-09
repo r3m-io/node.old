@@ -789,13 +789,13 @@ Trait BinarySearch {
                 $record = $this->relation($record, $object_data, $role, $options);
                 $expose = $this->expose_get(
                     $object,
-                    $record->{'#class'},
-                    $record->{'#class'} . '.' . $options['function'] . '.expose'
+                    $options['name'] ?? $record->{'#class'},
+                    $options['name'] ?? $record->{'#class'} . '.' . $options['function'] . '.expose'
                 );
                 $record = $this->expose(
                     new Storage($record),
                     $expose,
-                    $record->{'#class'},
+                    $options['name'] ?? $record->{'#class'},
                     $options['function'],
                     $role
                 );
