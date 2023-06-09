@@ -792,7 +792,6 @@ Trait BinarySearch {
                     $record->{'#class'},
                     $record->{'#class'} . '.' . $options['function'] . '.expose'
                 );
-                d($record);
                 $record = $this->expose(
                     new Storage($record),
                     $expose,
@@ -800,11 +799,9 @@ Trait BinarySearch {
                     $options['function'],
                     $role
                 );
-                d($record);
                 $record = $record->data();
                 //need object file, so need $class
                 //load relations so we can filter / where on them
-                d($record);
                 if(
                     !empty($record) &&
                     !empty($options['filter'])
@@ -817,7 +814,6 @@ Trait BinarySearch {
                 ){
                     $record = $this->where($record, $options['where'], $options);
                 }
-                d($record);
                 if($record){
                     $record->{'#index'} = $record_index;
                     $page[] = $record;
