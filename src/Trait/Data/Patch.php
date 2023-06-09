@@ -88,6 +88,7 @@ Trait Patch {
                 $node->set($attribute, $value);
             }
         }
+        $node->set('#class', $class);
         $object->request('node', $node->data());
         $validate = $this->validate($object, $validate_url,  $class . '.patch');
         $response = [];

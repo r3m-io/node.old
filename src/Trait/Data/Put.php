@@ -2,17 +2,22 @@
 
 namespace R3m\Io\Node\Trait\Data;
 
+use Exception;
+use R3m\Io\Exception\FileWriteException;
+use R3m\Io\Exception\ObjectException;
 use R3m\Io\Module\Controller;
 use R3m\Io\Module\Core;
 use R3m\Io\Module\Data as Storage;
 use R3m\Io\Module\Event;
 
 Trait Put {
+    /**
+     * @throws ObjectException
+     * @throws FileWriteException
+     * @throws Exception
+     */
     public function put($class, $role, $options=[]): false|array|object
     {
-        d($class);
-        d($options);
-        ddd($role);
         $uuid = $options['uuid'] ?? false;
         if($uuid === false){
             return false;
@@ -81,8 +86,9 @@ Trait Put {
                 $node->set($attribute, $value);
             }
         }
+        $node->set('#class', $class);
         $object->request('node', $node->data());
-        $validate = $this->validate($object, $validate_url,  $class . '.patch');
+        $validate = $this->validate($object, $validate_url,  $class . '.put');
         $response = [];
         if($validate){
             if($validate->success === true){
@@ -119,7 +125,7 @@ Trait Put {
                         ;
                         $record->write($url);
                         $response['node'] = Core::object($record->data(), Core::OBJECT_ARRAY);
-                        Event::trigger($object, 'r3m.io.node.data.patch', [
+                        Event::trigger($object, 'r3m.io.node.data.put', [
                             'class' => $class,
                             'options' => $options,
                             'url' => $url,
@@ -131,7 +137,7 @@ Trait Put {
                 }
             } else {
                 $response['error'] = $validate->test;
-                Event::trigger($object, 'r3m.io.node.data.patch.error', [
+                Event::trigger($object, 'r3m.io.node.data.put.error', [
                     'class' => $class,
                     'options' => $options,
                     'node' => $object->request('node'),
