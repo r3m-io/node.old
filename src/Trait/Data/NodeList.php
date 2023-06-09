@@ -237,6 +237,7 @@ Trait NodeList {
                     $key .
                     $object->config('extension.json')
                 ;
+                d($filter_url);
                 $filter_mtime = File::mtime($filter_url);
                 if(
                     File::exist($filter_url) &&
