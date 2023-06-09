@@ -237,7 +237,6 @@ Trait NodeList {
                     $key .
                     $object->config('extension.json')
                 ;
-                d($filter_url);
                 $filter_mtime = File::mtime($filter_url);
                 if(
                     File::exist($filter_url) &&
@@ -259,7 +258,8 @@ Trait NodeList {
                             'direction' => 'next',
                             'url' => $filter_url,
                             'function' => $options['function'],
-                            'relation' => $options['relation']
+                            'relation' => $options['relation'],
+                            'name' => $name
                         ]
                     );
                 } else {
@@ -286,7 +286,8 @@ Trait NodeList {
                                 'direction' => 'next',
                                 'url' => $url,
                                 'function' => $options['function'],
-                                'relation' => $options['relation']
+                                'relation' => $options['relation'],
+                                'name' => $name
                             ]
                         );
                     }
@@ -355,7 +356,8 @@ Trait NodeList {
                             'direction' => 'next',
                             'url' => $where_url,
                             'function' => $options['function'],
-                            'relation' => $options['relation']
+                            'relation' => $options['relation'],
+                            'name' => $name
                         ]
                     );
                 } else {
@@ -382,7 +384,8 @@ Trait NodeList {
                                 'direction' => 'next',
                                 'url' => $url,
                                 'function' => $options['function'],
-                                'relation' => $options['relation']
+                                'relation' => $options['relation'],
+                                'name' => $name
                             ]
                         );
                     }
@@ -444,7 +447,8 @@ Trait NodeList {
                             'direction' => 'next',
                             'url' => $url,
                             'function' => $options['function'],
-                            'relation' => $options['relation']
+                            'relation' => $options['relation'],
+                            'name' => $name
                         ]
                     );
                     $result = [];
