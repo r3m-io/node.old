@@ -802,6 +802,7 @@ Trait BinarySearch {
                 $record = $record->data();
                 //need object file, so need $class
                 //load relations so we can filter / where on them
+                d($record);
                 if(
                     !empty($record) &&
                     !empty($options['filter'])
