@@ -275,7 +275,8 @@ Trait Create {
                             if (!$binarySearch) {
                                 $binarySearch = new Storage();
                             }
-                            $list = $binarySearch->data($class);
+                            $list = $binarySearch->data($name);
+                            ddd($list);
                             if (empty($list)) {
                                 $list = [];
                             }
@@ -324,10 +325,10 @@ Trait Create {
                             $property = [];
                             $property[] = 'uuid';
                             $key = sha1(Core::object($key, Core::OBJECT_JSON));
-                            $meta->set('Sort.' . $class . '.' . $key . '.property', $property);
-                            $meta->set('Sort.' . $class . '.' . $key . '.lines', $lines);
-                            $meta->set('Sort.' . $class . '.' . $key . '.count', $count);
-                            $meta->set('Sort.' . $class . '.' . $key . '.url.asc', $binary_search_url);
+                            $meta->set('Sort.' . $name . '.' . $key . '.property', $property);
+                            $meta->set('Sort.' . $name . '.' . $key . '.lines', $lines);
+                            $meta->set('Sort.' . $name . '.' . $key . '.count', $count);
+                            $meta->set('Sort.' . $name . '.' . $key . '.url.asc', $binary_search_url);
                             $meta->write($meta_url);
                             $record->write($url);
                             if ($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
