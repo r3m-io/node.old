@@ -276,7 +276,6 @@ Trait Create {
                                 $binarySearch = new Storage();
                             }
                             $list = $binarySearch->data($name);
-                            ddd($list);
                             if (empty($list)) {
                                 $list = [];
                             }
