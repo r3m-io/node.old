@@ -87,6 +87,28 @@ Trait Import {
                         break;
                     }
                     //we can start import
+                    if($data){
+                        foreach($data->data() as $key => $record){
+                            $uuid = false;
+                            if(
+                                is_array($record) &&
+                                array_key_exists('uuid', $record)
+                            ){
+                                $uuid = $record['uuid'];
+                            }
+                            elseif(
+                                is_object($record) &&
+                                property_exists($record, 'uuid')
+                            ){
+                                $uuid = $record->uuid;
+                            }
+                            if($uuid){
+                                $node = $this->record($class, $role, ['uuid' => $uuid]);
+                                ddd($node);
+                            }
+                        }
+                    }
+
                     ddd($data);
                 }
             }
