@@ -63,36 +63,17 @@ Trait Truncate {
             $response = $this->list($name, $role, $list_options);
             $list = [];
             foreach ($response['list'] as $record) {
-                $list[] = $record;
-            }
-            foreach($list as $record){
                 if(
                     is_array($record) &&
                     array_key_exists('uuid', $record)
                 ){
-                    $delete = $this->delete(
-                        $name,
-                        $role,
-                        [
-                            'uuid' => $record['uuid']
-                        ]
-                    );
-                    d($record);
-                    ddd($delete);
+                    $list[] = $record['uuid'];
                 }
                 elseif(
                     is_object($record) &&
                     property_exists($record, 'uuid')
                 ){
-                    $delete = $this->delete(
-                        $name,
-                        $role,
-                        [
-                        'uuid' => $record->uuid
-                        ]
-                    );
-                    d($record);
-                    ddd($delete);
+                    $list[] = $record->uuid;
                 }
             }
             ddd($list);
