@@ -1165,7 +1165,7 @@ Trait BinarySearch {
                     $symbol_right = trim($explode[1], " \t\n\r\0\x0B,");
                 }
                 if($symbol === '{'){
-                    d($line);
+                    d($seek);
                     $depth = 0;
                     $direction = 'down';
                     $is_collect = true;
