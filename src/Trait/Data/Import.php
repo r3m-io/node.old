@@ -21,7 +21,8 @@ Trait Import {
      * @throws ObjectException
      * @throws FileWriteException
      */
-    public function import($class, $role, $options=[]){
+    public function import($class, $role, $options=[]): void
+    {
         if(!array_key_exists('url', $options)){
             return;
         }
@@ -30,8 +31,6 @@ Trait Import {
         }
         $object = $this->object();
         $app_options = App::options($object);
-ddd($app_options);
-
         $dir = new Dir();
         $read = $dir->read($options['url']);
         $select = [];
@@ -43,17 +42,26 @@ ddd($app_options);
                     property_exists($file, 'name') &&
                     property_exists($file, 'url')
                 ){
-                    echo '[' . $counter . '] ' . $file->name . PHP_EOL;
+                    if(!property_exists($app_options, 'number')){
+                        echo '[' . $counter . '] ' . $file->name . PHP_EOL;
+                    }
                     $select[$counter] = $file->url;
                     $counter++;
                 }
             }
-            $number = (int) Cli::read('input', 'Please give the number which you want to import: ');
-            while(
+            if(property_exists($app_options, 'number')){
+                $number = $app_options->number;
+                if(!array_key_exists($number, $select)){
+                    return;
+                }
+            } else {
+                $number = (int)Cli::read('input', 'Please give the number which you want to import: ');
+                while(
                 !array_key_exists($number, $select)
-            ){
-                echo 'Invalid input please select a number from the list.' . PHP_EOL;
-                $number = (int) Cli::read('input', 'Please give the number which you want to import: ');
+                ){
+                    echo 'Invalid input please select a number from the list.' . PHP_EOL;
+                    $number = (int) Cli::read('input', 'Please give the number which you want to import: ');
+                }
             }
             $read = $dir->read($select[$number], true);
             if($read){
