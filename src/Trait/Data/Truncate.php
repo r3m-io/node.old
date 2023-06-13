@@ -16,7 +16,8 @@ Trait Truncate {
      * @throws ObjectException
      * @throws FileWriteException
      */
-    public function truncate($class, $role, $options=[]){
+    public function truncate($class, $role, $options=[]): void
+    {
         d($class);
         d($role);
         ddd($options);
