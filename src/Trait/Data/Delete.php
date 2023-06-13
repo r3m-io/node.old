@@ -24,7 +24,7 @@ Trait Delete {
         if(!$data){
             return false;
         }
-        $list = $data->get($class);
+        $list = $data->get($name);
         if(empty($list)){
             $list = [];
         }
