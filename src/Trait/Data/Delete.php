@@ -219,7 +219,7 @@ Trait Delete {
                 $uuid .
                 $object->config('extension.json')
             ;
-            $result[] = File::delete($url_node);
+            $result[$uuid] = File::delete($url_node);
         }
         return $result;
     }
