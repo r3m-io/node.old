@@ -85,12 +85,13 @@ Trait Delete {
             }
         }
         $index = 0;
+        $result = [];
         foreach($list as $record){
             $record->{'#index'} = $index;
-            $list[$index] = $record;
+            $result[$index] = $record;
             $index++;
         }
-        $data->set($name, $list);
+        $data->set($name, $result);
         $data->write($url_property);
         $meta->set('Sort.' . $name . '.' . $sort_key . '.' . 'count', --$count);
         $meta->write($meta_url);
