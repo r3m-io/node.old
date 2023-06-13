@@ -35,7 +35,10 @@ Trait Import {
             $read = Sort::list($read)->with(['url'=> 'desc']);
             $counter = 1;
             foreach($read as $file){
-                if(property_exists($file, 'name')){
+                if(
+                    property_exists($file, 'name') &&
+                    property_exists($file, 'url')
+                ){
                     echo '[' . $counter . '] ' . $file->name . PHP_EOL;
                     $select[$counter] = $file->url;
                     $counter++;
