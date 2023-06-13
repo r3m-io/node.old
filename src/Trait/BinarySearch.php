@@ -1183,11 +1183,13 @@ Trait BinarySearch {
                             return false;
                         }
                         if ($options['index'] === $index) {
-                            $node = $this->binary_search_node($data, [
-                                'seek' => $seek,
-                                ...$options
-                            ]);
-                            return $node;
+                            return $this->binary_search_node(
+                                $data,
+                                [
+                                    'seek' => $seek,
+                                    ...$options
+                                ]
+                            );
                         }
                         elseif(
                             $options['index'] < $index
