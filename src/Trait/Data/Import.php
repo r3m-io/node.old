@@ -21,13 +21,13 @@ Trait Import {
      * @throws ObjectException
      * @throws FileWriteException
      */
-    public function import($class, $role, $options=[]): void
+    public function import($class, $role, $options=[]): array
     {
         if(!array_key_exists('url', $options)){
-            return;
+            return [];
         }
         if(!File::exist($options['url'])){
-            return;
+            return [];
         }
         $options['function'] = __FUNCTION__;
         $object = $this->object();
@@ -35,6 +35,7 @@ Trait Import {
         $dir = new Dir();
         $read = $dir->read($options['url']);
         $select = [];
+        $result = [];
         if($read){
             $read = Sort::list($read)->with(['url'=> 'desc']);
             $counter = 1;
@@ -53,7 +54,7 @@ Trait Import {
             if(property_exists($app_options, 'number')){
                 $number = $app_options->number;
                 if(!array_key_exists($number, $select)){
-                    return;
+                    return [];
                 }
             } else {
                 $number = (int) Cli::read('input', 'Please give the number which you want to import: ');
@@ -87,8 +88,6 @@ Trait Import {
                             $data = $object->data_read($file->url);
                         break;
                     }
-                    //we can start import
-                    $result = [];
                     if($data){
                         foreach($data->data($class) as $key => $record){
                             $uuid = false;
@@ -104,11 +103,9 @@ Trait Import {
                             ){
                                 $uuid = $record->uuid;
                             }
-                            d($uuid);
                             if($uuid){
                                 $response = $this->read($class, $role, ['uuid' => $uuid]);
                                 if(!$response){
-                                    //create
                                     $create = $this->create($class, $role, $record, $options);
                                     if(array_key_exists('error', $create)){
                                         $result[$uuid] = $create['error'];
@@ -117,35 +114,18 @@ Trait Import {
                                     }
                                 } else {
                                     $put = $this->put($class, $role, (array) $record);
-                                    ddd($put);
-                                    //put
+                                    if(array_key_exists('error', $put)){
+                                        $result[$uuid] = $put['error'];
+                                    } else {
+                                        $result[$uuid] = true;
+                                    }
                                 }
                             }
                         }
                     }
-
-                    ddd($result);
                 }
             }
         }
-
-//        $data = new Storage($read);
-
-
-
-
-
-
-
-        ddd($read);
-
-
-
-        $data = $object->data_read($options['url']);
-
-        if($data){
-            $create_many = $this->create_many($class, $data);
-            ddd($create_many);
-        }
+        return $result;
     }
 }
