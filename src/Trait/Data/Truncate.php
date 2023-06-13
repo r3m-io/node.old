@@ -62,7 +62,6 @@ Trait Truncate {
             $list_options['page'] = $page;
             $response = $this->list($name, $role, $list_options);
             $list = [];
-            ddd($response);
             foreach ($response['list'] as $record) {
                 if(
                     is_array($record) &&
