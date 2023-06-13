@@ -38,6 +38,7 @@ Trait Data {
     use Data\Read;
     use Data\Record;
     use Data\Sync;
+    use Data\Truncate;
 
     public function file_create_many($options=[]){
         $directory = false;

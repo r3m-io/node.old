@@ -16,8 +16,9 @@ Trait Truncate {
      * @throws ObjectException
      * @throws FileWriteException
      */
-    public function truncate($class, $options=[]){
+    public function truncate($class, $role, $options=[]){
         d($class);
+        d($role);
         ddd($options);
         if(!array_key_exists('url', $options)){
             return;
