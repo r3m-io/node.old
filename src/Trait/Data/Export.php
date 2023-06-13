@@ -67,14 +67,15 @@ Trait Export {
         $page_max = ceil($count / $list_options['limit']);
         for($page=1; $page <= $page_max; $page++){
             $list_options['page'] = $page;
-            $list = $this->list($class, $role, $list_options);
-            $data = [];
-            ddd($list);
-            foreach($list as $object){
-                $data[] = $object->data();
+            $response = $this->list($class, $role, $list_options);
+            $data = new Storage();
+            $list = [];
+            foreach($response['list'] as $record){
+                $list[] = $record;
             }
+            $data->set($name, $list);
             $url = $dir_name . $file_name . '.' . $page . $object->config('extension.json');
-            $object->data_write($url, $data);
+            $data->write($url);
         }
     }
 }
