@@ -45,15 +45,10 @@ Trait Import {
                 }
             }
             $number = (int) Cli::read('input', 'Please give the number which you want to import: ');
-            d($number);
-            ddd($select);
             while(
-                in_array(
-                    $number,
-                    $select,
-                    true
-                ) === false
+                !array_key_exists($number, $select)
             ){
+                echo 'Invalid input please select a number from the list.' . PHP_EOL;
                 $number = (int) Cli::read('input', 'Please give the number which you want to import: ');
             }
             $read = $dir->read($select[$number], true);
