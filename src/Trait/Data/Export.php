@@ -92,6 +92,8 @@ Trait Export {
         $dir_backup = Dir::name($dir_package);
         $dir_mount = Dir::name($dir_backup);
         if($object->config(Config::POSIX_ID) === 0){
+            $command = 'chown www-data:www-data ' . $dir_name;
+            exec($command);
             $command = 'chown www-data:www-data ' . $dir_class;
             exec($command);
             $command = 'chown www-data:www-data ' . $dir_node;
@@ -102,6 +104,8 @@ Trait Export {
             exec($command);
         }
         if($object->config('framework.environment') === Config::MODE_DEVELOPMENT){
+            $command = 'chmod 777 ' . $dir_name;
+            exec($command);
             $command = 'chmod 777 ' . $dir_class;
             exec($command);
             $command = 'chmod 777 ' . $dir_node;
