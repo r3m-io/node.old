@@ -65,7 +65,6 @@ Trait Truncate {
             foreach ($response['list'] as $record) {
                 $list[] = $record;
             }
-            ddd($response);
             foreach($list as $record){
                 if(
                     is_array($record) &&
