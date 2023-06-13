@@ -217,7 +217,7 @@ Trait NodeList {
                 return false;
             }
             d($meta);
-            ddd($options);
+            d($options);
             if(!empty($options['filter'])){
                 $key = [
                     'filter' => $options['filter'],
