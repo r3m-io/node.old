@@ -47,19 +47,18 @@ Trait Put {
             'relation' => false,
             'function' => __FUNCTION__
         ];
-        $node = $this->record(
+        $response = $this->record(
             $name,
             $role,
             $node_options
         );
-        d($node);
-        if(!$node){
+        if(!$response){
             return false;
         }
-        if(!array_key_exists('node', $node)){
+        if(!array_key_exists('node', $response)){
             return false;
         }
-        $node = new Storage($node['node']);
+        $node = new Storage($response['node']);
         $patch = new Storage($options);
         foreach($patch->data() as $attribute => $value){
             if(is_array($value)){

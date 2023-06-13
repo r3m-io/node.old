@@ -106,8 +106,8 @@ Trait Import {
                             }
                             d($uuid);
                             if($uuid){
-                                $node = $this->read($class, $role, ['uuid' => $uuid]);
-                                if(!$node){
+                                $response = $this->read($class, $role, ['uuid' => $uuid]);
+                                if(!$response){
                                     //create
                                     $create = $this->create($class, $role, $record, $options);
                                     if(array_key_exists('error', $create)){
@@ -116,7 +116,8 @@ Trait Import {
                                         $result[$uuid] = true;
                                     }
                                 } else {
-                                    ddd($node);
+                                    $put = $this->put($class, $role, (array) $record);
+                                    ddd($put);
                                     //put
                                 }
                             }
