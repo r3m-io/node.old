@@ -75,29 +75,30 @@ Trait Export {
                 $list[] = $record;
             }
             $data->set($name, $list);
-            if(array_key_exists('compression', $options)){
-                switch(strtolower($options['compression'])){
+            $url = false;
+            if(
+                array_key_exists('compression', $options) &&
+                array_key_exists('algorithm', $options['compression']) &&
+                array_key_exists('level', $options['compression'])
+            ){
+                switch(strtolower($options['compression']['algorithm'])){
                     case 'gz':
-                        $start = microtime(true);
                         $url = $dir_name . $file_name . '.' . $page . $object->config('extension.json') . $object->config('extension.gz');
                         $data = Core::object($data->data(), Core::OBJECT_JSON);
-                        $gz = gzencode($data, 9);
+                        $gz = gzencode($data, $options['compression']['level']);
                         Dir::create($dir_name);
                         File::write($url, $gz);
-                        $duration = microtime(true) - $start;
-                        dd($duration);
                     break;
                 }
             } else {
                 $url = $dir_name . $file_name . '.' . $page . $object->config('extension.json');
                 $data->write($url);
             }
-
-            if($object->config(Config::POSIX_ID) === 0){
+            if($object->config(Config::POSIX_ID) === 0 && $url){
                 $command = 'chown www-data:www-data ' . $url;
                 exec($command);
             }
-            if($object->config('framework.environment') === Config::MODE_DEVELOPMENT){
+            if($object->config('framework.environment') === Config::MODE_DEVELOPMENT && $url){
                 $command = 'chmod 666 ' . $url;
                 exec($command);
             }
