@@ -4,6 +4,7 @@ namespace R3m\Io\Node\Trait\Data;
 
 use R3m\Io\Module\Cli;
 use R3m\Io\Module\Controller;
+use R3m\Io\Module\Core;
 use R3m\Io\Module\Data as Storage;
 use R3m\Io\Module\Dir;
 use R3m\Io\Module\File;
@@ -52,7 +53,27 @@ Trait Import {
                 $number = (int) Cli::read('input', 'Please give the number which you want to import: ');
             }
             $read = $dir->read($select[$number], true);
-            ddd($read);
+            if($read){
+                $read = Sort::list($read)->with(['url'=> 'asc']); //start with page 1
+                foreach($read as $file){
+                    $file->extension = File::extension($file->name);
+                    $data = false;
+                    switch($file->extension){
+                        case 'gz' :
+                            $data = gzdecode(File::read($file->url));
+                            if($data){
+                                $data = Core::object($data, Core::OBJECT_OBJECT);
+                            }
+                        break;
+                        case 'json' :
+                            $data = $object->data_read($file->url);
+                        break;
+                    }
+                    ddd($data);
+                }
+                ddd($read);
+            }
+
         }
 
 //        $data = new Storage($read);
