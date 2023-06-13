@@ -43,11 +43,11 @@ Trait Import {
             }
             $number = (int) Cli::read('input', 'Please give the number which you want to import: ');
             while(
-                !in_array(
+                in_array(
                     $number,
                     $select,
                     true
-                )
+                ) === false
             ){
                 $number = (int) Cli::read('input', 'Please give the number which you want to import: ');
             }
