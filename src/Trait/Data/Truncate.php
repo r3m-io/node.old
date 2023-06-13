@@ -59,6 +59,8 @@ Trait Truncate {
         $url_property = $meta->get('Sort.' . $name . '.' . $sort_key . '.' . $url_key);
         $page_max = ceil($count / $list_options['limit']);
 
+        $data = $object->data_read($url_property);
+        d($data);
         d($count);
         d($page_max);
         ddd($url_property);
