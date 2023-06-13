@@ -61,10 +61,35 @@ Trait Truncate {
         for($page=1; $page <= $page_max; $page++) {
             $list_options['page'] = $page;
             $response = $this->list($name, $role, $list_options);
-            $data = new Storage();
             $list = [];
             foreach ($response['list'] as $record) {
                 $list[] = $record;
+            }
+            foreach($list as $record){
+                if(
+                    is_array($record) &&
+                    array_key_exists('uuid', $record)
+                ){
+                    $this->delete(
+                        $name,
+                        $role,
+                        [
+                            'uuid' => $record['uuid']
+                        ]
+                    );
+                }
+                elseif(
+                    is_object($record) &&
+                    property_exists($record, 'uuid')
+                ){
+                    $this->delete(
+                        $name,
+                        $role,
+                        [
+                        'uuid' => $record->uuid
+                        ]
+                    );
+                }
             }
             ddd($list);
         }

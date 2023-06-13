@@ -4,9 +4,10 @@ namespace R3m\Io\Node\Trait\Data;
 
 use R3m\Io\Module\Controller;
 use R3m\Io\Module\Data as Storage;
+use R3m\Io\Module\File;
 
 Trait Delete {
-    public function delete($class, $options=[]): bool
+    public function delete($class, $role, $options=[]): bool
     {
         $name = Controller::name($class);
         $object = $this->object();
@@ -29,6 +30,9 @@ Trait Delete {
             $list = [];
         }
         $uuid = $node->get('uuid');
+
+        ddd($role);
+
         foreach($list as $nr => $record){
             if(
                 is_array($record) &&
@@ -53,6 +57,15 @@ Trait Delete {
         }
         $data->set($class, $result);
         $data->write($url);
+        $url_node = $dir_node .
+            'Storage' .
+            $object->config('ds') .
+            substr($uuid, 0, 2) .
+            $object->config('ds') .
+            $uuid .
+            $object->config('extension.json')
+        ;
+        File::delete($url_node);
         return true;
     }
 }
