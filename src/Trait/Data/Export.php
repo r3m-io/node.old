@@ -23,6 +23,25 @@ Trait Export {
         if(File::exist($options['url'])){
             return;
         }
+        $name = Controller::name($class);
+        $object = $this->object();
+        $meta_url = $object->config('project.dir.data') .
+            'Node' .
+            $object->config('ds') .
+            'Meta' .
+            $object->config('ds') .
+            $name .
+            $object->config('extension.json')
+        ;
+        $meta = $object->data_read($meta_url);
+        ddd($meta);
+
+
+        $list_options = [];
+
+        $list = $this->list($class, $role, $list_options);
+
+
         d($class);
         d($role);
         ddd($options);
