@@ -173,7 +173,6 @@ Trait NodeList {
             }
         }
         $this->binary_search_list_create($class, $options);
-        ddd('hree');
         if(!array_key_exists('where', $options)){
             $options['where'] = [];
         }
@@ -217,6 +216,8 @@ Trait NodeList {
             if(!$meta){
                 return false;
             }
+            d($meta);
+            ddd($options);
             if(!empty($options['filter'])){
                 $key = [
                     'filter' => $options['filter'],
