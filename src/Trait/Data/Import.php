@@ -88,7 +88,7 @@ Trait Import {
                     }
                     //we can start import
                     if($data){
-                        foreach($data->data() as $key => $record){
+                        foreach($data->data($class) as $key => $record){
                             $uuid = false;
                             if(
                                 is_array($record) &&
@@ -102,6 +102,7 @@ Trait Import {
                             ){
                                 $uuid = $record->uuid;
                             }
+                            d($uuid);
                             if($uuid){
                                 $node = $this->record($class, $role, ['uuid' => $uuid]);
                                 ddd($node);
