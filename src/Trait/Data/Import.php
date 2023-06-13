@@ -2,6 +2,7 @@
 
 namespace R3m\Io\Node\Trait\Data;
 
+use R3m\Io\Module\Cli;
 use R3m\Io\Module\Controller;
 use R3m\Io\Module\Data as Storage;
 use R3m\Io\Module\Dir;
@@ -29,10 +30,21 @@ Trait Import {
 
         $dir = new Dir();
         $read = $dir->read($options['url']);
+        if($read){
+            $read = Sort::list($read)->with(['url'=> 'desc']);
+            $counter = 1;
+            foreach($read as $file){
+                echo '[' . $counter . '] ' . $file->name() . PHP_EOL;
+                $counter++;
+            }
+            $number = (int) Cli::read('input', 'Please give the number which you want to import: ');
+            ddd($number);
+        }
 
 //        $data = new Storage($read);
 
-        $read = Sort::list($read)->with(['url'=> 'desc']);
+
+
 
 
 
