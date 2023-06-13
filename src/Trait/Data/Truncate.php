@@ -58,11 +58,11 @@ Trait Truncate {
         $count = $meta->get('Sort.' . $name . '.' . $sort_key . '.' . 'count');
 //        $url_property = $meta->get('Sort.' . $name . '.' . $sort_key . '.' . $url_key);
         $page_max = ceil($count / $list_options['limit']);
-        ddd($page_max);
         for($page=1; $page <= $page_max; $page++) {
             $list_options['page'] = $page;
             $response = $this->list($name, $role, $list_options);
             $list = [];
+            ddd($response);
             foreach ($response['list'] as $record) {
                 if(
                     is_array($record) &&
