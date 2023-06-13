@@ -104,7 +104,7 @@ Trait Import {
                             }
                             d($uuid);
                             if($uuid){
-                                $node = $this->record($class, $role, ['uuid' => $uuid]);
+                                $node = $this->read($class, $role, ['uuid' => $uuid]);
                                 ddd($node);
                             }
                         }
