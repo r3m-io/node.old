@@ -55,8 +55,8 @@ Trait Truncate {
             'property' => $properties,
         ];
         $sort_key = sha1(Core::object($sort_key, Core::OBJECT_JSON));
-        $count = $meta->get('Sort.' . $class . '.' . $sort_key . '.' . 'count');
-        $url_property = $meta->get('Sort.' . $class . '.' . $sort_key . '.' . $url_key);
+        $count = $meta->get('Sort.' . $name . '.' . $sort_key . '.' . 'count');
+        $url_property = $meta->get('Sort.' . $name . '.' . $sort_key . '.' . $url_key);
         $page_max = ceil($count / $list_options['limit']);
 
         d($count);

@@ -64,11 +64,11 @@ Trait Export {
             'property' => $properties,
         ];
         $sort_key = sha1(Core::object($sort_key, Core::OBJECT_JSON));
-        $count = $meta->get('Sort.' . $class . '.' . $sort_key . '.' . 'count');
+        $count = $meta->get('Sort.' . $name . '.' . $sort_key . '.' . 'count');
         $page_max = ceil($count / $list_options['limit']);
         for($page=1; $page <= $page_max; $page++){
             $list_options['page'] = $page;
-            $response = $this->list($class, $role, $list_options);
+            $response = $this->list($name, $role, $list_options);
             $data = new Storage();
             $list = [];
             foreach($response['list'] as $record){
