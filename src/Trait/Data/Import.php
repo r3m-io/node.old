@@ -45,6 +45,8 @@ Trait Import {
                 }
             }
             $number = (int) Cli::read('input', 'Please give the number which you want to import: ');
+            d($number);
+            ddd($select);
             while(
                 in_array(
                     $number,
