@@ -75,8 +75,23 @@ Trait Export {
                 $list[] = $record;
             }
             $data->set($name, $list);
-            $url = $dir_name . $file_name . '.' . $page . $object->config('extension.json');
-            $data->write($url);
+            if(array_key_exists('compression', $options)){
+                switch(strtolower($options['compression'])){
+                    case 'gz':
+                        $url = $dir_name . $file_name . '.' . $page . $object->config('extension.json') . $object->config('extension.gz');
+                        $data = Core::object($data->data(), Core::OBJECT_JSON);
+                        $gz = gzencode($data, 9);
+                        d(strlen($gz));
+                        ddd($gz);
+
+
+                    break;
+                }
+            } else {
+                $url = $dir_name . $file_name . '.' . $page . $object->config('extension.json');
+                $data->write($url);
+            }
+
             if($object->config(Config::POSIX_ID) === 0){
                 $command = 'chown www-data:www-data ' . $url;
                 exec($command);

@@ -5,7 +5,8 @@
     "keywords" : ["node", "r3m", "library", "framework"],
     "homepage": "https://r3m.io",
     "require" : {
-        "ext-posix": "*"
+        "ext-posix": "*",
+        "ext-zlib": "*"
     },
     "license" : "MIT",
     "authors" : [{
