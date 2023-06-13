@@ -16,7 +16,7 @@ Trait Import {
      * @throws ObjectException
      * @throws FileWriteException
      */
-    public function import($class, $options=[]){
+    public function import($class, $role, $options=[]){
         d($class);
         ddd($options);
         if(!array_key_exists('url', $options)){
