@@ -87,6 +87,7 @@ Trait Import {
                         break;
                     }
                     //we can start import
+                    $result = [];
                     if($data){
                         foreach($data->data($class) as $key => $record){
                             $uuid = false;
@@ -108,8 +109,13 @@ Trait Import {
                                 if(!$node){
                                     //create
                                     $create = $this->create($class, $role, $record, $options);
-                                    ddd($create);
+                                    if(array_key_exists('error', $create)){
+                                        $result[$uuid] = $create['error'];
+                                    } else {
+                                        $result[$uuid] = true;
+                                    }
                                 } else {
+                                    ddd($node);
                                     //put
                                 }
                                 ddd($node);
