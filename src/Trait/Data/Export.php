@@ -2,6 +2,7 @@
 
 namespace R3m\Io\Node\Trait\Data;
 
+use R3m\Io\Config;
 use R3m\Io\Module\Core;
 use R3m\Io\Module\Dir;
 use R3m\Io\Module\File;
@@ -76,6 +77,39 @@ Trait Export {
             $data->set($name, $list);
             $url = $dir_name . $file_name . '.' . $page . $object->config('extension.json');
             $data->write($url);
+            if($object->config(Config::POSIX_ID) === 0){
+                $command = 'chown www-data:www-data ' . $url;
+                exec($command);
+            }
+            if($object->config('framework.environment') === Config::MODE_DEVELOPMENT){
+                $command = 'chmod 666 ' . $url;
+                exec($command);
+            }
+        }
+        $dir_class = Dir::name($dir_name);
+        $dir_node = Dir::name($dir_class);
+        $dir_package = Dir::name($dir_node);
+        $dir_backup = Dir::name($dir_package);
+        $dir_mount = Dir::name($dir_backup);
+        if($object->config(Config::POSIX_ID) === 0){
+            $command = 'chown www-data:www-data ' . $dir_class;
+            exec($command);
+            $command = 'chown www-data:www-data ' . $dir_node;
+            exec($command);
+            $command = 'chown www-data:www-data ' . $dir_package;
+            exec($command);
+            $command = 'chown www-data:www-data ' . $dir_mount;
+            exec($command);
+        }
+        if($object->config('framework.environment') === Config::MODE_DEVELOPMENT){
+            $command = 'chmod 777 ' . $dir_class;
+            exec($command);
+            $command = 'chmod 777 ' . $dir_node;
+            exec($command);
+            $command = 'chmod 777 ' . $dir_package;
+            exec($command);
+            $command = 'chmod 777 ' . $dir_mount;
+            exec($command);
         }
     }
 }
