@@ -76,7 +76,11 @@ Trait Truncate {
                     $list[] = $record->uuid;
                 }
             }
-            ddd($list);
+            $result = $this->delete_many($name, $role, [
+                'uuid' => $list
+            ]);
+
+            ddd($result);
         }
     }
 }
