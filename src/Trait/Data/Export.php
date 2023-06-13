@@ -81,9 +81,9 @@ Trait Export {
                         $url = $dir_name . $file_name . '.' . $page . $object->config('extension.json') . $object->config('extension.gz');
                         $data = Core::object($data->data(), Core::OBJECT_JSON);
                         $gz = gzencode($data, 9);
-                        d(strlen($gz));
-                        var_dump($gz);
-die;
+                        File::write($url, $gz);
+                        $data = gzdecode($gz);
+                        ddd($data);
 
                     break;
                 }
