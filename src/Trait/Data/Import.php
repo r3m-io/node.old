@@ -55,7 +55,7 @@ Trait Import {
                     return;
                 }
             } else {
-                $number = (int)Cli::read('input', 'Please give the number which you want to import: ');
+                $number = (int) Cli::read('input', 'Please give the number which you want to import: ');
                 while(
                 !array_key_exists($number, $select)
                 ){

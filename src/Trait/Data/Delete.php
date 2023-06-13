@@ -2,21 +2,26 @@
 
 namespace R3m\Io\Node\Trait\Data;
 
+use R3m\Io\Exception\ObjectException;
 use R3m\Io\Module\Controller;
 use R3m\Io\Module\Core;
 use R3m\Io\Module\Data as Storage;
 use R3m\Io\Module\File;
 
 Trait Delete {
+    /**
+     * @throws ObjectException
+     */
     public function delete($class, $role, $options=[]): bool
     {
         $name = Controller::name($class);
         $object = $this->object();
         $node = new Storage( (object) $options);
-
-        $meta_url = $object->config('project.dir.data') .
+        $dir_node = $object->config('project.dir.data') .
             'Node' .
-            $object->config('ds') .
+            $object->config('ds')
+        ;
+        $meta_url = $dir_node .
             'Meta' .
             $object->config('ds') .
             $name .
@@ -57,21 +62,10 @@ Trait Delete {
             return false;
         }
         $list = $data->get($name);
-        ddd($list);
-
-        d($count);
-        ddd($url_property);
-        return true;
-        /*
-
-        $list = $data->get($name);
         if(empty($list)){
-            $list = [];
+            return false;
         }
         $uuid = $node->get('uuid');
-
-        ddd($role);
-
         foreach($list as $nr => $record){
             if(
                 is_array($record) &&
@@ -90,12 +84,16 @@ Trait Delete {
                 break;
             }
         }
-        $result = [];
+        $index = 0;
         foreach($list as $record){
-            $result[] = $record;
+            $record->{'#index'} = $index;
+            $list[$index] = $record;
+            $index++;
         }
-        $data->set($class, $result);
-        $data->write($url);
+        $data->set($name, $list);
+        $data->write($url_property);
+        $meta->set('Sort.' . $name . '.' . $sort_key . '.' . 'count', --$count);
+        $meta->write($meta_url);
         $url_node = $dir_node .
             'Storage' .
             $object->config('ds') .
@@ -106,6 +104,5 @@ Trait Delete {
         ;
         File::delete($url_node);
         return true;
-        */
     }
 }
