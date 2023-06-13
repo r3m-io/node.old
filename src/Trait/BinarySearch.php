@@ -1054,7 +1054,6 @@ Trait BinarySearch {
             $data[$nr] = ltrim($line);
         }
         $data = implode('', $data);
-        d($data);
         $record  = Core::object($data, Core::OBJECT_OBJECT);
         if(!is_object($record)){
             return false;
