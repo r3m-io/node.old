@@ -181,7 +181,25 @@ Trait Create {
             $name .
             $object->config('ds')
         ;
-        $uuid = Core::uuid();
+        if(
+            array_key_exists('function', $options) &&
+            $options['function'] === 'import'
+        ){
+            if(
+                is_array($node) &&
+                array_key_exists('uuid', $node)
+            ){
+                $uuid = $node['uuid'];
+            }
+            if(
+                is_object($node) &&
+                property_exists($node, 'uuid')
+            ){
+                $uuid = $node->uuid;
+            }
+        } else {
+            $uuid = Core::uuid();
+        }
         $dir_data = $dir_node .
             'Storage' .
             $object->config('ds')

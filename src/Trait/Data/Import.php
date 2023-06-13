@@ -29,6 +29,7 @@ Trait Import {
         if(!File::exist($options['url'])){
             return;
         }
+        $options['function'] = __FUNCTION__;
         $object = $this->object();
         $app_options = App::options($object);
         $dir = new Dir();
