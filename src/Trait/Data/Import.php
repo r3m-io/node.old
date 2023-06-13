@@ -118,12 +118,11 @@ Trait Import {
                                     ddd($node);
                                     //put
                                 }
-                                ddd($node);
                             }
                         }
                     }
 
-                    ddd($data);
+                    ddd($result);
                 }
             }
         }
