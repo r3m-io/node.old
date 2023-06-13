@@ -43,7 +43,7 @@ Trait Export {
 
         $properties = [];
         $url_key = 'url.';
-        if(!array_key_exists('sort', $options)){
+        if(!array_key_exists('sort', $list_options)){
             $debug = debug_backtrace(true);
             ddd($debug[0]['file'] . ' ' . $debug[0]['line']);
         }
