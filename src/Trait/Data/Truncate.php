@@ -17,7 +17,7 @@ Trait Truncate {
      * @throws ObjectException
      * @throws FileWriteException
      */
-    public function truncate($class, $role, $options=[]): void
+    public function truncate($class, $role, $options=[]): array
     {
         $name = Controller::name($class);
         $object = $this->object();
@@ -58,6 +58,7 @@ Trait Truncate {
         $count = $meta->get('Sort.' . $name . '.' . $sort_key . '.' . 'count');
 //        $url_property = $meta->get('Sort.' . $name . '.' . $sort_key . '.' . $url_key);
         $page_max = ceil($count / $list_options['limit']);
+        $result = [];
         for($page=1; $page <= $page_max; $page++) {
             $list_options['page'] = $page;
             $response = $this->list($name, $role, $list_options);
@@ -76,11 +77,14 @@ Trait Truncate {
                     $list[] = $record->uuid;
                 }
             }
-            $result = $this->delete_many($name, $role, [
+            $delete_many = $this->delete_many($name, $role, [
                 'uuid' => $list
             ]);
-
-            ddd($result);
+            foreach($delete_many as $uuid => $delete){
+                $result[] = $uuid;
+            }
         }
+        return $result;
     }
+
 }
