@@ -61,7 +61,7 @@ Trait Delete {
         if(!$data){
             return false;
         }
-        $list = $data->get($name);
+        $list = (array) $data->get($name);
         if(empty($list)){
             return false;
         }
