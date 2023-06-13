@@ -30,17 +30,29 @@ Trait Import {
 
         $dir = new Dir();
         $read = $dir->read($options['url']);
+        $select = [];
         if($read){
             $read = Sort::list($read)->with(['url'=> 'desc']);
             $counter = 1;
             foreach($read as $file){
                 if(property_exists($file, 'name')){
                     echo '[' . $counter . '] ' . $file->name . PHP_EOL;
+                    $select[$counter] = $file->url;
                     $counter++;
                 }
             }
             $number = (int) Cli::read('input', 'Please give the number which you want to import: ');
-            ddd($number);
+            while(
+                !in_array(
+                    $number,
+                    $select,
+                    true
+                )
+            ){
+                $number = (int) Cli::read('input', 'Please give the number which you want to import: ');
+            }
+            $read = $dir->read($select[$number], true);
+            ddd($read);
         }
 
 //        $data = new Storage($read);
