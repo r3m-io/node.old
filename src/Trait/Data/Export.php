@@ -78,13 +78,14 @@ Trait Export {
             if(array_key_exists('compression', $options)){
                 switch(strtolower($options['compression'])){
                     case 'gz':
+                        $start = microtime(true);
                         $url = $dir_name . $file_name . '.' . $page . $object->config('extension.json') . $object->config('extension.gz');
                         $data = Core::object($data->data(), Core::OBJECT_JSON);
                         $gz = gzencode($data, 9);
                         Dir::create($dir_name);
                         File::write($url, $gz);
-                        $data = gzdecode($gz);
-                        ddd($data);
+                        $duration = microtime(true) - $start;
+                        dd($duration);
                     break;
                 }
             } else {
