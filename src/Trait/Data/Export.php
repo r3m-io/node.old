@@ -3,6 +3,7 @@
 namespace R3m\Io\Node\Trait\Data;
 
 use R3m\Io\Module\Core;
+use R3m\Io\Module\Dir;
 use R3m\Io\Module\File;
 use R3m\Io\Module\Controller;
 use R3m\Io\Module\Data as Storage;
@@ -26,6 +27,8 @@ Trait Export {
         }
         $name = Controller::name($class);
         $object = $this->object();
+        $dir_name = Dir::name($options['url']);
+        $file_name = File::basename($options['url'], $object->config('extension.json'));
         $meta_url = $object->config('project.dir.data') .
             'Node' .
             $object->config('ds') .
@@ -38,9 +41,9 @@ Trait Export {
         $list_options = [
             'sort' => [
                 'uuid' => 'asc'
-            ]
+            ],
+            'limit' => $options['limit'] ?? 1000,
         ];
-
         $properties = [];
         $url_key = 'url.';
         if(!array_key_exists('sort', $list_options)){
@@ -60,30 +63,17 @@ Trait Export {
             'property' => $properties,
         ];
         $sort_key = sha1(Core::object($sort_key, Core::OBJECT_JSON));
-        $url_property = $meta->get('Sort.' . $class . '.' . $sort_key . '.'. $url_key);
         $count = $meta->get('Sort.' . $class . '.' . $sort_key . '.'. 'count');
-        d($url_property);
-        d($count);
-        ddd($meta);
-
-
-        $list_options = [];
-
-        $list = $this->list($class, $role, $list_options);
-
-
-        d($class);
-        d($role);
-        ddd($options);
-
-        $object = $this->object();
-        $data = $object->data_read($options['url']);
-
-        /*
-        if($data){
-            $create_many = $this->create_many($class, $data);
-            ddd($create_many);
+        $page_max = ceil($count / $list_options['limit']);
+        for($page=1; $page <= $page_max; $page++){
+            $list_options['page'] = $page;
+            $list = $this->list($class, $role, $list_options);
+            $data = [];
+            foreach($list as $object){
+                $data[] = $object->data();
+            }
+            $url = $dir_name . $file_name . '.' . $page . $object->config('extension.json');
+            $object->data_write($url, $data);
         }
-        */
     }
 }
