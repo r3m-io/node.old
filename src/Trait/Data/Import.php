@@ -17,8 +17,6 @@ Trait Import {
      * @throws FileWriteException
      */
     public function import($class, $role, $options=[]){
-        d($class);
-        ddd($options);
         if(!array_key_exists('url', $options)){
             return;
         }
@@ -26,6 +24,13 @@ Trait Import {
             return;
         }
         $object = $this->object();
+
+        $dir = new Dir();
+        $read = $dir->read($options['url']);
+        ddd($read);
+
+
+
         $data = $object->data_read($options['url']);
 
         if($data){
