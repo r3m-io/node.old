@@ -2,6 +2,8 @@
 
 namespace R3m\Io\Node\Trait\Data;
 
+use R3m\Io\App;
+
 use R3m\Io\Module\Cli;
 use R3m\Io\Module\Controller;
 use R3m\Io\Module\Core;
@@ -12,7 +14,6 @@ use R3m\Io\Module\Sort;
 
 use R3m\Io\Exception\FileWriteException;
 use R3m\Io\Exception\ObjectException;
-
 
 Trait Import {
 
@@ -28,6 +29,8 @@ Trait Import {
             return;
         }
         $object = $this->object();
+        $app_options = App::options($object);
+ddd($app_options);
 
         $dir = new Dir();
         $read = $dir->read($options['url']);
@@ -63,17 +66,22 @@ Trait Import {
                             $data = gzdecode(File::read($file->url));
                             if($data){
                                 $data = Core::object($data, Core::OBJECT_OBJECT);
+                                if($data){
+                                    $data = new Storage($data);
+                                } else {
+                                    //trigger error
+                                    $data = new Storage();
+                                }
                             }
                         break;
                         case 'json' :
                             $data = $object->data_read($file->url);
                         break;
                     }
+                    //we can start import
                     ddd($data);
                 }
-                ddd($read);
             }
-
         }
 
 //        $data = new Storage($read);
