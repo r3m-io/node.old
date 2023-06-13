@@ -52,6 +52,9 @@ Trait Delete {
         $count = $meta->get('Sort.' . $name . '.' . $sort_key . '.' . 'count');
         $url_property = $meta->get('Sort.' . $name . '.' . $sort_key . '.' . $url_key);
 
+        $list = $object->data_read($url_property);
+        ddd($list);
+
         d($count);
         ddd($url_property);
         return true;
