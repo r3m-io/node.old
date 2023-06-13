@@ -56,13 +56,17 @@ Trait Truncate {
         ];
         $sort_key = sha1(Core::object($sort_key, Core::OBJECT_JSON));
         $count = $meta->get('Sort.' . $name . '.' . $sort_key . '.' . 'count');
-        $url_property = $meta->get('Sort.' . $name . '.' . $sort_key . '.' . $url_key);
+//        $url_property = $meta->get('Sort.' . $name . '.' . $sort_key . '.' . $url_key);
         $page_max = ceil($count / $list_options['limit']);
-
-        $data = $object->data_read($url_property);
-        d($data);
-        d($count);
-        d($page_max);
-        ddd($url_property);
+        for($page=1; $page <= $page_max; $page++) {
+            $list_options['page'] = $page;
+            $response = $this->list($name, $role, $list_options);
+            $data = new Storage();
+            $list = [];
+            foreach ($response['list'] as $record) {
+                $list[] = $record;
+            }
+            ddd($list);
+        }
     }
 }
