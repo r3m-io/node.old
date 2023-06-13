@@ -82,8 +82,8 @@ Trait Export {
                         $data = Core::object($data->data(), Core::OBJECT_JSON);
                         $gz = gzencode($data, 9);
                         d(strlen($gz));
-                        ddd($gz);
-
+                        var_dump($gz);
+die;
 
                     break;
                 }
