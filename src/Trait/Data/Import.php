@@ -105,6 +105,13 @@ Trait Import {
                             d($uuid);
                             if($uuid){
                                 $node = $this->read($class, $role, ['uuid' => $uuid]);
+                                if(!$node){
+                                    //create
+                                    $create = $this->create($class, $role, $record, $options);
+                                    ddd($create);
+                                } else {
+                                    //put
+                                }
                                 ddd($node);
                             }
                         }
