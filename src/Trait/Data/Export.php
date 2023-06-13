@@ -69,6 +69,7 @@ Trait Export {
             $list_options['page'] = $page;
             $list = $this->list($class, $role, $list_options);
             $data = [];
+            ddd($list);
             foreach($list as $object){
                 $data[] = $object->data();
             }
