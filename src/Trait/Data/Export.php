@@ -47,7 +47,7 @@ Trait Export {
             $debug = debug_backtrace(true);
             ddd($debug[0]['file'] . ' ' . $debug[0]['line']);
         }
-        foreach($options['sort'] as $key => $order) {
+        foreach($list_options['sort'] as $key => $order) {
             if(empty($properties)){
                 $url_key .= 'asc.';
             } else {
