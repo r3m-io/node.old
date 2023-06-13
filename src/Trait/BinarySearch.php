@@ -1164,8 +1164,7 @@ Trait BinarySearch {
                 if(array_key_exists(1, $explode)){
                     $symbol_right = trim($explode[1], " \t\n\r\0\x0B,");
                 }
-                if($symbol === '{'){
-                    d($seek);
+                if($symbol === '{' && !empty($seek)){
                     $depth = 0;
                     $direction = 'down';
                     $is_collect = true;
