@@ -1166,7 +1166,7 @@ Trait BinarySearch {
                 }
                 if(
                     $symbol === '{' &&
-                    !empty($seek)
+                    !empty($seek) //first line starts with { and is not the inner object we want
                 ){
                     $depth = 0;
                     $direction = 'down';
