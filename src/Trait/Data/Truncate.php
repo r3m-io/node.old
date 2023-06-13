@@ -77,6 +77,7 @@ Trait Truncate {
                             'uuid' => $record['uuid']
                         ]
                     );
+                    d($record);
                     ddd($delete);
                 }
                 elseif(
@@ -90,6 +91,7 @@ Trait Truncate {
                         'uuid' => $record->uuid
                         ]
                     );
+                    d($record);
                     ddd($delete);
                 }
             }
