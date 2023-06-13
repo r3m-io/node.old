@@ -9,6 +9,7 @@ use R3m\Io\Module\Data as Storage;
 
 use R3m\Io\Exception\FileWriteException;
 use R3m\Io\Exception\ObjectException;
+use R3m\Io\Module\Sort;
 
 
 Trait Import {
@@ -28,6 +29,14 @@ Trait Import {
 
         $dir = new Dir();
         $read = $dir->read($options['url']);
+
+//        $data = new Storage($read);
+
+        $read = Sort::list($read)->with(['url'=> 'asc']);
+
+
+
+
         ddd($read);
 
 
