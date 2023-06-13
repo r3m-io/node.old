@@ -172,9 +172,8 @@ Trait NodeList {
                 return (array) $ramdisk_data->data();
             }
         }
-        ddd('hree');
         $this->binary_search_list_create($class, $options);
-
+        ddd('hree');
         if(!array_key_exists('where', $options)){
             $options['where'] = [];
         }
