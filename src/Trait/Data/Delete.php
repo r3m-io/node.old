@@ -93,8 +93,9 @@ Trait Delete {
             $index++;
         }
         $data->set($name, $result);
-        $data->write($url_property);
+        $lines = $data->write($url_property, 'lines');
         $meta->set('Sort.' . $name . '.' . $sort_key . '.' . 'count', --$count);
+        $meta->set('Sort.' . $name . '.' . $sort_key . '.' . 'lines', $lines);
         $meta->write($meta_url);
         $url_node = $dir_node .
             'Storage' .
@@ -203,9 +204,10 @@ Trait Delete {
             $index++;
         }
         $data->set($name, $result);
-        $data->write($url_property);
+        $lines = $data->write($url_property, 'lines');
         $count = $count - $delete_counter;
         $meta->set('Sort.' . $name . '.' . $sort_key . '.' . 'count', $count);
+        $meta->set('Sort.' . $name . '.' . $sort_key . '.' . 'lines', $lines);
         $meta->write($meta_url);
         $result = [];
         foreach($uuids as $uuid){
