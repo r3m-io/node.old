@@ -989,6 +989,7 @@ Trait BinarySearch {
         $object = $this->object();
         $url = false;
         if(
+            array_key_exists('mtime', $options) &&
             array_key_exists('ramdisk', $options) &&
             $options['ramdisk'] === true
         ){
@@ -1010,7 +1011,10 @@ Trait BinarySearch {
                 $object->config('extension.json')
             ;
             //need mtime
-            if(File::exist($url)){
+            if(
+                File::exist($url) &&
+                File::mtime($url) === $options['mtime']
+            ){
                 ddd($options);
             }
 
@@ -1069,8 +1073,6 @@ Trait BinarySearch {
             $cache = new Storage($page);
             $cache->write($url);
             File::touch($url, $options['mtime']);
-            ddd($options);
-            //need mtime
         }
         return $page;
     }
