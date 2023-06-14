@@ -40,7 +40,11 @@ Trait Put {
                     'function' => $options['function'] ?? __FUNCTION__,
                 ]
             );
-            if(array_key_exists('node', $response)){
+            if(!$response){
+                $result['error']['list'][] = false;
+                $result['error']['count']++;
+            }
+            elseif(array_key_exists('node', $response)){
                 $result['list'][] = $response['node'];
                 $result['count']++;
             }
@@ -99,7 +103,6 @@ Trait Put {
             $role,
             $node_options
         );
-        ddd($response);
         if(!$response){
             return false;
         }
