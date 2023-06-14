@@ -93,7 +93,6 @@ Trait Import {
                     $create_many = [];
                     $put_many = [];
                     d($class);
-                    ddd($data);
                     if($data){
                         foreach($data->data($class) as $key => $record){
                             $uuid = false;
@@ -111,6 +110,7 @@ Trait Import {
                             }
                             if($uuid){
                                 $response = $this->read($class, $role, ['uuid' => $uuid]);
+                                ddd($response);
                                 if(!$response){
                                     $create_many[] = $record;
                                     /*
