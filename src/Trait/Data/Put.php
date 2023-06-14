@@ -62,6 +62,9 @@ Trait Put {
      */
     public function put($class, $role, $record=[], $options=[]): false|array|object
     {
+        if(is_object($record)){
+            $record = (array) $record;
+        }
         $uuid = $record['uuid'] ?? false;
         if($uuid === false){
             return false;
