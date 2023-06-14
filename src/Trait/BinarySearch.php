@@ -110,6 +110,8 @@ Trait BinarySearch {
                 'counter' => 0,
                 'direction' => 'next',
                 'url' => $url_property,
+                'mtime' => $mtime,
+                'ramdisk' => true
             ]);
             if(!empty($filter_list)){
                 $filter = [];
@@ -185,6 +187,8 @@ Trait BinarySearch {
                 'counter' => 0,
                 'direction' => 'next',
                 'url' => $url_property,
+                'mtime' => $mtime,
+                'ramdisk' => true
             ]);
             if(!empty($where_list)){
                 $where = [];
@@ -982,23 +986,31 @@ Trait BinarySearch {
         if(!array_key_exists('lines', $options)){
             return [];
         }
-        $key = sha1(Core::object($options, Core::OBJECT_JSON));
         $object = $this->object();
-        $url = $object->config('ramdisk.url') .
-            $object->config(Config::POSIX_ID) .
-            $object->config('ds') .
-            'Package' .
-            $object->config('ds') .
-            'R3m-Io' .
-            $object->config('ds') .
-            'Node' .
-            $object->config('ds') .
-            'Binary' .
-            '-' .
-            $key .
-            $object->config('extension.json')
-        ;
-        d($url);
+        $url = false;
+        if(
+            array_key_exists('ramdisk', $options) &&
+            $options['ramdisk'] === true
+        ){
+            $key = sha1(Core::object($options, Core::OBJECT_JSON));
+            $url = $object->config('ramdisk.url') .
+                $object->config(Config::POSIX_ID) .
+                $object->config('ds') .
+                'Package' .
+                $object->config('ds') .
+                'R3m-Io' .
+                $object->config('ds') .
+                'Node' .
+                $object->config('ds') .
+                'Binary' .
+                '.' .
+                'Page' .
+                '-' .
+                $key .
+                $object->config('extension.json')
+            ;
+            //need mtime
+        }
         $index = 0;
         $start = $index;
         $end = $start + (int) $options['limit'];
@@ -1043,6 +1055,15 @@ Trait BinarySearch {
             echo 'Duration: (6) ' . round($duration * 1000, 2) . ' msec url: ' . $options['url'] . PHP_EOL;
         } else {
             echo 'Duration: (7)' . round($duration, 2) . ' sec url:' . $options['url'] . PHP_EOL;
+        }
+        if(
+            array_key_exists('ramdisk', $options) &&
+            $options['ramdisk'] === true &&
+            $url &&
+            !empty($page)
+        ){
+            $cache = new Storage($page);
+            $cache->write($url);
         }
         return $page;
     }
