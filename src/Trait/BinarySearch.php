@@ -1061,12 +1061,14 @@ Trait BinarySearch {
             echo 'Duration: (7)' . round($duration, 2) . ' sec url:' . $options['url'] . PHP_EOL;
         }
         if(
+            array_key_exists('mtime', $options) &&
             array_key_exists('ramdisk', $options) &&
             $options['ramdisk'] === true &&
             $url
         ){
             $cache = new Storage($page);
             $cache->write($url);
+            File::touch($url, $options['mtime']);
             ddd($options);
             //need mtime
         }
