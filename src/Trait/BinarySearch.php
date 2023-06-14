@@ -747,6 +747,7 @@ Trait BinarySearch {
         ){
             $index = ($options['page'] * $options['limit']) - $options['limit'];
         }
+        ddd($options);
         $start = $index;
         $end = $start + $options['limit'];
         $page = [];
