@@ -220,6 +220,7 @@ Trait Create {
             $object->config('extension.json')
         ;
         if(File::exist($url)){
+            throw new Exception('File exist in create url: ' . $url);
             return false;
         }
         $dir_binary_search =
