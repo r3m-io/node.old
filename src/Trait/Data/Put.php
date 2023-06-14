@@ -33,6 +33,7 @@ Trait Put {
                     'function' => $options['function'] ?? __FUNCTION__,
                 ]
             );
+            d($record);
             ddd($put);
             $result[] = $put;
         }
