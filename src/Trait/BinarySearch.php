@@ -982,6 +982,7 @@ Trait BinarySearch {
         if(!array_key_exists('lines', $options)){
             return [];
         }
+        d($options);
         $object = $this->object();
         $index = 0;
         $start = $index;
