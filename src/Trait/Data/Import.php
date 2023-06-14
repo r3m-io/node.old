@@ -133,7 +133,7 @@ Trait Import {
                             }
                         }
                         $create_many = $this->create_many($class, $role, $create_many, $options);
-                        $put_many = $this->put_many($class, $role, $create_many, $options);
+                        ddd($create_many);
                         foreach($create_many as $uuid => $record){
                             if(array_key_exists('error', $record)){
                                 $result[$uuid] = $record['error'];
@@ -141,6 +141,7 @@ Trait Import {
                                 $result[$uuid] = true;
                             }
                         }
+                        $put_many = $this->put_many($class, $role, $put_many, $options);
                         foreach($put_many as $uuid => $record){
                             if(array_key_exists('error', $record)){
                                 $result[$uuid] = $record['error'];
