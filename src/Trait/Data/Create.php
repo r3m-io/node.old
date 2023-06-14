@@ -59,7 +59,6 @@ Trait Create {
                 $error++;
             }
         }
-        ddd($options);
         $result['count'] = $count;
         $result['error']['count'] = $error;
         $dir_node = $object->config('project.dir.data') .

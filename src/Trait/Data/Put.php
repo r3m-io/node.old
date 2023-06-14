@@ -23,7 +23,6 @@ Trait Put {
         $name = Controller::name($class);
         $object = $this->object();
         $result = [];
-        ddd($data);
         foreach($data as $record){
             $put = $this->put(
                 $class,
