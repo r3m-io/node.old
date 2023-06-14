@@ -983,8 +983,22 @@ Trait BinarySearch {
             return [];
         }
         $key = sha1(Core::object($options, Core::OBJECT_JSON));
-        d($key);
         $object = $this->object();
+        $url = $object->config('ramdisk.url') .
+            $object->config(Config::POSIX_ID) .
+            $object->config('ds') .
+            'Package' .
+            $object->config('ds') .
+            'R3m-Io' .
+            $object->config('ds') .
+            'Node' .
+            $object->config('ds') .
+            'Binary' .
+            '-' .
+            $key .
+            $object->config('extension.json')
+        ;
+        d($url);
         $index = 0;
         $start = $index;
         $end = $start + (int) $options['limit'];
