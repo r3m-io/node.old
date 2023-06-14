@@ -3,26 +3,174 @@
 namespace R3m\Io\Node\Trait\Data;
 
 use Exception;
+use R3m\Io\Config;
 use R3m\Io\Exception\FileWriteException;
 use R3m\Io\Exception\ObjectException;
 use R3m\Io\Module\Controller;
 use R3m\Io\Module\Core;
 use R3m\Io\Module\Data as Storage;
 use R3m\Io\Module\Event;
+use R3m\Io\Module\Sort;
 
 Trait Put {
+
+    /**
+     * @throws ObjectException
+     * @throws FileWriteException
+     */
+    public function put_many($class, $role, $data=[], $options=[]): array
+    {
+        $name = Controller::name($class);
+        $object = $this->object();
+        $result = [];
+        foreach($data as $record){
+            $put = $this->put(
+                $class,
+                $role,
+                $record,
+                [
+                    'is_many' => true,
+                    'function' => $options['function'] ?? __FUNCTION__,
+                ]
+            );
+            ddd($put);
+            $result[] = $put;
+        }
+        /*
+        $dir_node = $object->config('project.dir.data') .
+            'Node' .
+            $object->config('ds')
+        ;
+        $dir_meta = $dir_node .
+            'Meta'.
+            $object->config('ds')
+        ;
+        $dir_binary_search = $dir_node .
+            'BinarySearch'.
+            $object->config('ds')
+        ;
+        $dir_binary_search_class = $dir_binary_search .
+            $name .
+            $object->config('ds')
+        ;
+        $dir_binary_search =
+            $dir_binary_search_class .
+            'Asc' .
+            $object->config('ds')
+        ;
+        $this->dir($object,
+            [
+                'node' => $dir_node,
+                'meta' => $dir_meta,
+                'binary_search_class' => $dir_binary_search_class,
+                'binary_search' => $dir_binary_search,
+            ]
+        );
+        $binary_search_url =
+            $dir_binary_search .
+            'Uuid' .
+            $object->config('extension.json');
+        $meta_url = $dir_meta . $name . $object->config('extension.json');
+        $binarySearch = $object->data_read($binary_search_url);
+        if (!$binarySearch) {
+            $binarySearch = new Storage();
+        }
+        $list = $binarySearch->data($class);
+        if (empty($list)) {
+            $list = [];
+        }
+        if (is_object($list)) {
+            $list_result = [];
+            foreach ($list as $key => $record) {
+                $list_result[] = $record;
+                unset($list[$key]);
+            }
+            $list = $list_result;
+            unset($list_result);
+        }
+        /*
+        foreach($result as $nr => $node) {
+            if(is_array($node)){
+                if (array_key_exists('error', $node)) {
+                    continue;
+                }
+                if(!array_key_exists('node', $node)){
+                    continue;
+                }
+                if(!array_key_exists('uuid', $node['node'])) {
+                    continue;
+                }
+                $item = [
+                    'uuid' => $node['node']['uuid']
+                ];
+                $list[] = (object) $item;
+            }
+        }
+        $list = Sort::list($list)->with([
+            'uuid' => 'ASC',
+        ], [
+            'key_reset' => true,
+        ]);
+        $binarySearch->delete($class);
+        $binarySearch->data($class, $list);
+        $count = 0;
+        foreach ($binarySearch->data($class) as $record) {
+            $record->{'#index'} = $count;
+            $count++;
+        }
+        $lines = $binarySearch->write($binary_search_url, 'lines');
+
+        if ($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
+            $command = 'chmod 666 ' . $binary_search_url;
+            exec($command);
+        }
+        if ($object->config(Config::POSIX_ID) === 0) {
+            $command = 'chown www-data:www-data ' . $binary_search_url;
+            exec($command);
+        }
+        */
+        /*
+        $meta = $object->data_read($meta_url);
+        if (!$meta) {
+            $meta = new Storage();
+        }
+        $key = [
+            'property' => [
+                'uuid'
+            ]
+        ];
+        $property = [];
+        $property[] = 'uuid';
+        $key = sha1(Core::object($key, Core::OBJECT_JSON));
+        $meta->set('Sort.' . $class . '.' . $key . '.property', $property);
+        $meta->set('Sort.' . $class . '.' . $key . '.lines', $lines);
+        $meta->set('Sort.' . $class . '.' . $key . '.count', $count);
+        $meta->set('Sort.' . $class . '.' . $key . '.url.asc', $binary_search_url);
+        $meta->write($meta_url);
+        if ($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
+            $command = 'chmod 666 ' . $meta_url;
+            exec($command);
+        }
+        if ($object->config(Config::POSIX_ID) === 0) {
+            $command = 'chown www-data:www-data ' . $meta_url;
+            exec($command);
+        }
+        */
+        return $result;
+    }
+
     /**
      * @throws ObjectException
      * @throws FileWriteException
      * @throws Exception
      */
-    public function put($class, $role, $options=[]): false|array|object
+    public function put($class, $role, $record=[], $options=[]): false|array|object
     {
-        $uuid = $options['uuid'] ?? false;
+        $uuid = $record['uuid'] ?? false;
         if($uuid === false){
             return false;
         }
-        unset($options['uuid']);
+        unset($record['uuid']);
         $name = Controller::name($class);
         $object = $this->object();
         $dir_node = $object->config('project.dir.data') .
@@ -59,26 +207,25 @@ Trait Put {
             return false;
         }
         $node = new Storage($response['node']);
-        $patch = new Storage($options);
+        $patch = new Storage($record);
         foreach($patch->data() as $attribute => $value){
             if(is_array($value)){
                 $list = $node->get($attribute);
                 if(empty($list) || !is_array($list)){
                     $list = [];
-                }
-                elseif(is_array($list)) {
-                    foreach($list as $nr => $record){
+                } else {
+                    foreach($list as $nr => $item){
                         if(
-                            is_object($record) &&
-                            property_exists($record, 'uuid')
+                            is_object($item) &&
+                            property_exists($item, 'uuid')
                         ){
-                            $list[$nr] = $record->uuid;
+                            $list[$nr] = $item->uuid;
                         }
                     }
                 }
-                foreach($value as $record){
-                    if(!in_array($record, $list, true)){
-                        $list[] = $record;
+                foreach($value as $item){
+                    if(!in_array($item, $list, true)){
+                        $list[] = $item;
                     }
                 }
                 $node->set($attribute, $list);
