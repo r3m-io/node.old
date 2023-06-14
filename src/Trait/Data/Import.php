@@ -12,6 +12,8 @@ use R3m\Io\Module\Dir;
 use R3m\Io\Module\File;
 use R3m\Io\Module\Sort;
 
+use Exception;
+
 use R3m\Io\Exception\FileWriteException;
 use R3m\Io\Exception\ObjectException;
 
@@ -20,6 +22,7 @@ Trait Import {
     /**
      * @throws ObjectException
      * @throws FileWriteException
+     * @throws Exception
      */
     public function import($class, $role, $options=[]): array
     {
@@ -79,8 +82,7 @@ Trait Import {
                                 if($data){
                                     $data = new Storage($data);
                                 } else {
-                                    //trigger error
-                                    $data = new Storage();
+                                    throw new Exception('Could not read data from file: ' . $file->url);
                                 }
                             }
                         break;
@@ -88,6 +90,8 @@ Trait Import {
                             $data = $object->data_read($file->url);
                         break;
                     }
+                    $create_many = [];
+                    $put_many = [];
                     if($data){
                         foreach($data->data($class) as $key => $record){
                             $uuid = false;
@@ -106,20 +110,42 @@ Trait Import {
                             if($uuid){
                                 $response = $this->read($class, $role, ['uuid' => $uuid]);
                                 if(!$response){
+                                    $create_many[] = $record;
+                                    /*
                                     $create = $this->create($class, $role, $record, $options);
                                     if(array_key_exists('error', $create)){
                                         $result[$uuid] = $create['error'];
                                     } else {
                                         $result[$uuid] = true;
                                     }
+                                    */
                                 } else {
+                                    $put_many[] = $record;
+                                    /*
                                     $put = $this->put($class, $role, (array) $record);
                                     if(array_key_exists('error', $put)){
                                         $result[$uuid] = $put['error'];
                                     } else {
                                         $result[$uuid] = true;
                                     }
+                                    */
                                 }
+                            }
+                        }
+                        $create_many = $this->create_many($class, $role, $create_many, $options);
+                        $put_many = $this->put_many($class, $role, $create_many, $options);
+                        foreach($create_many as $uuid => $record){
+                            if(array_key_exists('error', $record)){
+                                $result[$uuid] = $record['error'];
+                            } else {
+                                $result[$uuid] = true;
+                            }
+                        }
+                        foreach($put_many as $uuid => $record){
+                            if(array_key_exists('error', $record)){
+                                $result[$uuid] = $record['error'];
+                            } else {
+                                $result[$uuid] = true;
                             }
                         }
                     }

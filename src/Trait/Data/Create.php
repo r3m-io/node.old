@@ -19,8 +19,12 @@ Trait Create {
      * @throws ObjectException
      * @throws FileWriteException
      */
-    public function create_many($class='', Storage $data): array
+    public function create_many($class, $role, $data=[], $options=[]): array
     {
+        d($class);
+        d($role);
+        d($data);
+        ddd($options);
         $name = Controller::name($class);
         $object = $this->object();
         $result = [];
