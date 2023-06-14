@@ -24,7 +24,7 @@ Trait Create {
         $name = Controller::name($class);
         $object = $this->object();
         $result = [];
-        foreach($data as $nr => $record){
+        foreach($data as $record){
             $create = $this->create(
                 $class,
                 $role,
@@ -34,7 +34,7 @@ Trait Create {
                 'function' => $options['function'] ?? __FUNCTION__,
                 ]
             );
-            ddd($create);
+            $result[] = $create;
         }
         $dir_node = $object->config('project.dir.data') .
             'Node' .
