@@ -96,7 +96,9 @@ Trait Put {
                 'uuid' => 'ASC'
             ],
             'relation' => false,
-            'function' => __FUNCTION__
+            'function' => __FUNCTION__,
+            'ramdisk'> true
+
         ];
         $response = $this->record(
             $name,
