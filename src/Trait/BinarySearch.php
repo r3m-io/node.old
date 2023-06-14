@@ -1024,7 +1024,7 @@ Trait BinarySearch {
                     } else {
                         echo 'Duration: (9)' . round($duration, 2) . ' sec url:' . $options['url'] . PHP_EOL;
                     }
-                    return $data->data();
+                    return (array) $data->data();
                 }
             }
         }
