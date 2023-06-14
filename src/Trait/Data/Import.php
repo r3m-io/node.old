@@ -38,7 +38,14 @@ Trait Import {
         $dir = new Dir();
         $read = $dir->read($options['url']);
         $select = [];
-        $result = [];
+        $result = [
+            'list' => [],
+            'count' => 0,
+            'error' => [
+                'list' => [],
+                'count' => 0
+            ]
+        ];
         if($read){
             $read = Sort::list($read)->with(['url'=> 'desc']);
             $counter = 1;
@@ -92,24 +99,23 @@ Trait Import {
                     }
                     $create_many = [];
                     $put_many = [];
-                    if($data){
-                        foreach($data->data($class) as $key => $record){
+                    if($data) {
+                        foreach ($data->data($class) as $key => $record) {
                             $uuid = false;
-                            if(
+                            if (
                                 is_array($record) &&
                                 array_key_exists('uuid', $record)
-                            ){
+                            ) {
                                 $uuid = $record['uuid'];
-                            }
-                            elseif(
+                            } elseif (
                                 is_object($record) &&
                                 property_exists($record, 'uuid')
-                            ){
+                            ) {
                                 $uuid = $record->uuid;
                             }
-                            if($uuid){
+                            if ($uuid) {
                                 $response = $this->read($class, $role, ['uuid' => $uuid]);
-                                if(!$response){
+                                if (!$response) {
                                     $create_many[] = $record;
                                     /*
                                     $create = $this->create($class, $role, $record, $options);
@@ -132,23 +138,24 @@ Trait Import {
                                 }
                             }
                         }
-                        $create_many = $this->create_many($class, $role, $create_many, $options);
-                        ddd($put_many);
-                        foreach($create_many as $uuid => $record){
-                            if(array_key_exists('error', $record)){
-                                $result[$uuid] = $record['error'];
-                            } else {
-                                $result[$uuid] = true;
-                            }
+                        $create_many_response = $this->create_many($class, $role, $create_many, $options);
+                        $put_many_response = $this->put_many($class, $role, $put_many, $options);
+                        foreach ($create_many_response['list'] as $nr => $record) {
+                            $result['list'][] = $record;
                         }
-                        $put_many = $this->put_many($class, $role, $put_many, $options);
-                        foreach($put_many as $uuid => $record){
-                            if(array_key_exists('error', $record)){
-                                $result[$uuid] = $record['error'];
-                            } else {
-                                $result[$uuid] = true;
-                            }
+                        foreach ($create_many_response['error']['list'] as $nr => $record) {
+                            $result['error']['list'][] = $record;
                         }
+                        foreach ($put_many_response['list'] as $nr => $record) {
+                            $result['list'][] = $record;
+                        }
+                        foreach ($put_many_response['error']['list'] as $nr => $record) {
+                            $result['error']['list'][] = $record;
+                        }
+                        $result['count']+= $create_many_response['count'];
+                        $result['count']+= $put_many_response['count'];
+                        $result['error']['count']+= $create_many_response['error']['count'];
+                        $result['error']['count']+= $put_many_response['error']['count'];
                     }
                 }
             }

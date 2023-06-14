@@ -56,6 +56,7 @@ Trait Create {
                 $result['list'][] = $response['node'];
                 $count++;
             } else {
+                $result['error']['list'][] = false;
                 $error++;
             }
         }
