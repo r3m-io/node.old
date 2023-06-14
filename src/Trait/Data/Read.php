@@ -31,7 +31,8 @@ Trait Read {
                     'value' => $options['uuid'],
                 ]
             ],
-            'function' => __FUNCTION__
+            'function' => __FUNCTION__,
+            'ramdisk' => true
         ];
         $data = $this->record($name, $role, $options_record);
         if($data){

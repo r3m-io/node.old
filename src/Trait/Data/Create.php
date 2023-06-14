@@ -21,21 +21,20 @@ Trait Create {
      */
     public function create_many($class, $role, $data=[], $options=[]): array
     {
-        d($class);
-        d($role);
-        d($data);
-        ddd($options);
         $name = Controller::name($class);
         $object = $this->object();
         $result = [];
-        foreach($data->data($class) as $key => $record){
-            $result[$key] = $this->create(
+        foreach($data as $nr => $record){
+            $create = $this->create(
                 $class,
+                $role,
                 $record,
                 [
                 'is_many' => true,
+                'function' => $options['function'] ?? __FUNCTION__,
                 ]
             );
+            ddd($create);
         }
         $dir_node = $object->config('project.dir.data') .
             'Node' .
