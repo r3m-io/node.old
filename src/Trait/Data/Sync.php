@@ -449,7 +449,7 @@ Trait Sync {
             }
             $time_end = microtime(true);
             $time_duration = round(($time_end - $time_start) * 1000, 2);
-            echo 'Duration: ' . $time_duration . 'ms class: ' . $class . PHP_EOL;
+            echo 'Duration: (3) ' . $time_duration . 'ms class: ' . $class . PHP_EOL;
         }
     }
 }

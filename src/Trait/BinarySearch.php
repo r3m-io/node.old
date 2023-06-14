@@ -906,9 +906,9 @@ Trait BinarySearch {
         $time_end = microtime(true);
         $duration = $time_end - $time_start;
         if($duration < 1) {
-            echo 'Duration: ' . round($duration * 1000, 2) . ' msec url: ' . $options['url'] . PHP_EOL;
+            echo 'Duration: (4)' . round($duration * 1000, 2) . ' msec url: ' . $options['url'] . PHP_EOL;
         } else {
-            echo 'Duration: ' . round($duration, 2) . ' sec url:' . $options['url'] . PHP_EOL;
+            echo 'Duration: (5)' . round($duration, 2) . ' sec url:' . $options['url'] . PHP_EOL;
         }
         return $count;
     }
@@ -1024,9 +1024,9 @@ Trait BinarySearch {
         $time_end = microtime(true);
         $duration = $time_end - $time_start;
         if($duration < 1) {
-            echo 'Duration: ' . round($duration * 1000, 2) . ' msec url: ' . $options['url'] . PHP_EOL;
+            echo 'Duration: (6) ' . round($duration * 1000, 2) . ' msec url: ' . $options['url'] . PHP_EOL;
         } else {
-            echo 'Duration: ' . round($duration, 2) . ' sec url:' . $options['url'] . PHP_EOL;
+            echo 'Duration: (7)' . round($duration, 2) . ' sec url:' . $options['url'] . PHP_EOL;
         }
         return $page;
     }
