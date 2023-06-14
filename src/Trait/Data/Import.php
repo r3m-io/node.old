@@ -108,7 +108,6 @@ Trait Import {
                                 $uuid = $record->uuid;
                             }
                             if($uuid){
-                                d('test');
                                 $response = $this->read($class, $role, ['uuid' => $uuid]);
                                 if(!$response){
                                     $create_many[] = $record;
