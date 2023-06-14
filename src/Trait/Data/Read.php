@@ -32,7 +32,7 @@ Trait Read {
                 ]
             ],
             'function' => __FUNCTION__,
-            'ramdisk' => true
+            'multiple' => true
         ];
         $data = $this->record($name, $role, $options_record);
         if($data){

@@ -166,9 +166,8 @@ Trait NodeList {
                 $ramdisk_key .
                 $object->config('extension.json')
             ;
-            $ramdisk_data = $object->data_read($ramdisk_url);
+            $ramdisk_data = $object->data_read($ramdisk_url, $ramdisk_key);
             if($ramdisk_data){
-                ddd('yes');
                 //add mtime to ramdisk data
                 return (array) $ramdisk_data->data();
             }
