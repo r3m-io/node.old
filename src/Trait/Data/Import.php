@@ -92,6 +92,7 @@ Trait Import {
                     }
                     $create_many = [];
                     $put_many = [];
+                    d($class);
                     ddd($data);
                     if($data){
                         foreach($data->data($class) as $key => $record){
