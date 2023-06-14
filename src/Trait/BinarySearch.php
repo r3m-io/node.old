@@ -1063,11 +1063,11 @@ Trait BinarySearch {
         if(
             array_key_exists('ramdisk', $options) &&
             $options['ramdisk'] === true &&
-            $url &&
-            !empty($page)
+            $url
         ){
             $cache = new Storage($page);
             $cache->write($url);
+            ddd($options);
             //need mtime
         }
         return $page;
