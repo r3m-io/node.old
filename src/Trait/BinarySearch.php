@@ -1010,7 +1010,6 @@ Trait BinarySearch {
                 $key .
                 $object->config('extension.json')
             ;
-            //need mtime
             if(
                 File::exist($url) &&
                 File::mtime($url) === $options['mtime']
