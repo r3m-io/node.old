@@ -62,6 +62,9 @@ Trait Create {
         }
         $result['count'] = $count;
         $result['error']['count'] = $error;
+        if($result['error']['count'] === 0){
+            unset($result['error']);
+        }
         $dir_node = $object->config('project.dir.data') .
             'Node' .
             $object->config('ds')

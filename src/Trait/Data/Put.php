@@ -56,6 +56,9 @@ Trait Put {
                 $result['error']['count']++;
             }
         }
+        if($result['error']['count'] === 0){
+            unset($result['error']);
+        }
         return $result;
     }
 
