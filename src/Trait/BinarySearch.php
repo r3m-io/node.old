@@ -986,6 +986,7 @@ Trait BinarySearch {
         if(!array_key_exists('lines', $options)){
             return [];
         }
+        $time_start = microtime(true);
         $object = $this->object();
         $url = false;
         if(
@@ -1014,16 +1015,24 @@ Trait BinarySearch {
                 File::exist($url) &&
                 File::mtime($url) === $options['mtime']
             ){
-                ddd($options);
+                $data = $object->data_read($url, $key);
+                if($data){
+                    $time_end = microtime(true);
+                    $duration = $time_end - $time_start;
+                    if($duration < 1) {
+                        echo 'Duration: (8) ' . round($duration * 1000, 2) . ' msec url: ' . $options['url'] . PHP_EOL;
+                    } else {
+                        echo 'Duration: (9)' . round($duration, 2) . ' sec url:' . $options['url'] . PHP_EOL;
+                    }
+                    return $data->data();
+                }
             }
-
         }
         $index = 0;
         $start = $index;
         $end = $start + (int) $options['limit'];
         $page = [];
         $record_index = $index;
-        $time_start = microtime(true);
         for($i = $start; $i < $end; $i++){
             $record = $this->binary_search_index($file, [
                 'lines'=> $options['lines'],
