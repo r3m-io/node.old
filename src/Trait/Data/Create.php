@@ -34,6 +34,7 @@ Trait Create {
                 'function' => $options['function'] ?? __FUNCTION__,
                 ]
             );
+            d($record);
             ddd($create);
             $result[] = $create;
         }
