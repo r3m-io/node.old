@@ -982,7 +982,8 @@ Trait BinarySearch {
         if(!array_key_exists('lines', $options)){
             return [];
         }
-        d($options);
+        $key = sha1(Core::object($options, Core::OBJECT_JSON));
+        d($key);
         $object = $this->object();
         $index = 0;
         $start = $index;
