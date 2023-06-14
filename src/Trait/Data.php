@@ -172,7 +172,9 @@ Trait Data {
                         'lines' => $lines,
                         'counter' => 0,
                         'direction' => 'next',
-                        'url' => $url
+                        'url' => $url,
+                        'ramdisk' => true,
+                        'mtime' => $mtime,
                     ]
                 );
             }
