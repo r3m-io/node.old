@@ -23,9 +23,16 @@ Trait Create {
     {
         $name = Controller::name($class);
         $object = $this->object();
-        $result = [];
+        $result = [
+            'list' => [],
+            'error' => [
+                'list' => []
+            ]
+        ];
+        $count = 0;
+        $error = 0;
         foreach($data as $record){
-            $create = $this->create(
+            $response = $this->create(
                 $class,
                 $role,
                 $record,
@@ -34,8 +41,27 @@ Trait Create {
                 'function' => $options['function'] ?? __FUNCTION__,
                 ]
             );
-            $result[] = $create;
+            if(
+                $response &&
+                array_key_exists('error', $response)
+            ) {
+                $result['error']['list'][] = $response['error'];
+                $error++;
+            }
+            elseif(
+                $response &&
+                array_key_exists('node', $response) &&
+                array_key_exists('uuid', $response['node'])
+            ) {
+                $result['list'][] = $response['node'];
+                $count++;
+            } else {
+                $error++;
+            }
         }
+        ddd($options);
+        $result['count'] = $count;
+        $result['error']['count'] = $error;
         $dir_node = $object->config('project.dir.data') .
             'Node' .
             $object->config('ds')
@@ -219,7 +245,6 @@ Trait Create {
         ;
         if(File::exist($url)){
             throw new Exception('File exist in create url: ' . $url);
-            return false;
         }
         $dir_binary_search =
             $dir_binary_search_class .
