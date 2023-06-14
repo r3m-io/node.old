@@ -747,11 +747,50 @@ Trait BinarySearch {
         ){
             $index = ($options['page'] * $options['limit']) - $options['limit'];
         }
-        ddd($options);
+        $time_start = microtime(true);
+        $url = false;
+        if(
+            array_key_exists('mtime', $options) &&
+            array_key_exists('ramdisk', $options) &&
+            $options['ramdisk'] === true
+        ){
+            $key = sha1(Core::object($options, Core::OBJECT_JSON));
+            $url = $object->config('ramdisk.url') .
+                $object->config(Config::POSIX_ID) .
+                $object->config('ds') .
+                'Package' .
+                $object->config('ds') .
+                'R3m-Io' .
+                $object->config('ds') .
+                'Node' .
+                $object->config('ds') .
+                'Binary' .
+                '.' .
+                'Page' .
+                '-' .
+                $key .
+                $object->config('extension.json')
+            ;
+            if(
+                File::exist($url) &&
+                File::mtime($url) === $options['mtime']
+            ){
+                $data = $object->data_read($url, $key);
+                if($data){
+                    $time_end = microtime(true);
+                    $duration = $time_end - $time_start;
+                    if($duration < 1) {
+                        echo 'Duration: (8) ' . round($duration * 1000, 2) . ' msec url: ' . $options['url'] . PHP_EOL;
+                    } else {
+                        echo 'Duration: (9)' . round($duration, 2) . ' sec url:' . $options['url'] . PHP_EOL;
+                    }
+                    return (array) $data->data();
+                }
+            }
+        }
         $start = $index;
         $end = $start + $options['limit'];
         $page = [];
-        $time_start = microtime(true);
         $record_index = $index;
         for($i = $start; $i < $end; $i++){
             $record = $this->binary_search_index($file, [
@@ -837,6 +876,16 @@ Trait BinarySearch {
             echo 'Duration: (1) ' . round($duration * 1000, 2) . ' msec url: ' . $options['url'] . PHP_EOL;
         } else {
             echo 'Duration: (2) ' . round($duration, 2) . ' sec url:' . $options['url'] . PHP_EOL;
+        }
+        if(
+            array_key_exists('mtime', $options) &&
+            array_key_exists('ramdisk', $options) &&
+            $options['ramdisk'] === true &&
+            $url
+        ){
+            $cache = new Storage($page);
+            $cache->write($url);
+            File::touch($url, $options['mtime']);
         }
         return $page;
     }
