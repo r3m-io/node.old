@@ -201,6 +201,7 @@ Trait Put {
             $role,
             $node_options
         );
+        ddd($response);
         if(!$response){
             return false;
         }
