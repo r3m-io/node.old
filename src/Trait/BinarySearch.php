@@ -1010,6 +1010,10 @@ Trait BinarySearch {
                 $object->config('extension.json')
             ;
             //need mtime
+            if(File::exist($url)){
+                ddd($options);
+            }
+
         }
         $index = 0;
         $start = $index;
@@ -1064,6 +1068,7 @@ Trait BinarySearch {
         ){
             $cache = new Storage($page);
             $cache->write($url);
+            //need mtime
         }
         return $page;
     }
