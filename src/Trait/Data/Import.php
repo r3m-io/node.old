@@ -132,7 +132,7 @@ Trait Import {
                                 }
                             }
                         }
-                        d(' test');
+                        ddd(' test');
                         $create_many = $this->create_many($class, $role, $create_many, $options);
                         $put_many = $this->put_many($class, $role, $create_many, $options);
                         foreach($create_many as $uuid => $record){
