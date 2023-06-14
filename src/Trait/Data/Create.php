@@ -194,11 +194,13 @@ Trait Create {
             ){
                 $uuid = $node['uuid'];
             }
-            if(
+            elseif(
                 is_object($node) &&
                 property_exists($node, 'uuid')
             ){
                 $uuid = $node->uuid;
+            } else {
+                $uuid = Core::uuid();
             }
         } else {
             $uuid = Core::uuid();
@@ -280,7 +282,6 @@ Trait Create {
                             array_key_exists('is_many', $options) &&
                             $options['is_many'] === true
                         ){
-                            ddd('is_many');
                             $record->set('uuid', $uuid);
                             $record->write($url);
                             if($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
