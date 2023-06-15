@@ -1069,9 +1069,12 @@ Trait BinarySearch {
                 $key .
                 $object->config('extension.json')
             ;
+            d(date('Y-m-d H:i:s', $options['mtime']));
+            d(date('Y-m-d H:i:s', File::mtime($url)));
+            d(date('Y-m-d H:i:s', File::mtime($options['url'])));
             if(
                 File::exist($url) &&
-                File::mtime($url) >= $options['mtime']
+                File::mtime($url) === $options['mtime']
             ){
                 $data = $object->data_read($url, $key);
                 if($data){
