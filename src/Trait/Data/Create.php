@@ -21,6 +21,7 @@ Trait Create {
      */
     public function create_many($class, $role, $data=[], $options=[]): array
     {
+        Core::interactive();
         $name = Controller::name($class);
         $object = $this->object();
         $result = [
@@ -60,6 +61,7 @@ Trait Create {
                 $result['error']['list'][] = false;
                 $error++;
             }
+            echo 'Count: ' . $count . ' Error: ' . $error . PHP_EOL;
         }
         $result['count'] = $count;
         $result['error']['count'] = $error;
