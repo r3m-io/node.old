@@ -61,7 +61,7 @@ Trait Create {
                 $result['error']['list'][] = false;
                 $error++;
             }
-//            echo 'Count: ' . $count . ' Error: ' . $error . PHP_EOL;
+            echo 'Count: ' . $count . ' Error: ' . $error . PHP_EOL;
         }
         $result['count'] = $count;
         $result['error']['count'] = $error;
