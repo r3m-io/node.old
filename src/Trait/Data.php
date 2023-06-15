@@ -197,6 +197,7 @@ Trait Data {
         }
         if($data){
             $validate = $data->data($type . '.validate');
+            d($validate);
             if(empty($validate)){
                 throw new Exception('No validation found for ' . $type . ' in ' . $url . '.');
             }
