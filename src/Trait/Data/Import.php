@@ -114,7 +114,6 @@ Trait Import {
             $put_many_count = 0;
             $create_many = [];
             $put_many = [];
-            ddd($class);
             foreach ($data->data($class) as $key => $record) {
                 $uuid = false;
                 if (
