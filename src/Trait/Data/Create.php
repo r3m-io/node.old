@@ -49,7 +49,7 @@ Trait Create {
             ) {
                 $result['error']['list'][] = $response['error'];
                 $error++;
-                echo 'Error (response): ' . $error . PHP_EOL;
+//                echo 'Error (response): ' . $error . PHP_EOL;
                 echo Core::object($response['error'], Core::OBJECT_JSON) . PHP_EOL;
             }
             elseif(
@@ -59,11 +59,11 @@ Trait Create {
             ) {
                 $result['list'][] = $response['node']['uuid'];
                 $count++;
-                echo 'Count: ' . $count . ' Uuid: ' . $response['node']['uuid'] . PHP_EOL;
+//                echo 'Count: ' . $count . ' Uuid: ' . $response['node']['uuid'] . PHP_EOL;
             } else {
                 $result['error']['list'][] = false;
                 $error++;
-                echo 'Error (false): ' . $error . PHP_EOL;
+//                echo 'Error (false): ' . $error . PHP_EOL;
             }
 
         }
