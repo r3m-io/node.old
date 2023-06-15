@@ -303,6 +303,7 @@ Trait Create {
                         __FUNCTION__,
                         $role
                     );
+                    ddd($record);
                     if (
                         $record->has('uuid') &&
                         !empty($record->get('uuid'))
@@ -407,6 +408,8 @@ Trait Create {
                     } else {
                        throw new Exception('Make sure, you have the right permission (' . $name . '.' . __FUNCTION__ .')');
                     }
+                } else {
+                    throw new Exception('Expose not found (' . $name . '.' . __FUNCTION__ .')');
                 }
             } else {
                 $response['error'] = $validate->test;
