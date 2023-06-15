@@ -19,9 +19,12 @@ Trait Role {
             ]
             )
         ){
-            $url = $object->config('project.dir.data') . 'App' . $object->config('ds') . 'System.json';
+            $url = $object->config('project.dir.data') . 'App' . $object->config('ds') . 'App.Role.System.json';
             $data = $object->data_read($url);
-            return $data->data();
+            if($data){
+                return $data->data();
+            }
+            return false;
         }
     }
 }
