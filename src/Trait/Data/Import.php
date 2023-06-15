@@ -144,12 +144,12 @@ Trait Import {
                         $put_options['ramdisk'] = true;
                         $put_many_response = $this->put_many($class, $role, $put_many, $put_options);
                         foreach ($create_many_response['list'] as $nr => $record) {
-                            $record['index'] = $index;
+                            $record['#index'] = $index;
                             $result['list'][] = $record;
                             $index++;
                         }
                         foreach ($put_many_response['list'] as $nr => $record) {
-                            $record['index'] = $index;
+                            $record['#index'] = $index;
                             $result['list'][] = $record;
                             $index++;
                         }
@@ -170,6 +170,9 @@ Trait Import {
                     }
                 }
             }
+        }
+        if($result['error']['count'] === 0){
+            unset($result['error']);
         }
         return $result;
     }
