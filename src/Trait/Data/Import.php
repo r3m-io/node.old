@@ -32,6 +32,7 @@ Trait Import {
         if(!File::exist($options['url'])){
             return [];
         }
+        set_time_limit(0);
         $start = microtime(true);
         $options['function'] = __FUNCTION__;
         $object = $this->object();
@@ -50,6 +51,7 @@ Trait Import {
         } else {
             $options['validation'] = true;
         }
+        ddd($options);
         if(!array_key_exists('offset', $options)){
             $options['offset'] = 0;
         }
