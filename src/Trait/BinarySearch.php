@@ -739,6 +739,7 @@ Trait BinarySearch {
      */
     private function binary_search_page($file, $role, &$counter=0, $options=[]): array
     {
+        ddd($options);
         $object = $this->object();
         $index = 0;
         if(
@@ -888,6 +889,7 @@ Trait BinarySearch {
             $cache = new Storage($page);
             $cache->write($url);
             File::touch($url, $options['mtime']);
+            File::touch($options['url'], $options['mtime']);
         }
         return $page;
     }
@@ -1065,7 +1067,6 @@ Trait BinarySearch {
                 $key .
                 $object->config('extension.json')
             ;
-            ddd($options);
             if(
                 File::exist($url) &&
                 File::mtime($url) >= $options['mtime']
@@ -1136,13 +1137,7 @@ Trait BinarySearch {
             $cache = new Storage($page);
             $write = $cache->write($url);
             File::touch($url, $options['mtime']);
-            /*
-            $url_storage = $object->config('project.dir.data') .
-                'Node' .
-                $object->config('ds') .
-                'Storage' .
-                $object->config('ds') .
-            */
+            File::touch($options['url'], $options['mtime']);
         }
         return $page;
     }
