@@ -132,7 +132,6 @@ Trait Import {
                     $app_options->is_new === true
                 ){
                     $uuid = false;
-                    ddd('ye');
                 }
                 if ($uuid) {
                     $response = $this->read($class, $role, ['uuid' => $uuid]);
@@ -149,7 +148,7 @@ Trait Import {
                 }
             }
             for($i = 0; $i < $create_many_count; $i=$i+1000){
-                $temp = array_slice($create_many, $i, 1000);
+                $temp = array_slice($create_many, $i, 1000, true);
                 ddd($temp);
             }
             $create_many_response = $this->create_many($class, $role, $create_many, $options);
