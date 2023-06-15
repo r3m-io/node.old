@@ -413,7 +413,6 @@ Trait Create {
                     }
                 }
             } else {
-                ddd($object->request('node'));
                 $response['error'] = $validate->test;
                 Event::trigger($object, 'r3m.io.node.data.create.error', [
                     'class' => $name,
