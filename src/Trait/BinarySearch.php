@@ -1065,11 +1065,10 @@ Trait BinarySearch {
                 $key .
                 $object->config('extension.json')
             ;
-            d(date('Y-m-d H:i:s', $options['mtime']));
-            d(date('Y-m-d H:i:s', File::mtime($url)));
+            ddd($options);
             if(
                 File::exist($url) &&
-                File::mtime($url) === $options['mtime']
+                File::mtime($url) >= $options['mtime']
             ){
                 $data = $object->data_read($url, $key);
                 if($data){
@@ -1137,7 +1136,13 @@ Trait BinarySearch {
             $cache = new Storage($page);
             $write = $cache->write($url);
             File::touch($url, $options['mtime']);
-            File::mtime($url);
+            /*
+            $url_storage = $object->config('project.dir.data') .
+                'Node' .
+                $object->config('ds') .
+                'Storage' .
+                $object->config('ds') .
+            */
         }
         return $page;
     }
