@@ -1065,6 +1065,7 @@ Trait BinarySearch {
                 $key .
                 $object->config('extension.json')
             ;
+            d($url);
             d(File::mtime($url));
             ddd($options);
             if(
