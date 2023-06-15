@@ -145,19 +145,23 @@ Trait Import {
                         foreach ($create_many_response['list'] as $nr => $record) {
                             $result['list'][] = $record;
                         }
-                        foreach ($create_many_response['error']['list'] as $nr => $record) {
-                            $result['error']['list'][] = $record;
-                        }
                         foreach ($put_many_response['list'] as $nr => $record) {
                             $result['list'][] = $record;
                         }
-                        foreach ($put_many_response['error']['list'] as $nr => $record) {
-                            $result['error']['list'][] = $record;
-                        }
                         $result['count']+= $create_many_response['count'];
                         $result['count']+= $put_many_response['count'];
-                        $result['error']['count']+= $create_many_response['error']['count'];
-                        $result['error']['count']+= $put_many_response['error']['count'];
+                        if(array_key_exists('error', $create_many_response)){
+                            foreach ($create_many_response['error']['list'] as $nr => $record) {
+                                $result['error']['list'][] = $record;
+                            }
+                            $result['error']['count']+= $create_many_response['error']['count'];
+                        }
+                        if(array_key_exists('error', $put_many_response)) {
+                            foreach ($put_many_response['error']['list'] as $nr => $record) {
+                                $result['error']['list'][] = $record;
+                            }
+                            $result['error']['count']+= $put_many_response['error']['count'];
+                        }
                     }
                 }
             }
