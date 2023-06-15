@@ -154,7 +154,7 @@ Trait Import {
             $i = 0;
             while($i < $create_many_count){
                 $temp = array_slice($create_many, $i, 1000, true);
-                echo 'Count: ' . count($temp) . ' Start: ' . $i . PHP_EOL;
+                echo 'Count: ' . count($temp) . '/ ' . $create_many_count . ' Start: ' . $i . PHP_EOL;
                 $create_many_response = $this->create_many($class, $role, $temp, $options);
                 if($index < 1000){
                     foreach ($create_many_response['list'] as $nr => $record) {
@@ -163,7 +163,10 @@ Trait Import {
                     }
                 }
                 $duration = microtime(true) - $start;
-                echo $duration . PHP_EOL;
+                $duration_per_item = $duration / 1000;
+                $item_per_second = 1 / $duration_per_item;
+                echo 'Items per second: ' . $item_per_second . PHP_EOL;
+                $start = microtime(true);
                 $result['count'] += $create_many_response['count'];
                 if(array_key_exists('error', $create_many_response)){
                     foreach ($create_many_response['error']['list'] as $nr => $record) {
@@ -171,7 +174,7 @@ Trait Import {
                     }
                     $result['error']['count']+= $create_many_response['error']['count'];
                 }
-                echo 'Create: ' . $i . '/' . $create_many_count . PHP_EOL;
+//                echo 'Create: ' . $i . '/' . $create_many_count . PHP_EOL;
                 $i = $i + 1000;
             }
             $i =0;
