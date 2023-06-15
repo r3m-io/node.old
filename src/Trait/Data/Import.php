@@ -75,12 +75,12 @@ Trait Import {
                         return [];
                     }
                 } else {
-                    $number = (int)Cli::read('input', 'Please give the number which you want to import: ');
+                    $number = (int) Cli::read('input', 'Please give the number which you want to import: ');
                     while (
                     !array_key_exists($number, $select)
                     ) {
                         echo 'Invalid input please select a number from the list.' . PHP_EOL;
-                        $number = (int)Cli::read('input', 'Please give the number which you want to import: ');
+                        $number = (int) Cli::read('input', 'Please give the number which you want to import: ');
                     }
                 }
                 $read = $dir->read($select[$number], true);
@@ -150,10 +150,12 @@ Trait Import {
             for($i = 0; $i < $create_many_count; $i=$i+1000){
                 $temp = array_slice($create_many, $i, 1000, true);
                 $create_many_response = $this->create_many($class, $role, $temp, $options);
-                foreach ($create_many_response['list'] as $nr => $record) {
-                    $record['#index'] = $index;
-                    $result['list'][] = $record;
-                    $index++;
+                if($index < 1000){
+                    foreach ($create_many_response['list'] as $nr => $record) {
+                        $record['#index'] = $index;
+                        $result['list'][] = $record;
+                        $index++;
+                    }
                 }
                 $result['count'] += $create_many_response['count'];
                 if(array_key_exists('error', $create_many_response)){
@@ -169,17 +171,19 @@ Trait Import {
                 $put_options = $options;
                 $put_options['ramdisk'] = true;
                 $put_many_response = $this->put_many($class, $role, $temp, $put_options);
-                foreach ($put_many_response['list'] as $nr => $record) {
-                    $record['#index'] = $index;
-                    $result['list'][] = $record;
-                    $index++;
+                if($index < 1000){
+                    foreach ($put_many_response['list'] as $nr => $record) {
+                        $record['#index'] = $index;
+                        $result['list'][] = $record;
+                        $index++;
+                    }
                 }
                 $result['count'] += $put_many_response['count'];
                 if(array_key_exists('error', $put_many_response)) {
                     foreach ($put_many_response['error']['list'] as $nr => $record) {
                         $result['error']['list'][] = $record;
                     }
-                    $result['error']['count']+= $put_many_response['error']['count'];
+                    $result['error']['count'] += $put_many_response['error']['count'];
                 }
                 echo 'Update: ' . $i . '/' . $create_many_count . PHP_EOL;
             }
