@@ -287,8 +287,8 @@ Trait Create {
             $object->config('extension.json');
         $meta_url = $dir_meta . $name . $object->config('extension.json');
         if(
-            array_key_exists('validate', $options) &&
-            $options['validate'] === false
+            array_key_exists('validation', $options) &&
+            $options['validation'] === false
         ){
             $validate = (object) ['success' => true];
         } else {
