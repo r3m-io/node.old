@@ -136,7 +136,7 @@ Trait Import {
                     $counter++;
                     continue;
                 }
-                if($counter > ($options['offset'] + $options['limit'])){
+                if($counter >= ($options['offset'] + $options['limit'])){
                     break;
                 }
                 $uuid = false;
@@ -175,7 +175,7 @@ Trait Import {
             $i = 0;
             while($i < $create_many_count){
                 $temp = array_slice($create_many, $i, 1000, true);
-                echo 'Count: ' . count($temp) . '/ ' . $create_many_count . ' Start: ' . $i . PHP_EOL;
+                echo 'Count: ' . count($temp) . '/ ' . $create_many_count . ' Start: ' . $i . ' Offset: ' . $options['offset'] . PHP_EOL;
                 $create_many_response = $this->create_many($class, $role, $temp, $options);
                 if($index < 1000){
                     foreach ($create_many_response['list'] as $nr => $record) {
