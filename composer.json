@@ -6,7 +6,8 @@
     "homepage": "https://r3m.io",
     "require" : {
         "ext-posix": "*",
-        "ext-zlib": "*"
+        "ext-zlib": "*",
+        "ext-iconv": "*"
     },
     "license" : "MIT",
     "authors" : [{
