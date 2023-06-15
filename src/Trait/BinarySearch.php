@@ -1082,7 +1082,6 @@ Trait BinarySearch {
                 }
             }
         }
-        ddd($url);
         $index = 0;
         $start = $index;
         $end = $start + (int) $options['limit'];
@@ -1134,7 +1133,9 @@ Trait BinarySearch {
             $url
         ){
             $cache = new Storage($page);
-            $cache->write($url);
+            $write = $cache->write($url);
+            d($url);
+            ddd($write);
             File::touch($url, $options['mtime']);
         }
         return $page;
