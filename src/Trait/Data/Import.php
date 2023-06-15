@@ -138,9 +138,10 @@ Trait Import {
                                 }
                             }
                         }
-                        ddd($options);
                         $create_many_response = $this->create_many($class, $role, $create_many, $options);
-                        $put_many_response = $this->put_many($class, $role, $put_many, $options);
+                        $put_options = $options;
+                        $put_options['ramdisk'] = true;
+                        $put_many_response = $this->put_many($class, $role, $put_many, $put_options);
                         foreach ($create_many_response['list'] as $nr => $record) {
                             $result['list'][] = $record;
                         }
