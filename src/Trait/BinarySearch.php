@@ -109,9 +109,7 @@ Trait BinarySearch {
                 'lines'=> $sort_lines,
                 'counter' => 0,
                 'direction' => 'next',
-                'url' => $url_property,
-                'mtime' => $mtime,
-                'ramdisk' => true
+                'url' => $url_property
             ]);
             if(!empty($filter_list)){
                 $filter = [];
@@ -187,8 +185,6 @@ Trait BinarySearch {
                 'counter' => 0,
                 'direction' => 'next',
                 'url' => $url_property,
-                'mtime' => $mtime,
-                'ramdisk' => true
             ]);
             if(!empty($where_list)){
                 $where = [];
