@@ -289,7 +289,6 @@ Trait Create {
                     $name,
                     $name . '.' . __FUNCTION__ . '.expose'
                 );
-                ddd($expose);
                 $node = new Storage();
                 $node->data($object->request('node'));
                 $node->set('#class', $name);
@@ -409,8 +408,6 @@ Trait Create {
                     } else {
                        throw new Exception('Make sure, you have the right permission (' . $name . '.' . __FUNCTION__ .')');
                     }
-                } else {
-                    throw new Exception('Expose not found (' . $name . '.' . __FUNCTION__ .')');
                 }
             } else {
                 $response['error'] = $validate->test;
