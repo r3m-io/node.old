@@ -100,7 +100,7 @@ Trait Put {
             ],
             'relation' => false,
             'function' => __FUNCTION__,
-            'ramdisk'> array_key_exists('ramdisk',$options) ? $options['ramdisk'] : false
+            'ramdisk'> !empty($options['ramdisk']) ?? false
         ];
         $response = $this->record(
             $name,
