@@ -195,9 +195,9 @@ Trait Data {
         if($data === null){
             $data = $object->parse_read($url, sha1($url));
         }
+        d($data);
         if($data){
             $validate = $data->data($type . '.validate');
-            d($validate);
             if(empty($validate)){
                 throw new Exception('No validation found for ' . $type . ' in ' . $url . '.');
             }
