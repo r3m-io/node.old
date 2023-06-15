@@ -127,6 +127,12 @@ Trait Import {
                 ) {
                     $uuid = $record->uuid;
                 }
+                if(
+                    property_exists($app_options, 'is_new') &&
+                    $app_options->is_new === true
+                ){
+                    $uuid = false;
+                }
                 if ($uuid) {
                     $response = $this->read($class, $role, ['uuid' => $uuid]);
                     if (!$response) {
