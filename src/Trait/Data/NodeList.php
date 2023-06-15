@@ -447,7 +447,9 @@ Trait NodeList {
                             'url' => $url,
                             'function' => $options['function'],
                             'relation' => $options['relation'],
-                            'name' => $name
+                            'name' => $name,
+                            'ramdisk' => true,
+                            'mtime' => $mtime,
                         ]
                     );
                     $result = [];
