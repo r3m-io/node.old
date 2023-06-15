@@ -1065,6 +1065,8 @@ Trait BinarySearch {
                 $key .
                 $object->config('extension.json')
             ;
+            d(date('Y-m-d H:i:s', $options['mtime']));
+            d(date('Y-m-d H:i:s', File::mtime($url)));
             if(
                 File::exist($url) &&
                 File::mtime($url) === $options['mtime']
