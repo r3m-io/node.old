@@ -754,7 +754,6 @@ Trait BinarySearch {
             array_key_exists('ramdisk', $options) &&
             $options['ramdisk'] === true
         ){
-            d('yes');
             $ramdisk_options = $options;
             unset($ramdisk_options['mtime']);
             $key = sha1(Core::object($ramdisk_options, Core::OBJECT_JSON));
