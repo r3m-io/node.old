@@ -162,6 +162,7 @@ Trait Import {
                     }
                     $result['error']['count']+= $create_many_response['error']['count'];
                 }
+                echo 'Create: ' . $i . '/' . $create_many_count . PHP_EOL;
             }
             for($i = 0; $i < $put_many_count; $i=$i+1000){
                 $temp = array_slice($put_many, $i, 1000, true);
@@ -180,6 +181,7 @@ Trait Import {
                     }
                     $result['error']['count']+= $put_many_response['error']['count'];
                 }
+                echo 'Update: ' . $i . '/' . $create_many_count . PHP_EOL;
             }
         }
         if($result['error']['count'] === 0){
