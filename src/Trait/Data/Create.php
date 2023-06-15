@@ -41,7 +41,7 @@ Trait Create {
                 'is_many' => true,
                 'function' => $options['function'] ?? __FUNCTION__,
                 'force' => $options['force'] ?? false,
-                'validate' => $options['validate'] ?? true,
+                'validation' => $options['validation'] ?? true,
                 ]
             );
             if(
