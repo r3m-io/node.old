@@ -101,7 +101,6 @@ Trait Put {
             ],
             'relation' => false,
             'function' => __FUNCTION__,
-            'ramdisk'> !empty($options['ramdisk']) ?? false
         ];
         $response = $this->record(
             $name,
