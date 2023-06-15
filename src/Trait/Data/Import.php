@@ -149,35 +149,37 @@ Trait Import {
             }
             for($i = 0; $i < $create_many_count; $i=$i+1000){
                 $temp = array_slice($create_many, $i, 1000, true);
-                ddd($temp);
-            }
-            $create_many_response = $this->create_many($class, $role, $create_many, $options);
-            $put_options = $options;
-            $put_options['ramdisk'] = true;
-            $put_many_response = $this->put_many($class, $role, $put_many, $put_options);
-            foreach ($create_many_response['list'] as $nr => $record) {
-                $record['#index'] = $index;
-                $result['list'][] = $record;
-                $index++;
-            }
-            foreach ($put_many_response['list'] as $nr => $record) {
-                $record['#index'] = $index;
-                $result['list'][] = $record;
-                $index++;
-            }
-            $result['count'] += $create_many_response['count'];
-            $result['count'] += $put_many_response['count'];
-            if(array_key_exists('error', $create_many_response)){
-                foreach ($create_many_response['error']['list'] as $nr => $record) {
-                    $result['error']['list'][] = $record;
+                $create_many_response = $this->create_many($class, $role, $temp, $options);
+                foreach ($create_many_response['list'] as $nr => $record) {
+                    $record['#index'] = $index;
+                    $result['list'][] = $record;
+                    $index++;
                 }
-                $result['error']['count']+= $create_many_response['error']['count'];
-            }
-            if(array_key_exists('error', $put_many_response)) {
-                foreach ($put_many_response['error']['list'] as $nr => $record) {
-                    $result['error']['list'][] = $record;
+                $result['count'] += $create_many_response['count'];
+                if(array_key_exists('error', $create_many_response)){
+                    foreach ($create_many_response['error']['list'] as $nr => $record) {
+                        $result['error']['list'][] = $record;
+                    }
+                    $result['error']['count']+= $create_many_response['error']['count'];
                 }
-                $result['error']['count']+= $put_many_response['error']['count'];
+            }
+            for($i = 0; $i < $put_many_count; $i=$i+1000){
+                $temp = array_slice($put_many, $i, 1000, true);
+                $put_options = $options;
+                $put_options['ramdisk'] = true;
+                $put_many_response = $this->put_many($class, $role, $temp, $put_options);
+                foreach ($put_many_response['list'] as $nr => $record) {
+                    $record['#index'] = $index;
+                    $result['list'][] = $record;
+                    $index++;
+                }
+                $result['count'] += $put_many_response['count'];
+                if(array_key_exists('error', $put_many_response)) {
+                    foreach ($put_many_response['error']['list'] as $nr => $record) {
+                        $result['error']['list'][] = $record;
+                    }
+                    $result['error']['count']+= $put_many_response['error']['count'];
+                }
             }
         }
         if($result['error']['count'] === 0){
