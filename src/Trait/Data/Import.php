@@ -137,6 +137,7 @@ Trait Import {
                     $create_many[] = $record;
                 }
             }
+            ddd('end');
             $create_many_response = $this->create_many($class, $role, $create_many, $options);
             $put_options = $options;
             $put_options['ramdisk'] = true;
