@@ -46,6 +46,7 @@ Trait Import {
             $table[$index] = $record;
             $index++;
         }
+        ddd($table);
         ddd('end');
 
         $options['function'] = __FUNCTION__;
