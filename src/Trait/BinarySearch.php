@@ -1067,7 +1067,7 @@ Trait BinarySearch {
             ;
             d($url);
             d(File::mtime($url));
-            ddd($options);
+            d($options);
             if(
                 File::exist($url) &&
                 File::mtime($url) === $options['mtime']
