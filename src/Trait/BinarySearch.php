@@ -1048,7 +1048,7 @@ Trait BinarySearch {
         ){
             $ramdisk_options = $options;
             unset($ramdisk_options['mtime']);
-            $key = sha1(Core::object($options, Core::OBJECT_JSON));
+            $key = sha1(Core::object($ramdisk_options, Core::OBJECT_JSON));
             $url = $object->config('ramdisk.url') .
                 $object->config(Config::POSIX_ID) .
                 $object->config('ds') .
