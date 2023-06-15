@@ -46,7 +46,16 @@ Trait Import {
             $table[$index] = $record;
             $index++;
         }
-        ddd($table);
+        $object = $this->object();
+        $url = $object->config('project.dir.data') .
+            'App' .
+            $object->config('ds') .
+            'UTF-8' .
+            $object->config('extension.json')
+        ;
+        $storage = new Storage();
+        $storage->set('UTF-8', $table);
+        $storage->write($url);
         ddd('end');
 
         $options['function'] = __FUNCTION__;
