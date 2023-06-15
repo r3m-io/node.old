@@ -110,6 +110,8 @@ Trait Import {
             }
         }
         if($data) {
+            $create_many_count = 0;
+            $put_many_count = 0;
             $create_many = [];
             $put_many = [];
             foreach ($data->data($class) as $key => $record) {
@@ -127,17 +129,22 @@ Trait Import {
                 }
                 if ($uuid) {
                     $response = $this->read($class, $role, ['uuid' => $uuid]);
-                    ddd($response);
                     if (!$response) {
                         $create_many[] = $record;
+                        $create_many_count++;
                     } else {
                         $put_many[] = $record;
+                        $put_many_count++;
                     }
                 } else {
                     $create_many[] = $record;
+                    $create_many_count++;
                 }
             }
-            ddd('end');
+            for($i = 0; $i < $create_many_count; $i=$i+1000){
+                $temp = array_slice($create_many, $i, 1000);
+                ddd($temp);
+            }
             $create_many_response = $this->create_many($class, $role, $create_many, $options);
             $put_options = $options;
             $put_options['ramdisk'] = true;
