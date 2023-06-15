@@ -197,7 +197,7 @@ Trait Data {
         }
         d($data);
         if($data){
-            $validate = $data->data($type . '.validate');
+            $validate = clone $data->data($type . '.validate');
             if(empty($validate)){
                 throw new Exception('No validation found for ' . $type . ' in ' . $url . '.');
             }
