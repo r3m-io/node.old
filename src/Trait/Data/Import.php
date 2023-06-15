@@ -32,6 +32,10 @@ Trait Import {
         if(!File::exist($options['url'])){
             return [];
         }
+
+        $encodings = mb_list_encodings();
+        ddd($encodings);
+
         $options['function'] = __FUNCTION__;
         $object = $this->object();
         $app_options = App::options($object);
