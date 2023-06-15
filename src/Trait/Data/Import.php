@@ -34,7 +34,17 @@ Trait Import {
         }
 
         $encodings = mb_list_encodings();
-        ddd($encodings);
+        if(
+            in_array(
+                'UTF-8',
+                $encodings,
+                true
+            )
+        ){
+            $table = mb_get_info('unicode')['table'];
+            ddd($table);
+        }
+        ddd('end');
 
         $options['function'] = __FUNCTION__;
         $object = $this->object();
