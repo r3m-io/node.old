@@ -35,6 +35,7 @@ Trait Import {
         $options['function'] = __FUNCTION__;
         $object = $this->object();
         $app_options = App::options($object);
+        ddd($app_options);
         $data = false;
         $index = 0;
         $result = [
