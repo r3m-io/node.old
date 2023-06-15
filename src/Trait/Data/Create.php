@@ -50,6 +50,7 @@ Trait Create {
                 $result['error']['list'][] = $response['error'];
                 $error++;
                 echo 'Error (response): ' . $error . PHP_EOL;
+                echo Core::object($response['error'], Core::OBJECT_JSON) . PHP_EOL;
             }
             elseif(
                 $response &&
