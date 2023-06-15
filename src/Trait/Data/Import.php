@@ -39,6 +39,18 @@ Trait Import {
         if(property_exists($app_options, 'force')){
             $options['force'] = $app_options->force;
         }
+        if(property_exists($app_options, 'offset')){
+            $options['offset'] = $app_options->offset;
+        }
+        if(property_exists($app_options, 'limit')){
+            $options['limit'] = $app_options->limit;
+        }
+        if(!array_key_exists('offset', $options)){
+            $options['offset'] = 0;
+        }
+        if(!array_key_exists('limit', $options)){
+            $options['limit'] = 50000; //tested on laptop 50.000 is around 80 items / second, above 50.000 is around 5 items / second
+        }
         $data = false;
         $index = 0;
         $result = [
@@ -118,7 +130,15 @@ Trait Import {
             $put_many_count = 0;
             $create_many = [];
             $put_many = [];
+            $counter = 0;
             foreach ($data->data($class) as $key => $record) {
+                if($counter < $options['offset']){
+                    $counter++;
+                    continue;
+                }
+                if($counter > ($options['offset'] + $options['limit'])){
+                    break;
+                }
                 $uuid = false;
                 if (
                     is_array($record) &&
@@ -150,6 +170,7 @@ Trait Import {
                     $create_many[] = $record;
                     $create_many_count++;
                 }
+                $counter++;
             }
             $i = 0;
             while($i < $create_many_count){
