@@ -50,6 +50,8 @@ Trait Import {
             $options['is_url'] === true
         ){
             $data = $object->data_read($options['url']);
+            d($data);
+            ddd('test');
         } else {
             $dir = new Dir();
             $read = $dir->read($options['url']);
