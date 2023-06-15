@@ -1136,6 +1136,7 @@ Trait BinarySearch {
         ){
             $cache = new Storage($page);
             $write = $cache->write($url);
+            d($options['mtime']);
             File::touch($url, $options['mtime']);
         }
         return $page;
