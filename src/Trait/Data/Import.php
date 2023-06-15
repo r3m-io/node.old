@@ -158,10 +158,6 @@ Trait Import {
                 $create_many_response = $this->create_many($class, $role, $temp, $options);
                 if($index < 1000){
                     foreach ($create_many_response['list'] as $nr => $record) {
-                        if(is_string($record)){
-                            ddd($create_many_response);
-                        }
-                        $record['#index'] = $index;
                         $result['list'][] = $record;
                         $index++;
                     }
@@ -186,7 +182,6 @@ Trait Import {
                 $put_many_response = $this->put_many($class, $role, $temp, $put_options);
                 if($index < 1000){
                     foreach ($put_many_response['list'] as $nr => $record) {
-                        $record['#index'] = $index;
                         $result['list'][] = $record;
                         $index++;
                     }
