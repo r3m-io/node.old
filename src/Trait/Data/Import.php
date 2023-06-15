@@ -32,6 +32,7 @@ Trait Import {
         if(!File::exist($options['url'])){
             return [];
         }
+        $start = microtime(true);
         $options['function'] = __FUNCTION__;
         $object = $this->object();
         $app_options = App::options($object);
@@ -160,6 +161,8 @@ Trait Import {
                         $index++;
                     }
                 }
+                $duration = microtime(true) - $start;
+                echo $duration . PHP_EOL;
                 $result['count'] += $create_many_response['count'];
                 if(array_key_exists('error', $create_many_response)){
                     foreach ($create_many_response['error']['list'] as $nr => $record) {
