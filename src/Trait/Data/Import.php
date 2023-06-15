@@ -51,7 +51,6 @@ Trait Import {
         } else {
             $options['validation'] = true;
         }
-        ddd($options);
         if(!array_key_exists('offset', $options)){
             $options['offset'] = 0;
         }
