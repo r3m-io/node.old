@@ -32,17 +32,19 @@ Trait Import {
         if(!File::exist($options['url'])){
             return [];
         }
-
-        $encodings = mb_list_encodings();
-        if(
-            in_array(
-                'UTF-8',
-                $encodings,
-                true
-            )
-        ){
-            $table = mb_get_info('all');
-            ddd($table);
+        $start = 0x0000;
+        $end = 0x10FFFF;
+        $table = [];
+        $index = 0;
+        for($char = $start; $char <= $end; $char++){
+            $entity = '&#' . $char . ';';
+            $record = [];
+            $record['char'] = mb_convert_encoding($entity, 'UTF-8', 'HTML-ENTITIES');
+            $record['entity'] = $entity;
+            $record['#index'] = $index;
+            $record['#class'] = 'UTF-8';
+            $table[$index] = $record;
+            $index++;
         }
         ddd('end');
 
