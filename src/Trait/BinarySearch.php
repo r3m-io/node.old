@@ -1065,6 +1065,8 @@ Trait BinarySearch {
                 $key .
                 $object->config('extension.json')
             ;
+            d(File::mtime($url));
+            ddd($options);
             if(
                 File::exist($url) &&
                 File::mtime($url) === $options['mtime']
@@ -1134,8 +1136,6 @@ Trait BinarySearch {
         ){
             $cache = new Storage($page);
             $write = $cache->write($url);
-            d($url);
-            ddd($write);
             File::touch($url, $options['mtime']);
         }
         return $page;
