@@ -32,37 +32,6 @@ Trait Import {
         if(!File::exist($options['url'])){
             return [];
         }
-        $start = 0x0000;
-        $end = 0x10FFFF;
-        $table = [];
-        $index = 0;
-        for($char = $start; $char <= $end; $char++){
-            $entity = '&#' . $char . ';';
-            $record = [];
-            $record['char'] = mb_convert_encoding($entity, 'UTF-8', 'HTML-ENTITIES');
-            $encoding = mb_detect_encoding($record['char'], mb_detect_order(), true);
-            if($encoding !== 'UTF-8'){
-                $record['char'] = iconv($encoding, 'UTF-8//IGNORE', $record['char']);
-            }
-            $record['entity'] = $entity;
-            $record['#key'] = $index;
-            $record['#class'] = 'UTF-8';
-            $record['uuid'] = Core::uuid();
-            $table[$index] = $record;
-            $index++;
-        }
-        $object = $this->object();
-        $url = $object->config('project.dir.data') .
-            'App' .
-            $object->config('ds') .
-            'UTF-8' .
-            $object->config('extension.json')
-        ;
-        $storage = new Storage();
-        $storage->set('UTF-8', $table);
-        $storage->write($url);
-        ddd('end');
-
         $options['function'] = __FUNCTION__;
         $object = $this->object();
         $app_options = App::options($object);
