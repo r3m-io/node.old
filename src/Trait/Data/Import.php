@@ -151,9 +151,10 @@ Trait Import {
                     $create_many_count++;
                 }
             }
-            for($i = 0; $i < $create_many_count; $i=$i+1000){
+            $i = 0;
+            while($i < $create_many_count){
                 $temp = array_slice($create_many, $i, 1000, true);
-                echo 'Count: ' . count($temp) . PHP_EOL;
+                echo 'Count: ' . count($temp) . ' Start: ' . $i . PHP_EOL;
                 $create_many_response = $this->create_many($class, $role, $temp, $options);
                 if($index < 1000){
                     foreach ($create_many_response['list'] as $nr => $record) {
@@ -172,8 +173,10 @@ Trait Import {
                     $result['error']['count']+= $create_many_response['error']['count'];
                 }
                 echo 'Create: ' . $i . '/' . $create_many_count . PHP_EOL;
+                $i = $i + 1000;
             }
-            for($i = 0; $i < $put_many_count; $i=$i+1000){
+            $i =0;
+            while($i < $put_many_count){
                 $temp = array_slice($put_many, $i, 1000, true);
                 $put_options = $options;
                 $put_options['ramdisk'] = true;
@@ -192,7 +195,8 @@ Trait Import {
                     }
                     $result['error']['count'] += $put_many_response['error']['count'];
                 }
-                echo 'Update: ' . $i . '/' . $create_many_count . PHP_EOL;
+                echo 'Update: ' . $i . '/' . $put_many_count . PHP_EOL;
+                $i = $i + 1000;
             }
         }
         if($result['error']['count'] === 0){

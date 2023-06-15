@@ -55,7 +55,7 @@ Trait Create {
                 array_key_exists('node', $response) &&
                 array_key_exists('uuid', $response['node'])
             ) {
-                $result['list'][] = $response['node'];
+                $result['list'][] = $response['node']['uuid'];
                 $count++;
             } else {
                 $result['error']['list'][] = false;
@@ -119,19 +119,10 @@ Trait Create {
             $list = $list_result;
             unset($list_result);
         }
-        foreach($result as $nr => $node) {
-            if(is_array($node)){
-                if (array_key_exists('error', $node)) {
-                    continue;
-                }
-                if(!array_key_exists('node', $node)){
-                    continue;
-                }
-                if(!array_key_exists('uuid', $node['node'])) {
-                    continue;
-                }
+        if(!empty($result['list'])){
+            foreach($result['list'] as $nr => $uuid) {
                 $item = [
-                    'uuid' => $node['node']['uuid']
+                    'uuid' => $uuid
                 ];
                 $list[] = (object) $item;
             }
