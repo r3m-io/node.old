@@ -248,7 +248,6 @@ Trait Create {
             $object->config('extension.json')
         ;
         if(File::exist($url)){
-            ddd($options);
             if(
                 array_key_exists('force', $options) &&
                 $options['force'] === true
