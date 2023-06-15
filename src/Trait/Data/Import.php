@@ -38,6 +38,7 @@ Trait Import {
         $dir = new Dir();
         $read = $dir->read($options['url']);
         $select = [];
+        $index = 0;
         $result = [
             'list' => [],
             'count' => 0,
@@ -143,10 +144,14 @@ Trait Import {
                         $put_options['ramdisk'] = true;
                         $put_many_response = $this->put_many($class, $role, $put_many, $put_options);
                         foreach ($create_many_response['list'] as $nr => $record) {
+                            $record->index = $index;
                             $result['list'][] = $record;
+                            $index++;
                         }
                         foreach ($put_many_response['list'] as $nr => $record) {
+                            $record->index = $index;
                             $result['list'][] = $record;
+                            $index++;
                         }
                         $result['count']+= $create_many_response['count'];
                         $result['count']+= $put_many_response['count'];
