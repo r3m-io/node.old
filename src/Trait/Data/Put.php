@@ -69,6 +69,7 @@ Trait Put {
      */
     public function put($class, $role, $record=[], $options=[]): false|array|object
     {
+        ddd($options);
         if(is_object($record)){
             $record = (array) $record;
         }
