@@ -39,6 +39,7 @@ Trait Create {
                 [
                 'is_many' => true,
                 'function' => $options['function'] ?? __FUNCTION__,
+                'force' => $options['force'] ?? false,
                 ]
             );
             if(

@@ -38,7 +38,6 @@ Trait Import {
         if(property_exists($app_options, 'force')){
             $options['force'] = $app_options->force;
         }
-        ddd($options);
         $data = false;
         $index = 0;
         $result = [
