@@ -49,7 +49,7 @@ Trait Create {
             ) {
                 $result['error']['list'][] = $response['error'];
                 $error++;
-                echo 'Error: ' . $error . PHP_EOL;
+                echo 'Error (response): ' . $error . PHP_EOL;
             }
             elseif(
                 $response &&
@@ -62,7 +62,7 @@ Trait Create {
             } else {
                 $result['error']['list'][] = false;
                 $error++;
-                echo 'Error: ' . $error . PHP_EOL;
+                echo 'Error (false): ' . $error . PHP_EOL;
             }
 
         }
