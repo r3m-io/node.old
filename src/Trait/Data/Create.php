@@ -313,7 +313,6 @@ Trait Create {
                         ){
                             $record->set('uuid', $uuid);
                             $record->write($url);
-                            ddd($record);
                             if($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
                                 $command = 'chmod 666 ' . $url;
                                 exec($command);
