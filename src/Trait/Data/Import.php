@@ -45,6 +45,11 @@ Trait Import {
         if(property_exists($app_options, 'limit')){
             $options['limit'] = $app_options->limit;
         }
+        if(property_exists($app_options, 'disable-validation')){
+            $options['validation'] = false;
+        } else {
+            $options['validation'] = true;
+        }
         if(!array_key_exists('offset', $options)){
             $options['offset'] = 0;
         }
