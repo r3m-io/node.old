@@ -138,6 +138,7 @@ Trait Import {
                                 }
                             }
                         }
+                        ddd($options);
                         $create_many_response = $this->create_many($class, $role, $create_many, $options);
                         $put_many_response = $this->put_many($class, $role, $put_many, $options);
                         foreach ($create_many_response['list'] as $nr => $record) {
