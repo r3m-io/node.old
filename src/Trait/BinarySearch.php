@@ -1082,6 +1082,7 @@ Trait BinarySearch {
                 }
             }
         }
+        ddd($url);
         $index = 0;
         $start = $index;
         $end = $start + (int) $options['limit'];
