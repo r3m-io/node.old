@@ -153,6 +153,8 @@ Trait Import {
             }
             for($i = 0; $i < $create_many_count; $i=$i+1000){
                 $temp = array_slice($create_many, $i, 1000, true);
+                echo 'Count: ' . count($temp) . PHP_EOL;
+                die;
                 $create_many_response = $this->create_many($class, $role, $temp, $options);
                 if($index < 1000){
                     foreach ($create_many_response['list'] as $nr => $record) {
