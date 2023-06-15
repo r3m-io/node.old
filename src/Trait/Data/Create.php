@@ -247,7 +247,14 @@ Trait Create {
             $object->config('extension.json')
         ;
         if(File::exist($url)){
-            throw new Exception('File exist in create url: ' . $url);
+            if(
+                array_key_exists('force', $options) &&
+                $options['force'] === true
+            ){
+                File::delete($url);
+            } else {
+                throw new Exception('File exist in create url: ' . $url);
+            }
         }
         $dir_binary_search =
             $dir_binary_search_class .

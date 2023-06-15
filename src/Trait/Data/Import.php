@@ -35,6 +35,9 @@ Trait Import {
         $options['function'] = __FUNCTION__;
         $object = $this->object();
         $app_options = App::options($object);
+        if(property_exists($app_options, 'force')){
+            $options['force'] = $app_options->force;
+        }
         $data = false;
         $index = 0;
         $result = [
