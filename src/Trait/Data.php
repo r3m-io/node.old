@@ -195,7 +195,6 @@ Trait Data {
         if($data === null){
             $data = $object->parse_read($url, sha1($url));
         }
-        d($data);
         if($data){
             $validate = clone $data->data($type . '.validate');
             if(empty($validate)){
