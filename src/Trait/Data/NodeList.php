@@ -259,6 +259,8 @@ Trait NodeList {
                             'function' => $options['function'],
                             'relation' => $options['relation'],
                             'name' => $name,
+                            'ramdisk' => true,
+                            'mtime' => $mtime
                         ]
                     );
                 } else {
@@ -287,6 +289,8 @@ Trait NodeList {
                                 'function' => $options['function'],
                                 'relation' => $options['relation'],
                                 'name' => $name,
+                                'ramdisk' => true,
+                                'mtime' => $mtime
                             ]
                         );
                     }
@@ -356,7 +360,9 @@ Trait NodeList {
                             'url' => $where_url,
                             'function' => $options['function'],
                             'relation' => $options['relation'],
-                            'name' => $name
+                            'name' => $name,
+                            'ramdisk' => true,
+                            'mtime' => $mtime
                         ]
                     );
                 } else {
@@ -385,6 +391,8 @@ Trait NodeList {
                                 'function' => $options['function'],
                                 'relation' => $options['relation'],
                                 'name' => $name,
+                                'ramdisk' => true,
+                                'mtime' => $mtime
                             ]
                         );
                     }
@@ -448,6 +456,8 @@ Trait NodeList {
                             'function' => $options['function'],
                             'relation' => $options['relation'],
                             'name' => $name,
+                            'ramdisk' => true,
+                            'mtime' => $mtime
                         ]
                     );
                     $result = [];

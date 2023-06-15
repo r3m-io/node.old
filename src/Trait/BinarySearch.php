@@ -739,7 +739,6 @@ Trait BinarySearch {
      */
     private function binary_search_page($file, $role, &$counter=0, $options=[]): array
     {
-        ddd($options);
         $object = $this->object();
         $index = 0;
         if(
