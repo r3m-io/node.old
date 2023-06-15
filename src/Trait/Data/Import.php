@@ -43,13 +43,11 @@ Trait Import {
             $encoding = mb_detect_encoding($record['char'], mb_detect_order(), true);
             if($encoding !== 'UTF-8'){
                 $record['char'] = iconv($encoding, 'UTF-8//IGNORE', $record['char']);
-                $record['is'] = [
-                    'broken' => true,
-                ];
             }
             $record['entity'] = $entity;
-            $record['#index'] = $index;
+            $record['#key'] = $index;
             $record['#class'] = 'UTF-8';
+            $record['uuid'] = Core::uuid();
             $table[$index] = $record;
             $index++;
         }
