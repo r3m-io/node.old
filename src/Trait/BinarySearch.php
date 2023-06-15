@@ -754,6 +754,7 @@ Trait BinarySearch {
             array_key_exists('ramdisk', $options) &&
             $options['ramdisk'] === true
         ){
+            ddd($options);
             $key = sha1(Core::object($options, Core::OBJECT_JSON));
             $url = $object->config('ramdisk.url') .
                 $object->config(Config::POSIX_ID) .

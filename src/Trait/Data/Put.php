@@ -100,10 +100,8 @@ Trait Put {
             ],
             'relation' => false,
             'function' => __FUNCTION__,
-            'ramdisk'> true
-
+            'ramdisk'> $options['ramdisk'] ?? false
         ];
-        d('here');
         $response = $this->record(
             $name,
             $role,
