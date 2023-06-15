@@ -49,6 +49,7 @@ Trait Create {
             ) {
                 $result['error']['list'][] = $response['error'];
                 $error++;
+                echo 'Error: ' . $error . PHP_EOL;
             }
             elseif(
                 $response &&
@@ -57,11 +58,13 @@ Trait Create {
             ) {
                 $result['list'][] = $response['node']['uuid'];
                 $count++;
+                echo 'Count: ' . $count . ' Uuid: ' . $response['node']['uuid'] . PHP_EOL;
             } else {
                 $result['error']['list'][] = false;
                 $error++;
+                echo 'Error: ' . $error . PHP_EOL;
             }
-            echo 'Count: ' . $count . ' Error: ' . $error . PHP_EOL;
+
         }
         $result['count'] = $count;
         $result['error']['count'] = $error;
