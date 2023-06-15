@@ -448,8 +448,6 @@ Trait NodeList {
                             'function' => $options['function'],
                             'relation' => $options['relation'],
                             'name' => $name,
-                            'ramdisk' => true,
-                            'mtime' => $mtime,
                         ]
                     );
                     $result = [];
