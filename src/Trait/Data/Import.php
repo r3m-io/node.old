@@ -41,7 +41,7 @@ Trait Import {
                 true
             )
         ){
-            $table = mb_get_info('unicode')['table'];
+            $table = mb_get_info('all');
             ddd($table);
         }
         ddd('end');
