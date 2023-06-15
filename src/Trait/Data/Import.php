@@ -50,8 +50,6 @@ Trait Import {
             $options['is_url'] === true
         ){
             $data = $object->data_read($options['url']);
-            d($data);
-            ddd('test');
         } else {
             $dir = new Dir();
             $read = $dir->read($options['url']);
@@ -129,11 +127,14 @@ Trait Import {
                 }
                 if ($uuid) {
                     $response = $this->read($class, $role, ['uuid' => $uuid]);
+                    ddd($response);
                     if (!$response) {
                         $create_many[] = $record;
                     } else {
                         $put_many[] = $record;
                     }
+                } else {
+                    $create_many[] = $record;
                 }
             }
             $create_many_response = $this->create_many($class, $role, $create_many, $options);
