@@ -281,7 +281,6 @@ Trait Create {
             $object->config('extension.json');
         $meta_url = $dir_meta . $name . $object->config('extension.json');
         $validate = $this->validate($object, $validate_url,  $name . '.create');
-        ddd($validate);
         $response = [];
         if($validate) {
             if($validate->success === true) {
@@ -290,6 +289,7 @@ Trait Create {
                     $name,
                     $name . '.' . __FUNCTION__ . '.expose'
                 );
+                ddd($expose);
                 $node = new Storage();
                 $node->data($object->request('node'));
                 $node->set('#class', $name);
