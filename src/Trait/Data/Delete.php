@@ -18,6 +18,7 @@ Trait Delete {
         $name = Controller::name($class);
         $object = $this->object();
         $node = new Storage( (object) $options);
+        d($options);
         ddd($node);
         $dir_node = $object->config('project.dir.data') .
             'Node' .
@@ -68,6 +69,9 @@ Trait Delete {
             return false;
         }
         $uuid = $node->get('uuid');
+        if(empty($uuid)){
+            return false;
+        }
         foreach($list as $nr => $record){
             if(
                 is_array($record) &&
