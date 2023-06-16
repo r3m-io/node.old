@@ -196,11 +196,16 @@ Trait Data {
             $data = $object->parse_read($url, sha1($url));
         }
         if($data){
-            $validate = clone $data->data($type . '.validate');
-            if(empty($validate)){
+            $clone = $data->data($type . '.validate');
+            if(is_object($clone)){
+                $validate = clone $clone;
+                if(empty($validate)){
+                    throw new Exception('No validation found for ' . $type . ' in ' . $url . '.');
+                }
+                return Validate::validate($object, $validate);
+            } else {
                 throw new Exception('No validation found for ' . $type . ' in ' . $url . '.');
             }
-            return Validate::validate($object, $validate);
         }
         return false;
     }
