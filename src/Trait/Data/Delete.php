@@ -112,8 +112,7 @@ Trait Delete {
             $uuid .
             $object->config('extension.json')
         ;
-        File::delete($url_node);
-        return true;
+        return File::delete($url_node);
     }
 
     /**
