@@ -94,7 +94,11 @@ Trait Delete {
         }
         $data->set($name, $result);
         $lines = $data->write($url_property, 'lines');
-        $meta->set('Sort.' . $name . '.' . $sort_key . '.' . 'count', --$count);
+        $count = $count - 1;
+        if($count < 0){
+            $count = 0;
+        }
+        $meta->set('Sort.' . $name . '.' . $sort_key . '.' . 'count', $count);
         $meta->set('Sort.' . $name . '.' . $sort_key . '.' . 'lines', $lines);
         $meta->write($meta_url);
         $url_node = $dir_node .
