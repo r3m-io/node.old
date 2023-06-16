@@ -18,8 +18,6 @@ Trait Delete {
         $name = Controller::name($class);
         $object = $this->object();
         $node = new Storage( (object) $options);
-        d($options);
-        ddd($node);
         $dir_node = $object->config('project.dir.data') .
             'Node' .
             $object->config('ds')
@@ -99,7 +97,7 @@ Trait Delete {
         }
         $data->set($name, $result);
         $lines = $data->write($url_property, 'lines');
-        $count = $count - 1;
+        $count = $index;
         if($count < 0){
             $count = 0;
         }
