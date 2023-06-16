@@ -294,10 +294,6 @@ Trait Create {
         } else {
             $validate = $this->validate($object, $validate_url,  $name . '.create');
         }
-        d($name . '.create');
-        d($object->request('node'));
-        ddd($validate);
-
         $response = [];
         if($validate) {
             if($validate->success === true) {
@@ -320,6 +316,7 @@ Trait Create {
                         __FUNCTION__,
                         $role
                     );
+                    ddd($record);
                     if (
                         $record->has('uuid') &&
                         !empty($record->get('uuid'))
