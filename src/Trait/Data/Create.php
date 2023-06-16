@@ -294,6 +294,9 @@ Trait Create {
         } else {
             $validate = $this->validate($object, $validate_url,  $name . '.create');
         }
+        d($object->requst('node'));
+        ddd($validate);
+
         $response = [];
         if($validate) {
             if($validate->success === true) {
