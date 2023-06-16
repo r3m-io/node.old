@@ -145,7 +145,6 @@ Trait Import {
                 if($counter >= ($options['offset'] + $options['limit'])){
                     break;
                 }
-                ddd($record);
                 $uuid = false;
                 if (
                     is_array($record) &&
