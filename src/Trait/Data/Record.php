@@ -20,6 +20,7 @@ Trait Record {
         $options['page'] = 1;
         if(!array_key_exists('function', $options)){
             $options['function'] = __FUNCTION__;
+            $options['filter'] = [];
         }
         if(!array_key_exists('sort', $options)){
             throw new Exception('Sort is missing in options');
