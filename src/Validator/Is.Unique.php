@@ -96,6 +96,7 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
         $unique = new Unique($parse, $data);
         $object->data('Is.Unique', $unique);
     }
+    d($class);
     d($options);
     $record = $unique->record($class, $unique->role_system(), $options);
     ddd($record);
