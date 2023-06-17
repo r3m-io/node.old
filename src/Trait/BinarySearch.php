@@ -848,10 +848,7 @@ Trait BinarySearch {
                     !empty($record) &&
                     !empty($options['filter'])
                 ){
-                    d($record);
-                    d($options['filter']);
                     $record = $this->filter($record, $options['filter'], $options);
-                    d($record);
                 }
                 elseif(
                     !empty($record) &&
