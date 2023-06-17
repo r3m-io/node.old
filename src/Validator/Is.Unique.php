@@ -23,9 +23,6 @@ use R3m\Io\Module\Parse;
  */
 function validate_is_unique(App $object, $value='', $attribute='', $validate='')
 {
-    d($validate);
-    d($value);
-    d($attribute);
     $url = false;
     $class = false;
     if (is_object($validate)) {
@@ -99,7 +96,9 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
         $unique = new Unique($parse, $data);
         $object->data('Is.Unique', $unique);
     }
+    d($options);
     $record = $unique->record($class, $unique->role_system(), $options);
+    ddd($record);
     if (empty($record)) {
         return true;
     }
