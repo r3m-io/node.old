@@ -25,6 +25,9 @@ Trait Record {
             throw new Exception('Sort is missing in options');
         }
         $list = $this->list($class, $role, $options);
+        if($options['function'] == __FUNCTION__){
+            ddd($list);
+        }
         if(
             is_array($list) &&
             array_key_exists('list', $list) &&
