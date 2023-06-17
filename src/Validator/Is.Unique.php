@@ -23,6 +23,9 @@ use R3m\Io\Module\Parse;
  */
 function validate_is_unique(App $object, $value='', $attribute='', $validate='')
 {
+    d($validate);
+    d($value);
+    d($attribute);
     $url = false;
     $class = false;
     if (is_object($validate)) {
