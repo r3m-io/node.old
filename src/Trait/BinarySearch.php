@@ -776,12 +776,14 @@ Trait BinarySearch {
             ){
                 $data = $object->data_read($url, $key);
                 if($data){
-                    $time_end = microtime(true);
-                    $duration = $time_end - $time_start;
-                    if($duration < 1) {
-                        $object->logger($object->config('project.log.name'))->info('Duration: (8) ' . round($duration * 1000, 2) . ' msec url: ' . $options['url']);
-                    } else {
-                        $object->logger($object->config('project.log.name'))->info('Duration: (9) ' . round($duration, 2) . ' sec url: ' . $options['url']);
+                    if($object->config('project.log.node')){
+                        $time_end = microtime(true);
+                        $duration = $time_end - $time_start;
+                        if($duration < 1) {
+                            $object->logger($object->config('project.log.node'))->info('Duration: (8) ' . round($duration * 1000, 2) . ' msec url: ' . $options['url']);
+                        } else {
+                            $object->logger($object->config('project.log.node'))->info('Duration: (9) ' . round($duration, 2) . ' sec url: ' . $options['url']);
+                        }
                     }
                     return (array) $data->data();
                 }
@@ -869,12 +871,14 @@ Trait BinarySearch {
                 break;
             }
         }
-        $time_end = microtime(true);
-        $duration = $time_end - $time_start;
-        if($duration < 1) {
-            $object->logger($object->config('project.log.name'))->info('Duration: (1) ' . round($duration * 1000, 2) . ' msec url: ' . $options['url']);
-        } else {
-            $object->logger($object->config('project.log.name'))->info('Duration: (2) ' . round($duration, 2) . ' sec url: ' . $options['url']);
+        if($object->config('project.log.node')){
+            $time_end = microtime(true);
+            $duration = $time_end - $time_start;
+            if($duration < 1) {
+                $object->logger($object->config('project.log.node'))->info('Duration: (1) ' . round($duration * 1000, 2) . ' msec url: ' . $options['url']);
+            } else {
+                $object->logger($object->config('project.log.node'))->info('Duration: (2) ' . round($duration, 2) . ' sec url: ' . $options['url']);
+            }
         }
         if(
             array_key_exists('mtime', $options) &&
@@ -957,12 +961,14 @@ Trait BinarySearch {
                 break;
             }
         }
-        $time_end = microtime(true);
-        $duration = $time_end - $time_start;
-        if($duration < 1) {
-            $object->logger($object->config('project.log.name'))->info('Duration: (4) ' . round($duration * 1000, 2) . ' msec url: ' . $options['url']);
-        } else {
-            $object->logger($object->config('project.log.name'))->info('Duration: (5) ' . round($duration, 2) . ' sec url: ' . $options['url']);
+        if($object->config('project.log.node')){
+            $time_end = microtime(true);
+            $duration = $time_end - $time_start;
+            if($duration < 1) {
+                $object->logger($object->config('project.log.node'))->info('Duration: (4) ' . round($duration * 1000, 2) . ' msec url: ' . $options['url']);
+            } else {
+                $object->logger($object->config('project.log.node'))->info('Duration: (5) ' . round($duration, 2) . ' sec url: ' . $options['url']);
+            }
         }
         return $count;
     }
@@ -1069,12 +1075,14 @@ Trait BinarySearch {
             ){
                 $data = $object->data_read($url, $key);
                 if($data){
-                    $time_end = microtime(true);
-                    $duration = $time_end - $time_start;
-                    if($duration < 1) {
-                        $object->logger($object->config('project.log.name'))->info('Duration: (10) ' . round($duration * 1000, 2) . ' msec url: ' . $options['url']);
-                    } else {
-                        $object->logger($object->config('project.log.name'))->info('Duration: (11) ' . round($duration, 2) . ' sec url: ' . $options['url']);
+                    if($object->config('project.log.node')){
+                        $time_end = microtime(true);
+                        $duration = $time_end - $time_start;
+                        if($duration < 1) {
+                            $object->logger($object->config('project.log.node'))->info('Duration: (10) ' . round($duration * 1000, 2) . ' msec url: ' . $options['url']);
+                        } else {
+                            $object->logger($object->config('project.log.node'))->info('Duration: (11) ' . round($duration, 2) . ' sec url: ' . $options['url']);
+                        }
                     }
                     return (array) $data->data();
                 }
@@ -1117,12 +1125,14 @@ Trait BinarySearch {
                 break;
             }
         }
-        $time_end = microtime(true);
-        $duration = $time_end - $time_start;
-        if($duration < 1) {
-            $object->logger($object->config('project.log.name'))->info('Duration: (6) ' . round($duration * 1000, 2) . ' msec url: ' . $options['url']);
-        } else {
-            $object->logger($object->config('project.log.name'))->info('Duration: (7) ' . round($duration, 2) . ' sec url: ' . $options['url']);
+        if($object->config('project.log.node')){
+            $time_end = microtime(true);
+            $duration = $time_end - $time_start;
+            if($duration < 1) {
+                $object->logger($object->config('project.log.node'))->info('Duration: (6) ' . round($duration * 1000, 2) . ' msec url: ' . $options['url']);
+            } else {
+                $object->logger($object->config('project.log.node'))->info('Duration: (7) ' . round($duration, 2) . ' sec url: ' . $options['url']);
+            }
         }
         if(
             array_key_exists('mtime', $options) &&
