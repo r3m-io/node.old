@@ -409,7 +409,6 @@ Trait NodeList {
                 $result['mtime'] = $mtime;
                 if($ramdisk_url){
                     $ramdisk_data = new Storage($result);
-                    d($ramdisk_url);
                     $ramdisk_data->write($ramdisk_url);
                     $this->ramdisk_permission([
                         'user_dir' => $user_dir,
@@ -472,7 +471,6 @@ Trait NodeList {
                     $result['mtime'] = $mtime;
                     if($ramdisk_url){
                         $ramdisk_data = new Storage($result);
-                        d($ramdisk_url);
                         $ramdisk_data->write($ramdisk_url);
                         $this->ramdisk_permission([
                             'user_dir' => $user_dir,
