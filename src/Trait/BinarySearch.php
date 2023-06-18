@@ -769,7 +769,7 @@ Trait BinarySearch {
                 $key .
                 $object->config('extension.json')
             ;
-            echo 'binarysearch:ramdisk:url: ' . $url . PHP_EOL;
+            //echo 'binarysearch:ramdisk:url: ' . $url . PHP_EOL;
             if(
                 File::exist($url) &&
                 File::mtime($url) === $options['mtime']
@@ -884,7 +884,7 @@ Trait BinarySearch {
         ){
             $cache = new Storage($page);
             $cache->write($url);
-            echo 'binarysearch:ramdisk:url: ' . $url . PHP_EOL;
+//            echo 'binarysearch:ramdisk:url: ' . $url . PHP_EOL;
             File::touch($url, $options['mtime']);
             File::touch($options['url'], $options['mtime']);
         }
