@@ -884,6 +884,7 @@ Trait BinarySearch {
         ){
             $cache = new Storage($page);
             $cache->write($url);
+            echo 'binarysearch:ramdisk:url: ' . $url . PHP_EOL;
             File::touch($url, $options['mtime']);
             File::touch($options['url'], $options['mtime']);
         }
