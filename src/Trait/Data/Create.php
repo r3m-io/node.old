@@ -42,6 +42,7 @@ Trait Create {
                 'function' => $options['function'] ?? __FUNCTION__,
                 'force' => $options['force'] ?? false,
                 'validation' => $options['validation'] ?? true,
+                'ramdisk' => $options['ramdisk'] ?? false,
                 ]
             );
             if(
@@ -66,13 +67,28 @@ Trait Create {
                 $error++;
 //                echo 'Error (false): ' . $error . PHP_EOL;
             }
-
         }
         $result['count'] = $count;
         $result['error']['count'] = $error;
         if($result['error']['count'] === 0){
             unset($result['error']);
         }
+        if(
+            array_key_exists('transaction', $options) &&
+            $options['transaction'] === true){
+            return $result;
+        }
+        $result = $this->commit($class, $role, $result, $options);
+        return $result;
+    }
+
+    /**
+     * @throws ObjectException
+     * @throws FileWriteException
+     */
+    public function commit($class, $role, $data=[], $options=[]){
+        $name = Controller::name($class);
+        $object = $this->object();
         $dir_node = $object->config('project.dir.data') .
             'Node' .
             $object->config('ds')
@@ -116,16 +132,16 @@ Trait Create {
             $list = [];
         }
         if (is_object($list)) {
-            $list_result = [];
+            $list_data = [];
             foreach ($list as $key => $record) {
-                $list_result[] = $record;
+                $list_data[] = $record;
                 unset($list[$key]);
             }
-            $list = $list_result;
-            unset($list_result);
+            $list = $list_data;
+            unset($list_data);
         }
-        if(!empty($result['list'])){
-            foreach($result['list'] as $nr => $uuid) {
+        if(!empty($data['list'])){
+            foreach($data['list'] as $nr => $uuid) {
                 $item = [
                     'uuid' => $uuid
                 ];
@@ -178,7 +194,7 @@ Trait Create {
             $command = 'chown www-data:www-data ' . $meta_url;
             exec($command);
         }
-        return $result;
+        return $data;
     }
 
     /**

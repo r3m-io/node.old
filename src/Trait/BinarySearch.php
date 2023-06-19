@@ -871,15 +871,6 @@ Trait BinarySearch {
                 break;
             }
         }
-        if($object->config('project.log.node')){
-            $time_end = microtime(true);
-            $duration = $time_end - $time_start;
-            if($duration < 1) {
-                $object->logger($object->config('project.log.node'))->info('Duration: (1) ' . round($duration * 1000, 2) . ' msec url: ' . $options['url']);
-            } else {
-                $object->logger($object->config('project.log.node'))->info('Duration: (2) ' . round($duration, 2) . ' sec url: ' . $options['url']);
-            }
-        }
         if(
             array_key_exists('mtime', $options) &&
             array_key_exists('ramdisk', $options) &&
@@ -890,6 +881,15 @@ Trait BinarySearch {
             $cache->write($url);
             File::touch($url, $options['mtime']);
             File::touch($options['url'], $options['mtime']);
+        }
+        if($object->config('project.log.node')){
+            $time_end = microtime(true);
+            $duration = $time_end - $time_start;
+            if($duration < 1) {
+                $object->logger($object->config('project.log.node'))->info('Duration: (1) ' . round($duration * 1000, 2) . ' msec url: ' . $options['url']);
+            } else {
+                $object->logger($object->config('project.log.node'))->info('Duration: (2) ' . round($duration, 2) . ' sec url: ' . $options['url']);
+            }
         }
         return $page;
     }

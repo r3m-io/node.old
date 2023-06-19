@@ -179,15 +179,14 @@ Trait Import {
                 $counter++;
             }
             $i = 0;
+            $options['transaction'] = true;
             while($i < $create_many_count){
                 $temp = array_slice($create_many, $i, 1000, true);
                 echo 'Count: ' . count($temp) . '/ ' . $create_many_count . ' Start: ' . $i . ' Offset: ' . $options['offset'] . PHP_EOL;
                 $create_many_response = $this->create_many($class, $role, $temp, $options);
-                if($index < 1000){
-                    foreach ($create_many_response['list'] as $nr => $record) {
-                        $result['list'][] = $record;
-                        $index++;
-                    }
+                foreach ($create_many_response['list'] as $nr => $uuid) {
+                    $result['list'][] = $uuid;
+                    $index++;
                 }
                 $duration = microtime(true) - $start;
                 $duration_per_item = $duration / 1000;
@@ -210,11 +209,9 @@ Trait Import {
                 $put_options = $options;
                 $put_options['ramdisk'] = true;
                 $put_many_response = $this->put_many($class, $role, $temp, $put_options);
-                if($index < 1000){
-                    foreach ($put_many_response['list'] as $nr => $record) {
-                        $result['list'][] = $record;
-                        $index++;
-                    }
+                foreach ($put_many_response['list'] as $nr => $record) {
+                    $result['list'][] = $record;
+                    $index++;
                 }
                 $result['count'] += $put_many_response['count'];
                 if(array_key_exists('error', $put_many_response)) {
@@ -230,6 +227,7 @@ Trait Import {
         if($result['error']['count'] === 0){
             unset($result['error']);
         }
+        $this->commit($class, $role, $result, $options);
         return $result;
     }
 }
