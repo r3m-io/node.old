@@ -208,6 +208,7 @@ Trait Create {
         $name = Controller::name($class);
         $object = $this->object();
         $object->request('node', (object) $node);
+        ddd($options);
         $dir_node = $object->config('project.dir.data') .
             'Node' .
             $object->config('ds')
@@ -341,7 +342,15 @@ Trait Create {
                             $options['is_many'] === true
                         ){
                             $record->set('uuid', $uuid);
-                            $record->write($url);
+                            if(
+                                array_key_exists('ramdisk', $options) &&
+                                $options['ramdisk'] === true
+                            ){
+                                $url = '';
+                            } else {
+                                $record->write($url);
+                            }
+
                             if($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
                                 $command = 'chmod 666 ' . $url;
                                 exec($command);

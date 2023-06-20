@@ -196,7 +196,7 @@ Trait Import {
             $options['transaction'] = true;
             while($i < $create_many_count){
                 $temp = array_slice($create_many, $i, 1000, true);
-                $object->logger($object->config('project.log.node'))->info('Count: ' . count($temp) . '/ ' . $create_many_count . ' Start: ' . $i . ' Offset: ' . $options['offset']);
+                $object->logger($object->config('project.log.node'))->info('Count: ' . count($temp) . ' / ' . $create_many_count . ' Start: ' . $i . ' Offset: ' . $options['offset']);
                 $create_many_response = $this->create_many($class, $role, $temp, $options);
                 foreach ($create_many_response['list'] as $nr => $uuid) {
                     $result['list'][] = $uuid;
