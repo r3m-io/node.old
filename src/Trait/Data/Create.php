@@ -338,7 +338,6 @@ Trait Create {
         $name = Controller::name($class);
         $object = $this->object();
         $object->request('node', (object) $node);
-        ddd($options);
         $dir_node = $object->config('project.dir.data') .
             'Node' .
             $object->config('ds')
@@ -359,6 +358,26 @@ Trait Create {
             $name .
             $object->config('ds')
         ;
+        $dir_ramdisk = false;
+        if(
+            array_key_exists('ramdisk', $options) &&
+            $options['ramdisk'] === true
+        ){
+            $dir_ramdisk = $object->config('ramdisk.url') .
+                $object->config(Config::POSIX_ID) .
+                $object->config('ds') .
+                'Package' .
+                $object->config('ds') .
+                'R3m-Io' .
+                $object->config('ds') .
+                'Node' .
+                $object->config('ds') .
+                'Import' .
+                $object->config('ds') .
+                $name .
+                $object->config('ds')
+            ;
+        }
         if(
             array_key_exists('function', $options) &&
             $options['function'] === 'import'
@@ -388,6 +407,9 @@ Trait Create {
             substr($uuid, 0, 2) .
             $object->config('ds')
         ;
+        if($dir_ramdisk !== false){
+            $dir_uuid = $dir_ramdisk;
+        }
         $url = $dir_uuid .
             $uuid .
             $object->config('extension.json')
@@ -417,11 +439,11 @@ Trait Create {
                     'validate' => $dir_validate,
                     'binary_search_class' => $dir_binary_search_class,
                     'binary_search' => $dir_binary_search,
+                    'ramdisk' => $dir_ramdisk,
                 ]
             );
             $object->data('Create.dir');
         }
-
         $object->request('node.uuid', $uuid);
         $validate_url =
             $dir_validate .
@@ -472,15 +494,7 @@ Trait Create {
                             $options['is_many'] === true
                         ){
                             $record->set('uuid', $uuid);
-                            if(
-                                array_key_exists('ramdisk', $options) &&
-                                $options['ramdisk'] === true
-                            ){
-                                $url = '';
-                            } else {
-                                $record->write($url);
-                            }
-
+                            $record->write($url);
                             if($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
                                 $command = 'chmod 666 ' . $url;
                                 exec($command);
