@@ -288,7 +288,23 @@ Trait Create {
         ;
         if(!empty($data['list'])){
             foreach($data['list'] as $nr => $uuid) {
-                $source = $dir_ramdisk . $uuid . $object->config('extension.json');
+                if(
+                    !empty($options['compression']) &&
+                    !empty($options['compression']['algorithm']) &&
+                    $options['compression']['algorithm'] === 'gz'
+                ){
+                    $source = $dir_ramdisk .
+                        $uuid .
+                        $object->config('extension.json') .
+                        $object->config('extension.gz')
+                    ;
+                } else {
+                    $source =
+                        $dir_ramdisk .
+                        $uuid .
+                        $object->config('extension.json')
+                    ;
+                }
                 $destination = $dir_storage . substr($uuid, 0, 2) . $object->config('ds') . $uuid . $object->config('extension.json');
                 File::move($source, $destination, true);
                 $item = [
