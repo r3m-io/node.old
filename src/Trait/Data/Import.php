@@ -139,6 +139,10 @@ Trait Import {
             $put_many = [];
             $counter = 0;
             $list = $data->data($class);
+            if(empty($list)){
+                d($class);
+                ddd($data);
+            }
             $total = count($list);
             if(substr($options['offset'], -1, 1) === '%'){
                 $options['offset'] = (int) substr($options['offset'], 0, -1);
