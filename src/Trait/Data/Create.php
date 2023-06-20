@@ -44,6 +44,7 @@ Trait Create {
                 'force' => $options['force'] ?? false,
                 'validation' => $options['validation'] ?? true,
                 'ramdisk' => $options['ramdisk'] ?? false,
+                'compression' => $options['compression'] ?? false
                 ]
             );
             if(
@@ -429,10 +430,22 @@ Trait Create {
         if($dir_ramdisk !== false){
             $dir_uuid = $dir_ramdisk;
         }
-        $url = $dir_uuid .
-            $uuid .
-            $object->config('extension.json')
-        ;
+        if(
+            array_key_exists('compression', $options) &&
+            array_key_exists('algorithm', $options['compression']) &&
+            $options['compression']['algorithm'] === 'gz'
+        ){
+            $url = $dir_uuid .
+                $uuid .
+                $object->config('extension.json') .
+                $object->config('extension.gz')
+            ;
+        } else {
+            $url = $dir_uuid .
+                $uuid .
+                $object->config('extension.json')
+            ;
+        }
         if(File::exist($url)){
             if(
                 array_key_exists('force', $options) &&
