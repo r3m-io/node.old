@@ -10,6 +10,7 @@ use R3m\Io\Exception\ObjectException;
 use R3m\Io\Module\Controller;
 use R3m\Io\Module\Core;
 use R3m\Io\Module\Data as Storage;
+use R3m\Io\Module\Dir;
 use R3m\Io\Module\Event;
 use R3m\Io\Module\File;
 use R3m\Io\Module\Sort;
@@ -298,14 +299,27 @@ Trait Create {
                         $object->config('extension.json') .
                         $object->config('extension.gz')
                     ;
+                    $destination = $dir_storage .
+                        substr($uuid, 0, 2) .
+                        $object->config('ds') .
+                        $uuid .
+                        $object->config('extension.json') .
+                        $object->config('extension.gz')
+                    ;
                 } else {
                     $source =
                         $dir_ramdisk .
                         $uuid .
                         $object->config('extension.json')
                     ;
+                    $destination = $dir_storage .
+                        substr($uuid, 0, 2) .
+                        $object->config('ds') .
+                        $uuid .
+                        $object->config('extension.json')
+                    ;
                 }
-                $destination = $dir_storage . substr($uuid, 0, 2) . $object->config('ds') . $uuid . $object->config('extension.json');
+
                 File::move($source, $destination, true);
                 $item = [
                     'uuid' => $uuid
@@ -543,7 +557,24 @@ Trait Create {
                             $options['is_many'] === true
                         ){
                             $record->set('uuid', $uuid);
-                            $record->write($url);
+                            d($url);
+                            ddd($options);
+                            if(
+                                array_key_exists('compression', $options) &&
+                                array_key_exists('algorithm', $options['compression']) &&
+                                array_key_exists('level', $options['compression'])
+                            ){
+                                switch(strtolower($options['compression']['algorithm'])){
+                                    case 'gz':
+                                        $record_data = Core::object($record->data(), Core::OBJECT_JSON);
+                                        $gz = gzencode($record_data, $options['compression']['level']);
+                                        Dir::create(Dir::name($url));
+                                        File::write($url, $gz);
+                                        break;
+                                }
+                            } else {
+                                $record->write($url);
+                            }
                             if($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
                                 $command = 'chmod 666 ' . $url;
                                 exec($command);
