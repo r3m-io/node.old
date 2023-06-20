@@ -57,7 +57,7 @@ Trait Import {
         if(!array_key_exists('limit', $options)){
             $options['limit'] = 50000; //tested on laptop 50.000 is around 80 items / second, above 50.000 is around 5 items / second
         }
-        dd($options);
+        d($options);
         $data = false;
         $index = 0;
         $result = [
@@ -193,7 +193,7 @@ Trait Import {
             $options['transaction'] = true;
             while($i < $create_many_count){
                 $temp = array_slice($create_many, $i, 1000, true);
-                echo 'Count: ' . count($temp) . '/ ' . $create_many_count . ' Start: ' . $i . ' Offset: ' . $options['offset'] . PHP_EOL;
+                $object->logger($object->config('project.log.node'))->info('Count: ' . count($temp) . '/ ' . $create_many_count . ' Start: ' . $i . ' Offset: ' . $options['offset']);
                 $create_many_response = $this->create_many($class, $role, $temp, $options);
                 foreach ($create_many_response['list'] as $nr => $uuid) {
                     $result['list'][] = $uuid;
@@ -202,7 +202,7 @@ Trait Import {
                 $duration = microtime(true) - $start;
                 $duration_per_item = $duration / 1000;
                 $item_per_second = 1 / $duration_per_item;
-                echo 'Items per second: ' . $item_per_second . PHP_EOL;
+                $object->logger($object->config('project.log.node'))->info('Items (create_many) per second: ' . $item_per_second);
                 $start = microtime(true);
                 $result['count'] += $create_many_response['count'];
                 if(array_key_exists('error', $create_many_response)){
@@ -215,6 +215,7 @@ Trait Import {
                 $i = $i + 1000;
             }
             $i =0;
+            $start = microtime(true);
             while($i < $put_many_count){
                 $temp = array_slice($put_many, $i, 1000, true);
                 $put_options = $options;
@@ -224,6 +225,11 @@ Trait Import {
                     $result['list'][] = $record;
                     $index++;
                 }
+                $duration = microtime(true) - $start;
+                $duration_per_item = $duration / 1000;
+                $item_per_second = 1 / $duration_per_item;
+                $object->logger($object->config('project.log.node'))->info('Items (put_many) per second: ' . $item_per_second);
+                $start = microtime(true);
                 $result['count'] += $put_many_response['count'];
                 if(array_key_exists('error', $put_many_response)) {
                     foreach ($put_many_response['error']['list'] as $nr => $record) {
@@ -231,14 +237,14 @@ Trait Import {
                     }
                     $result['error']['count'] += $put_many_response['error']['count'];
                 }
-                echo 'Update: ' . $i . '/' . $put_many_count . PHP_EOL;
+//                echo 'Update: ' . $i . '/' . $put_many_count . PHP_EOL;
                 $i = $i + 1000;
             }
         }
         if($result['error']['count'] === 0){
             unset($result['error']);
         }
-        $this->commit($class, $role, $result, $options);
+//        $this->commit($class, $role, $result, $options);
         return $result;
     }
 }
