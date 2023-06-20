@@ -57,6 +57,7 @@ Trait Import {
         if(!array_key_exists('limit', $options)){
             $options['limit'] = 50000; //tested on laptop 50.000 is around 80 items / second, above 50.000 is around 5 items / second
         }
+        dd($options);
         $data = false;
         $index = 0;
         $result = [
@@ -137,6 +138,16 @@ Trait Import {
             $create_many = [];
             $put_many = [];
             $counter = 0;
+            $list = $data->data($class);
+            $total = count($list);
+            if(substr($options['offset'], -1, 1) === '%'){
+                $options['offset'] = (int) substr($options['offset'], 0, -1);
+                $options['offset'] = (int) ($total * ($options['offset'] / 100));
+            }
+            if(substr($options['limit'], -1, 1) === '%'){
+                $options['limit'] = (int) substr($options['limit'], 0, -1);
+                $options['limit'] = (int) ($total * ($options['limit'] / 100));
+            }
             foreach ($data->data($class) as $key => $record) {
                 if($counter < $options['offset']){
                     $counter++;
