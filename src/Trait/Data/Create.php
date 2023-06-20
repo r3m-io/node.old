@@ -557,10 +557,9 @@ Trait Create {
                             $options['is_many'] === true
                         ){
                             $record->set('uuid', $uuid);
-                            d($url);
-                            ddd($options);
                             if(
                                 array_key_exists('compression', $options) &&
+                                !empty($options['compression']) &&
                                 array_key_exists('algorithm', $options['compression']) &&
                                 array_key_exists('level', $options['compression'])
                             ){
