@@ -194,6 +194,7 @@ Trait Import {
             }
             $i = 0;
             $options['transaction'] = true;
+            $options['ramdisk'] = true;
             while($i < $create_many_count){
                 $temp = array_slice($create_many, $i, 1000, true);
                 $object->logger($object->config('project.log.node'))->info('Count: ' . count($temp) . ' / ' . $create_many_count . ' Start: ' . $i . ' Offset: ' . $options['offset']);
@@ -247,7 +248,13 @@ Trait Import {
         if($result['error']['count'] === 0){
             unset($result['error']);
         }
-//        $this->commit($class, $role, $result, $options);
+        $this->commit($class, $role, $result, $options);
+        if(
+            array_key_exists('ramdisk', $options) &&
+            $options['ramdisk'] === true
+        ){
+            $this->copy($class, $role, $result, $options);
+        }
         return $result;
     }
 }

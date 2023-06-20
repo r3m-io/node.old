@@ -298,6 +298,19 @@ Trait Data {
                 exec($command);
             }
         }
+        if(array_key_exists('ramdisk', $dir)){
+            if(!Dir::is($dir['ramdisk'])) {
+                Dir::create($dir['ramdisk'], Dir::CHMOD);
+                if($object->config(Config::POSIX_ID) === 0){
+                    $command = 'chown www-data:www-data ' . $dir['ramdisk'];
+                    exec($command);
+                }
+            }
+            if($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
+                $command = 'chmod 777 ' . $dir['ramdisk'];
+                exec($command);
+            }
+        }
     }
 
     public function module($url=''){
