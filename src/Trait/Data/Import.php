@@ -47,8 +47,14 @@ Trait Import {
         if(property_exists($app_options, 'limit')){
             $options['limit'] = $app_options->limit;
         }
-        if(property_exists($app_options, 'limit')){
-            $options['limit'] = $app_options->limit;
+        if(
+            property_exists($app_options, 'compression') &&
+            $app_options->compression === 'gz'
+        ){
+            $options['compression']['algorithm'] = $app_options->compression;
+            $options['compression']['level'] = 9;
+        } else {
+            $options['compression'] = false;
         }
         if(property_exists($app_options, 'disable-validation')){
             $options['validation'] = false;
