@@ -36,8 +36,8 @@ Trait Import {
         $start = microtime(true);
         $options['function'] = __FUNCTION__;
         $object = $this->object();
-        ddd($options);
         $app_options = App::options($object);
+        ddd($app_options);
         if(property_exists($app_options, 'force')){
             $options['force'] = $app_options->force;
         }
