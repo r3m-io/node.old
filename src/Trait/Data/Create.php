@@ -432,6 +432,7 @@ Trait Create {
         }
         if(
             array_key_exists('compression', $options) &&
+            !empty($options['compression']) &&
             array_key_exists('algorithm', $options['compression']) &&
             $options['compression']['algorithm'] === 'gz'
         ){
