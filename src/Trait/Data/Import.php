@@ -36,12 +36,16 @@ Trait Import {
         $start = microtime(true);
         $options['function'] = __FUNCTION__;
         $object = $this->object();
+        ddd($options);
         $app_options = App::options($object);
         if(property_exists($app_options, 'force')){
             $options['force'] = $app_options->force;
         }
         if(property_exists($app_options, 'offset')){
             $options['offset'] = $app_options->offset;
+        }
+        if(property_exists($app_options, 'limit')){
+            $options['limit'] = $app_options->limit;
         }
         if(property_exists($app_options, 'limit')){
             $options['limit'] = $app_options->limit;
@@ -57,7 +61,6 @@ Trait Import {
         if(!array_key_exists('limit', $options)){
             $options['limit'] = 50000; //tested on laptop 50.000 is around 80 items / second, above 50.000 is around 5 items / second
         }
-        d($options);
         $data = false;
         $index = 0;
         $result = [
