@@ -249,12 +249,6 @@ Trait Import {
             unset($result['error']);
         }
         $this->commit($class, $role, $result, $options);
-        if(
-            array_key_exists('ramdisk', $options) &&
-            $options['ramdisk'] === true
-        ){
-            $this->copy($class, $role, $result, $options);
-        }
         return $result;
     }
 }

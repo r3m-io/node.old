@@ -4,6 +4,7 @@ namespace R3m\Io\Node\Trait\Data;
 
 use Exception;
 use R3m\Io\Config;
+use R3m\Io\Exception\FileMoveException;
 use R3m\Io\Exception\FileWriteException;
 use R3m\Io\Exception\ObjectException;
 use R3m\Io\Module\Controller;
@@ -85,6 +86,7 @@ Trait Create {
     /**
      * @throws ObjectException
      * @throws FileWriteException
+     * @throws FileMoveException
      */
     public function commit($class, $role, $data=[], $options=[]){
         $name = Controller::name($class);
@@ -194,9 +196,20 @@ Trait Create {
             $command = 'chown www-data:www-data ' . $meta_url;
             exec($command);
         }
+        if(
+            array_key_exists('ramdisk', $options) &&
+            $options['ramdisk'] === true
+        ){
+            $this->copy($class, $role, $data, $options);
+        }
         return $data;
     }
 
+    /**
+     * @throws ObjectException
+     * @throws FileWriteException
+     * @throws FileMoveException
+     */
     public function copy($class, $role, $data=[], $options=[]){
         $name = Controller::name($class);
         $object = $this->object();
@@ -266,6 +279,12 @@ Trait Create {
             $list = $list_data;
             unset($list_data);
         }
+        $dir_storage = $object->config('project.dir.data') .
+            'Node' .
+            $object->config('ds') .
+            'Storage' .
+            $object->config('ds')
+        ;
         if(!empty($data['list'])){
             foreach($data['list'] as $nr => $uuid) {
                 $source = $dir_ramdisk . $uuid . $object->config('extension.json');
