@@ -140,8 +140,7 @@ Trait Import {
             $counter = 0;
             $list = $data->data($class);
             if(empty($list)){
-                d($class);
-                ddd($data);
+                return [];
             }
             $total = count($list);
             if(substr($options['offset'], -1, 1) === '%'){
