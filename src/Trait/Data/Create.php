@@ -593,7 +593,6 @@ Trait Create {
                             $command = 'chown www-data:www-data ' . $url;
                             exec($command);
                         }
-                        d($record->data());
                     } else {
                         $binarySearch = $object->data_read($binary_search_url);
                         if (!$binarySearch) {
@@ -694,7 +693,6 @@ Trait Create {
         } else {
             throw new Exception('Cannot validate node at: ' . $validate_url);
         }
-        ddd($response);
         return $response;
     }
 }
