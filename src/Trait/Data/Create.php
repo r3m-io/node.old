@@ -592,6 +592,7 @@ Trait Create {
                                 $command = 'chown www-data:www-data ' . $url;
                                 exec($command);
                             }
+                            d($record->data());
                         } else {
                             $binarySearch = $object->data_read($binary_search_url);
                             if (!$binarySearch) {
