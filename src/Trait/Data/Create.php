@@ -530,11 +530,11 @@ Trait Create {
         $response = [];
         if($validate) {
             if($validate->success === true) {
+                $record = new Storage();
                 if(
                     array_key_exists('expose', $options) &&
                     $options['expose'] === false
                 ){
-                    $record = new Storage();
                     $record->data($object->request('node'));
                     $record->set('#class', $name);
                 } else {
@@ -546,7 +546,7 @@ Trait Create {
                     $node = new Storage();
                     $node->data($object->request('node'));
                     $node->set('#class', $name);
-                    if(
+                    if (
                         $expose &&
                         $role
                     ) {
@@ -558,126 +558,126 @@ Trait Create {
                             $role
                         );
                     }
-                    if (
-                        $record->has('uuid') &&
-                        !empty($record->get('uuid'))
-                    ) {
+                }
+                if (
+                    $record->has('uuid') &&
+                    !empty($record->get('uuid'))
+                ) {
+                    if(
+                        array_key_exists('is_many', $options) &&
+                        $options['is_many'] === true
+                    ){
+                        $record->set('uuid', $uuid);
                         if(
-                            array_key_exists('is_many', $options) &&
-                            $options['is_many'] === true
+                            array_key_exists('compression', $options) &&
+                            !empty($options['compression']) &&
+                            array_key_exists('algorithm', $options['compression']) &&
+                            array_key_exists('level', $options['compression'])
                         ){
-                            $record->set('uuid', $uuid);
-                            if(
-                                array_key_exists('compression', $options) &&
-                                !empty($options['compression']) &&
-                                array_key_exists('algorithm', $options['compression']) &&
-                                array_key_exists('level', $options['compression'])
-                            ){
-                                switch(strtolower($options['compression']['algorithm'])){
-                                    case 'gz':
-                                        $record_data = Core::object($record->data(), Core::OBJECT_JSON);
-                                        $gz = gzencode($record_data, $options['compression']['level']);
-                                        Dir::create(Dir::name($url));
-                                        File::write($url, $gz);
-                                        break;
-                                }
-                            } else {
-                                $record->write($url);
+                            switch(strtolower($options['compression']['algorithm'])){
+                                case 'gz':
+                                    $record_data = Core::object($record->data(), Core::OBJECT_JSON);
+                                    $gz = gzencode($record_data, $options['compression']['level']);
+                                    Dir::create(Dir::name($url));
+                                    File::write($url, $gz);
+                                    break;
                             }
-                            if($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
-                                $command = 'chmod 666 ' . $url;
-                                exec($command);
-                            }
-                            if($object->config(Config::POSIX_ID) === 0){
-                                $command = 'chown www-data:www-data ' . $url;
-                                exec($command);
-                            }
-                            d($record->data());
                         } else {
-                            $binarySearch = $object->data_read($binary_search_url);
-                            if (!$binarySearch) {
-                                $binarySearch = new Storage();
-                            }
-                            $list = $binarySearch->data($name);
-                            if (empty($list)) {
-                                $list = [];
-                            }
-                            if (is_object($list)) {
-                                $result = [];
-                                foreach ($list as $item) {
-                                    $result[] = $item;
-                                }
-                                $list = $result;
-                                unset($result);
-                            }
-                            $record->set('uuid', $uuid);
-                            $list[] = (object) [
-                                'uuid' => $uuid,
-                            ];
-                            $list = Sort::list($list)->with([
-                                'uuid' => 'ASC',
-                            ], [
-                                'key_reset' => true,
-                            ]);
-                            $binarySearch->delete($name);
-                            $binarySearch->data($name, $list);
-                            $count = 0;
-                            foreach ($binarySearch->data($name) as $item) {
-                                $item->{'#index'} = $count;
-                                $count++;
-                            }
-                            $lines = $binarySearch->write($binary_search_url, 'lines');
-                            if ($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
-                                $command = 'chmod 666 ' . $binary_search_url;
-                                exec($command);
-                            }
-                            if ($object->config(Config::POSIX_ID) === 0) {
-                                $command = 'chown www-data:www-data ' . $binary_search_url;
-                                exec($command);
-                            }
-                            $meta = $object->data_read($meta_url);
-                            if (!$meta) {
-                                $meta = new Storage();
-                            }
-                            $key = [
-                                'property' => [
-                                    'uuid'
-                                ]
-                            ];
-                            $property = [];
-                            $property[] = 'uuid';
-                            $key = sha1(Core::object($key, Core::OBJECT_JSON));
-                            $meta->set('Sort.' . $name . '.' . $key . '.property', $property);
-                            $meta->set('Sort.' . $name . '.' . $key . '.lines', $lines);
-                            $meta->set('Sort.' . $name . '.' . $key . '.count', $count);
-                            $meta->set('Sort.' . $name . '.' . $key . '.url.asc', $binary_search_url);
-                            $meta->write($meta_url);
                             $record->write($url);
-                            if ($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
-                                $command = 'chmod 666 ' . $url;
-                                exec($command);
-                                $command = 'chmod 666 ' . $meta_url;
-                                exec($command);
-                            }
-                            if ($object->config(Config::POSIX_ID) === 0) {
-                                $command = 'chown www-data:www-data ' . $url;
-                                exec($command);
-                                $command = 'chown www-data:www-data ' . $meta_url;
-                                exec($command);
-                            }
                         }
-                        $response['node'] = Core::object($record->data(), Core::OBJECT_ARRAY);
-                        Event::trigger($object, 'r3m.io.node.data.create', [
-                            'class' => $name,
-                            'options' => $options,
-                            'url' => $url,
-                            'binary_search_url' => $binary_search_url,
-                            'meta_url' => $meta_url,
-                            'node' => $node->data(),
-                        ]);
+                        if($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
+                            $command = 'chmod 666 ' . $url;
+                            exec($command);
+                        }
+                        if($object->config(Config::POSIX_ID) === 0){
+                            $command = 'chown www-data:www-data ' . $url;
+                            exec($command);
+                        }
+                        d($record->data());
                     } else {
-                       throw new Exception('Make sure, you have the right permission (' . $name . '.' . __FUNCTION__ .')');
+                        $binarySearch = $object->data_read($binary_search_url);
+                        if (!$binarySearch) {
+                            $binarySearch = new Storage();
+                        }
+                        $list = $binarySearch->data($name);
+                        if (empty($list)) {
+                            $list = [];
+                        }
+                        if (is_object($list)) {
+                            $result = [];
+                            foreach ($list as $item) {
+                                $result[] = $item;
+                            }
+                            $list = $result;
+                            unset($result);
+                        }
+                        $record->set('uuid', $uuid);
+                        $list[] = (object) [
+                            'uuid' => $uuid,
+                        ];
+                        $list = Sort::list($list)->with([
+                            'uuid' => 'ASC',
+                        ], [
+                            'key_reset' => true,
+                        ]);
+                        $binarySearch->delete($name);
+                        $binarySearch->data($name, $list);
+                        $count = 0;
+                        foreach ($binarySearch->data($name) as $item) {
+                            $item->{'#index'} = $count;
+                            $count++;
+                        }
+                        $lines = $binarySearch->write($binary_search_url, 'lines');
+                        if ($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
+                            $command = 'chmod 666 ' . $binary_search_url;
+                            exec($command);
+                        }
+                        if ($object->config(Config::POSIX_ID) === 0) {
+                            $command = 'chown www-data:www-data ' . $binary_search_url;
+                            exec($command);
+                        }
+                        $meta = $object->data_read($meta_url);
+                        if (!$meta) {
+                            $meta = new Storage();
+                        }
+                        $key = [
+                            'property' => [
+                                'uuid'
+                            ]
+                        ];
+                        $property = [];
+                        $property[] = 'uuid';
+                        $key = sha1(Core::object($key, Core::OBJECT_JSON));
+                        $meta->set('Sort.' . $name . '.' . $key . '.property', $property);
+                        $meta->set('Sort.' . $name . '.' . $key . '.lines', $lines);
+                        $meta->set('Sort.' . $name . '.' . $key . '.count', $count);
+                        $meta->set('Sort.' . $name . '.' . $key . '.url.asc', $binary_search_url);
+                        $meta->write($meta_url);
+                        $record->write($url);
+                        if ($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
+                            $command = 'chmod 666 ' . $url;
+                            exec($command);
+                            $command = 'chmod 666 ' . $meta_url;
+                            exec($command);
+                        }
+                        if ($object->config(Config::POSIX_ID) === 0) {
+                            $command = 'chown www-data:www-data ' . $url;
+                            exec($command);
+                            $command = 'chown www-data:www-data ' . $meta_url;
+                            exec($command);
+                        }
                     }
+                    $response['node'] = Core::object($record->data(), Core::OBJECT_ARRAY);
+                    Event::trigger($object, 'r3m.io.node.data.create', [
+                        'class' => $name,
+                        'options' => $options,
+                        'url' => $url,
+                        'binary_search_url' => $binary_search_url,
+                        'meta_url' => $meta_url,
+                        'node' => $node->data(),
+                    ]);
+                } else {
+                   throw new Exception('Make sure, you have the right permission (' . $name . '.' . __FUNCTION__ .')');
                 }
             } else {
                 $response['error'] = $validate->test;
