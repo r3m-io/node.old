@@ -537,7 +537,6 @@ Trait Create {
                     $record = new Storage();
                     $record->data($object->request('node'));
                     $record->set('#class', $name);
-                    d($record);
                 } else {
                     $expose = $this->expose_get(
                         $object,
@@ -558,8 +557,7 @@ Trait Create {
                             __FUNCTION__,
                             $role
                         );
-                }
-
+                    }
                     if (
                         $record->has('uuid') &&
                         !empty($record->get('uuid'))
@@ -695,6 +693,7 @@ Trait Create {
         } else {
             throw new Exception('Cannot validate node at: ' . $validate_url);
         }
+        ddd($response);
         return $response;
     }
 }
