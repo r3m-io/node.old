@@ -534,7 +534,6 @@ Trait Create {
                     $record = new Storage();
                     $record->data($object->request('node'));
                     $record->set('#class', $name);
-                    ddd($record);
                 } else {
                     $expose = $this->expose_get(
                         $object,
