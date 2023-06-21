@@ -65,7 +65,7 @@ Trait Create {
             ) {
                 $result['list'][] = $response['node']['uuid'];
                 $count++;
-                echo 'Count: ' . $count . ' Uuid: ' . $response['node']['uuid'] . PHP_EOL;
+//                echo 'Count: ' . $count . ' Uuid: ' . $response['node']['uuid'] . PHP_EOL;
             } else {
                 $result['error']['list'][] = false;
                 $error++;
