@@ -214,6 +214,7 @@ Trait Create {
      * @throws FileMoveException
      */
     public function copy($class, $role, $data=[], $options=[]){
+        $start = microtime(true);
         $name = Controller::name($class);
         $object = $this->object();
         $dir_node = $object->config('project.dir.data') .
@@ -320,7 +321,6 @@ Trait Create {
                         $object->config('extension.json')
                     ;
                 }
-
                 File::move($source, $destination, true);
                 $item = [
                     'uuid' => $uuid
@@ -373,6 +373,10 @@ Trait Create {
         if ($object->config(Config::POSIX_ID) === 0) {
             $command = 'chown www-data:www-data ' . $meta_url;
             exec($command);
+        }
+        if($object->config('project.log.node')){
+            $duration = microtime(true) - $start;
+            $object->logger($object->config('project.log.node'))->info('Duration move:', [ $duration ]);
         }
         return $data;
     }
