@@ -242,11 +242,13 @@ Trait Import {
                     $result['list'][] = $record;
                     $index++;
                 }
-                $duration = microtime(true) - $start;
-                $duration_per_item = $duration / 1000;
-                $item_per_second = 1 / $duration_per_item;
-                $object->logger($object->config('project.log.node'))->info('Items (put_many) per second: ' . $item_per_second);
-                $start = microtime(true);
+                if($object->config('project.log.node')){
+                    $duration = microtime(true) - $start;
+                    $duration_per_item = $duration / 1000;
+                    $item_per_second = 1 / $duration_per_item;
+                    $object->logger($object->config('project.log.node'))->info('Items (put_many) per second: ' . $item_per_second);
+                    $start = microtime(true);
+                }
                 $result['count'] += $put_many_response['count'];
                 if(array_key_exists('error', $put_many_response)) {
                     foreach ($put_many_response['error']['list'] as $nr => $record) {
