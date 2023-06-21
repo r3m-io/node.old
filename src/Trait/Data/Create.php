@@ -527,14 +527,17 @@ Trait Create {
         } else {
             $validate = $this->validate($object, $validate_url,  $name . '.create');
         }
-        ddd($validate);
         $response = [];
         if($validate) {
             if($validate->success === true) {
-                if(array_key_exists('expose', $options) && $options['expose'] === false){
+                if(
+                    array_key_exists('expose', $options) &&
+                    $options['expose'] === false
+                ){
                     $record = new Storage();
                     $record->data($object->request('node'));
                     $record->set('#class', $name);
+                    d($record);
                 } else {
                     $expose = $this->expose_get(
                         $object,
