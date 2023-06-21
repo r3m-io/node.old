@@ -376,7 +376,7 @@ Trait Create {
         }
         if($object->config('project.log.node')){
             $duration = microtime(true) - $start;
-            $duration_per_item = $duration / 1000;
+            $duration_per_item = $duration / $count;
             $item_per_second = 1 / $duration_per_item;
             $object->logger($object->config('project.log.node'))->info('Items (ramdisk_move) per second: ' . $item_per_second);
         }
