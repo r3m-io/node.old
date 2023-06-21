@@ -60,6 +60,11 @@ Trait Import {
         } else {
             $options['validation'] = true;
         }
+        if(property_exists($app_options, 'disable-expose')){
+            $options['expose'] = false;
+        } else {
+            $options['expose'] = true;
+        }
         if(!array_key_exists('offset', $options)){
             $options['offset'] = 0;
         }

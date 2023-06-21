@@ -44,6 +44,7 @@ Trait Create {
                 'function' => $options['function'] ?? __FUNCTION__,
                 'force' => $options['force'] ?? false,
                 'validation' => $options['validation'] ?? true,
+                'expose' => $options['expose'] ?? true,
                 'ramdisk' => $options['ramdisk'] ?? false,
                 'compression' => $options['compression'] ?? false
                 ]
@@ -529,25 +530,33 @@ Trait Create {
         $response = [];
         if($validate) {
             if($validate->success === true) {
-                $expose = $this->expose_get(
-                    $object,
-                    $name,
-                    $name . '.' . __FUNCTION__ . '.expose'
-                );
-                $node = new Storage();
-                $node->data($object->request('node'));
-                $node->set('#class', $name);
-                if(
-                    $expose &&
-                    $role
-                ) {
-                    $record = $this->expose(
-                        $node,
-                        $expose,
+                if(array_key_exists('expose', $options) && $options['expose'] === false){
+                    $record = new Storage();
+                    $record->data($object->request('node'));
+                    $record->set('#class', $name);
+                    ddd($record);
+                } else {
+                    $expose = $this->expose_get(
+                        $object,
                         $name,
-                        __FUNCTION__,
-                        $role
+                        $name . '.' . __FUNCTION__ . '.expose'
                     );
+                    $node = new Storage();
+                    $node->data($object->request('node'));
+                    $node->set('#class', $name);
+                    if(
+                        $expose &&
+                        $role
+                    ) {
+                        $record = $this->expose(
+                            $node,
+                            $expose,
+                            $name,
+                            __FUNCTION__,
+                            $role
+                        );
+                }
+
                     if (
                         $record->has('uuid') &&
                         !empty($record->get('uuid'))
