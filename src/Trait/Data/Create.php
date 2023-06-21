@@ -674,7 +674,7 @@ Trait Create {
                         'url' => $url,
                         'binary_search_url' => $binary_search_url,
                         'meta_url' => $meta_url,
-                        'node' => $node->data(),
+                        'node' => $record->data(),
                     ]);
                 } else {
                    throw new Exception('Make sure, you have the right permission (' . $name . '.' . __FUNCTION__ .')');
