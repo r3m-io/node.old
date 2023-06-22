@@ -210,14 +210,15 @@ Trait Import {
             $options['ramdisk'] = true;
             while($i < $create_many_count){
                 $temp = array_slice($create_many, $i, 1000, true);
-                $object->logger($object->config('project.log.node'))->info('Count: ' . count($temp) . ' / ' . $create_many_count . ' Start: ' . $i . ' Offset: ' . $options['offset']);
+                $length = count($temp);
+                $object->logger($object->config('project.log.node'))->info('Count: ' . $length . ' / ' . $create_many_count . ' Start: ' . $i . ' Offset: ' . $options['offset']);
                 $create_many_response = $this->create_many($class, $role, $temp, $options);
                 foreach ($create_many_response['list'] as $nr => $uuid) {
                     $result['list'][] = $uuid;
                     $index++;
                 }
                 $duration = microtime(true) - $start;
-                $duration_per_item = $duration / 1000;
+                $duration_per_item = $duration / $length;
                 $item_per_second = 1 / $duration_per_item;
                 $object->logger($object->config('project.log.node'))->info('Items (create_many) per second: ' . $item_per_second);
                 $start = microtime(true);
@@ -235,6 +236,7 @@ Trait Import {
             $start = microtime(true);
             while($i < $put_many_count){
                 $temp = array_slice($put_many, $i, 1000, true);
+                $length = count($temp);
                 $put_options = $options;
                 $put_options['ramdisk'] = true;
                 $put_many_response = $this->put_many($class, $role, $temp, $put_options);
@@ -244,7 +246,7 @@ Trait Import {
                 }
                 if($object->config('project.log.node')){
                     $duration = microtime(true) - $start;
-                    $duration_per_item = $duration / 1000;
+                    $duration_per_item = $duration / $length;
                     $item_per_second = 1 / $duration_per_item;
                     $object->logger($object->config('project.log.node'))->info('Items (put_many) per second: ' . $item_per_second);
                     $start = microtime(true);

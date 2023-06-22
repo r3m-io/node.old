@@ -20,6 +20,7 @@ Trait Create {
     /**
      * @throws ObjectException
      * @throws FileWriteException
+     * @throws FileMoveException
      */
     public function create_many($class, $role, $data=[], $options=[]): array
     {
@@ -129,11 +130,17 @@ Trait Create {
         );
         $url_commit = $dir_commit . $name . $object->config('extension.json');
 
+        $commit_counter =0;
         while(File::exist($url_commit)){
             if($object->config('project.log.node')){
                 $object->logger($object->config('project.log.node'))->info('Waiting for commit: ' . $name);
             }
+            if($commit_counter >= 3600){
+                $object->logger($object->config('project.log.node'))->info('Commit timeout (' . $commit_counter . '): ' . $name);
+                break;
+            }
             sleep(1);
+            $commit_counter++;
         }
         File::touch($url_commit);
         $binary_search_url =
@@ -231,6 +238,9 @@ Trait Create {
         $start = microtime(true);
         $name = Controller::name($class);
         $object = $this->object();
+        if($object->config('project.log.node')){
+            $object->logger($object->config('project.log.node'))->info('Copy [start]: ' . $name);
+        }
         $dir_node = $object->config('project.dir.data') .
             'Node' .
             $object->config('ds')
@@ -393,6 +403,9 @@ Trait Create {
             $duration_per_item = $duration / $count;
             $item_per_second = 1 / $duration_per_item;
             $object->logger($object->config('project.log.node'))->info('Items (ramdisk_move) per second: ' . $item_per_second);
+        }
+        if($object->config('project.log.node')){
+            $object->logger($object->config('project.log.node'))->info('Copy [end]: ' . $name);
         }
         return $data;
     }
