@@ -115,14 +115,27 @@ Trait Create {
             'Asc' .
             $object->config('ds')
         ;
+        $dir_commit = $dir_node .
+            'Commit' .
+            $object->config('ds');
         $this->dir($object,
             [
                 'node' => $dir_node,
                 'meta' => $dir_meta,
                 'binary_search_class' => $dir_binary_search_class,
                 'binary_search' => $dir_binary_search,
+                'commit' => $dir_commit
             ]
         );
+        $url_commit = $dir_commit . $name . $object->config('extension.json');
+
+        while(File::exist($url_commit)){
+            if($object->config('project.log.node')){
+                $object->logger($object->config('project.log.node'))->info('Waiting for commit: ' . $name);
+            }
+            sleep(1);
+        }
+        File::touch($url_commit);
         $binary_search_url =
             $dir_binary_search .
             'Uuid' .
@@ -205,6 +218,7 @@ Trait Create {
         ){
             $this->copy($class, $role, $data, $options);
         }
+        File::delete($url_commit);
         return $data;
     }
 
