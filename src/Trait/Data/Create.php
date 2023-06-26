@@ -221,7 +221,8 @@ Trait Create {
         }
         if(
             array_key_exists('ramdisk', $options) &&
-            $options['ramdisk'] === true
+            $options['ramdisk'] === true &&
+            $object->config('ramdisk.url')
         ){
             $this->copy($class, $role, $data, $options);
         }
@@ -262,20 +263,27 @@ Trait Create {
             'Asc' .
             $object->config('ds')
         ;
-        $dir_ramdisk = $object->config('ramdisk.url') .
-            $object->config(Config::POSIX_ID) .
-            $object->config('ds') .
-            'Package' .
-            $object->config('ds') .
-            'R3m-Io' .
-            $object->config('ds') .
-            'Node' .
-            $object->config('ds') .
-            'Import' .
-            $object->config('ds') .
-            $name .
-            $object->config('ds')
-        ;
+        $dir_ramdisk = false;
+        if(
+            array_key_exists('ramdisk', $options) &&
+            $options['ramdisk'] === true &&
+            $object->config('ramdisk.url')
+        ){
+            $dir_ramdisk = $object->config('ramdisk.url') .
+                $object->config(Config::POSIX_ID) .
+                $object->config('ds') .
+                'Package' .
+                $object->config('ds') .
+                'R3m-Io' .
+                $object->config('ds') .
+                'Node' .
+                $object->config('ds') .
+                'Import' .
+                $object->config('ds') .
+                $name .
+                $object->config('ds')
+            ;
+        }
         $this->dir($object,
             [
                 'node' => $dir_node,
@@ -313,7 +321,10 @@ Trait Create {
             'Storage' .
             $object->config('ds')
         ;
-        if(!empty($data['list'])){
+        if(
+            $dir_ramdisk &&
+            !empty($data['list'])
+        ){
             foreach($data['list'] as $nr => $uuid) {
                 if(
                     !empty($options['compression']) &&

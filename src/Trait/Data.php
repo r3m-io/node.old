@@ -298,7 +298,10 @@ Trait Data {
                 exec($command);
             }
         }
-        if(array_key_exists('ramdisk', $dir)){
+        if(
+            array_key_exists('ramdisk', $dir) &&
+            !is_bool($dir['ramdisk'])
+        ){
             if(!Dir::is($dir['ramdisk'])) {
                 Dir::create($dir['ramdisk'], Dir::CHMOD);
                 if($object->config(Config::POSIX_ID) === 0){
