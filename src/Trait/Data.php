@@ -41,13 +41,33 @@ Trait Data {
     use Data\Truncate;
 
 
+    /**
+     * @throws ObjectException
+     * @throws FileWriteException
+     */
     public function dictionary(){
         $object = $this->object();
         $source = $object->config('project.dir.data') . 'App' . $object->config('ds') . 'Dictionary.English' . $object->config('extension.json');
         $destination = $object->config('project.dir.data') . 'App' . $object->config('ds') . 'Dictionary' . $object->config('ds') . 'English' . $object->config('extension.json');
 
         $data = $object->data_read($source);
-        ddd($data);
+        $dictionary = new Storage();
+        $index = 0;
+        $list = [];
+        if($data){
+            foreach($data->data() as $word => $unused){
+                $record = [];
+                $record['word'] = $word;
+                $record['#key'] = $index;
+                $record['#class'] = 'App.Dictionary.English';
+                $record['uuid'] = Core::uuid();
+                $list[]= $record;
+                $index++;
+            }
+            $dictionary->set('App.Dictionary.English', $list);
+            $dictionary->write($destination);
+            echo 'App.Dictionary.English created in: ' . $destination . PHP_EOL;
+        }
     }
 
     public function file_create_many($options=[]){
