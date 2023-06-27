@@ -93,6 +93,45 @@ Trait Create {
      * @throws FileMoveException
      */
     public function commit($class, $role, $data=[], $options=[]){
+        $roles = [];
+        $roles[] = $role;
+        ddd($role);
+        foreach ($roles as $role) {
+            if (
+                property_exists($role, 'uuid') &&
+                property_exists($role, 'name') &&
+                $role->name === 'ROLE_SYSTEM' &&
+                !property_exists($role, 'permission')
+            ) {
+                $permission = [];
+                $permission['uuid'] = Core::uuid();
+                $permission['name'] = $class . '.' . __FUNCTION__;
+                $permission['attribute'] = [];
+                $permission['role'] = $role->uuid;
+                $permission['#class'] = 'App.Permission';
+                $role->permission = [];
+                $role->permission[] = (object) $permission;
+            }
+            if (
+                property_exists($role, 'name') &&
+                property_exists($role, 'permission') &&
+                is_array($role->permission)
+            ) {
+                foreach ($role->permission as $permission) {
+                    if (is_array($permission)) {
+                        ddd($permission);
+                    }
+                    if (
+                        property_exists($permission, 'name') &&
+                        $permission->name === $class . '.' . __FUNCTION__ &&
+                        property_exists($action, 'role') &&
+                        $action->role === $role->name
+                    ) {
+
+                    }
+                }
+            }
+        }
         $name = Controller::name($class);
         $object = $this->object();
         $dir_node = $object->config('project.dir.data') .
