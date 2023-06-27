@@ -121,7 +121,8 @@ Trait Create {
                     if (is_array($permission)) {
                         ddd($permission);
                     }
-                    d($permission);
+                    d($class . '.' . __FUNCTION__);
+                    ddd($permission);
                     /*
                     if (
                         property_exists($permission, 'name') &&
