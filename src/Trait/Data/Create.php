@@ -91,11 +91,12 @@ Trait Create {
      * @throws ObjectException
      * @throws FileWriteException
      * @throws FileMoveException
+     * @throws Exception
      */
     public function commit($class, $role, $data=[], $options=[]){
         $roles = [];
         $roles[] = $role;
-        d($role);
+        $can_commit = false;
         foreach ($roles as $role) {
             if (
                 property_exists($role, 'uuid') &&
@@ -121,21 +122,19 @@ Trait Create {
                     if (is_array($permission)) {
                         ddd($permission);
                     }
-                    d($class . '.' . __FUNCTION__);
-                    ddd($permission);
-                    /*
                     if (
                         property_exists($permission, 'name') &&
-                        $permission->name === $class . '.' . __FUNCTION__ &&
-                        property_exists($action, 'role') &&
-                        $action->role === $role->name
+                        $permission->name === $class . '.' . __FUNCTION__
                     ) {
-
+                        $can_commit = true;
                     }
-                    */
                 }
             }
         }
+        if(!$can_commit){
+            throw new Exception('Permission denied for commit (' . $class . '.' . __FUNCTION__ .')');
+        }
+
         $name = Controller::name($class);
         $object = $this->object();
         $dir_node = $object->config('project.dir.data') .
@@ -171,7 +170,7 @@ Trait Create {
                 'commit' => $dir_commit
             ]
         );
-        $url_commit = $dir_commit . $name . $object->config('extension.json');
+        $url_commit = $dir_commit . $name . $object->config('extension.lock');
 
         $commit_counter =0;
         while(File::exist($url_commit)){
