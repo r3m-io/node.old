@@ -365,7 +365,7 @@ Trait Sync {
                                 $nodeList[] = $item;
                                 $index++;
                             }
-                            if (empty($key)) {
+                            if (empty($key) && $key !== 0) {
                                 $key = '""';
                             }
                             $result->set($class . '.' . $key, $nodeList);
