@@ -40,6 +40,16 @@ Trait Data {
     use Data\Sync;
     use Data\Truncate;
 
+
+    public function dictionary(){
+        $object = $this->object();
+        $source = $object->config('project.dir.data') . 'App' . $object->config('ds') . 'Dictionary.English' . $object->config('extension.json');
+        $destination = $object->config('project.dir.data') . 'App' . $object->config('ds') . 'Dictionary' . $object->config('ds') . 'English' . $object->config('extension.json');
+
+        $data = $object->data_read($source);
+        ddd($data);
+    }
+
     public function file_create_many($options=[]){
         $directory = false;
         if(array_key_exists('directory', $options)){
