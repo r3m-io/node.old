@@ -95,7 +95,7 @@ Trait Create {
     public function commit($class, $role, $data=[], $options=[]){
         $roles = [];
         $roles[] = $role;
-        ddd($role);
+        d($role);
         foreach ($roles as $role) {
             if (
                 property_exists($role, 'uuid') &&
@@ -121,6 +121,8 @@ Trait Create {
                     if (is_array($permission)) {
                         ddd($permission);
                     }
+                    d($permission);
+                    /*
                     if (
                         property_exists($permission, 'name') &&
                         $permission->name === $class . '.' . __FUNCTION__ &&
@@ -129,6 +131,7 @@ Trait Create {
                     ) {
 
                     }
+                    */
                 }
             }
         }
