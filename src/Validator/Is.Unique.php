@@ -14,7 +14,7 @@
 use R3m\Io\App;
 
 use R3m\Io\Module\File;
-use R3m\Io\Node\Model\Unique;
+use R3m\Io\Node\Model\Node;
 use R3m\Io\Module\Data as Storage;
 use R3m\Io\Module\Parse;
 
@@ -93,7 +93,7 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
     if (empty($unique)) {
         $parse = new Parse($object);
         $data = new Storage();
-        $unique = new Unique($parse, $data);
+        $unique = new Node($parse, $data);
         $object->data('Is.Unique', $unique);
     }
     $record = $unique->record($class, $unique->role_system(), $options);
