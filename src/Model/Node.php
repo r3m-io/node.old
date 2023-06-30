@@ -1,6 +1,8 @@
 <?php
 namespace R3m\Io\Node\Model;
 
+use R3m\Io\App;
+
 use R3m\Io\Module\Data as Storage;
 use R3m\Io\Module\Template\Main;
 
