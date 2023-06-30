@@ -6,4 +6,8 @@ use R3m\Io\Node\Trait\Data;
 
 class Node extends Main {
     use Data;
+
+    public function __construct(){
+
+    }
 }
