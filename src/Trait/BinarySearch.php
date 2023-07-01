@@ -907,6 +907,7 @@ Trait BinarySearch {
         $count = 0;
         $time_start = microtime(true);
         while(true){
+            $time_start_3 = microtime(true);
             $record = $this->binary_search_index($file, [
                 'lines'=> $options['lines'],
                 'counter' => 0,
@@ -914,8 +915,8 @@ Trait BinarySearch {
                 'search' => [],
                 'url' => $options['url'],
             ]);
-            $duration = microtime(true) - $time_start;
-            echo 'Duration: ' . round($duration, 2) . ' msec url: ' . $options['url'] . PHP_EOL;
+            $duration = microtime(true) - $time_start_3;
+            echo 'Duration: ' . round($duration * 1000, 2) . ' msec url: ' . $options['url'] . PHP_EOL;
             $time_start_2 = microtime(true);
             if($record){
                 $index++;
@@ -962,7 +963,7 @@ Trait BinarySearch {
                 if($record){
                     $count++;
                     $duration = microtime(true) - $time_start_2;
-                    echo 'Duration filter: ' . round($duration, 2) . ' msec' . PHP_EOL;
+                    echo 'Duration filter: ' . round($duration * 1000, 2) . ' msec' . PHP_EOL;
                     echo 'Count: ' . $count . PHP_EOL;
                 } else {
                     ddd($node);
