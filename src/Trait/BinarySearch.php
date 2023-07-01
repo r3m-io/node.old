@@ -969,6 +969,8 @@ Trait BinarySearch {
                     ddd($node);
                 }
             } else {
+                d($options);
+                ddd($index);
                 break;
             }
         }
