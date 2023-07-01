@@ -922,6 +922,7 @@ Trait BinarySearch {
                 'index' => $index,
                 'search' => [],
                 'url' => $options['url'],
+                'is_debug' => $is_debug,
             ]);
             if($is_debug){
                 ddd($record);
@@ -1254,6 +1255,9 @@ Trait BinarySearch {
         if(!array_key_exists('max', $options)){
             $options['max'] = $options['lines'] - 1;
         }
+        if(!array_key_exists('is_debug', $options)){
+            $options['is_debug'] = false;
+        }
         $direction = 'up';
         $is_per_line = false;
 //        echo '--------------------------------------' . PHP_EOL;
@@ -1299,7 +1303,7 @@ Trait BinarySearch {
                 $line_match = str_replace(' ', '', $line);
                 $line_match = str_replace('"', '', $line_match);
                 $explode = explode(':', $line_match);
-//                echo $seek . ', ' . $direction . ', ' . $line . PHP_EOL;
+                echo $seek . ', ' . $direction . ', ' . $line . PHP_EOL;
                 $symbol = trim($explode[0], " \t\n\r\0\x0B,");
                 $symbol_right = null;
                 if(array_key_exists(1, $explode)){
