@@ -970,7 +970,7 @@ Trait BinarySearch {
                 }
             } else {
                 d($options);
-                ddd($index);
+                d($index);
                 break;
             }
         }
