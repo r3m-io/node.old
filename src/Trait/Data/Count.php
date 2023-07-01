@@ -128,7 +128,7 @@ Trait Count {
                     $count_key = [
                         'properties' => $properties,
                         'where' => $options['where'],
-                        'mtime' => File::mtime($url)
+                        'mtime' => $mtime
                     ];
                     $count_key = sha1(Core::object($count_key, Core::OBJECT_JSON));
                     $count = $meta->get('Count.' . $name . '.' . $count_key . '.count');
@@ -156,7 +156,7 @@ Trait Count {
                 } else {
                     $count_key = [
                         'properties' => $properties,
-                        'mtime' => File::mtime($url)
+                        'mtime' => $mtime
                     ];
                     $count_key = sha1(Core::object($count_key, Core::OBJECT_JSON));
                     $count = $meta->get('Count.' . $name . '.' . $count_key . '.count');
