@@ -901,6 +901,7 @@ Trait BinarySearch {
      */
     private function binary_search_count($file, $role, $options=[]): int
     {
+        Core::interactive();
         $object = $this->object();
         $index = 0;
         $count = 0;
@@ -957,6 +958,7 @@ Trait BinarySearch {
                 }
                 if($record){
                     $count++;
+                    echo 'Count: ' . $count . PHP_EOL;
                 } else {
                     ddd($node);
                 }
