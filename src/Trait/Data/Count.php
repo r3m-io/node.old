@@ -160,6 +160,7 @@ Trait Count {
                     ];
                     $count_key = sha1(Core::object($count_key, Core::OBJECT_JSON));
                     $count = $meta->get('Count.' . $name . '.' . $count_key . '.count');
+                    $count = false; //<-- remove this line to enable cache
                     if($count){
                         return $count;
                     } else {
