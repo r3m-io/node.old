@@ -906,8 +906,15 @@ Trait BinarySearch {
         $index = 0;
         $count = 0;
         $time_start = microtime(true);
+        $is_debug = true;
+        if(stristr($options['url'], 'event')){
+            $is_debug = false;
+        }
         while(true){
-            $index = 282;
+            if($is_debug){
+                $index = 282;
+            }
+
             $time_start_3 = microtime(true);
             $record = $this->binary_search_index($file, [
                 'lines'=> $options['lines'],
@@ -916,7 +923,10 @@ Trait BinarySearch {
                 'search' => [],
                 'url' => $options['url'],
             ]);
-            ddd($record);
+            if($is_debug){
+                ddd($record);
+            }
+
             $duration = microtime(true) - $time_start_3;
             echo 'Duration: ' . round($duration * 1000, 2) . ' msec url: ' . $options['url'] . PHP_EOL;
             $time_start_2 = microtime(true);
