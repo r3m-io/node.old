@@ -940,8 +940,9 @@ Trait BinarySearch {
                     $class,
                     $class . '.' . $options['function'] . '.expose'
                 );
+                $node = new Storage($record);
                 $record = $this->expose(
-                    new Storage($record),
+                    $node,
                     $expose,
                     $class,
                     $options['function'],
@@ -956,6 +957,8 @@ Trait BinarySearch {
                 }
                 if($record){
                     $count++;
+                } else {
+                    ddd($node);
                 }
             } else {
                 break;
