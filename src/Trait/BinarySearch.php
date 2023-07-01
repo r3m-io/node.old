@@ -914,6 +914,8 @@ Trait BinarySearch {
                 'search' => [],
                 'url' => $options['url'],
             ]);
+            $duration = microtime(true) - $time_start;
+            echo 'Duration: ' . round($duration * 1000, 2) . ' msec url: ' . $options['url'] . PHP_EOL;
             if($record){
                 $index++;
                 $read = $object->data_read($record->{'#read'}->url, sha1($record->{'#read'}->url));
@@ -958,6 +960,8 @@ Trait BinarySearch {
                 }
                 if($record){
                     $count++;
+                    $duration = microtime(true) - $duration;
+                    echo 'Duration filter: ' . round($duration * 1000, 2) . ' msec' . PHP_EOL;
                     echo 'Count: ' . $count . PHP_EOL;
                 } else {
                     ddd($node);
