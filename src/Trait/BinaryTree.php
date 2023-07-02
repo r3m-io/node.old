@@ -1212,8 +1212,6 @@ Trait BinaryTree {
      * @throws ObjectException
      */
     private function binary_tree_index($file, $options=[]){
-        ddd('binary_tree_index');
-        $object = $this->object();
         if(!array_key_exists('counter', $options)){
             $options['counter'] = 0;
         }
@@ -1277,6 +1275,7 @@ Trait BinaryTree {
                     //log error with filesize of view
                     break 2;
                 }
+                ddd($line);
                 $line_match = str_replace(' ', '', $line);
                 $line_match = str_replace('"', '', $line_match);
                 $explode = explode(':', $line_match);
