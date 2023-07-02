@@ -1297,7 +1297,8 @@ Trait BinaryTree {
                     $key = sha1($options['url_uuid']);
                     $file_uuid = $object->data($key);
                     if(!$file_uuid){
-                        $file_uuid = $object->data($key, new splFileObject($options['url_uuid']));
+                        $file_uuid =new splFileObject($options['url_uuid']);
+                        $object->data($key, $file_uuid);
                     }
                     $record = $this->binary_tree_index($file_uuid, [
                         'lines'=> $options['lines'],
