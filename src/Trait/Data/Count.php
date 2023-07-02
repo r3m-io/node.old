@@ -133,6 +133,7 @@ Trait Count {
                                 'direction' => 'next',
                                 'url' => $url,
                                 'url_connect' => $url_connect,
+                                'url_connect_property' => $url_connect_property,
                                 'function' => $options['function'],
                                 'relation' => $options['relation']
                             ]
@@ -163,6 +164,7 @@ Trait Count {
                                 'direction' => 'next',
                                 'url' => $url,
                                 'url_connect' => $url_connect,
+                                'url_connect_property' => $url_connect_property,
                                 'function' => $options['function'],
                                 'relation' => $options['relation']
                             ]
@@ -192,6 +194,7 @@ Trait Count {
                                 'direction' => 'next',
                                 'url' => $url,
                                 'url_connect' => $url_connect,
+                                'url_connect_property' => $url_connect_property,
                                 'function' => $options['function'],
                                 'relation' => $options['relation']
                             ]
