@@ -27,7 +27,6 @@ Trait Sync {
                 $options->class[$nr] = Controller::name(trim($class));
             }
         }
-        ddd($options);
         $url_object = $object->config('project.dir.data') .
             'Node' .
             $object->config('ds') .
