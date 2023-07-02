@@ -37,7 +37,7 @@ Trait Count {
             $class .
             $object->config('ds')
         ;
-        $url_connect = $dir . 'Asc' . $object->config('ds') . 'Uuid' . $object->config('extension.btree');
+        $url_uuid = $dir . 'Asc' . $object->config('ds') . 'Uuid' . $object->config('extension.btree');
         if(!array_key_exists('where', $options)){
             $options['where'] = [];
         }
@@ -81,7 +81,7 @@ Trait Count {
                 //logger exception
                 return false;
             }
-            if(!File::exist($url_connect)) {
+            if(!File::exist($url_uuid)) {
                 //logger exception
                 return false;
             }
@@ -132,7 +132,7 @@ Trait Count {
                                 'counter' => 0,
                                 'direction' => 'next',
                                 'url' => $url,
-                                'url_connect' => $url_connect,
+                                'url_uuid' => $url_uuid,
                                 'url_connect_property' => $url_connect_property,
                                 'function' => $options['function'],
                                 'relation' => $options['relation']
@@ -163,7 +163,7 @@ Trait Count {
                                 'counter' => 0,
                                 'direction' => 'next',
                                 'url' => $url,
-                                'url_connect' => $url_connect,
+                                'url_uuid' => $url_uuid,
                                 'url_connect_property' => $url_connect_property,
                                 'function' => $options['function'],
                                 'relation' => $options['relation']
@@ -193,7 +193,7 @@ Trait Count {
                                 'counter' => 0,
                                 'direction' => 'next',
                                 'url' => $url,
-                                'url_connect' => $url_connect,
+                                'url_uuid' => $url_uuid,
                                 'url_connect_property' => $url_connect_property,
                                 'function' => $options['function'],
                                 'relation' => $options['relation']

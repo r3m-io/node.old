@@ -914,7 +914,7 @@ Trait BinaryTree {
                 'index' => $index,
                 'search' => [],
                 'url' => $options['url'],
-                'url_connect' => $options['url_connect'],
+                'url_uuid' => $options['url_uuid'],
                 'url_connect_property' => $options['url_connect_property'],
             ]);
             ddd($record);
@@ -1290,6 +1290,7 @@ Trait BinaryTree {
                 break;
             }
             if ($options['index'] === $seek) {
+                ddd($options);
                 return $this->binary_tree_node(
                     $line,
                     [
