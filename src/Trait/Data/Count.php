@@ -72,8 +72,6 @@ Trait Count {
                 Controller::name($property) .
                 $object->config('extension.btree')
             ;
-            d(File::exist($url));
-            ddd($url);
             if(!File::exist($url)) {
                 return false;
             }
@@ -140,7 +138,7 @@ Trait Count {
                     if($count){
                         return $count;
                     } else {
-                        $count = $this->binary_search_count(
+                        $count = $this->binary_tree_count(
                             $file,
                             $role,
                             [
@@ -169,7 +167,7 @@ Trait Count {
                     if($count){
                         return $count;
                     } else {
-                        $count = $this->binary_search_count(
+                        $count = $this->binary_tree_count(
                             $file,
                             $role,
                             [
