@@ -199,6 +199,7 @@ Trait Sync {
                         $list = new Storage();
                         $storage = [];
                         if(is_array($data)){
+                            ddd($data);
                             foreach ($data as $index => $uuid) {
                                 $storage_url = $object->config('project.dir.data') .
                                     'Node' .
