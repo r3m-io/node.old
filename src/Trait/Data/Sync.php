@@ -112,21 +112,6 @@ Trait Sync {
                 $object->config('extension.json');
 
             $data = File::read($url, File::ARRAY);
-
-            ddd($data);
-
-            $data_raw = $object->data_read($url);
-            if (!$data_raw) {
-                continue;
-            }
-            $data = new Storage();
-            ddd($data_raw);
-            foreach($data_raw->data($class) as $nr => $raw){
-                if(property_exists($raw, 'uuid')){
-                    $data->data($class . '.' . $raw->uuid, $raw);
-                }
-            }
-            unset($data_raw);
             $meta = $object->data_read($meta_url, sha1($meta_url));
             if (!$meta) {
                 continue;
