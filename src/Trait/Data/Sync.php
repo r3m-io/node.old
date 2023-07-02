@@ -70,11 +70,15 @@ Trait Sync {
                 if(!$role){
                     throw new Exception('Role ROLE_SYSTEM not found');
                 }
-                $expose = $this->expose_get(
-                    $object,
-                    $class,
-                    $class . '.' . __FUNCTION__ . '.expose'
-                );
+                if(property_exists($options, 'disable-expose') && $options->{'disable-expose'} == true){
+
+                } else {
+                    $expose = $this->expose_get(
+                        $object,
+                        $class,
+                        $class . '.' . __FUNCTION__ . '.expose'
+                    );
+                }
             }
             $list = [];
             $item = $object->data_read($file->url);
@@ -197,7 +201,6 @@ Trait Sync {
                     }
                     if (empty($list)) {
                         $list = new Storage();
-                        $storage = [];
                         if(is_array($data)){
                             foreach ($data as $index => $uuid) {
                                 $uuid = rtrim($uuid, PHP_EOL);
@@ -225,11 +228,17 @@ Trait Sync {
                                         ucfirst($record->get('#class')) .
                                         $object->config('extension.json')
                                     ;
-                                    $object_data = $object->data_read($object_url, sha1($object_url));
-                                    $relation_options = [
-                                        'relation' => true
-                                    ];
-                                    $record->data($this->relation($record->data(), $object_data, $role, $relation_options));
+
+                                    if(property_exists($options, 'disable-relation') && $options->{'disable-relation'} === true){
+                                        $record = $object->data_read($object_url, sha1($object_url));
+                                    } else {
+                                        $object_data = $object->data_read($object_url, sha1($object_url));
+                                        $relation_options = [
+                                            'relation' => true
+                                        ];
+                                        $record->data($this->relation($record->data(), $object_data, $role, $relation_options));
+                                    }
+
                                 }
                                 if ($record) {
                                     if(in_array($class, $exception, true)){
@@ -248,12 +257,17 @@ Trait Sync {
                                             $node->{'#index'} = $index;
                                         }
                                         $list->set($uuid, $node);
+                                    } else {
+                                        $node = $record->data();
+                                        if(is_object($node)){
+                                            $node->{'#index'} = $index;
+                                        }
+                                        $list->set($uuid, $node);
                                     }
                                 }
                             }
                         }
                     }
-                    ddd($list);
                     if (array_key_exists(1, $properties)) {
                         $sort = Sort::list($list)->with([
                             $properties[0] => 'ASC',
@@ -440,7 +454,10 @@ Trait Sync {
                                 exec($command);
                                 $command = 'chown www-data:www-data ' . $url_property_asc;
                                 exec($command);
-
+                                $command = 'chown www-data:www-data ' . $url_connect_asc;
+                                exec($command);
+                                $command = 'chown www-data:www-data ' . $url_connect_asc_reverse;
+                                exec($command);
                             }
                             if ($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
                                 $command = 'chmod 666 ' . $meta_url;
@@ -450,6 +467,10 @@ Trait Sync {
                                 $command = 'chmod 666 ' . $url_connect_asc_reverse;
                                 exec($command);
                                 $command = 'chmod 666 ' . $url_property_asc;
+                                exec($command);
+                                $command = 'chmod 666 ' . $url_connect_asc;
+                                exec($command);
+                                $command = 'chmod 666 ' . $url_connect_asc_reverse;
                                 exec($command);
                             }
                         }
