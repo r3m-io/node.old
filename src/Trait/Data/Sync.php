@@ -78,9 +78,6 @@ Trait Sync {
             }
             $list = [];
             $item = $object->data_read($file->url);
-            ddd($item);
-
-
             $time_start = microtime(true);
             $dir_node = $object->config('project.dir.data') .
                 'Node' .
@@ -89,15 +86,7 @@ Trait Sync {
                 'BinaryTree' .
                 $object->config('ds');
             ;
-            $dir_binarysearch = $dir_node .
-                'BinarySearch' .
-                $object->config('ds')
-            ;
             $dir_binary_tree_class = $dir_binary_tree .
-                $class .
-                $object->config('ds')
-            ;
-            $dir_binarysearch_class = $dir_binarysearch .
                 $class .
                 $object->config('ds')
             ;
@@ -108,7 +97,8 @@ Trait Sync {
 
             $url = $dir_binary_tree_sort .
                 'Uuid' .
-                $object->config('extension.json');
+                $object->config('extension.btree');
+            ddd($url);
             if(!File::exist($url)){
                 continue;
             }
