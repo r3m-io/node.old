@@ -1225,6 +1225,8 @@ Trait BinaryTree {
         }
         if(!array_key_exists('index', $options)){
             return false;
+        } else {
+            $options['index'] = (float) $options['index'];
         }
         if(!array_key_exists('search', $options)){
             return false;
