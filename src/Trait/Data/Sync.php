@@ -38,7 +38,6 @@ Trait Sync {
         ];
         $dir = new Dir();
         $read = $dir->read($url_object);
-        ddd($read);
 
         if(empty($read)){
             return;
@@ -79,6 +78,8 @@ Trait Sync {
             }
             $list = [];
             $item = $object->data_read($file->url);
+            ddd($item);
+
 
             $time_start = microtime(true);
             $dir_node = $object->config('project.dir.data') .
