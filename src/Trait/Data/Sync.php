@@ -132,6 +132,14 @@ Trait Sync {
                     $url_property_asc = false;
                     $url_property_asc_asc = false;
                     $url_property_asc_desc = false;
+                    $dir_property_asc_asc = false;
+                    $dir_property_asc_desc = false;
+                    $url_connect_asc = false;
+                    $url_connect_asc_reverse = false;
+                    $url_connect_asc_asc = false;
+                    $url_connect_asc_asc_reverse = false;
+                    $url_connect_asc_desc = false;
+                    $url_connect_asc_desc_reverse = false;
                     if(count($properties) > 1){
                         $dir_property_asc = $dir_binary_tree_class .
                             'Asc' .
@@ -230,7 +238,10 @@ Trait Sync {
                                         $object->config('extension.json')
                                     ;
 
-                                    if(property_exists($options, 'disable-relation') && $options->{'disable-relation'} === true){
+                                    if(
+                                        property_exists($options, 'disable-relation') &&
+                                        $options->{'disable-relation'} === true
+                                    ){
                                         //nothing
                                     } else {
                                         $object_data = $object->data_read($object_url, sha1($object_url));
@@ -276,7 +287,6 @@ Trait Sync {
                         ], [
                             'output' => 'raw'
                         ]);
-                        $result = new Storage();
                         $index = 0;
                         $binary_tree = [];
                         $connect_property_uuid = [];
@@ -302,23 +312,59 @@ Trait Sync {
                         ksort($connect_uuid_property, SORT_NATURAL);
                         $connect_asc_asc_reverse_lines = File::write($url_connect_asc_asc_reverse, implode(PHP_EOL, $connect_uuid_property), 'lines');
                         File::touch($url_connect_asc_asc_reverse, $mtime);
-                        $lines = File::write($url_property_asc_asc, implode(PHP_EOL, $binary_tree), 'lines');
+                        $lines_asc_asc = File::write($url_property_asc_asc, implode(PHP_EOL, $binary_tree), 'lines');
                         File::touch($url_property_asc_asc, $mtime);
+                        $sort = Sort::list($list)->with([
+                            $properties[0] => 'ASC',
+                            $properties[1] => 'DESC'
+                        ], [
+                            'output' => 'raw'
+                        ]);
+                        $index = 0;
+                        $binary_tree = [];
+                        $connect_property_uuid = [];
+                        $connect_uuid_property = []; //ksort at the end
+                        foreach ($sort as $key => $subList) {
+                            foreach ($subList as $nr => $node) {
+                                if(
+                                    property_exists($node, 'uuid') &&
+                                    property_exists($node, $properties[0]) &&
+                                    property_exists($node, '#index')
+                                ){
+                                    $binary_tree[$index] = $node->{$properties[0]};
+                                    $connect_property_uuid[$index] = $node->{'#index'};
+                                    $connect_uuid_property[$node->{'#index'}] = $index;
+                                }
+                                unset($sort[$key][$nr]);
+                                unset($subList[$nr]);
+                                $index++;
+                            }
+                        }
+                        $connect_asc_desc_lines = File::write($url_connect_asc_desc, implode(PHP_EOL, $connect_property_uuid), 'lines');
+                        File::touch($url_connect_asc_desc, $mtime);
+                        ksort($connect_uuid_property, SORT_NATURAL);
+                        $connect_asc_desc_reverse_lines = File::write($url_connect_asc_desc_reverse, implode(PHP_EOL, $connect_uuid_property), 'lines');
+                        File::touch($url_connect_asc_desc_reverse, $mtime);
+                        $lines_asc_desc = File::write($url_property_asc_desc, implode(PHP_EOL, $binary_tree), 'lines');
+                        File::touch($url_property_asc_desc, $mtime);
                         if(
-                            $connect_asc_asc_lines ===
-                            $connect_asc_asc_reverse_lines &&
-                            $connect_asc_asc_lines === $lines
+                            $connect_asc_asc_lines === $connect_asc_asc_reverse_lines &&
+                            $connect_asc_asc_lines === $lines_asc_asc &&
+                            $connect_asc_desc_lines === $connect_asc_desc_reverse_lines &&
+                            $connect_asc_desc_lines === $lines_asc_desc
                         ) {
                             $count = $index;
                             $sortable = new Storage();
                             $sortable->set('property', $properties);
                             $sortable->set('count', $count);
                             $sortable->set('mtime', $mtime);
-                            $sortable->set('lines', $lines);
+                            $sortable->set('lines', $lines_asc_asc);
                             $sortable->set('url.asc.asc', $url_property_asc_asc);
                             $sortable->set('url.asc.desc', $url_property_asc_desc);
-                            $sortable->set('url.connect.property.uuid', $url_connect_asc_asc);
-                            $sortable->set('url.connect.uuid.property', $url_connect_asc_asc_reverse);
+                            $sortable->set('url.connect.asc.asc.property.uuid', $url_connect_asc_asc);
+                            $sortable->set('url.connect.asc.asc.uuid.property', $url_connect_asc_asc_reverse);
+                            $sortable->set('url.connect.asc.desc.property.uuid', $url_connect_asc_desc);
+                            $sortable->set('url.connect.asc.desc.uuid.property', $url_connect_asc_desc_reverse);
                             $key = [
                                 'property' => $properties
                             ];
@@ -372,16 +418,8 @@ Trait Sync {
                             $sortable->set('mtime', $mtime);
                             $sortable->set('lines', $lines);
                             $sortable->set('url.asc', $url_property_asc);
-                            $sortable->set('url.connect.property.uuid', $url_connect_asc);
-                            $sortable->set('url.connect.uuid.property', $url_connect_asc_reverse);
-                            /*
-                            if(!empty($url_property_asc_asc)){
-                                $sortable->set('url.asc.asc', $url_property_asc_asc);
-                                $sortable->set('url.asc.desc', $url_property_asc_desc);
-                            } else {
-                                $sortable->set('url.asc', $url_property_asc);
-                            }
-                            */
+                            $sortable->set('url.connect.asc.property.uuid', $url_connect_asc);
+                            $sortable->set('url.connect.asc.uuid.property', $url_connect_asc_reverse);
                             $key = [
                                 'property' => $properties
                             ];
@@ -403,8 +441,10 @@ Trait Sync {
                         'url_property_asc_desc' => $url_property_asc_desc,
                         'url_connect_asc' => $url_connect_asc,
                         'url_connect_asc_reverse' => $url_connect_asc_reverse,
-                        'url_connect_asc_asc' => $url_connect_asc,
+                        'url_connect_asc_asc' => $url_connect_asc_asc,
                         'url_connect_asc_asc_reverse' => $url_connect_asc_asc_reverse,
+                        'url_connect_asc_desc' => $url_connect_asc_desc,
+                        'url_connect_asc_desc_reverse' => $url_connect_asc_desc_reverse,
                     ]);
                 }
             }
