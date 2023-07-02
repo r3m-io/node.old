@@ -291,20 +291,23 @@ Trait Sync {
                         $binary_tree = [];
                         $connect_property_uuid = [];
                         $connect_uuid_property = []; //ksort at the end
-                        foreach ($sort as $key => $subList) {
-                            foreach ($subList as $nr => $node) {
-                                if(
-                                    property_exists($node, 'uuid') &&
-                                    property_exists($node, $properties[0]) &&
-                                    property_exists($node, '#index')
-                                ){
-                                    $binary_tree[$index] = $node->{$properties[0]};
-                                    $connect_property_uuid[$index] = $node->{'#index'};
-                                    $connect_uuid_property[$node->{'#index'}] = $index;
+                        foreach ($sort as $key1 => $subList) {
+                            foreach($subList as $key2 => $subSubList){
+                                foreach ($subSubList as $nr => $node) {
+                                    if(
+                                        property_exists($node, 'uuid') &&
+                                        property_exists($node, $properties[0]) &&
+                                        property_exists($node, '#index')
+                                    ){
+                                        $binary_tree[$index] = $node->{$properties[0]};
+                                        $connect_property_uuid[$index] = $node->{'#index'};
+                                        $connect_uuid_property[$node->{'#index'}] = $index;
+                                    }
+                                    unset($sort[$key1][$key2][$nr]);
+                                    unset($subList[$key2][$nr]);
+                                    unset($subSubList[$nr]);
+                                    $index++;
                                 }
-                                unset($sort[$key][$nr]);
-                                unset($subList[$nr]);
-                                $index++;
                             }
                         }
                         $connect_asc_asc_lines = File::write($url_connect_asc_asc, implode(PHP_EOL, $connect_property_uuid), 'lines');
@@ -324,20 +327,23 @@ Trait Sync {
                         $binary_tree = [];
                         $connect_property_uuid = [];
                         $connect_uuid_property = []; //ksort at the end
-                        foreach ($sort as $key => $subList) {
-                            foreach ($subList as $nr => $node) {
-                                if(
-                                    property_exists($node, 'uuid') &&
-                                    property_exists($node, $properties[0]) &&
-                                    property_exists($node, '#index')
-                                ){
-                                    $binary_tree[$index] = $node->{$properties[0]};
-                                    $connect_property_uuid[$index] = $node->{'#index'};
-                                    $connect_uuid_property[$node->{'#index'}] = $index;
+                        foreach ($sort as $key1 => $subList) {
+                            foreach($subList as $key2 => $subSubList){
+                                foreach ($subSubList as $nr => $node) {
+                                    if(
+                                        property_exists($node, 'uuid') &&
+                                        property_exists($node, $properties[0]) &&
+                                        property_exists($node, '#index')
+                                    ){
+                                        $binary_tree[$index] = $node->{$properties[0]};
+                                        $connect_property_uuid[$index] = $node->{'#index'};
+                                        $connect_uuid_property[$node->{'#index'}] = $index;
+                                    }
+                                    unset($sort[$key1][$key2][$nr]);
+                                    unset($subList[$key2][$nr]);
+                                    unset($subSubList[$nr]);
+                                    $index++;
                                 }
-                                unset($sort[$key][$nr]);
-                                unset($subList[$nr]);
-                                $index++;
                             }
                         }
                         $connect_asc_desc_lines = File::write($url_connect_asc_desc, implode(PHP_EOL, $connect_property_uuid), 'lines');
