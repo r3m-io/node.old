@@ -286,6 +286,11 @@ Trait Sync {
                             foreach ($subList as $key2 => $subSubList) {
                                 $nodeList = [];
                                 foreach ($subSubList as $nr => $node) {
+                                    d($index);
+                                    d($key1);
+                                    d($key2);
+                                    d($properties);
+                                    ddd($node);
                                     if(
                                         is_array($node) &&
                                         array_key_exists('uuid', $node)
@@ -332,6 +337,11 @@ Trait Sync {
                         foreach ($sort as $key => $subList) {
                             $nodeList = [];
                             foreach ($subList as $nr => $node) {
+                                d($index);
+                                d($key1);
+                                d($key2);
+                                d($properties);
+                                ddd($node);
                                 if(
                                     is_array($node) &&
                                     array_key_exists('uuid', $node)
