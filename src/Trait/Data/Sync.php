@@ -260,8 +260,6 @@ Trait Sync {
                                         $list->set($uuid, $node);
                                     } else {
                                         $node = $record->data();
-                                        d($uuid);
-                                        ddd($node);
                                         if(is_object($node)){
                                             $node->{'#index'} = $index;
                                         }
