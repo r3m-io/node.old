@@ -1264,58 +1264,54 @@ Trait BinaryTree {
             }
             $file->seek($seek);
             echo 'Seek: ' . $seek . ' options.index: ' . $options['index'] . PHP_EOL;
-
-            while($line = $file->current()){
-                echo $line . PHP_EOL;
-                $options['counter']++;
-                if($options['counter'] > 1024){
-                    //log error with filesize of view
-                    break 2;
-                }
-                if ($options['index'] === $seek) {
-                    ddd('found');
-                    return $this->binary_tree_node(
-                        $line,
-                        [
+            $line = $file->current();
+            echo $line . PHP_EOL;
+            $options['counter']++;
+            if($options['counter'] > 1024){
+                //log error with filesize of view
+                break;
+            }
+            if ($options['index'] === $seek) {
+                ddd('found');
+                return $this->binary_tree_node(
+                    $line,
+                    [
                         'seek' => $seek,
                         ...$options
-                        ]
-                    );
-                }
-                elseif(
-                    $options['index'] < $seek
-                ){
-                    $direction = 'up';
-                    $options['max'] = $seek - 1;
-                    break;
-                }
-                elseif(
-                    $options['index'] > $seek
-                ){
-                    if(in_array($seek, $options['search'], true)){
-                        $direction = 'down';
-                    } else {
-                        $direction = 'up';
-                    }
-                    $options['min'] = $seek + 1;
-                    break;
-                }
-                if($direction === 'up'){
-                    $seek--;
-                    if($seek < 0){
-                        return false;
-                    }
-                    $file->seek($seek);
-                    $options['search'][] = $seek;
-                    $options['direction'][] = $direction;
+                    ]
+                );
+            }
+            elseif(
+                $options['index'] < $seek
+            ){
+                $direction = 'up';
+                $options['max'] = $seek - 1;
+            }
+            elseif(
+                $options['index'] > $seek
+            ){
+                if(in_array($seek, $options['search'], true)){
+                    $direction = 'down';
                 } else {
-                    $seek++;
-                    $options['search'][] = $seek;
-                    $options['direction'][] = $direction;
-                    $file->next();
-                    if($seek === $options['lines'] - 1){
-                        return false;
-                    }
+                    $direction = 'up';
+                }
+                $options['min'] = $seek + 1;
+            }
+            if($direction === 'up'){
+                $seek--;
+                if($seek < 0){
+                    return false;
+                }
+                $file->seek($seek);
+                $options['search'][] = $seek;
+                $options['direction'][] = $direction;
+            } else {
+                $seek++;
+                $options['search'][] = $seek;
+                $options['direction'][] = $direction;
+                $file->next();
+                if($seek === $options['lines'] - 1){
+                    return false;
                 }
             }
         }
