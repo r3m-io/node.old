@@ -37,6 +37,7 @@ Trait Count {
             $class .
             $object->config('ds')
         ;
+        $url_connect = $dir . 'Uuid' . $object->config('extension.btree');
         if(!array_key_exists('where', $options)){
             $options['where'] = [];
         }
@@ -72,7 +73,7 @@ Trait Count {
                 Controller::name($property) .
                 $object->config('extension.btree')
             ;
-            $url_connect = $dir .
+            $url_connect_property = $dir .
                 Controller::name($property) .
                 $object->config('extension.connect')
             ;
@@ -81,6 +82,10 @@ Trait Count {
                 return false;
             }
             if(!File::exist($url_connect)) {
+                //logger exception
+                return false;
+            }
+            if(!File::exist($url_connect_property)) {
                 //logger exception
                 return false;
             }

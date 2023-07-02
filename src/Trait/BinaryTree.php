@@ -915,6 +915,7 @@ Trait BinaryTree {
                 'search' => [],
                 'url' => $options['url'],
                 'url_connect' => $options['url_connect'],
+                'url_connect_property' => $options['url_connect_property'],
             ]);
             ddd($record);
             $duration = microtime(true) - $time_start_3;
@@ -1168,6 +1169,18 @@ Trait BinaryTree {
      */
     private function binary_tree_node($line='', $options=[]){
         d($line);
+        d($options);
+        if(!array_key_exists('url_connect', $options)){
+            return false;
+        }
+        if(!array_key_exists('url_connect_property', $options)){
+            return false;
+        }
+        if(!array_key_exists('seek', $options)){
+            return false;
+        }
+
+
         ddd($options);
         /*
         if(!is_array($data)){
