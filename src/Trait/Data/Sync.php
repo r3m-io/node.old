@@ -111,7 +111,7 @@ Trait Sync {
                 $class .
                 $object->config('extension.json');
 
-            $data = explode(PHP_EOL, File::read($url));
+            $data = File::read($url, File::ARRAY);
 
             ddd($data);
 
