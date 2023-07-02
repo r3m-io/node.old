@@ -302,7 +302,10 @@ Trait Sync {
                                         $node_data->has($properties[1]) &&
                                         $node_data->has('#index')
                                     ){
-                                        $binary_tree[$index] = '["' . $node_data->get($properties[0]) . '", "' . $node_data->get($properties[1]) . '"]';
+                                        $binary_tree[$index] = $this->sync_node_data_properties(
+                                            $node_data->get($properties[0]),
+                                            $node_data->get($properties[1])
+                                        );
                                         $connect_property_uuid[$index] = $node_data->get('#index');
                                         $connect_uuid_property[$node_data->get('#index')] = $index;
                                     }
@@ -342,7 +345,10 @@ Trait Sync {
                                         $node_data->has($properties[1]) &&
                                         $node_data->has('#index')
                                     ){
-                                        $binary_tree[$index] = '["' . $node_data->get($properties[0]) . '", "' . $node_data->get($properties[1]) . '"]';
+                                        $binary_tree[$index] = $this->sync_node_data_properties(
+                                            $node_data->get($properties[0]),
+                                            $node_data->get($properties[1])
+                                        );
                                         $connect_property_uuid[$index] = $node_data->get('#index');
                                         $connect_uuid_property[$node_data->get('#index')] = $index;
                                     }
@@ -399,17 +405,21 @@ Trait Sync {
                         $connect_uuid_property = []; //ksort at the end
                         foreach ($sort as $key => $subList) {
                             foreach ($subList as $nr => $node) {
+                                $node_data->data($node);
                                 if(
-                                    property_exists($node, 'uuid') &&
-                                    property_exists($node, $properties[0]) &&
-                                    property_exists($node, '#index')
+                                    $node_data->has('uuid') &&
+                                    $node_data->has($properties[0]) &&
+                                    $node_data->has('#index')
                                 ){
-                                    $binary_tree[$index] = $node->{$properties[0]};
-                                    $connect_property_uuid[$index] = $node->{'#index'};
-                                    $connect_uuid_property[$node->{'#index'}] = $index;
+                                    $binary_tree[$index] = $this->sync_node_data_property(
+                                        $node_data->get($properties[0])
+                                    );
+                                    $connect_property_uuid[$index] = $node->get('#index');
+                                    $connect_uuid_property[$node->get('#index')] = $index;
                                 }
                                 unset($sort[$key][$nr]);
                                 unset($subList[$nr]);
+                                $node_data->clear();
                                 $index++;
                             }
                         }
@@ -471,6 +481,50 @@ Trait Sync {
                 echo 'Duration: (3) ' . round($time_duration * 1000, 2) . 'msec class: ' . $class . PHP_EOL;
             }
         }
+    }
+
+    private function sync_node_data_properties($property_1=null, $property_2=null){
+        if(is_numeric($property_1)){
+            $property_1 = $property_1 + 0;
+        }
+        if(is_numeric($property_2)){
+            $property_2 = $property_2 + 0;
+        }
+        if(is_string($property_1)){
+            $property_1 = '"' . $property_1 . '"';
+        }
+        if(is_string($property_2)){
+            $property_2 = '"' . $property_2 . '"';
+        }
+        if(is_array($property_1)){
+            $property_1 = '"' . implode('", "', $property_1) . '"';
+        }
+        if(is_array($property_2)){
+            $property_2 = '"' . implode('", "', $property_2) . '"';
+        }
+        if(is_object($property_1)){
+            $property_1 = Core::object($property_1, Core::OBJECT_JSON);
+        }
+        if(is_object($property_2)){
+            $property_2 = Core::object($property_2, Core::OBJECT_JSON);
+        }
+        return '[' . $property_1 . ', ' . $property_2 . ']';
+    }
+
+    private function sync_node_data_property($property=null){
+        if(is_numeric($property)){
+            $property = $property + 0;
+        }
+        elseif(is_string($property)){
+            $property = '"' .$property . '"';
+        }
+        elseif(is_array($property)){
+            $property = '["' . implode('", "', $property) . '"]';
+        }
+        elseif(is_object($property)){
+            $property = '[' . Core::object($property, Core::OBJECT_JSON) . ']';
+        }
+        return $property;
     }
 
     private function sync_file($options=[]){
