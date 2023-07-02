@@ -278,102 +278,54 @@ Trait Sync {
                         ]);
                         $result = new Storage();
                         $index = 0;
-                        foreach ($sort as $key1 => $subList) {
-                            foreach ($subList as $key2 => $subSubList) {
-                                $nodeList = [];
-                                foreach ($subSubList as $nr => $node) {
-                                    d($index);
-                                    d($key1);
-                                    d($key2);
-                                    d($properties);
-                                    ddd($node);
-                                    if(
-                                        is_array($node) &&
-                                        array_key_exists('uuid', $node)
-                                    ){
-                                        $item = $data->data($class . '.' . $node['uuid']);
-//                                        $item = $list->get($node['uuid']);
-                                    }
-                                    elseif(
-                                        is_object($node) &&
-                                        property_exists($node, 'uuid')
-                                    ){
-                                        $item = $data->data($class . '.' . $node->uuid);
-//                                        $item = $list->get($node->uuid);
-                                    }
-                                    if(!$item){
-                                        continue;
-                                    }
-                                    $item->{'#index'} = $index;
-                                    $item->{'#sort'} = new stdClass();
-                                    $item->{'#sort'}->{$properties[0]} = $key1;
-                                    $item->{'#sort'}->{$properties[1]} = $key2;
-                                    $nodeList[] = $item;
-                                    $index++;
+                        $binary_tree = [];
+                        $connect_property_uuid = [];
+                        $connect_uuid_property = []; //ksort at the end
+                        foreach ($sort as $key => $subList) {
+                            foreach ($subList as $nr => $node) {
+                                if(
+                                    property_exists($node, 'uuid') &&
+                                    property_exists($node, $properties[0]) &&
+                                    property_exists($node, '#index')
+                                ){
+                                    $binary_tree[$index] = $node->{$properties[0]};
+                                    $connect_property_uuid[$index] = $node->{'#index'};
+                                    $connect_uuid_property[$node->{'#index'}] = $index;
                                 }
-                                if (empty($key1)) {
-                                    $key1 = '""';
-                                }
-                                if (empty($key2)) {
-                                    $key2 = '""';
-                                }
-                                $result->set($class . '.' . $key1 . '.' . $key2, $nodeList);
+                                unset($sort[$key][$nr]);
+                                unset($subList[$nr]);
+                                $index++;
                             }
                         }
-                        $lines = $result->write($url_property_asc_asc, 'lines');
+                        $connect_asc_asc_lines = File::write($url_connect_asc_asc, implode(PHP_EOL, $connect_property_uuid), 'lines');
+                        File::touch($url_connect_asc_asc, $mtime);
+                        ksort($connect_uuid_property, SORT_NATURAL);
+                        $connect_asc_asc_reverse_lines = File::write($url_connect_asc_asc_reverse, implode(PHP_EOL, $connect_uuid_property), 'lines');
+                        File::touch($url_connect_asc_asc_reverse, $mtime);
+                        $lines = File::write($url_property_asc_asc, implode(PHP_EOL, $binary_tree), 'lines');
                         File::touch($url_property_asc_asc, $mtime);
-                        $sort = Sort::list($list)->with([
-                            $properties[0] => 'ASC',
-                            $properties[1] => 'DESC'
-                        ], [
-                            'output' => 'raw'
-                        ]);
-                        $result = new Storage();
-                        $index = 0;
-                        foreach ($sort as $key1 => $subList) {
-                            foreach ($subList as $key2 => $subSubList) {
-                                $nodeList = [];
-                                foreach ($subSubList as $nr => $node) {
-                                    d($index);
-                                    d($key1);
-                                    d($key2);
-                                    d($properties);
-                                    ddd($node);
-                                    if(
-                                        is_array($node) &&
-                                        array_key_exists('uuid', $node)
-                                    ){
-                                        $item = $data->data($class . '.' . $node['uuid']);
-//                                        $item = $list->get($node['uuid']);
-                                    }
-                                    elseif(
-                                        is_object($node) &&
-                                        property_exists($node, 'uuid')
-                                    ){
-                                        $item = $data->data($class . '.' . $node->uuid);
-//                                        $item = $list->get($node->uuid);
-                                    }
-                                    if(!$item){
-                                        continue;
-                                    }
-                                    $item->{'#index'} = $index;
-                                    $item->{'#sort'} = new stdClass();
-                                    $item->{'#sort'}->{$properties[0]} = $key1;
-                                    $item->{'#sort'}->{$properties[1]} = $key2;
-                                    $nodeList[] = $item;
-                                    $index++;
-                                }
-                                if (empty($key1)) {
-                                    $key1 = '""';
-                                }
-                                if (empty($key2)) {
-                                    $key2 = '""';
-                                }
-                                $result->set($class . '.' . $key1 . '.' . $key2, $nodeList);
-                            }
+                        if(
+                            $connect_asc_asc_lines ===
+                            $connect_asc_asc_reverse_lines &&
+                            $connect_asc_asc_lines === $lines
+                        ) {
+                            $count = $index;
+                            $sortable = new Storage();
+                            $sortable->set('property', $properties);
+                            $sortable->set('count', $count);
+                            $sortable->set('mtime', $mtime);
+                            $sortable->set('lines', $lines);
+                            $sortable->set('url.asc.asc', $url_property_asc_asc);
+                            $sortable->set('url.asc.desc', $url_property_asc_desc);
+                            $sortable->set('url.connect.property.uuid', $url_connect_asc_asc);
+                            $sortable->set('url.connect.uuid.property', $url_connect_asc_asc_reverse);
+                            $key = [
+                                'property' => $properties
+                            ];
+                            $key = sha1(Core::object($key, Core::OBJECT_JSON));
+                            $meta->set('Sort.' . $class . '.' . $key, $sortable->data());
+                            $meta->write($meta_url);
                         }
-                        $lines_asc_desc = $result->write($url_property_asc_desc, 'lines');
-                        File::touch($url_property_asc_desc, $mtime);
                     } else {
                         $sort = Sort::list($list)->with([
                             $properties[0] => 'ASC'
@@ -436,40 +388,24 @@ Trait Sync {
                             $key = sha1(Core::object($key, Core::OBJECT_JSON));
                             $meta->set('Sort.' . $class . '.' . $key, $sortable->data());
                             $meta->write($meta_url);
-                            if ($object->config(Config::POSIX_ID) === 0) {
-                                $command = 'chown www-data:www-data ' . $meta_url;
-                                exec($command);
-                                $command = 'chown www-data:www-data ' . $dir_binary_tree;
-                                exec($command);
-                                $command = 'chown www-data:www-data ' . $dir_binary_tree_class;
-                                exec($command);
-                                $command = 'chown www-data:www-data ' . $dir_binary_tree_sort;
-                                exec($command);
-                                $command = 'chown www-data:www-data ' . $dir_property_asc;
-                                exec($command);
-                                $command = 'chown www-data:www-data ' . $url_property_asc;
-                                exec($command);
-                                $command = 'chown www-data:www-data ' . $url_connect_asc;
-                                exec($command);
-                                $command = 'chown www-data:www-data ' . $url_connect_asc_reverse;
-                                exec($command);
-                            }
-                            if ($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
-                                $command = 'chmod 666 ' . $meta_url;
-                                exec($command);
-                                $command = 'chmod 666 ' . $url_connect_asc;
-                                exec($command);
-                                $command = 'chmod 666 ' . $url_connect_asc_reverse;
-                                exec($command);
-                                $command = 'chmod 666 ' . $url_property_asc;
-                                exec($command);
-                                $command = 'chmod 666 ' . $url_connect_asc;
-                                exec($command);
-                                $command = 'chmod 666 ' . $url_connect_asc_reverse;
-                                exec($command);
-                            }
                         }
                     }
+                    $this->sync_file([
+                        'meta' => $meta_url,
+                        'binary_tree' => $dir_binary_tree,
+                        'binary_tree_class' => $dir_binary_tree_class,
+                        'binary_tree_sort' => $dir_binary_tree_sort,
+                        'property_asc' => $dir_property_asc,
+                        'property_asc_asc' => $dir_property_asc_asc,
+                        'property_asc_desc' => $dir_property_asc_desc,
+                        'url_property_asc' => $url_property_asc,
+                        'url_property_asc_asc' => $url_property_asc_asc,
+                        'url_property_asc_desc' => $url_property_asc_desc,
+                        'url_connect_asc' => $url_connect_asc,
+                        'url_connect_asc_reverse' => $url_connect_asc_reverse,
+                        'url_connect_asc_asc' => $url_connect_asc,
+                        'url_connect_asc_asc_reverse' => $url_connect_asc_asc_reverse,
+                    ]);
                 }
             }
             $time_end = microtime(true);
@@ -482,6 +418,29 @@ Trait Sync {
         }
     }
 
+    private function sync_file($options=[]){
+        $object = $this->object();
+        if ($object->config(Config::POSIX_ID) === 0) {
+            foreach ($options as $key => $value) {
+                if (File::exist($value)) {
+                    $command = 'chown www-data:www-data ' . $value;
+                    exec($command);
+                }
+            }
+        }
+        if ($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
+            foreach($options as $key => $value){
+                if(Dir::is($value)){
+                    $command = 'chmod 777 ' . $value;
+                    exec($command);
+                }
+                elseif(File::is($value)) {
+                    $command = 'chmod 666 ' . $value;
+                    exec($command);
+                }
+            }
+        }
+    }
 
     /**
      * @throws ObjectException
