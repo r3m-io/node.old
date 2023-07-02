@@ -106,7 +106,7 @@ Trait Count {
                     if($count){
                         return $count;
                     } else {
-                        $count = $this->binary_search_count(
+                        $count = $this->binary_tree_count(
                             $file,
                             $role,
                             [

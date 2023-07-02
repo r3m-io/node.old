@@ -906,15 +906,7 @@ Trait BinaryTree {
         $index = 0;
         $count = 0;
         $time_start = microtime(true);
-        $is_debug = true;
-        if(stristr($options['url'], 'event')){
-            $is_debug = false;
-        }
         while(true){
-            if($is_debug){
-                $index = 282;
-            }
-
             $time_start_3 = microtime(true);
             $record = $this->binary_tree_index($file, [
                 'lines'=> $options['lines'],
@@ -922,12 +914,8 @@ Trait BinaryTree {
                 'index' => $index,
                 'search' => [],
                 'url' => $options['url'],
-                'is_debug' => $is_debug,
             ]);
-            if($is_debug){
-                ddd($record);
-            }
-
+            ddd($record);
             $duration = microtime(true) - $time_start_3;
             echo 'Duration: ' . round($duration * 1000, 2) . ' msec url: ' . $options['url'] . PHP_EOL;
             $time_start_2 = microtime(true);
