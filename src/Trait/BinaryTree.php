@@ -1165,7 +1165,10 @@ Trait BinaryTree {
     /**
      * @throws ObjectException
      */
-    private function binary_tree_node($data=[], $options=[]){
+    private function binary_tree_node($line='', $options=[]){
+        d($line);
+        ddd($options);
+        /*
         if(!is_array($data)){
             return false;
         }
@@ -1206,6 +1209,7 @@ Trait BinaryTree {
             $object->config('extension.json')
         ;
         return $record;
+        */
     }
 
     /**
@@ -1224,6 +1228,7 @@ Trait BinaryTree {
         if(!array_key_exists('search', $options)){
             return false;
         }
+        $object = $this->object();
         if(!array_key_exists('min', $options)){
             $options['min'] = 0;
         }
@@ -1234,18 +1239,9 @@ Trait BinaryTree {
             $options['is_debug'] = false;
         }
         $direction = 'up';
-        $is_per_line = false;
 //        echo '--------------------------------------' . PHP_EOL;
         while($options['min'] <= $options['max']){
-            if($is_per_line === false){
-                $seek = $options['min'] + floor(($options['max'] - $options['min']) / 2);
-            } else {
-                if($options['max'] >= $options['min']){
-                    $seek = $options['min'];
-                } else {
-                    return false;
-                }
-            }
+            $seek = $options['min'] + floor(($options['max'] - $options['min']) / 2);
             if(
                 $direction === 'down' &&
                 !in_array($seek, $options['search'], true)
@@ -1266,94 +1262,44 @@ Trait BinaryTree {
                 }
             }
             $file->seek($seek);
-            $depth = false;
-            $is_collect = false;
-            $data = [];
             while($line = $file->current()){
                 $options['counter']++;
                 if($options['counter'] > 1024){
                     //log error with filesize of view
                     break 2;
                 }
-                ddd($line);
-                $line_match = str_replace(' ', '', $line);
-                $line_match = str_replace('"', '', $line_match);
-                $explode = explode(':', $line_match);
-                echo $seek . ', ' . $direction . ', ' . $line . PHP_EOL;
-                $symbol = trim($explode[0], " \t\n\r\0\x0B,");
-                $symbol_right = null;
-                if(array_key_exists(1, $explode)){
-                    $symbol_right = trim($explode[1], " \t\n\r\0\x0B,");
-                }
-                if(
-                    $symbol === '{' &&
-                    !empty($seek) //first line starts with { and is not the inner object we want
-                ){
-                    $depth = 0;
-                    $direction = 'down';
-                    $is_collect = true;
-                }
-                if(
-                    $depth !== false &&
-                    $symbol === '}' ||
-                    $symbol_right === '}'
-                ){
-//                    echo $symbol . '-' . $symbol_right . '-' . $depth . PHP_EOL;
-                    $depth--;
-                    if($depth === 0){
-                        $data[] = $symbol;
-                        $index = $this->parse_index($data);
-                        if($index === false){
-                            $object->logger($object->config('project.log.name'))->error('Cannot find index (' . $index .')in view: ' . $options['url'], $data);
-                            return false;
-                        }
-                        if ($options['index'] === $index) {
-                            return $this->binary_search_node(
-                                $data,
-                                [
-                                    'seek' => $seek,
-                                    ...$options
-                                ]
-                            );
-                        }
-                        elseif(
-                            $options['index'] < $index
-                        ){
-                            $direction = 'up';
-                            $options['max'] = $seek - 1;
-                            break;
-                        }
-                        elseif(
-                            $options['index'] > $index
-                        ){
-                            if(in_array($seek, $options['search'], true)){
-                                $direction = 'down';
-                                $is_per_line = true;
-                            }
-                            elseif(!$is_per_line) {
-                                $direction = 'up';
-                            }
-                            $options['min'] = $seek + 1;
-                            break;
-                        }
-                    }
+                if ($options['index'] === $seek) {
+                    return $this->binary_tree_node(
+                        $line,
+                        [
+                        'seek' => $seek,
+                        ...$options
+                        ]
+                    );
                 }
                 elseif(
-                    $depth !== false &&
-                    $symbol === '{' ||
-                    $symbol_right === '{'
+                    $options['index'] < $seek
                 ){
-                    $depth++;
-//                    echo $symbol . '-' . $symbol_right . '-' . $depth . PHP_EOL;
+                    $direction = 'up';
+                    $options['max'] = $seek - 1;
+                    break;
                 }
-                if($is_collect){
-                    $data[]= $line;
+                elseif(
+                    $options['index'] > $seek
+                ){
+                    if(in_array($seek, $options['search'], true)){
+                        $direction = 'down';
+                        $is_per_line = true;
+                    } else {
+                        $direction = 'up';
+                    }
+                    $options['min'] = $seek + 1;
+                    break;
                 }
                 if($direction === 'up'){
                     $seek--;
                     if($seek < 0){
-                        $direction = 'down';
-                        $seek = 0;
+                        return false;
                     }
                     $file->seek($seek);
                     $options['search'][] = $seek;
@@ -1364,7 +1310,7 @@ Trait BinaryTree {
                     $options['direction'][] = $direction;
                     $file->next();
                     if($seek === $options['lines'] - 1){
-                        $direction = 'up';
+                        return false;
                     }
                 }
             }
