@@ -379,7 +379,6 @@ Trait Sync {
                         ], [
                             'output' => 'raw'
                         ]);
-                        ddd($sort);
                         $index = 0;
                         $binary_tree = [];
                         $connect_property_uuid = [];
@@ -475,66 +474,6 @@ Trait Sync {
                             }
                         }
                     }
-                    /*
-                    if ($object->config(Config::POSIX_ID) === 0) {
-                        $command = 'chown www-data:www-data ' . $meta_url;
-                        exec($command);
-                    }
-                    if ($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
-                        $command = 'chmod 666 ' . $meta_url;
-                        exec($command);
-                    }
-                    */
-                    /*
-                    if ($object->config(Config::POSIX_ID) === 0) {
-                        if(!empty($url_property_asc_asc)){
-                            $command = 'chown www-data:www-data ' . $dir_binary_tree;
-                            exec($command);
-                            $command = 'chown www-data:www-data ' . $dir_binary_tree_class;
-                            exec($command);
-                            $command = 'chown www-data:www-data ' . $dir_binary_tree_sort;
-                            exec($command);
-                            $command = 'chown www-data:www-data ' . $dir_property_asc;
-                            exec($command);
-                            $command = 'chown www-data:www-data ' . $dir_property_asc_asc;
-                            exec($command);
-                            $command = 'chown www-data:www-data ' . $dir_property_asc_desc;
-                            exec($command);
-                            $command = 'chown www-data:www-data ' . $url_property_asc_asc;
-                            exec($command);
-                            $command = 'chown www-data:www-data ' . $url_property_asc_desc;
-                            exec($command);
-                        } else {
-                            $command = 'chown www-data:www-data ' . $dir_property_asc;
-                            exec($command);
-                            $command = 'chown www-data:www-data ' . $url_property_asc;
-                            exec($command);
-                        }
-                    }
-                    if ($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
-                        $command = 'chmod 777 ' . $dir_binarysearch;
-                        exec($command);
-                        $command = 'chmod 777 ' . $dir_binarysearch_class;
-                        exec($command);
-                        if(!empty($url_property_asc_asc)){
-                            $command = 'chmod 777 ' . $dir_property_asc;
-                            exec($command);
-                            $command = 'chmod 777 ' . $dir_property_asc_asc;
-                            exec($command);
-                            $command = 'chmod 777 ' . $dir_property_asc_desc;
-                            exec($command);
-                            $command = 'chmod 666 ' . $url_property_asc_asc;
-                            exec($command);
-                            $command = 'chmod 666 ' . $url_property_asc_desc;
-                            exec($command);
-                        } else {
-                            $command = 'chmod 777 ' . $dir_property_asc;
-                            exec($command);
-                            $command = 'chmod 666 ' . $url_property_asc;
-                            exec($command);
-                        }
-                    }
-                    */
                 }
             }
             $time_end = microtime(true);
