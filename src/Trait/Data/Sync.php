@@ -98,8 +98,8 @@ Trait Sync {
             $url = $dir_binary_tree_sort .
                 'Uuid' .
                 $object->config('extension.btree');
-            ddd($url);
             if(!File::exist($url)){
+                //logger error url not found
                 continue;
             }
             $mtime = File::mtime($url);
