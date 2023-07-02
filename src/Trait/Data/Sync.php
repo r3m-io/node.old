@@ -119,10 +119,6 @@ Trait Sync {
             if(!$item){
                 continue;
             }
-            d($url);
-            ddd($meta);
-
-
             if ($item->has('sort')) {
                 foreach ($item->get('sort') as $sort) {
                     $properties = explode(',', $sort);
@@ -133,7 +129,7 @@ Trait Sync {
                     $url_property_asc_asc = false;
                     $url_property_asc_desc = false;
                     if(count($properties) > 1){
-                        $dir_property_asc = $dir_binarysearch_class .
+                        $dir_property_asc = $dir_binary_tree_class .
                             'Asc' .
                             $object->config('ds')
                         ;
@@ -155,7 +151,7 @@ Trait Sync {
                         ;
                         $mtime_property = File::mtime($url_property_asc_asc);
                     } else {
-                        $dir_property_asc = $dir_binarysearch_class .
+                        $dir_property_asc = $dir_binary_tree_class .
                             'Asc' .
                             $object->config('ds')
                         ;
@@ -172,62 +168,58 @@ Trait Sync {
                     }
                     if (empty($list)) {
                         $list = new Storage();
-                        $original = $data->data($class);
                         $storage = [];
-                        if(is_array($original) || is_object($original)){
-                            foreach ($original as $uuid => $node) {
-                                if (property_exists($node, 'uuid')) {
-                                    $storage_url = $object->config('project.dir.data') .
+                        if(is_array($data)){
+                            foreach ($data as $index => $uuid) {
+                                $storage_url = $object->config('project.dir.data') .
+                                    'Node' .
+                                    $object->config('ds') .
+                                    'Storage' .
+                                    $object->config('ds') .
+                                    substr($uuid, 0, 2) .
+                                    $object->config('ds') .
+                                    $uuid .
+                                    $object->config('extension.json')
+                                ;
+                                $record = $object->data_read($storage_url);
+                                if($record === false){
+                                    //object no longer exists.
+                                    continue;
+                                }
+                                if($record && $record->has('#class')){
+                                    $object_url = $object->config('project.dir.data') .
                                         'Node' .
                                         $object->config('ds') .
-                                        'Storage' .
+                                        'Object' .
                                         $object->config('ds') .
-                                        substr($node->uuid, 0, 2) .
-                                        $object->config('ds') .
-                                        $node->uuid .
-                                        $object->config('extension.json');
-                                    $record = $object->data_read($storage_url);
-                                    if($record === false){
-                                        //object no longer exists.
-                                        continue;
+                                        ucfirst($record->get('#class')) .
+                                        $object->config('extension.json')
+                                    ;
+                                    $object_data = $object->data_read($object_url, sha1($object_url));
+                                    $relation_options = [
+                                        'relation' => true
+                                    ];
+                                    $record->data($this->relation($record->data(), $object_data, $role, $relation_options));
+                                }
+                                if ($record) {
+                                    if(in_array($class, $exception, true)){
+                                        $list->set($uuid, $record->data());
                                     }
-                                    if($record && $record->has('#class')){
-                                        $object_url = $object->config('project.dir.data') .
-                                            'Node' .
-                                            $object->config('ds') .
-                                            'Object' .
-                                            $object->config('ds') .
-                                            ucfirst($record->get('#class')) .
-                                            $object->config('extension.json')
-                                        ;
-                                        $object_data = $object->data_read($object_url, sha1($object_url));
-                                        $relation_options = [
-                                            'relation' => true
-                                        ];
-                                        $record->data($this->relation($record->data(), $object_data, $role, $relation_options));
-                                    }
-                                    if ($record) {
-                                        $storage[] = $node;
-                                        if(in_array($class, $exception, true)){
-                                            $list->set($uuid, $record->data());
-                                        }
-                                        elseif($expose) {
-                                            $record = $this->expose(
-                                                $record,
-                                                $expose,
-                                                $class,
-                                                __FUNCTION__,
-                                                $role
-                                            );
-                                            $list->set($uuid, $record->data());
-                                        }
+                                    elseif($expose) {
+                                        $record = $this->expose(
+                                            $record,
+                                            $expose,
+                                            $class,
+                                            __FUNCTION__,
+                                            $role
+                                        );
+                                        $node = $record->data();
+                                        $node->{'#index'} = $index;
+                                        $list->set($uuid, $node);
                                     }
                                 }
                             }
                         }
-                        $object_storage = new Storage();
-                        $object_storage->set($class, $storage);
-                        $object_storage->write($url);
                     }
                     if (array_key_exists(1, $properties)) {
                         $sort = Sort::list($list)->with([
@@ -242,6 +234,11 @@ Trait Sync {
                             foreach ($subList as $key2 => $subSubList) {
                                 $nodeList = [];
                                 foreach ($subSubList as $nr => $node) {
+                                    d($index);
+                                    d($key1);
+                                    d($key2);
+                                    d($properties);
+                                    ddd($node);
                                     if(
                                         is_array($node) &&
                                         array_key_exists('uuid', $node)
