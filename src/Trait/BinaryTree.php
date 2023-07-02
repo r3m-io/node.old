@@ -1290,6 +1290,36 @@ Trait BinaryTree {
                 break;
             }
             if ($options['index'] === $seek) {
+                if(
+                    array_key_exists('url_uuid', $options) &&
+                    File::exist($options['url_uuid'])
+                ){
+                    $key = sha1($options['url_uuid']);
+                    $file_uuid = $object->data($key);
+                    if(!$file_uuid){
+                        $file_uuid = $object->data($key, new splFileObject($options['url_uuid']));
+                    }
+                    $record = $this->binary_tree_index($file_uuid, [
+                        'lines'=> $options['lines'],
+                        'counter' => 0,
+                        'index' => $seek,
+                        'search' => [],
+                        'url' => $options['url_uuid']
+                    ]);
+                    ddd($record);
+
+                } else {
+                    ddd($line);
+                }
+
+
+
+                $uuid = $this->binary_tree_uuid(
+                    [
+                        'url_uuid' => $options['url_uuid'],
+                        'url_connect_property' => $options['url_connect_property'] ?? null,
+                    ]
+                );
                 ddd($options);
                 return $this->binary_tree_node(
                     $line,
