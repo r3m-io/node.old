@@ -2,21 +2,28 @@
 
 namespace R3m\Io\Node\Trait\Data;
 
-use Exception;
 use R3m\Io\App;
 use R3m\Io\Config;
-use R3m\Io\Exception\FileWriteException;
-use R3m\Io\Exception\ObjectException;
+
 use R3m\Io\Module\Controller;
 use R3m\Io\Module\Core;
 use R3m\Io\Module\Data as Storage;
 use R3m\Io\Module\Dir;
 use R3m\Io\Module\File;
 use R3m\Io\Module\Sort;
+
 use stdClass;
+
+use Exception;
+
+use R3m\Io\Exception\FileWriteException;
+use R3m\Io\Exception\ObjectException;
 
 Trait Sync {
 
+    /**
+     * @throws Exception
+     */
     public function sync(): void
     {
         $object = $this->object();
@@ -249,7 +256,7 @@ Trait Sync {
                                         $relation_options = [
                                             'relation' => true
                                         ];
-                                        $record->data($this->relation($record->data(), $object_data, $role, $relation_options));
+                                        $record->data($this->binary_tree_relation($record->data(), $object_data, $role, $relation_options));
                                     }
 
                                 }

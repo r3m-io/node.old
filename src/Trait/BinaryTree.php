@@ -252,7 +252,7 @@ Trait BinaryTree {
         }
     }
 
-    private function relation_inner($relation, $data=[], $options=[], &$counter=0): false|array|stdClass
+    private function binary_tree_relation_inner($relation, $data=[], $options=[], &$counter=0): false|array|stdClass
     {
         $object = $this->object();
         $counter++;
@@ -342,7 +342,7 @@ Trait BinaryTree {
                                         }
                                     }
                                     $selected = $relation_data->get($relation_object_relation_data->attribute);
-                                    $selected = $this->relation_inner($relation_object_relation_data, $selected, $options, $counter);
+                                    $selected = $this->binary_tree_relation_inner($relation_object_relation_data, $selected, $options, $counter);
                                     $relation_data->set($relation_object_relation_data->attribute, $selected);
                                 }
                             }
@@ -411,7 +411,7 @@ Trait BinaryTree {
                                     }
                                 }
                                 $selected = $relation_data->get($relation_object_relation_data->attribute);
-                                $selected = $this->relation_inner($relation_object_relation_data, $selected, $options, $counter);
+                                $selected = $this->binary_tree_relation_inner($relation_object_relation_data, $selected, $options, $counter);
                                 $relation_data->set($relation_object_relation_data->attribute, $selected);
                             }
                         }
@@ -431,7 +431,7 @@ Trait BinaryTree {
      * @throws FileWriteException
      * @throws Exception
      */
-    private function relation($record, $data, $role, $options=[]){
+    private function binary_tree_relation($record, $data, $role, $options=[]){
         $object = $this->object();
         if(!$role){
             return $record;
@@ -535,7 +535,7 @@ Trait BinaryTree {
                                                     property_exists($relation_relation, 'attribute')
                                                 ) {
                                                     $relation_data_data = $relation_data->get($relation_relation->attribute);
-                                                    $relation_data_data = $this->relation_inner($relation_relation, $relation_data_data, $options);
+                                                    $relation_data_data = $this->binary_tree_relation_inner($relation_relation, $relation_data_data, $options);
                                                     $relation_data->set($relation_relation->attribute, $relation_data_data);
                                                 }
                                             }
@@ -620,7 +620,7 @@ Trait BinaryTree {
                                                             property_exists($relation_relation, 'attribute')
                                                         ){
                                                             $relation_data_data = $relation_data->get($relation_relation->attribute);
-                                                            $relation_data_data = $this->relation_inner($relation_relation, $relation_data_data, $options);
+                                                            $relation_data_data = $this->binary_tree_relation_inner($relation_relation, $relation_data_data, $options);
                                                             $relation_data->set($relation_relation->attribute, $relation_data_data);
                                                         }
                                                     }
@@ -710,7 +710,7 @@ Trait BinaryTree {
                                                     property_exists($relation_relation, 'attribute')
                                                 ){
                                                     $relation_data_data = $relation_data->get($relation_relation->attribute);
-                                                    $relation_data_data = $this->relation_inner($relation_relation, $relation_data_data, $options);
+                                                    $relation_data_data = $this->binary_tree_relation_inner($relation_relation, $relation_data_data, $options);
                                                     $relation_data->set($relation_relation->attribute, $relation_data_data);
                                                 }
                                             }
@@ -831,7 +831,7 @@ Trait BinaryTree {
                     $object->data('R3m.Io.Node.BinarySearch.relation', $is_loaded);
                 }
                 */
-                $record = $this->relation($record, $object_data, $role, $options);
+                $record = $this->binary_tree_relation($record, $object_data, $role, $options);
                 $expose = $this->expose_get(
                     $object,
                     $record->{'#class'},
@@ -952,7 +952,7 @@ Trait BinaryTree {
                 ;
                 $options_json = Core::object($options, Core::OBJECT_JSON);
                 $object_data = $object->data_read($object_url, sha1($object_url . '.' . $options_json));
-                $record = $this->relation($record, $object_data, $role, $options);
+                $record = $this->binary_tree_relation($record, $object_data, $role, $options);
                 $expose = $this->expose_get(
                     $object,
                     $class,
