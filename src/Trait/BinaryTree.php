@@ -1263,6 +1263,8 @@ Trait BinaryTree {
                 }
             }
             $file->seek($seek);
+            d($seek);
+            d($options['index']);
             echo 'Seek: ' . $seek . ' options.index: ' . $options['index'] . PHP_EOL;
             $line = $file->current();
             echo $line . PHP_EOL;
