@@ -143,11 +143,11 @@ Trait Sync {
                         ;
                         $url_property_asc_asc = $dir_property_asc_asc .
                             Controller::name(implode('-', $properties)) .
-                            $object->config('extension.json')
+                            $object->config('extension.btree')
                         ;
                         $url_property_asc_desc = $dir_property_asc_desc .
                             Controller::name(implode('-', $properties)) .
-                            $object->config('extension.json')
+                            $object->config('extension.btree')
                         ;
                         $url_connect_asc_asc = $dir_property_asc_asc .
                             Controller::name(implode('-', $properties)) .
@@ -173,7 +173,7 @@ Trait Sync {
                         ;
                         $url_property_asc = $dir_property_asc .
                             Controller::name(implode('-', $properties)) .
-                            $object->config('extension.json')
+                            $object->config('extension.btree')
                         ;
                         $url_property_desc = false;
 
@@ -363,6 +363,7 @@ Trait Sync {
                         ], [
                             'output' => 'raw'
                         ]);
+                        ddd($sort);
                         $index = 0;
                         $binary_tree = [];
                         $connect_property_uuid = [];
@@ -514,8 +515,12 @@ Trait Sync {
                 }
             }
             $time_end = microtime(true);
-            $time_duration = round(($time_end - $time_start) * 1000, 2);
-            echo 'Duration: (3) ' . $time_duration . 'ms class: ' . $class . PHP_EOL;
+            $time_duration = $time_end - $time_start;
+            if($time_duration >= 1){
+                echo 'Duration: (3) ' . round($time_duration, 2) . 'sec class: ' . $class . PHP_EOL;
+            } else {
+                echo 'Duration: (3) ' . round($time_duration * 1000, 2) . 'msec class: ' . $class . PHP_EOL;
+            }
         }
     }
 
