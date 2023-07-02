@@ -1300,35 +1300,18 @@ Trait BinaryTree {
                         $file_uuid =new splFileObject($options['url_uuid']);
                         $object->data($key, $file_uuid);
                     }
-                    $record = $this->binary_tree_index($file_uuid, [
+                    $uuid = $this->binary_tree_index($file_uuid, [
                         'lines'=> $options['lines'],
                         'counter' => 0,
                         'index' => $seek,
                         'search' => [],
                         'url' => $options['url_uuid']
                     ]);
-                    ddd($record);
-
+                    d($seek);
+                    ddd($uuid);
                 } else {
-                    ddd($line);
+                    return rtrim($line, PHP_EOL);
                 }
-
-
-
-                $uuid = $this->binary_tree_uuid(
-                    [
-                        'url_uuid' => $options['url_uuid'],
-                        'url_connect_property' => $options['url_connect_property'] ?? null,
-                    ]
-                );
-                ddd($options);
-                return $this->binary_tree_node(
-                    $line,
-                    [
-                        'seek' => $seek,
-                        ...$options
-                    ]
-                );
             }
             elseif(
                 $options['index'] < $seek
