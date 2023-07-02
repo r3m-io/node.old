@@ -231,7 +231,7 @@ Trait Sync {
                                     ;
 
                                     if(property_exists($options, 'disable-relation') && $options->{'disable-relation'} === true){
-                                        $record = $object->data_read($object_url, sha1($object_url));
+                                        //nothing
                                     } else {
                                         $object_data = $object->data_read($object_url, sha1($object_url));
                                         $relation_options = [
