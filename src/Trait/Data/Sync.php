@@ -414,8 +414,8 @@ Trait Sync {
                                     $binary_tree[$index] = $this->sync_node_data_property(
                                         $node_data->get($properties[0])
                                     );
-                                    $connect_property_uuid[$index] = $node->get('#index');
-                                    $connect_uuid_property[$node->get('#index')] = $index;
+                                    $connect_property_uuid[$index] = $node_data->get('#index');
+                                    $connect_uuid_property[$node_data->get('#index')] = $index;
                                 }
                                 unset($sort[$key][$nr]);
                                 unset($subList[$nr]);
