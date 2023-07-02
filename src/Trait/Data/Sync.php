@@ -112,7 +112,6 @@ Trait Sync {
                 $object->config('extension.json');
 
             $data = File::read($url, File::ARRAY);
-            ddd($data);
             $meta = $object->data_read($meta_url, sha1($meta_url));
             if (!$meta) {
                 continue;
