@@ -1169,7 +1169,7 @@ Trait BinaryTree {
      */
     private function binary_tree_node($line='', $options=[]){
         d($line);
-        d($options);
+        ddd($options);
         if(!array_key_exists('url_connect', $options)){
             return false;
         }
