@@ -38,6 +38,8 @@ Trait Sync {
         ];
         $dir = new Dir();
         $read = $dir->read($url_object);
+        ddd($read);
+
         if(empty($read)){
             return;
         }
