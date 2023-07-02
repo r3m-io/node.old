@@ -115,6 +115,7 @@ Trait Sync {
                 continue;
             }
             $data = new Storage();
+            ddd($data_raw);
             foreach($data_raw->data($class) as $nr => $raw){
                 if(property_exists($raw, 'uuid')){
                     $data->data($class . '.' . $raw->uuid, $raw);
