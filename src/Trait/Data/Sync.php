@@ -276,7 +276,6 @@ Trait Sync {
                         ], [
                             'output' => 'raw'
                         ]);
-                        ddd($sort);
                         $result = new Storage();
                         $index = 0;
                         foreach ($sort as $key1 => $subList) {
@@ -381,6 +380,7 @@ Trait Sync {
                         ], [
                             'output' => 'raw'
                         ]);
+                        d($sort);
                         ddd(count($sort));
                         $index = 0;
                         $binary_tree = [];
