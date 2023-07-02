@@ -268,7 +268,6 @@ Trait Sync {
                                 }
                             }
                         }
-                        ddd(count((array) $list->data()));
                     }
                     if (array_key_exists(1, $properties)) {
                         $sort = Sort::list($list)->with([
@@ -277,6 +276,7 @@ Trait Sync {
                         ], [
                             'output' => 'raw'
                         ]);
+                        ddd($sort);
                         $result = new Storage();
                         $index = 0;
                         foreach ($sort as $key1 => $subList) {
