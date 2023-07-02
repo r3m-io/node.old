@@ -1307,8 +1307,27 @@ Trait BinaryTree {
                         'search' => [],
                         'url' => $options['url_uuid']
                     ]);
-                    d($seek);
-                    ddd($uuid);
+                    $record = [];
+                    $record['uuid'] = $uuid;
+                    $record['#read'] = [];
+                    $record['#read']['load'] = $options['counter'];
+                    $record['#read']['seek'] = $options['seek'];
+                    $record['#read']['lines'] = $options['lines'];
+                    $record['#read']['percentage'] = round(($options['counter'] / $options['lines']) * 100, 2);
+                    $object = $this->object();
+                    $record['#read']['url'] = $object->config('project.dir.data') .
+                        'Node' .
+                        $object->config('ds') .
+                        'Storage' .
+                        $object->config('ds') .
+                        substr($record['uuid'], 0, 2) .
+                        $object->config('ds') .
+                        $record['uuid'] .
+                        $object->config('extension.json')
+                    ;
+                    $record['#read'] = (object) $record['#read'];
+                    $record = (object) $record;
+                    return $record;
                 } else {
                     return rtrim($line, PHP_EOL);
                 }
