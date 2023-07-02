@@ -380,8 +380,6 @@ Trait Sync {
                         ], [
                             'output' => 'raw'
                         ]);
-                        d($sort);
-                        ddd(count($sort));
                         $index = 0;
                         $binary_tree = [];
                         $connect_property_uuid = [];
