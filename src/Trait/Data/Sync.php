@@ -294,6 +294,7 @@ Trait Sync {
                         foreach ($sort as $key1 => $subList) {
                             foreach($subList as $key2 => $subSubList){
                                 foreach ($subSubList as $nr => $node) {
+                                    ddd($node);
                                     if(
                                         property_exists($node, 'uuid') &&
                                         property_exists($node, $properties[0]) &&
