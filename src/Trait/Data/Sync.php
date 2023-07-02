@@ -117,6 +117,7 @@ Trait Sync {
 
             $data = File::read($url, File::ARRAY);
             $meta = $object->data_read($meta_url, sha1($meta_url));
+            $node_data = new Storage();
             if (!$meta) {
                 continue;
             }
@@ -294,20 +295,21 @@ Trait Sync {
                         foreach ($sort as $key1 => $subList) {
                             foreach($subList as $key2 => $subSubList){
                                 foreach ($subSubList as $nr => $node) {
-                                    ddd($node);
+                                    $node_data->data($node);
                                     if(
-                                        property_exists($node, 'uuid') &&
-                                        property_exists($node, $properties[0]) &&
-                                        property_exists($node, $properties[1]) &&
-                                        property_exists($node, '#index')
+                                        $node_data->has('uuid') &&
+                                        $node_data->has($properties[0]) &&
+                                        $node_data->has($properties[1]) &&
+                                        $node_data->has('#index')
                                     ){
-                                        $binary_tree[$index] = '["' . $node->{$properties[0]} . '", "' . $node->{$properties[1]} . '"]';
-                                        $connect_property_uuid[$index] = $node->{'#index'};
-                                        $connect_uuid_property[$node->{'#index'}] = $index;
+                                        $binary_tree[$index] = '["' . $node_data->get($properties[0]) . '", "' . $node_data->get($properties[1]) . '"]';
+                                        $connect_property_uuid[$index] = $node_data->get('#index');
+                                        $connect_uuid_property[$node_data->get('#index')] = $index;
                                     }
                                     unset($sort[$key1][$key2][$nr]);
                                     unset($subList[$key2][$nr]);
                                     unset($subSubList[$nr]);
+                                    $node_data->clear();
                                     $index++;
                                 }
                             }
@@ -333,19 +335,21 @@ Trait Sync {
                         foreach ($sort as $key1 => $subList) {
                             foreach($subList as $key2 => $subSubList){
                                 foreach ($subSubList as $nr => $node) {
+                                    $node_data->data($node);
                                     if(
-                                        property_exists($node, 'uuid') &&
-                                        property_exists($node, $properties[0]) &&
-                                        property_exists($node, $properties[1]) &&
-                                        property_exists($node, '#index')
+                                        $node_data->has('uuid') &&
+                                        $node_data->has($properties[0]) &&
+                                        $node_data->has($properties[1]) &&
+                                        $node_data->has('#index')
                                     ){
-                                        $binary_tree[$index] = '["' . $node->{$properties[0]} . '", "' . $node->{$properties[1]} . '"]';
-                                        $connect_property_uuid[$index] = $node->{'#index'};
-                                        $connect_uuid_property[$node->{'#index'}] = $index;
+                                        $binary_tree[$index] = '["' . $node_data->get($properties[0]) . '", "' . $node_data->get($properties[1]) . '"]';
+                                        $connect_property_uuid[$index] = $node_data->get('#index');
+                                        $connect_uuid_property[$node_data->get('#index')] = $index;
                                     }
                                     unset($sort[$key1][$key2][$nr]);
                                     unset($subList[$key2][$nr]);
                                     unset($subSubList[$nr]);
+                                    $node_data->clear();
                                     $index++;
                                 }
                             }
