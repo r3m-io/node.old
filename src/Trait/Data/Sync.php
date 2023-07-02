@@ -297,9 +297,10 @@ Trait Sync {
                                     if(
                                         property_exists($node, 'uuid') &&
                                         property_exists($node, $properties[0]) &&
+                                        property_exists($node, $properties[1]) &&
                                         property_exists($node, '#index')
                                     ){
-                                        $binary_tree[$index] = $node->{$properties[0]};
+                                        $binary_tree[$index] = '["' . $node->{$properties[0]} . '", "' . $node->{$properties[1]} . '"]';
                                         $connect_property_uuid[$index] = $node->{'#index'};
                                         $connect_uuid_property[$node->{'#index'}] = $index;
                                     }
@@ -333,9 +334,10 @@ Trait Sync {
                                     if(
                                         property_exists($node, 'uuid') &&
                                         property_exists($node, $properties[0]) &&
+                                        property_exists($node, $properties[1]) &&
                                         property_exists($node, '#index')
                                     ){
-                                        $binary_tree[$index] = $node->{$properties[0]};
+                                        $binary_tree[$index] = '["' . $node->{$properties[0]} . '", "' . $node->{$properties[1]} . '"]';
                                         $connect_property_uuid[$index] = $node->{'#index'};
                                         $connect_uuid_property[$node->{'#index'}] = $index;
                                     }
@@ -388,7 +390,6 @@ Trait Sync {
                         $binary_tree = [];
                         $connect_property_uuid = [];
                         $connect_uuid_property = []; //ksort at the end
-
                         foreach ($sort as $key => $subList) {
                             foreach ($subList as $nr => $node) {
                                 if(
