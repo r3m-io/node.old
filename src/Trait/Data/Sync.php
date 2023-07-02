@@ -268,6 +268,7 @@ Trait Sync {
                                 }
                             }
                         }
+                        ddd(count($list->data()));
                     }
                     if (array_key_exists(1, $properties)) {
                         $sort = Sort::list($list)->with([
