@@ -375,7 +375,6 @@ Trait Sync {
                         $lines_asc_desc = $result->write($url_property_asc_desc, 'lines');
                         File::touch($url_property_asc_desc, $mtime);
                     } else {
-                        d(count($list));
                         $sort = Sort::list($list)->with([
                             $properties[0] => 'ASC'
                         ], [
