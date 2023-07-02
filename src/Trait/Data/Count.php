@@ -37,7 +37,7 @@ Trait Count {
             $class .
             $object->config('ds')
         ;
-        $url_connect = $dir . 'Uuid' . $object->config('extension.btree');
+        $url_connect = $dir . 'Asc' . $object->config('ds') . 'Uuid' . $object->config('extension.btree');
         if(!array_key_exists('where', $options)){
             $options['where'] = [];
         }
