@@ -398,17 +398,12 @@ Trait Sync {
                                 }
                                 unset($sort[$key][$nr]);
                                 unset($subList[$nr]);
-                                /**
-                                 * char.btree index:char
-                                 * char-uuid.connect index: $node->#index
-                                 * uuid-char.connect index[$node->#index]: index
-                                 * ksort uuid-char.connect
-                                 */
                                 $index++;
                             }
                         }
                         $connect_asc_lines = File::write($url_connect_asc, implode(PHP_EOL, $connect_property_uuid), 'lines');
                         File::touch($url_connect_asc, $mtime);
+                        ksort($connect_uuid_property, SORT_NATURAL);
                         $connect_asc_reverse_lines = File::write($url_connect_asc_reverse, implode(PHP_EOL, $connect_uuid_property), 'lines');
                         File::touch($url_connect_asc_reverse, $mtime);
                         $lines = File::write($url_property_asc, implode(PHP_EOL, $binary_tree), 'lines');
