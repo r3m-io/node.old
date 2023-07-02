@@ -338,8 +338,7 @@ Trait Sync {
                             $nodeList = [];
                             foreach ($subList as $nr => $node) {
                                 d($index);
-                                d($key1);
-                                d($key2);
+                                d($key);
                                 d($properties);
                                 ddd($node);
                                 if(
