@@ -32,7 +32,7 @@ Trait Count {
         $dir = $object->config('project.dir.data') .
             'Node' .
             $object->config('ds') .
-            'BinarySearch' .
+            'BinaryTree' .
             $object->config('ds') .
             $class .
             $object->config('ds')
@@ -72,6 +72,8 @@ Trait Count {
                 Controller::name($property) .
                 $object->config('extension.json')
             ;
+            d(File::exist($url));
+            ddd($url);
             if(!File::exist($url)) {
                 return false;
             }
