@@ -311,6 +311,7 @@ Trait Sync {
                                 }
                             }
                         }
+                        Dir::create($dir_property_asc_asc, Dir::CHMOD);
                         $connect_asc_asc_lines = File::write($url_connect_asc_asc, implode(PHP_EOL, $connect_property_uuid), 'lines');
                         File::touch($url_connect_asc_asc, $mtime);
                         ksort($connect_uuid_property, SORT_NATURAL);
@@ -348,6 +349,7 @@ Trait Sync {
                                 }
                             }
                         }
+                        Dir::create($dir_property_asc_desc, Dir::CHMOD);
                         $connect_asc_desc_lines = File::write($url_connect_asc_desc, implode(PHP_EOL, $connect_property_uuid), 'lines');
                         File::touch($url_connect_asc_desc, $mtime);
                         ksort($connect_uuid_property, SORT_NATURAL);
@@ -406,6 +408,7 @@ Trait Sync {
                                 $index++;
                             }
                         }
+                        Dir::create($dir_property_asc, Dir::CHMOD);
                         $connect_asc_lines = File::write($url_connect_asc, implode(PHP_EOL, $connect_property_uuid), 'lines');
                         File::touch($url_connect_asc, $mtime);
                         ksort($connect_uuid_property, SORT_NATURAL);
