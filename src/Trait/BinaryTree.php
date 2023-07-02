@@ -914,6 +914,7 @@ Trait BinaryTree {
                 'index' => $index,
                 'search' => [],
                 'url' => $options['url'],
+                'url_connect' => $options['url_connect'],
             ]);
             ddd($record);
             $duration = microtime(true) - $time_start_3;
@@ -1276,7 +1277,6 @@ Trait BinaryTree {
                 break;
             }
             if ($options['index'] === $seek) {
-                ddd('found');
                 return $this->binary_tree_node(
                     $line,
                     [

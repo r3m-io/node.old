@@ -72,7 +72,16 @@ Trait Count {
                 Controller::name($property) .
                 $object->config('extension.btree')
             ;
+            $url_connect = $dir .
+                Controller::name($property) .
+                $object->config('extension.connect')
+            ;
             if(!File::exist($url)) {
+                //logger exception
+                return false;
+            }
+            if(!File::exist($url_connect)) {
+                //logger exception
                 return false;
             }
             $meta_url = $object->config('project.dir.data') .
@@ -118,6 +127,7 @@ Trait Count {
                                 'counter' => 0,
                                 'direction' => 'next',
                                 'url' => $url,
+                                'url_connect' => $url_connect,
                                 'function' => $options['function'],
                                 'relation' => $options['relation']
                             ]
@@ -147,6 +157,7 @@ Trait Count {
                                 'counter' => 0,
                                 'direction' => 'next',
                                 'url' => $url,
+                                'url_connect' => $url_connect,
                                 'function' => $options['function'],
                                 'relation' => $options['relation']
                             ]
@@ -175,6 +186,7 @@ Trait Count {
                                 'counter' => 0,
                                 'direction' => 'next',
                                 'url' => $url,
+                                'url_connect' => $url_connect,
                                 'function' => $options['function'],
                                 'relation' => $options['relation']
                             ]
