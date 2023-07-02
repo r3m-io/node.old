@@ -70,7 +70,7 @@ Trait Count {
             $property = implode('-', $properties);
             $url = $dir .
                 Controller::name($property) .
-                $object->config('extension.json')
+                $object->config('extension.btree')
             ;
             d(File::exist($url));
             ddd($url);
