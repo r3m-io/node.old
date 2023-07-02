@@ -1300,21 +1300,22 @@ Trait BinaryTree {
                         $file_uuid =new splFileObject($options['url_uuid']);
                         $object->data($key, $file_uuid);
                     }
-                    $uuid = $this->binary_tree_index($file_uuid, [
+                    $record = $this->binary_tree_index($file_uuid, [
                         'lines'=> $options['lines'],
                         'counter' => 0,
                         'index' => $seek,
                         'search' => [],
                         'url' => $options['url_uuid']
                     ]);
+                    ddd($record);
+                } else {
                     $record = [];
-                    $record['uuid'] = $uuid;
+                    $record['uuid'] = rtrim($line, PHP_EOL);
                     $record['#read'] = [];
                     $record['#read']['load'] = $options['counter'];
-                    $record['#read']['seek'] = $options['seek'];
+                    $record['#read']['seek'] = $seek;
                     $record['#read']['lines'] = $options['lines'];
                     $record['#read']['percentage'] = round(($options['counter'] / $options['lines']) * 100, 2);
-                    $object = $this->object();
                     $record['#read']['url'] = $object->config('project.dir.data') .
                         'Node' .
                         $object->config('ds') .
@@ -1328,8 +1329,6 @@ Trait BinaryTree {
                     $record['#read'] = (object) $record['#read'];
                     $record = (object) $record;
                     return $record;
-                } else {
-                    return rtrim($line, PHP_EOL);
                 }
             }
             elseif(
