@@ -1263,13 +1263,16 @@ Trait BinaryTree {
                 }
             }
             $file->seek($seek);
+            echo 'Seek: ' . $seek . PHP_EOL;
             while($line = $file->current()){
+                echo $line . PHP_EOL;
                 $options['counter']++;
                 if($options['counter'] > 1024){
                     //log error with filesize of view
                     break 2;
                 }
                 if ($options['index'] === $seek) {
+                    ddd('found');
                     return $this->binary_tree_node(
                         $line,
                         [
@@ -1290,7 +1293,6 @@ Trait BinaryTree {
                 ){
                     if(in_array($seek, $options['search'], true)){
                         $direction = 'down';
-                        $is_per_line = true;
                     } else {
                         $direction = 'up';
                     }
