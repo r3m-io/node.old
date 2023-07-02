@@ -443,6 +443,25 @@ Trait NodeList {
                     $lines > 0
                 ){
                     $file = new SplFileObject($url);
+                    $list = $this->binary_tree_page(
+                        $file,
+                        $role,
+                        $counter,
+                        [
+                            'page' => $options['page'] ?? 1,
+                            'limit' => $options['limit'] ?? 1000,
+                            'lines'=> $lines,
+                            'counter' => 0,
+                            'direction' => 'next',
+                            'url' => $url,
+                            'function' => $options['function'],
+                            'relation' => $options['relation'],
+                            'name' => $name,
+                            'ramdisk' => true,
+                            'mtime' => $mtime
+                        ]
+                    );
+                    ddd($list);
                     $list = $this->binary_search_page(
                         $file,
                         $role,
