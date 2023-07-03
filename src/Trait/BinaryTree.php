@@ -910,6 +910,7 @@ Trait BinaryTree {
         $index = 0;
         $count = 0;
         $time_start = microtime(true);
+        $list = [];
         while(true){
             $time_start_3 = microtime(true);
             $record = $this->binary_tree_index($file, [
@@ -924,7 +925,6 @@ Trait BinaryTree {
             $duration = microtime(true) - $time_start_3;
             echo 'Duration: ' . round($duration * 1000, 2) . ' msec url: ' . $options['url'] . PHP_EOL;
             $time_start_2 = microtime(true);
-            $list = [];
             if($record){
                 $index++;
                 $read = $object->data_read($record->{'#read'}->url, sha1($record->{'#read'}->url));
