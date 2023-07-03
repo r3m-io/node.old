@@ -802,6 +802,8 @@ Trait BinaryTree {
                 'index' => $i,
                 'search' => [],
                 'url' => $options['url'],
+                'url_uuid' => $options['url_uuid'],
+                'url_connect_property' => $options['url_connect_property'],
 
             ]);
             if(
