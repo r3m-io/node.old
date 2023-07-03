@@ -1235,47 +1235,26 @@ Trait BinaryTree {
             }
             if ($options['index'] === $seek) {
                 $uuid = $this->binary_tree_uuid($options);
-                ddd($uuid);
-                if(
-                    array_key_exists('url_uuid', $options) &&
-                    File::exist($options['url_uuid'])
-                ){
-                    $key = sha1($options['url_uuid']);
-                    $file_uuid = $object->data($key);
-                    if(!$file_uuid){
-                        $file_uuid =new splFileObject($options['url_uuid']);
-                        $object->data($key, $file_uuid);
-                    }
-                    $record = $this->binary_tree_index($file_uuid, [
-                        'lines'=> $options['lines'],
-                        'counter' => 0,
-                        'index' => $seek,
-                        'search' => [],
-                        'url' => $options['url_uuid']
-                    ]);
-                    return $record;
-                } else {
-                    $record = [];
-                    $record['uuid'] = rtrim($line, PHP_EOL);
-                    $record['#read'] = [];
-                    $record['#read']['load'] = $options['counter'];
-                    $record['#read']['seek'] = $seek;
-                    $record['#read']['lines'] = $options['lines'];
-                    $record['#read']['percentage'] = round(($options['counter'] / $options['lines']) * 100, 2);
-                    $record['#read']['url'] = $object->config('project.dir.data') .
-                        'Node' .
-                        $object->config('ds') .
-                        'Storage' .
-                        $object->config('ds') .
-                        substr($record['uuid'], 0, 2) .
-                        $object->config('ds') .
-                        $record['uuid'] .
-                        $object->config('extension.json')
-                    ;
-                    $record['#read'] = (object) $record['#read'];
-                    $record = (object) $record;
-                    return $record;
-                }
+                $record = [];
+                $record['uuid'] = $uuid;
+                $record['#read'] = [];
+                $record['#read']['load'] = $options['counter'];
+                $record['#read']['seek'] = $seek;
+                $record['#read']['lines'] = $options['lines'];
+                $record['#read']['percentage'] = round(($options['counter'] / $options['lines']) * 100, 2);
+                $record['#read']['url'] = $object->config('project.dir.data') .
+                    'Node' .
+                    $object->config('ds') .
+                    'Storage' .
+                    $object->config('ds') .
+                    substr($record['uuid'], 0, 2) .
+                    $object->config('ds') .
+                    $record['uuid'] .
+                    $object->config('extension.json')
+                ;
+                $record['#read'] = (object) $record['#read'];
+                $record = (object) $record;
+                return $record;
             }
             elseif(
                 $options['index'] < $seek
@@ -1341,7 +1320,6 @@ Trait BinaryTree {
             }
             $file_uuid->seek(rtrim($file_connect_line, PHP_EOL));
             $file_uuid_line = $file_uuid->current();
-            d($file_uuid_line);
             return rtrim($file_uuid_line, PHP_EOL);
         }
     }
