@@ -913,14 +913,13 @@ Trait BinaryTree {
             $record = $this->binary_tree_index($file, [
                 'lines'=> $options['lines'],
                 'counter' => 0,
-                'index' => $index + 1,
+                'index' => $index,
                 'search' => [],
                 'url' => $options['url'],
                 'url_uuid' => $options['url_uuid'],
                 'url_connect_property' => $options['url_connect_property'],
             ]);
-            d($index);
-            ddd($record);
+            d($record);
             $duration = microtime(true) - $time_start_3;
             echo 'Duration: ' . round($duration * 1000, 2) . ' msec url: ' . $options['url'] . PHP_EOL;
             $time_start_2 = microtime(true);
@@ -1283,9 +1282,7 @@ Trait BinaryTree {
                 }
             }
             $file->seek($seek);
-            d($seek);
-            d($options['index']);
-            echo 'Seek: ' . $seek . ' options.index: ' . $options['index'] . PHP_EOL;
+//            echo 'Seek: ' . $seek . ' options.index: ' . $options['index'] . PHP_EOL;
             $line = $file->current();
             echo $line . PHP_EOL;
             $options['counter']++;
@@ -1313,7 +1310,6 @@ Trait BinaryTree {
                         'search' => [],
                         'url' => $options['url_uuid']
                     ]);
-                    d($record);
                     return $record;
                 } else {
                     $record = [];
@@ -1335,7 +1331,6 @@ Trait BinaryTree {
                     ;
                     $record['#read'] = (object) $record['#read'];
                     $record = (object) $record;
-                    d($record);
                     return $record;
                 }
             }
@@ -1354,8 +1349,6 @@ Trait BinaryTree {
                     $direction = 'up';
                 }
                 $options['min'] = $seek + 1;
-                d($direction);
-                d($options);
             }
             if($direction === 'up'){
                 $seek--;
