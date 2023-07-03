@@ -1247,17 +1247,21 @@ Trait BinaryTree {
                         $object->data($key, $file_connect_property);
                     }
                     $file_connect_property->seek($seek);
-                    $line = $file_connect_property->current();
-                    ddd($line);
-
-
-                    $record = $this->binary_tree_index($file_connect_property, [
-                        'lines'=> $options['lines'],
-                        'counter' => 0,
-                        'index' => $seek,
-                        'search' => [],
-                        'url' => $options['url_uuid']
-                    ]);
+                    $file_connect_line = $file_connect_property->current();
+                    if(
+                        array_key_exists('url_uuid', $options) &&
+                        File::exist($options['url_uuid'])
+                    ) {
+                        $key = sha1($options['url_uuid']);
+                        $file_uuid = $object->data($key);
+                        if (!$file_uuid) {
+                            $file_uuid = new splFileObject($options['url_uuid']);
+                            $object->data($key, $file_uuid);
+                        }
+                        $file_uuid->seek(rtrim($file_connect_line, PHP_EOL));
+                        $file_uuid_line = $file_uuid->current();
+                        ddd($file_uuid_line);
+                    }
                 }
                 if(
                     array_key_exists('url_uuid', $options) &&
