@@ -1223,7 +1223,6 @@ Trait BinaryTree {
             $file->seek($seek);
 //            echo 'Seek: ' . $seek . ' options.index: ' . $options['index'] . PHP_EOL;
             $line = $file->current();
-            echo $line . PHP_EOL;
             $options['counter']++;
             if($options['counter'] > 1024){
                 throw new Exception('Out of range');
@@ -1231,7 +1230,6 @@ Trait BinaryTree {
                 break;
             }
             if ($options['index'] === $seek) {
-                echo 'Seek: ' . $seek . ' options.index: ' . $options['index'] . PHP_EOL;
                 if(
                     array_key_exists('url_uuid', $options) &&
                     File::exist($options['url_uuid'])
