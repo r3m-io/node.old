@@ -1360,7 +1360,8 @@ Trait BinaryTree {
             if($direction === 'up'){
                 $seek--;
                 if($seek < 0){
-                    return false;
+                    $direction = 'down';
+                    $seek = 0;
                 }
                 $file->seek($seek);
                 $options['search'][] = $seek;
@@ -1371,7 +1372,7 @@ Trait BinaryTree {
                 $options['direction'][] = $direction;
                 $file->next();
                 if($seek === $options['lines'] - 1){
-                    return false;
+                    $direction = 'up';
                 }
             }
         }
