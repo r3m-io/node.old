@@ -1235,6 +1235,26 @@ Trait BinaryTree {
             }
             if ($options['index'] === $seek) {
                 if(
+                    array_key_exists('url_connect_property', $options) &&
+                    File::exist($options['url_connect_property'])
+                ){
+                    d($seek);
+                    ddd($options);
+                    $key = sha1($options['url_connect_property']);
+                    $file_connect_property = $object->data($key);
+                    if(!$file_connect_property){
+                        $file_connect_property =new splFileObject($options['url_connect_property']);
+                        $object->data($key, $file_connect_property);
+                    }
+                    $record = $this->binary_tree_index($file_connect_property, [
+                        'lines'=> $options['lines'],
+                        'counter' => 0,
+                        'index' => $seek,
+                        'search' => [],
+                        'url' => $options['url_uuid']
+                    ]);
+                }
+                if(
                     array_key_exists('url_uuid', $options) &&
                     File::exist($options['url_uuid'])
                 ){
