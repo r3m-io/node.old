@@ -1234,33 +1234,8 @@ Trait BinaryTree {
                 break;
             }
             if ($options['index'] === $seek) {
-                if(
-                    array_key_exists('url_connect_property', $options) &&
-                    File::exist($options['url_connect_property']) &&
-                    array_key_exists('url_uuid', $options) &&
-                    File::exist($options['url_uuid'])
-                ){
-                    d($seek);
-                    d($options);
-                    $key = sha1($options['url_connect_property']);
-                    $file_connect_property = $object->data($key);
-                    if(!$file_connect_property){
-                        $file_connect_property =new splFileObject($options['url_connect_property']);
-                        $object->data($key, $file_connect_property);
-                    }
-                    $file_connect_property->seek($seek);
-                    $file_connect_line = $file_connect_property->current();
-
-                    $key = sha1($options['url_uuid']);
-                    $file_uuid = $object->data($key);
-                    if (!$file_uuid) {
-                        $file_uuid = new splFileObject($options['url_uuid']);
-                        $object->data($key, $file_uuid);
-                    }
-                    $file_uuid->seek(rtrim($file_connect_line, PHP_EOL));
-                    $file_uuid_line = $file_uuid->current();
-                    ddd($file_uuid_line);
-                }
+                $uuid = $this->binary_tree_uuid($options);
+                ddd($uuid);
                 if(
                     array_key_exists('url_uuid', $options) &&
                     File::exist($options['url_uuid'])
@@ -1338,5 +1313,36 @@ Trait BinaryTree {
             }
         }
         return false;
+    }
+
+    private function binary_tree_uuid($options=[]): ?string
+    {
+        $object = $this->object();
+        if(
+            array_key_exists('url_connect_property', $options) &&
+            File::exist($options['url_connect_property']) &&
+            array_key_exists('url_uuid', $options) &&
+            File::exist($options['url_uuid'])
+        ){
+            $key = sha1($options['url_connect_property']);
+            $file_connect_property = $object->data($key);
+            if(!$file_connect_property){
+                $file_connect_property =new splFileObject($options['url_connect_property']);
+                $object->data($key, $file_connect_property);
+            }
+            $file_connect_property->seek($options['index']);
+            $file_connect_line = $file_connect_property->current();
+
+            $key = sha1($options['url_uuid']);
+            $file_uuid = $object->data($key);
+            if (!$file_uuid) {
+                $file_uuid = new splFileObject($options['url_uuid']);
+                $object->data($key, $file_uuid);
+            }
+            $file_uuid->seek(rtrim($file_connect_line, PHP_EOL));
+            $file_uuid_line = $file_uuid->current();
+            d($file_uuid_line);
+            return rtrim($file_uuid_line, PHP_EOL);
+        }
     }
 }
