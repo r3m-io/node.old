@@ -325,6 +325,7 @@ Trait Sync {
                                 }
                             }
                         }
+                        ddd(implode(PHP_EOL, $connect_property_uuid));
                         Dir::create($dir_property_asc_asc, Dir::CHMOD);
                         $connect_asc_asc_lines = File::write($url_connect_asc_asc, implode(PHP_EOL, $connect_property_uuid), 'lines');
                         File::touch($url_connect_asc_asc, $mtime);
