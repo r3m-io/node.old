@@ -1354,6 +1354,7 @@ Trait BinaryTree {
                     $direction = 'up';
                 }
                 $options['min'] = $seek + 1;
+                d($direction);
                 d($options);
             }
             if($direction === 'up'){
