@@ -1239,13 +1239,18 @@ Trait BinaryTree {
                     File::exist($options['url_connect_property'])
                 ){
                     d($seek);
-                    ddd($options);
+                    d($options);
                     $key = sha1($options['url_connect_property']);
                     $file_connect_property = $object->data($key);
                     if(!$file_connect_property){
                         $file_connect_property =new splFileObject($options['url_connect_property']);
                         $object->data($key, $file_connect_property);
                     }
+                    $file_connect_property->seek($seek);
+                    $line = $file_connect_property->current();
+                    ddd($line);
+
+
                     $record = $this->binary_tree_index($file_connect_property, [
                         'lines'=> $options['lines'],
                         'counter' => 0,
