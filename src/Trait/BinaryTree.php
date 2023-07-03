@@ -913,13 +913,13 @@ Trait BinaryTree {
             $record = $this->binary_tree_index($file, [
                 'lines'=> $options['lines'],
                 'counter' => 0,
-                'index' => $index,
+                'index' => $index + 1,
                 'search' => [],
                 'url' => $options['url'],
                 'url_uuid' => $options['url_uuid'],
                 'url_connect_property' => $options['url_connect_property'],
             ]);
-            d($record);
+            ddd($record);
             $duration = microtime(true) - $time_start_3;
             echo 'Duration: ' . round($duration * 1000, 2) . ' msec url: ' . $options['url'] . PHP_EOL;
             $time_start_2 = microtime(true);
@@ -1230,6 +1230,7 @@ Trait BinaryTree {
 
     /**
      * @throws ObjectException
+     * @throws Exception
      */
     private function binary_tree_index($file, $options=[]){
         d($options);
@@ -1288,6 +1289,7 @@ Trait BinaryTree {
             echo $line . PHP_EOL;
             $options['counter']++;
             if($options['counter'] > 1024){
+                throw new Exception('Out of range');
                 //log error with filesize of view
                 break;
             }
