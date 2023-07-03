@@ -1172,7 +1172,6 @@ Trait BinaryTree {
      * @throws Exception
      */
     private function binary_tree_index($file, $options=[]){
-        d($options);
         if(!array_key_exists('counter', $options)){
             $options['counter'] = 0;
         }
