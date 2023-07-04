@@ -299,7 +299,6 @@ Trait Sync {
                         $binary_tree = [];
                         $connect_property_uuid = [];
                         $connect_uuid_property = []; //ksort at the end
-                        ddd($sort);
                         foreach ($sort as $key1 => $subList) {
                             foreach($subList as $key2 => $subSubList){
                                 foreach ($subSubList as $nr => $node) {
