@@ -180,9 +180,11 @@ Trait Count {
                     $count = $meta->get('Count.' . $name . '.' . $count_key . '.count');
                     $sort_count = $meta->get('Sort.' . $name . '.' . $sort_key . '.count');
                     if($count){
+                        d('no');
                         return $count;
                     }
                     elseif($sort_count){
+                        d('yes');
                         return $sort_count;
                     } else {
                         $count = $this->binary_tree_count(
