@@ -969,12 +969,6 @@ Trait BinaryTree {
                 }
                 if($record){
                     $count++;
-                    $duration = microtime(true) - $time_start_2;
-                    echo 'Duration filter: ' . round($duration * 1000, 2) . ' msec' . PHP_EOL;
-                    echo 'Count: ' . $count . PHP_EOL;
-                    $list[] = $record;
-                } else {
-                    ddd($node);
                 }
             } else {
                 break;
@@ -989,7 +983,6 @@ Trait BinaryTree {
                 $object->logger($object->config('project.log.node'))->info('Duration: (5) ' . round($duration, 2) . ' sec url: ' . $options['url']);
             }
         }
-        d($list);
         return $count;
     }
 
