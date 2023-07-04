@@ -128,6 +128,7 @@ Trait NodeList {
         $url = $this->url($dir, $options);
         $mtime = false;
         $ramdisk_url = false;
+        $options['ramdisk'] = false;
         if(
             File::exist($url) &&
             array_key_exists('ramdisk', $options) &&
