@@ -178,9 +178,12 @@ Trait Count {
                     ];
                     $count_key = sha1(Core::object($count_key, Core::OBJECT_JSON));
                     $count = $meta->get('Count.' . $name . '.' . $count_key . '.count');
-                    $count = false; //<-- remove this line to enable cache
+                    $sort_count = $meta->get('Sort.' . $name . '.' . $sort_key . '.count');
                     if($count){
                         return $count;
+                    }
+                    elseif($sort_count){
+                        return $sort_count;
                     } else {
                         $count = $this->binary_tree_count(
                             $file,
