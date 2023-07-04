@@ -22,9 +22,6 @@ Trait Count {
      */
     public function count($class, $role, $options=[]): false|int
     {
-        d($class);
-        d($role);
-        d($options);
         $count = 0;
         $name = Controller::name($class);
         $options['function'] = 'list';
