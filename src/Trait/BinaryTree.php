@@ -1287,6 +1287,7 @@ Trait BinaryTree {
     private function binary_tree_uuid($options=[]): ?string
     {
         $object = $this->object();
+        d($options);
         if(
             array_key_exists('url_connect_property', $options) &&
             File::exist($options['url_connect_property']) &&
