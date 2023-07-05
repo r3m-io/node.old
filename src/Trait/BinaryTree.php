@@ -904,11 +904,9 @@ Trait BinaryTree {
      */
     private function binary_tree_count($file, $role, $options=[]): int
     {
-        Core::interactive();
         $object = $this->object();
         $count = 0;
         $time_start = microtime(true);
-        d($options);
         if(
             array_key_exists('url_uuid', $options) &&
             File::exist($options['url_uuid'])
@@ -970,67 +968,6 @@ Trait BinaryTree {
                 }
             }
         }
-        /*
-        while(true){
-            $record = $this->binary_tree_index($file, [
-                'lines'=> $options['lines'],
-                'counter' => 0,
-                'index' => $index,
-                'search' => [],
-                'url' => $options['url'],
-                'url_uuid' => $options['url_uuid'],
-                'url_connect_property' => $options['url_connect_property'],
-            ]);
-            if($record){
-                $index++;
-                $read = $object->data_read($record->{'#read'}->url, sha1($record->{'#read'}->url));
-                if($read){
-                    $record = Core::object_merge($record, $read->data());
-                }
-                if(!property_exists($record, '#class')){
-                    //need to trigger sync
-                    continue;
-                }
-                $class = $record->{'#class'};
-                $object_url = $object->config('project.dir.data') .
-                    'Node' .
-                    $object->config('ds') .
-                    'Object' .
-                    $object->config('ds') .
-                    ucfirst($class) .
-                    $object->config('extension.json')
-                ;
-                $options_json = Core::object($options, Core::OBJECT_JSON);
-                $object_data = $object->data_read($object_url, sha1($object_url . '.' . $options_json));
-                $record = $this->binary_tree_relation($record, $object_data, $role, $options);
-                $expose = $this->expose_get(
-                    $object,
-                    $class,
-                    $class . '.' . $options['function'] . '.expose'
-                );
-                $node = new Storage($record);
-                $record = $this->expose(
-                    $node,
-                    $expose,
-                    $class,
-                    $options['function'],
-                    $role
-                );
-                $record = $record->data();
-                if(!empty($options['filter'])){
-                    $record = $this->filter($record, $options['filter'], $options);
-                }
-                elseif(!empty($options['where'])){
-                    $record = $this->where($record, $options['where'], $options);
-                }
-                if($record){
-                    $count++;
-                }
-            } else {
-                break;
-            }
-        }
-        */
         if($object->config('project.log.node')){
             $time_end = microtime(true);
             $duration = $time_end - $time_start;
@@ -1040,7 +977,6 @@ Trait BinaryTree {
                 $object->logger($object->config('project.log.node'))->info('Duration: (5) ' . round($duration, 2) . ' sec url: ' . $options['url'], [ $count ]);
             }
         }
-        ddd($count);
         return $count;
     }
 
