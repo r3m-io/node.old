@@ -369,6 +369,8 @@ Trait Sync {
                                 }
                             }
                         }
+                        d($connect_property_uuid);
+                        d($connect_uuid_property);
                         Dir::create($dir_property_asc_desc, Dir::CHMOD);
                         $connect_asc_desc_lines = File::write($url_connect_asc_desc, implode(PHP_EOL, $connect_property_uuid), 'lines');
                         File::touch($url_connect_asc_desc, $mtime);
