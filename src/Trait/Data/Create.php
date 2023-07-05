@@ -487,8 +487,16 @@ Trait Create {
             'Validate'.
             $object->config('ds')
         ;
+        $dir_binary_tree = $dir_node .
+            'BinaryTree'.
+            $object->config('ds')
+        ;
         $dir_binary_search = $dir_node .
             'BinarySearch'.
+            $object->config('ds')
+        ;
+        $dir_binary_tree_class = $dir_binary_tree .
+            $name .
             $object->config('ds')
         ;
         $dir_binary_search_class = $dir_binary_search .
@@ -574,6 +582,11 @@ Trait Create {
                 throw new Exception('File exist in create url: ' . $url);
             }
         }
+        $dir_binary_tree =
+            $dir_binary_tree_class .
+            'Asc' .
+            $object->config('ds')
+        ;
         $dir_binary_search =
             $dir_binary_search_class .
             'Asc' .
@@ -581,17 +594,15 @@ Trait Create {
         ;
         $create_dir = $object->data('Create.dir');
         if(empty($create_dir)){
-            $this->dir($object,
-                [
-                    'node' => $dir_node,
-                    'uuid' => $dir_uuid,
-                    'meta' => $dir_meta,
-                    'validate' => $dir_validate,
-                    'binary_search_class' => $dir_binary_search_class,
-                    'binary_search' => $dir_binary_search,
-                    'ramdisk' => $dir_ramdisk,
-                ]
-            );
+            $this->sync_file([
+                'node' => $dir_node,
+                'uuid' => $dir_uuid,
+                'meta' => $dir_meta,
+                'validate' => $dir_validate,
+                'binary_tree_class' => $dir_binary_tree_class,
+                'binary_tree' => $dir_binary_tree,
+                'ramdisk' => $dir_ramdisk,
+            ]);
             $object->data('Create.dir');
         }
         $object->request('node.uuid', $uuid);
@@ -600,6 +611,11 @@ Trait Create {
             $name .
             $object->config('extension.json');
 
+        $binary_tree_url =
+            $dir_binary_tree .
+            'Uuid' .
+            $object->config('extension.btree')
+        ;
         $binary_search_url =
             $dir_binary_search .
             'Uuid' .
@@ -680,22 +696,10 @@ Trait Create {
                             exec($command);
                         }
                     } else {
-                        $binarySearch = $object->data_read($binary_search_url);
-                        if (!$binarySearch) {
-                            $binarySearch = new Storage();
-                        }
-                        $list = $binarySearch->data($name);
-                        if (empty($list)) {
-                            $list = [];
-                        }
-                        if (is_object($list)) {
-                            $result = [];
-                            foreach ($list as $item) {
-                                $result[] = $item;
-                            }
-                            $list = $result;
-                            unset($result);
-                        }
+                        $binarySearch = File::read($binary_search_url, File::ARRAY);
+                        ddd($binarySearch);
+
+
                         $record->set('uuid', $uuid);
                         $list[] = (object) [
                             'uuid' => $uuid,

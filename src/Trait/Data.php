@@ -243,6 +243,8 @@ Trait Data {
 
     private function dir(App $object, $dir=[]): void
     {
+
+
         if(
             array_key_exists('uuid', $dir)
         ){
