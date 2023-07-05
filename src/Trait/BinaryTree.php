@@ -912,6 +912,7 @@ Trait BinaryTree {
         ddd($options);
 
 
+        /*
         while(true){
             $record = $this->binary_tree_index($file, [
                 'lines'=> $options['lines'],
@@ -971,6 +972,7 @@ Trait BinaryTree {
                 break;
             }
         }
+        */
         if($object->config('project.log.node')){
             $time_end = microtime(true);
             $duration = $time_end - $time_start;
