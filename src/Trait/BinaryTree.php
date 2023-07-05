@@ -964,6 +964,7 @@ Trait BinaryTree {
                     $record = $this->where($record, $options['where'], $options);
                 }
                 if($record){
+                    $list[] = $record;
                     $count++;
                 }
             } else {
@@ -979,6 +980,7 @@ Trait BinaryTree {
                 $object->logger($object->config('project.log.node'))->info('Duration: (5) ' . round($duration, 2) . ' sec url: ' . $options['url']);
             }
         }
+        d($list);
         return $count;
     }
 
