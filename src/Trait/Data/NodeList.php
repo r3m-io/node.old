@@ -120,9 +120,9 @@ Trait NodeList {
         $dir = $object->config('project.dir.data') .
             'Node' .
             $object->config('ds') .
-            'BinarySearch' .
+            'BinaryTree' .
             $object->config('ds') .
-            $class .
+            $name .
             $object->config('ds')
         ;
         $url = $this->url($dir, $options);
