@@ -1226,6 +1226,7 @@ Trait BinaryTree {
             if ($options['index'] === $seek) {
                 echo 'Seek: ' . $seek . ' options.index: ' . $options['index'] . PHP_EOL;
                 $uuid = $this->binary_tree_uuid($options);
+                echo 'UUID: ' . $uuid . PHP_EOL;
                 if($uuid){
                     $record = [];
                     $record['uuid'] = $uuid;
