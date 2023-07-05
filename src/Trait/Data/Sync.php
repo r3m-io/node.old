@@ -339,6 +339,7 @@ Trait Sync {
                         ksort($connect_uuid_property, SORT_NATURAL);
                         $connect_asc_asc_reverse_lines = File::write($url_connect_asc_asc_reverse, implode(PHP_EOL, $connect_uuid_property), 'lines');
                         File::touch($url_connect_asc_asc_reverse, $mtime);
+                        ddd($url_connect_asc_asc_reverse);
                         $lines_asc_asc = File::write($url_property_asc_asc, implode(PHP_EOL, $binary_tree), 'lines');
                         File::touch($url_property_asc_asc, $mtime);
                         $sort = Sort::list($list)->with([
