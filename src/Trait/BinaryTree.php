@@ -1243,8 +1243,8 @@ Trait BinaryTree {
                         $object->config('extension.json')
                     ;
                     $record['#read'] = (object) $record['#read'];
-                    $record = (object) $record;
-                    return $record;
+                    ddd($record);
+                    return (object) $record;
                 } else {
                     return false;
                 }
