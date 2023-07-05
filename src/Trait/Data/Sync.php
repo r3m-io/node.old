@@ -329,7 +329,6 @@ Trait Sync {
                         d($url_connect_asc_asc);
                         d(File::read($url_connect_asc_asc));
                         File::touch($url_connect_asc_asc, $mtime);
-                        die;
                         ksort($connect_uuid_property, SORT_NATURAL);
                         $connect_asc_asc_reverse_lines = File::write($url_connect_asc_asc_reverse, implode(PHP_EOL, $connect_uuid_property), 'lines');
                         File::touch($url_connect_asc_asc_reverse, $mtime);
@@ -491,6 +490,7 @@ Trait Sync {
             } else {
                 echo 'Duration: (3) ' . round($time_duration * 1000, 2) . 'msec class: ' . $class . PHP_EOL;
             }
+            die;
         }
     }
 
