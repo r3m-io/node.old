@@ -199,6 +199,8 @@ Trait Count {
                     $count_key = sha1(Core::object($count_key, Core::OBJECT_JSON));
                     $count = $meta->get('Count.' . $name . '.' . $count_key . '.count');
                     $sort_count = $meta->get('Sort.' . $name . '.' . $sort_key . '.count');
+                    $count = false;
+                    $sort_count = false;
                     if($count){
                         return $count;
                     }
