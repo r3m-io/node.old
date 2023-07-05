@@ -35,7 +35,7 @@ Trait NodeList {
         $property = implode('-', $properties);
         return $dir .
             Controller::name($property) .
-            $object->config('extension.json')
+            $object->config('extension.btree')
         ;
     }
 
