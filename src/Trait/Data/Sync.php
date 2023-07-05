@@ -144,10 +144,13 @@ Trait Sync {
                     $dir_property_asc_asc = false;
                     $dir_property_asc_desc = false;
                     $url_connect_asc = false;
+                    $dir_connect_asc_reverse = false;
                     $url_connect_asc_reverse = false;
                     $url_connect_asc_asc = false;
+                    $dir_connect_asc_asc_reverse = false;
                     $url_connect_asc_asc_reverse = false;
                     $url_connect_asc_desc = false;
+                    $dir_connect_asc_desc_reverse = false;
                     $url_connect_asc_desc_reverse = false;
                     if(count($properties) > 1){
                         $dir_property_asc = $dir_binary_tree_class .
@@ -174,9 +177,11 @@ Trait Sync {
                             Controller::name(implode('-', $properties)) .
                             $object->config('extension.connect')
                         ;
-                        $url_connect_asc_asc_reverse = $dir_property_asc_asc .
+                        $dir_connect_asc_asc_reverse = $dir_property_asc_asc .
                             'Reverse' .
-                            '.' .
+                            $object->config('ds')
+                        ;
+                        $url_connect_asc_asc_reverse = $dir_connect_asc_asc_reverse
                             Controller::name(implode('-', array_reverse($properties))) .
                             $object->config('extension.connect')
                         ;
@@ -184,9 +189,11 @@ Trait Sync {
                             Controller::name(implode('-', $properties)) .
                             $object->config('extension.connect')
                         ;
-                        $url_connect_asc_desc_reverse = $dir_property_asc_desc .
+                        $dir_connect_asc_desc_reverse = $dir_property_asc_desc .
                             'Reverse' .
-                            '.' .
+                            $object->config('ds')
+                        ;
+                        $url_connect_asc_desc_reverse = $dir_connect_asc_desc_reverse .
                             Controller::name(implode('-', array_reverse($properties))) .
                             $object->config('extension.connect')
                         ;
@@ -210,9 +217,11 @@ Trait Sync {
                             Controller::name(implode('-', $properties_connect)) .
                             $object->config('extension.connect')
                         ;
-                        $url_connect_asc_reverse = $dir_property_asc .
+                        $dir_connect_asc_reverse = $dir_property_asc .
                             'Reverse' .
-                            '.' .
+                            $object->config('ds')
+                        ;
+                        $url_connect_asc_reverse = $dir_connect_asc_reverse .
                             Controller::name(implode('-', array_reverse($properties_connect))) .
                             $object->config('extension.connect')
                         ;
@@ -337,6 +346,7 @@ Trait Sync {
                         d(File::read($url_connect_asc_asc));
                         File::touch($url_connect_asc_asc, $mtime);
                         ksort($connect_uuid_property, SORT_NATURAL);
+                        Dir::create($dir_connect_asc_asc_reverse, Dir::CHMOD);
                         $connect_asc_asc_reverse_lines = File::write($url_connect_asc_asc_reverse, implode(PHP_EOL, $connect_uuid_property), 'lines');
                         File::touch($url_connect_asc_asc_reverse, $mtime);
                         ddd($url_connect_asc_asc_reverse);
@@ -381,6 +391,7 @@ Trait Sync {
                         $connect_asc_desc_lines = File::write($url_connect_asc_desc, implode(PHP_EOL, $connect_property_uuid), 'lines');
                         File::touch($url_connect_asc_desc, $mtime);
                         ksort($connect_uuid_property, SORT_NATURAL);
+                        Dir::create($dir_connect_asc_desc_reverse, Dir::CHMOD);
                         $connect_asc_desc_reverse_lines = File::write($url_connect_asc_desc_reverse, implode(PHP_EOL, $connect_uuid_property), 'lines');
                         File::touch($url_connect_asc_desc_reverse, $mtime);
                         $lines_asc_desc = File::write($url_property_asc_desc, implode(PHP_EOL, $binary_tree), 'lines');
@@ -445,6 +456,7 @@ Trait Sync {
                         $connect_asc_lines = File::write($url_connect_asc, implode(PHP_EOL, $connect_property_uuid), 'lines');
                         File::touch($url_connect_asc, $mtime);
                         ksort($connect_uuid_property, SORT_NATURAL);
+                        Dir::create($dir_connect_asc_reverse, Dir::CHMOD);
                         $connect_asc_reverse_lines = File::write($url_connect_asc_reverse, implode(PHP_EOL, $connect_uuid_property), 'lines');
                         File::touch($url_connect_asc_reverse, $mtime);
                         $lines = File::write($url_property_asc, implode(PHP_EOL, $binary_tree), 'lines');
@@ -483,10 +495,13 @@ Trait Sync {
                         'url_property_asc_asc' => $url_property_asc_asc,
                         'url_property_asc_desc' => $url_property_asc_desc,
                         'url_connect_asc' => $url_connect_asc,
+                        'dir_connect_asc_reverse' => $dir_connect_asc_reverse,
                         'url_connect_asc_reverse' => $url_connect_asc_reverse,
                         'url_connect_asc_asc' => $url_connect_asc_asc,
+                        'dir_connect_asc__asc_reverse' => $dir_connect_asc_asc_reverse,
                         'url_connect_asc_asc_reverse' => $url_connect_asc_asc_reverse,
                         'url_connect_asc_desc' => $url_connect_asc_desc,
+                        'dir_connect_asc_desc_reverse' => $dir_connect_asc_desc_reverse,
                         'url_connect_asc_desc_reverse' => $url_connect_asc_desc_reverse,
                     ]);
                 }
