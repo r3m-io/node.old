@@ -207,7 +207,7 @@ Trait NodeList {
         $counter = 0;
         d($url);
         d($url_uuid);
-        ddd($options);
+        d($options);
         if(!$has_descending){
             $meta_url = $object->config('project.dir.data') .
                 'Node' .
@@ -249,7 +249,7 @@ Trait NodeList {
                 ){
                     $file = new SplFileObject($filter_url);
 //                        $options['filter']['#key'] = $key;
-                    $list = $this->binary_search_page(
+                    $list = $this->binary_tree_page(
                         $file,
                         $role,
                         $counter,
@@ -279,7 +279,7 @@ Trait NodeList {
                         $lines > 0
                     ){
                         $file = new SplFileObject($url);
-                        $list = $this->binary_search_page(
+                        $list = $this->binary_tree_page(
                             $file,
                             $role,
                             $counter,
@@ -352,7 +352,7 @@ Trait NodeList {
                 ){
                     $file = new SplFileObject($where_url);
                     $where = [];
-                    $list = $this->binary_search_page(
+                    $list = $this->binary_tree_page(
                         $file,
                         $role,
                         $counter,
@@ -382,7 +382,7 @@ Trait NodeList {
                         $lines > 0
                     ){
                         $file = new SplFileObject($url);
-                        $list = $this->binary_search_page(
+                        $list = $this->binary_tree_page(
                             $file,
                             $role,
                             $counter,
