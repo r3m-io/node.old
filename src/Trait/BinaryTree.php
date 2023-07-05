@@ -912,7 +912,10 @@ Trait BinaryTree {
         d($options);
 
 
-        if(array_key_exists('url_uuid', $options)){
+        if(
+            array_key_exists('url_uuid', $options) &&
+            File::exist($options['url_uuid'])
+        ){
             $read = File::read($options['url_uuid'], File::ARRAY);
             ddd($read);
         }
