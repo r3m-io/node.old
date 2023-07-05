@@ -207,7 +207,7 @@ Trait NodeList {
         $counter = 0;
         d($url);
         d($url_uuid);
-        ddd($options);
+        d($options);
         if(!$has_descending){
             $meta_url = $object->config('project.dir.data') .
                 'Node' .
@@ -412,6 +412,7 @@ Trait NodeList {
                 $result['where'] = $options['where'];
                 $result['relation'] = $options['relation'];
                 $result['mtime'] = $mtime;
+                ddd($result);
                 if($ramdisk_url){
                     $ramdisk_data = new Storage($result);
                     $ramdisk_data->write($ramdisk_url);
