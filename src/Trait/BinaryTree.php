@@ -733,7 +733,7 @@ Trait BinaryTree {
     /**
      * @throws Exception
      */
-    private function binary_tree_page($file, $role, &$counter=0, $options=[]): array
+    private function binary_tree_page($file, $file_uuid, $file_connect_property, $role, &$counter=0, $options=[]): array
     {
         $object = $this->object();
         $index = 0;
@@ -795,7 +795,7 @@ Trait BinaryTree {
         $page = [];
         $record_index = $index;
         for($i = $start; $i < $end; $i++){
-            $record = $this->binary_tree_index($file, [
+            $record = $this->binary_tree_index($file, $file_uuid, $file_connect_property, [
 //                'page' => $options['page'],
 //                'limit' => $options['limit'],
                 'lines'=> $options['lines'],
@@ -1163,7 +1163,7 @@ Trait BinaryTree {
      * @throws ObjectException
      * @throws Exception
      */
-    private function binary_tree_index($file, $options=[]){
+    private function binary_tree_index($file, $file_uuid, $file_connect_property, $options=[]){
         if(!array_key_exists('counter', $options)){
             $options['counter'] = 0;
         }
@@ -1187,6 +1187,12 @@ Trait BinaryTree {
         }
         if(!array_key_exists('is_debug', $options)){
             $options['is_debug'] = false;
+        }
+        if(!array_key_exists('url_uuid', $options)){
+            return false;
+        }
+        if(!array_key_exists('url_connect_property', $options)){
+            return false;
         }
         $direction = 'up';
 //        echo '--------------------------------------' . PHP_EOL;
@@ -1223,7 +1229,7 @@ Trait BinaryTree {
             }
             if ($options['index'] === $seek) {
 //                echo 'Seek: ' . $seek . ' options.index: ' . $options['index'] . PHP_EOL;
-                $uuid = $this->binary_tree_uuid($options);
+                $uuid = $this->binary_tree_uuid($file_uuid, $file_connect_property, $options);
 //                echo 'UUID: ' . $uuid . PHP_EOL;
                 if($uuid){
                     $record = [];
@@ -1287,7 +1293,7 @@ Trait BinaryTree {
         return false;
     }
 
-    private function binary_tree_uuid($options=[]): ?string
+    private function binary_tree_uuid($file_uuid, $file_connect_property, $options=[]): ?string
     {
         $object = $this->object();
         if(
@@ -1297,19 +1303,10 @@ Trait BinaryTree {
             File::exist($options['url_uuid'])
         ){
             $key = sha1($options['url_connect_property']);
-            $file_connect_property = $object->data($key);
-            if(!$file_connect_property){
-                $file_connect_property =new splFileObject($options['url_connect_property']);
-                $object->data($key, $file_connect_property);
-            }
+
             $file_connect_property->seek($options['index']);
             $file_connect_line = (float) (rtrim($file_connect_property->current(), PHP_EOL) + 0);
             $key = sha1($options['url_uuid']);
-            $file_uuid = $object->data($key);
-            if (!$file_uuid) {
-                $file_uuid = new splFileObject($options['url_uuid']);
-                $object->data($key, $file_uuid);
-            }
             $file_uuid->seek($file_connect_line);
             $file_uuid_line = $file_uuid->current();
             return rtrim($file_uuid_line, PHP_EOL);

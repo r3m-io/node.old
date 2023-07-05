@@ -135,6 +135,12 @@ Trait NodeList {
         ;
         $url = $this->url($dir, $options);
         $url_uuid = $dir . 'Asc' . $object->config('ds') . 'Uuid' . $object->config('extension.btree');
+        $property = implode('-', $properties);
+        $url_connect_property = $dir .
+            $url_connect_key .
+            Controller::name($property) .
+            $object->config('extension.connect')
+        ;
         $mtime = false;
         $ramdisk_url = false;
         if(
@@ -226,12 +232,6 @@ Trait NodeList {
                 return false;
             }
             if(!empty($options['filter'])){
-                $property = implode('-', $properties);
-                $url_connect_property = $dir .
-                    $url_connect_key .
-                    Controller::name($property) .
-                    $object->config('extension.connect')
-                ;
                 $key = [
                     'filter' => $options['filter'],
                     'sort' => $options['sort'],
@@ -258,9 +258,13 @@ Trait NodeList {
                     $lines >= 0
                 ){
                     $file = new SplFileObject($filter_url);
+                    $file_uuid = new splFileObject($url_uuid);
+                    $file_connect_property =new splFileObject($url_connect_property);
 //                        $options['filter']['#key'] = $key;
                     $list = $this->binary_tree_page(
                         $file,
+                        $file_uuid,
+                        $file_connect_property,
                         $role,
                         $counter,
                         [
@@ -281,12 +285,6 @@ Trait NodeList {
                         ]
                     );
                 } else {
-                    $property = implode('-', $properties);
-                    $url_connect_property = $dir .
-                        $url_connect_key .
-                        Controller::name($property) .
-                        $object->config('extension.connect')
-                    ;
                     $sort_key = [
                         'property' => $properties,
                     ];
@@ -297,8 +295,12 @@ Trait NodeList {
                         $lines > 0
                     ){
                         $file = new SplFileObject($url);
+                        $file_uuid = new splFileObject($url_uuid);
+                        $file_connect_property =new splFileObject($url_connect_property);
                         $list = $this->binary_tree_page(
                             $file,
+                            $file_uuid,
+                            $file_connect_property,
                             $role,
                             $counter,
                             [
@@ -344,12 +346,6 @@ Trait NodeList {
                 return $result;
             }
             elseif(!empty($options['where'])){
-                $property = implode('-', $properties);
-                $url_connect_property = $dir .
-                    $url_connect_key .
-                    Controller::name($property) .
-                    $object->config('extension.connect')
-                ;
                 $options['where'] = $this->where_convert($options['where']);
                 $key = [
                     'where' => $options['where'],
@@ -377,9 +373,13 @@ Trait NodeList {
                     $lines >= 0
                 ){
                     $file = new SplFileObject($where_url);
+                    $file_uuid = new splFileObject($url_uuid);
+                    $file_connect_property =new splFileObject($url_connect_property);
                     $where = [];
                     $list = $this->binary_tree_page(
                         $file,
+                        $file_uuid,
+                        $file_connect_property,
                         $role,
                         $counter,
                         [
@@ -400,25 +400,22 @@ Trait NodeList {
                         ]
                     );
                 } else {
-
                     $sort_key = [
                         'property' => $properties,
                     ];
                     $sort_key = sha1(Core::object($sort_key, Core::OBJECT_JSON));
                     $lines = $meta->get('Sort.' . $class . '.' . $sort_key . '.lines');
-                    $property = implode('-', $properties);
-                    $url_connect_property = $dir .
-                        $url_connect_key .
-                        Controller::name($property) .
-                        $object->config('extension.connect')
-                    ;
                     if(
                         File::exist($url) &&
                         $lines > 0
                     ){
                         $file = new SplFileObject($url);
+                        $file_uuid = new splFileObject($url_uuid);
+                        $file_connect_property =new splFileObject($url_connect_property);
                         $list = $this->binary_tree_page(
                             $file,
+                            $file_uuid,
+                            $file_connect_property,
                             $role,
                             $counter,
                             [
@@ -465,15 +462,12 @@ Trait NodeList {
                 // no filter, no where
                 $url_key = 'url.';
                 $first = true;
-                $url_connect_key = '';
                 foreach($options['sort'] as $key => $order) {
                     if($first){
-                        $url_connect_key .= 'Asc' . $object->config('ds');
                         $url_key .= 'asc.';
                         $first = false;
                     } else {
                         $url_key .= strtolower($order) . '.';
-                        $url_connect_key .= ucfirst(strtolower($order)) . $object->config('ds');
                     }
                 }
                 $url_key = substr($url_key, 0, -1);
@@ -483,19 +477,17 @@ Trait NodeList {
                 $sort_key = sha1(Core::object($sort_key, Core::OBJECT_JSON));
                 $url = $meta->get('Sort.' . $class . '.' . $sort_key . '.'. $url_key);
                 $lines = $meta->get('Sort.' . $class . '.' . $sort_key . '.lines');
-                $property = implode('-', $properties);
-                $url_connect_property = $dir .
-                    $url_connect_key .
-                    Controller::name($property) .
-                    $object->config('extension.connect')
-                ;
                 if(
                     File::exist($url) &&
                     $lines > 0
                 ){
                     $file = new SplFileObject($url);
+                    $file_uuid = new splFileObject($url_uuid);
+                    $file_connect_property =new splFileObject($url_connect_property);
                     $list = $this->binary_tree_page(
                         $file,
+                        $file_uuid,
+                        $file_connect_property,
                         $role,
                         $counter,
                         [
