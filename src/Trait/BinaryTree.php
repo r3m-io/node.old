@@ -909,7 +909,7 @@ Trait BinaryTree {
         $index = 0;
         $count = 0;
         $time_start = microtime(true);
-        ddd($options);
+        d($options);
 
 
         if(array_key_exists('url_uuid', $options)){
