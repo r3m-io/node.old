@@ -1305,7 +1305,7 @@ Trait BinaryTree {
                 $object->data($key, $file_connect_property);
             }
             $file_connect_property->seek($options['index']);
-            $file_connect_line = $file_connect_property->current();
+            $file_connect_line = (float) (rtrim($file_connect_property->current(), PHP_EOL) + 0);
             d($options['index']);
             d($file_connect_line);
 
@@ -1315,7 +1315,7 @@ Trait BinaryTree {
                 $file_uuid = new splFileObject($options['url_uuid']);
                 $object->data($key, $file_uuid);
             }
-            $file_uuid->seek(rtrim($file_connect_line, PHP_EOL));
+            $file_uuid->seek($file_connect_line);
             $file_uuid_line = $file_uuid->current();
             return rtrim($file_uuid_line, PHP_EOL);
         }
