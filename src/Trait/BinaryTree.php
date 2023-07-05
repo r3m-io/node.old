@@ -874,7 +874,6 @@ Trait BinaryTree {
                 break;
             }
         }
-        d($page);
         if(
             array_key_exists('mtime', $options) &&
             array_key_exists('ramdisk', $options) &&
