@@ -295,6 +295,7 @@ Trait Sync {
                         ], [
                             'output' => 'raw'
                         ]);
+                        ddd($sort);
                         $index = 0;
                         $binary_tree = [];
                         $connect_property_uuid = [];
