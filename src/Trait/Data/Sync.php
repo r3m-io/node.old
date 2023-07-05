@@ -400,7 +400,6 @@ Trait Sync {
                                 'property' => $properties
                             ];
                             $key = sha1(Core::object($key, Core::OBJECT_JSON));
-                            ddd($sortable);
                             $meta->set('Sort.' . $class . '.' . $key, $sortable->data());
                             $meta->write($meta_url);
                         }
