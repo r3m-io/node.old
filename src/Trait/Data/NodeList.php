@@ -113,9 +113,17 @@ Trait NodeList {
         if(!array_key_exists('sort', $options)){
             throw new Exception('Sort is missing in options for ' . $name . '::' . $options['function'] . '()');
         }
+        $first = true;
         $properties = [];
-        foreach($options['sort'] as $key => $unused){
+        $url_connect_key = '';
+        foreach($options['sort'] as $key => $order){
             $properties[] = $key;
+            if($first){
+                $url_connect_key .= 'Asc' . $object->config('ds');
+                $first = false;
+            } else {
+                $url_connect_key .= ucfirst(strtolower($order)) . $object->config('ds');
+            }
         }
         $dir = $object->config('project.dir.data') .
             'Node' .
@@ -218,6 +226,12 @@ Trait NodeList {
                 return false;
             }
             if(!empty($options['filter'])){
+                $property = implode('-', $properties);
+                $url_connect_property = $dir .
+                    $url_connect_key .
+                    Controller::name($property) .
+                    $object->config('extension.connect')
+                ;
                 $key = [
                     'filter' => $options['filter'],
                     'sort' => $options['sort'],
@@ -257,6 +271,8 @@ Trait NodeList {
                             'counter' => 0,
                             'direction' => 'next',
                             'url' => $filter_url,
+                            'url_uuid' => $url_uuid,
+                            'url_connect_property' => $url_connect_property,
                             'function' => $options['function'],
                             'relation' => $options['relation'],
                             'name' => $name,
@@ -265,6 +281,12 @@ Trait NodeList {
                         ]
                     );
                 } else {
+                    $property = implode('-', $properties);
+                    $url_connect_property = $dir .
+                        $url_connect_key .
+                        Controller::name($property) .
+                        $object->config('extension.connect')
+                    ;
                     $sort_key = [
                         'property' => $properties,
                     ];
@@ -287,6 +309,8 @@ Trait NodeList {
                                 'counter' => 0,
                                 'direction' => 'next',
                                 'url' => $url,
+                                'url_uuid' => $url_uuid,
+                                'url_connect_property' => $url_connect_property,
                                 'function' => $options['function'],
                                 'relation' => $options['relation'],
                                 'name' => $name,
@@ -320,6 +344,12 @@ Trait NodeList {
                 return $result;
             }
             elseif(!empty($options['where'])){
+                $property = implode('-', $properties);
+                $url_connect_property = $dir .
+                    $url_connect_key .
+                    Controller::name($property) .
+                    $object->config('extension.connect')
+                ;
                 $options['where'] = $this->where_convert($options['where']);
                 $key = [
                     'where' => $options['where'],
@@ -360,6 +390,8 @@ Trait NodeList {
                             'counter' => 0,
                             'direction' => 'next',
                             'url' => $where_url,
+                            'url_uuid' => $url_uuid,
+                            'url_connect_property' => $url_connect_property,
                             'function' => $options['function'],
                             'relation' => $options['relation'],
                             'name' => $name,
@@ -368,11 +400,18 @@ Trait NodeList {
                         ]
                     );
                 } else {
+
                     $sort_key = [
                         'property' => $properties,
                     ];
                     $sort_key = sha1(Core::object($sort_key, Core::OBJECT_JSON));
                     $lines = $meta->get('Sort.' . $class . '.' . $sort_key . '.lines');
+                    $property = implode('-', $properties);
+                    $url_connect_property = $dir .
+                        $url_connect_key .
+                        Controller::name($property) .
+                        $object->config('extension.connect')
+                    ;
                     if(
                         File::exist($url) &&
                         $lines > 0
@@ -390,6 +429,8 @@ Trait NodeList {
                                 'counter' => 0,
                                 'direction' => 'next',
                                 'url' => $url,
+                                'url_uuid' => $url_uuid,
+                                'url_connect_property' => $url_connect_property,
                                 'function' => $options['function'],
                                 'relation' => $options['relation'],
                                 'name' => $name,
