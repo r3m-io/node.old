@@ -1225,26 +1225,30 @@ Trait BinaryTree {
             }
             if ($options['index'] === $seek) {
                 $uuid = $this->binary_tree_uuid($options);
-                $record = [];
-                $record['uuid'] = $uuid;
-                $record['#read'] = [];
-                $record['#read']['load'] = $options['counter'];
-                $record['#read']['seek'] = $seek;
-                $record['#read']['lines'] = $options['lines'];
-                $record['#read']['percentage'] = round(($options['counter'] / $options['lines']) * 100, 2);
-                $record['#read']['url'] = $object->config('project.dir.data') .
-                    'Node' .
-                    $object->config('ds') .
-                    'Storage' .
-                    $object->config('ds') .
-                    substr($record['uuid'], 0, 2) .
-                    $object->config('ds') .
-                    $record['uuid'] .
-                    $object->config('extension.json')
-                ;
-                $record['#read'] = (object) $record['#read'];
-                $record = (object) $record;
-                return $record;
+                if($uuid){
+                    $record = [];
+                    $record['uuid'] = $uuid;
+                    $record['#read'] = [];
+                    $record['#read']['load'] = $options['counter'];
+                    $record['#read']['seek'] = $seek;
+                    $record['#read']['lines'] = $options['lines'];
+                    $record['#read']['percentage'] = round(($options['counter'] / $options['lines']) * 100, 2);
+                    $record['#read']['url'] = $object->config('project.dir.data') .
+                        'Node' .
+                        $object->config('ds') .
+                        'Storage' .
+                        $object->config('ds') .
+                        substr($record['uuid'], 0, 2) .
+                        $object->config('ds') .
+                        $record['uuid'] .
+                        $object->config('extension.json')
+                    ;
+                    $record['#read'] = (object) $record['#read'];
+                    $record = (object) $record;
+                    return $record;
+                } else {
+                    return false;
+                }
             }
             elseif(
                 $options['index'] < $seek
