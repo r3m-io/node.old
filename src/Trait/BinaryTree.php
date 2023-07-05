@@ -928,7 +928,10 @@ Trait BinaryTree {
                 ;
                 $read = $object->data_read($url);
                 $record = $read->data();
-                if(is_object($record) && property_exists('#class', $record)){
+                if(
+                    is_object($record) &&
+                    property_exists($record, '#class')
+                ){
                     $class = $record->{'#class'};
                     $object_url = $object->config('project.dir.data') .
                         'Node' .
