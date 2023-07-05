@@ -133,7 +133,6 @@ Trait Sync {
             }
             if ($item->has('sort')) {
                 foreach ($item->get('sort') as $sort) {
-                    d($sort);
                     $properties = explode(',', $sort);
                     foreach ($properties as $nr => $property) {
                         $properties[$nr] = trim($property);
