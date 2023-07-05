@@ -205,6 +205,9 @@ Trait NodeList {
         $has_descending = $this->has_descending($options);
         $list = [];
         $counter = 0;
+        d($url);
+        d($url_uuid);
+        ddd($options);
         if(!$has_descending){
             $meta_url = $object->config('project.dir.data') .
                 'Node' .
