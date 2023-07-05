@@ -295,7 +295,6 @@ Trait Sync {
                         ], [
                             'output' => 'raw'
                         ]);
-                        ddd($sort);
                         $index = 0;
                         $binary_tree = [];
                         $connect_property_uuid = [];
@@ -325,6 +324,8 @@ Trait Sync {
                                 }
                             }
                         }
+                        d($connect_property_uuid);
+                        ddd($connect_uuid_property);
                         Dir::create($dir_property_asc_asc, Dir::CHMOD);
                         $connect_asc_asc_lines = File::write($url_connect_asc_asc, implode(PHP_EOL, $connect_property_uuid), 'lines');
                         File::touch($url_connect_asc_asc, $mtime);
