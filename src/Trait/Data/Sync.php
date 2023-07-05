@@ -403,6 +403,7 @@ Trait Sync {
                             $meta->set('Sort.' . $class . '.' . $key, $sortable->data());
                             $meta->write($meta_url);
                         }
+                        die;
                     } else {
                         $sort = Sort::list($list)->with([
                             $properties[0] => 'ASC'
@@ -490,7 +491,6 @@ Trait Sync {
             } else {
                 echo 'Duration: (3) ' . round($time_duration * 1000, 2) . 'msec class: ' . $class . PHP_EOL;
             }
-            die;
         }
     }
 
