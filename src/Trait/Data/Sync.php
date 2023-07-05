@@ -330,6 +330,7 @@ Trait Sync {
                         d($connect_uuid_property);
                         Dir::create($dir_property_asc_asc, Dir::CHMOD);
                         $connect_asc_asc_lines = File::write($url_connect_asc_asc, implode(PHP_EOL, $connect_property_uuid), 'lines');
+                        d(File::read($url_connect_asc_asc));
                         File::touch($url_connect_asc_asc, $mtime);
                         ksort($connect_uuid_property, SORT_NATURAL);
                         $connect_asc_asc_reverse_lines = File::write($url_connect_asc_asc_reverse, implode(PHP_EOL, $connect_uuid_property), 'lines');
