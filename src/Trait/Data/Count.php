@@ -70,6 +70,7 @@ Trait Count {
                 Controller::name($property) .
                 $object->config('extension.btree')
             ;
+
             $url_connect_property = $dir .
                 Controller::name($property) .
                 $object->config('extension.connect')
@@ -78,6 +79,7 @@ Trait Count {
                 //logger exception
                 return false;
             }
+
             if(!File::exist($url_uuid)) {
                 //logger exception
                 return false;
@@ -99,9 +101,28 @@ Trait Count {
                 return false;
             }
             $sort_key = [
+                'property' => [
+                    'uuid'
+                ]
+            ];
+//            $url_uuid = $meta->get('Sort.' . $name . '.' . $sort_key . '.url.asc');
+            /*
+            if(!File::exist($url_uuid)) {
+                //logger exception
+                return false;
+            }
+            */
+            $sort_key = [
                 'property' => $properties
             ];
             $sort_key = sha1(Core::object($sort_key, Core::OBJECT_JSON));
+            /*
+            $url_connect_property = $meta->get('Sort.' . $name . '.' . $sort_key . '.url.asc');
+            if(!File::exist($url_connect_property)) {
+                //logger exception
+                return false;
+            }
+            */
             $lines = $meta->get('Sort.' . $name . '.' . $sort_key . '.lines');
             if(
                 File::exist($url) &&
