@@ -392,8 +392,7 @@ Trait Sync {
                             $sortable->set('url.asc.asc', $url_property_asc_asc);
                             $sortable->set('url.asc.desc', $url_property_asc_desc);
                             $sortable->set('property.uuid', $url_connect_asc_asc);
-                            $test = $sortable->set('url2.connect.asc.asc.property.uuid', $url_connect_asc_asc);
-                            d($test);
+                            $sortable->set('url.connect.asc.asc.property.uuid', $url_connect_asc_asc);
                             $sortable->set('url.connect.asc.asc.uuid.property', $url_connect_asc_asc_reverse);
                             $sortable->set('url.connect.asc.desc.property.uuid', $url_connect_asc_desc);
                             $sortable->set('url.connect.asc.desc.uuid.property', $url_connect_asc_desc_reverse);
