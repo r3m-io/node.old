@@ -486,7 +486,7 @@ Trait NodeList {
                     $result['sort'] = $options['sort'];
                     $result['relation'] = $options['relation'];
                     $result['mtime'] = $mtime;
-                    ddd($result);
+                    d($result);
                     if($ramdisk_url){
                         $ramdisk_data = new Storage($result);
                         $ramdisk_data->write($ramdisk_url);
