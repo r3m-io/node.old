@@ -324,6 +324,7 @@ Trait Sync {
                                 }
                             }
                         }
+                        d($url_connect_asc_asc);
                         d($connect_property_uuid);
                         d($connect_uuid_property);
                         Dir::create($dir_property_asc_asc, Dir::CHMOD);
