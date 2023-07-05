@@ -70,7 +70,6 @@ Trait Count {
                 Controller::name($property) .
                 $object->config('extension.btree')
             ;
-
             $url_connect_property = $dir .
                 Controller::name($property) .
                 $object->config('extension.connect')

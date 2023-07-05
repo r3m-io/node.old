@@ -126,6 +126,7 @@ Trait NodeList {
             $object->config('ds')
         ;
         $url = $this->url($dir, $options);
+        $url_uuid = $dir . 'Asc' . $object->config('ds') . 'Uuid' . $object->config('extension.btree');
         $mtime = false;
         $ramdisk_url = false;
         $options['ramdisk'] = false;
@@ -439,6 +440,11 @@ Trait NodeList {
                 $sort_key = sha1(Core::object($sort_key, Core::OBJECT_JSON));
                 $url = $meta->get('Sort.' . $class . '.' . $sort_key . '.'. $url_key);
                 $lines = $meta->get('Sort.' . $class . '.' . $sort_key . '.lines');
+                $property = implode('-', $properties);
+                $url_connect_property = $dir .
+                    Controller::name($property) .
+                    $object->config('extension.connect')
+                ;
                 if(
                     File::exist($url) &&
                     $lines > 0
@@ -455,6 +461,8 @@ Trait NodeList {
                             'counter' => 0,
                             'direction' => 'next',
                             'url' => $url,
+                            'url_uuid' => $url_uuid,
+                            'url_connect_property' => $url_connect_property,
                             'function' => $options['function'],
                             'relation' => $options['relation'],
                             'name' => $name,
