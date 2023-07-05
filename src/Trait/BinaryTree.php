@@ -909,6 +909,9 @@ Trait BinaryTree {
         $index = 0;
         $count = 0;
         $time_start = microtime(true);
+        ddd($options);
+
+
         while(true){
             $record = $this->binary_tree_index($file, [
                 'lines'=> $options['lines'],
