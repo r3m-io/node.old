@@ -906,12 +906,9 @@ Trait BinaryTree {
     {
         Core::interactive();
         $object = $this->object();
-        $index = 0;
         $count = 0;
         $time_start = microtime(true);
         d($options);
-
-
         if(
             array_key_exists('url_uuid', $options) &&
             File::exist($options['url_uuid'])
@@ -931,46 +928,45 @@ Trait BinaryTree {
                 ;
                 $read = $object->data_read($url);
                 $record = $read->data();
-                ddd($record);
-                $class = $record->{'#class'};
-                $object_url = $object->config('project.dir.data') .
-                    'Node' .
-                    $object->config('ds') .
-                    'Object' .
-                    $object->config('ds') .
-                    ucfirst($class) .
-                    $object->config('extension.json')
-                ;
-                $options_json = Core::object($options, Core::OBJECT_JSON);
-                $object_data = $object->data_read($object_url, sha1($object_url . '.' . $options_json));
-                $record = $this->binary_tree_relation($record, $object_data, $role, $options);
-                $expose = $this->expose_get(
-                    $object,
-                    $class,
-                    $class . '.' . $options['function'] . '.expose'
-                );
-                $node = new Storage($record);
-                $record = $this->expose(
-                    $node,
-                    $expose,
-                    $class,
-                    $options['function'],
-                    $role
-                );
-                $record = $record->data();
-                if(!empty($options['filter'])){
-                    $record = $this->filter($record, $options['filter'], $options);
-                }
-                elseif(!empty($options['where'])){
-                    $record = $this->where($record, $options['where'], $options);
-                }
-                if($record){
-                    $count++;
+                if(is_object($record) && property_exists('#class', $record)){
+                    $class = $record->{'#class'};
+                    $object_url = $object->config('project.dir.data') .
+                        'Node' .
+                        $object->config('ds') .
+                        'Object' .
+                        $object->config('ds') .
+                        ucfirst($class) .
+                        $object->config('extension.json')
+                    ;
+                    $options_json = Core::object($options, Core::OBJECT_JSON);
+                    $object_data = $object->data_read($object_url, sha1($object_url . '.' . $options_json));
+                    $record = $this->binary_tree_relation($record, $object_data, $role, $options);
+                    $expose = $this->expose_get(
+                        $object,
+                        $class,
+                        $class . '.' . $options['function'] . '.expose'
+                    );
+                    $node = new Storage($record);
+                    $record = $this->expose(
+                        $node,
+                        $expose,
+                        $class,
+                        $options['function'],
+                        $role
+                    );
+                    $record = $record->data();
+                    if(!empty($options['filter'])){
+                        $record = $this->filter($record, $options['filter'], $options);
+                    }
+                    elseif(!empty($options['where'])){
+                        $record = $this->where($record, $options['where'], $options);
+                    }
+                    if($record){
+                        $count++;
+                    }
                 }
             }
-            ddd($read);
         }
-
         /*
         while(true){
             $record = $this->binary_tree_index($file, [
@@ -1036,11 +1032,12 @@ Trait BinaryTree {
             $time_end = microtime(true);
             $duration = $time_end - $time_start;
             if($duration < 1) {
-                $object->logger($object->config('project.log.node'))->info('Duration: (4) ' . round($duration * 1000, 2) . ' msec url: ' . $options['url']);
+                $object->logger($object->config('project.log.node'))->info('Duration: (4) ' . round($duration * 1000, 2) . ' msec url: ' . $options['url'], [ $count ] );
             } else {
-                $object->logger($object->config('project.log.node'))->info('Duration: (5) ' . round($duration, 2) . ' sec url: ' . $options['url']);
+                $object->logger($object->config('project.log.node'))->info('Duration: (5) ' . round($duration, 2) . ' sec url: ' . $options['url'], [ $count ]);
             }
         }
+        ddd($count);
         return $count;
     }
 
