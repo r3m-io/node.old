@@ -456,7 +456,6 @@ Trait NodeList {
                     File::exist($url) &&
                     $lines > 0
                 ){
-                    d($url);
                     $file = new SplFileObject($url);
                     $list = $this->binary_tree_page(
                         $file,
