@@ -1214,7 +1214,7 @@ Trait BinaryTree {
                 }
             }
             $file->seek($seek);
-//            echo 'Seek: ' . $seek . ' options.index: ' . $options['index'] . PHP_EOL;
+            echo 'Seek: ' . $seek . ' options.index: ' . $options['index'] . PHP_EOL;
             $line = $file->current();
             $options['counter']++;
             if($options['counter'] > 1024){
