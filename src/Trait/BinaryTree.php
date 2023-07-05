@@ -1311,5 +1311,6 @@ Trait BinaryTree {
             $file_uuid_line = $file_uuid->current();
             return rtrim($file_uuid_line, PHP_EOL);
         }
+        return null;
     }
 }
