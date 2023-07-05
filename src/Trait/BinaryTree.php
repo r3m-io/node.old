@@ -1301,6 +1301,7 @@ Trait BinaryTree {
             File::exist($options['url_uuid'])
         ){
             $key = sha1($options['url_connect_property']);
+            d($options['url_connect_property']);
             $file_connect_property = $object->data($key);
             if(!$file_connect_property){
                 $file_connect_property =new splFileObject($options['url_connect_property']);
