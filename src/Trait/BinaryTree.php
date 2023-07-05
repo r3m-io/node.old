@@ -904,9 +904,9 @@ Trait BinaryTree {
      */
     private function binary_tree_count($file, $role, $options=[]): int
     {
+        $time_start = microtime(true);
         $object = $this->object();
         $count = 0;
-        $time_start = microtime(true);
         if(
             array_key_exists('url_uuid', $options) &&
             File::exist($options['url_uuid'])
