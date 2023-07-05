@@ -1306,6 +1306,8 @@ Trait BinaryTree {
             }
             $file_connect_property->seek($options['index']);
             $file_connect_line = $file_connect_property->current();
+            d($options['index']);
+            d($file_connect_line);
 
             $key = sha1($options['url_uuid']);
             $file_uuid = $object->data($key);
