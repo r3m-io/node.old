@@ -425,12 +425,15 @@ Trait NodeList {
                 // no filter, no where
                 $url_key = 'url.';
                 $first = true;
+                $url_connect_key = '';
                 foreach($options['sort'] as $key => $order) {
                     if($first){
+                        $url_connect_key .= 'Asc' . $object->config('ds');
                         $url_key .= 'asc.';
                         $first = false;
                     } else {
                         $url_key .= strtolower($order) . '.';
+                        $url_connect_key .= ucfirst(strtolower($order)) . $object->config('ds');
                     }
                 }
                 $url_key = substr($url_key, 0, -1);
@@ -442,6 +445,7 @@ Trait NodeList {
                 $lines = $meta->get('Sort.' . $class . '.' . $sort_key . '.lines');
                 $property = implode('-', $properties);
                 $url_connect_property = $dir .
+                    $url_connect_key .
                     Controller::name($property) .
                     $object->config('extension.connect')
                 ;
