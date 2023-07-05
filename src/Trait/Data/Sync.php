@@ -133,6 +133,7 @@ Trait Sync {
             }
             if ($item->has('sort')) {
                 foreach ($item->get('sort') as $sort) {
+                    d($sort);
                     $properties = explode(',', $sort);
                     foreach ($properties as $nr => $property) {
                         $properties[$nr] = trim($property);
@@ -403,7 +404,6 @@ Trait Sync {
                             $meta->set('Sort.' . $class . '.' . $key, $sortable->data());
                             $meta->write($meta_url);
                         }
-                        die;
                     } else {
                         $sort = Sort::list($list)->with([
                             $properties[0] => 'ASC'
