@@ -129,7 +129,6 @@ Trait NodeList {
         $url_uuid = $dir . 'Asc' . $object->config('ds') . 'Uuid' . $object->config('extension.btree');
         $mtime = false;
         $ramdisk_url = false;
-        $options['ramdisk'] = false;
         if(
             File::exist($url) &&
             array_key_exists('ramdisk', $options) &&
@@ -261,7 +260,7 @@ Trait NodeList {
                             'function' => $options['function'],
                             'relation' => $options['relation'],
                             'name' => $name,
-                            'ramdisk' => true,
+                            'ramdisk' => $options['ramdisk'] ?? false,
                             'mtime' => $mtime
                         ]
                     );
@@ -291,7 +290,7 @@ Trait NodeList {
                                 'function' => $options['function'],
                                 'relation' => $options['relation'],
                                 'name' => $name,
-                                'ramdisk' => true,
+                                'ramdisk' => $options['ramdisk'] ?? false,
                                 'mtime' => $mtime
                             ]
                         );
@@ -364,7 +363,7 @@ Trait NodeList {
                             'function' => $options['function'],
                             'relation' => $options['relation'],
                             'name' => $name,
-                            'ramdisk' => true,
+                            'ramdisk' => $options['ramdisk'] ?? false,
                             'mtime' => $mtime
                         ]
                     );
@@ -394,7 +393,7 @@ Trait NodeList {
                                 'function' => $options['function'],
                                 'relation' => $options['relation'],
                                 'name' => $name,
-                                'ramdisk' => true,
+                                'ramdisk' => $options['ramdisk'] ?? false,
                                 'mtime' => $mtime
                             ]
                         );
@@ -470,7 +469,7 @@ Trait NodeList {
                             'function' => $options['function'],
                             'relation' => $options['relation'],
                             'name' => $name,
-                            'ramdisk' => true,
+                            'ramdisk' => $options['ramdisk'] ?? false,
                             'mtime' => $mtime
                         ]
                     );
