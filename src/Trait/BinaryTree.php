@@ -912,6 +912,11 @@ Trait BinaryTree {
         ddd($options);
 
 
+        if(array_key_exists('url_uuid', $options)){
+            $read = File::read($options['url_uuid'], File::ARRAY);
+            ddd($read);
+        }
+
         /*
         while(true){
             $record = $this->binary_tree_index($file, [
