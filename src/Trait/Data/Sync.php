@@ -324,8 +324,8 @@ Trait Sync {
                                 }
                             }
                         }
-                        d($connect_property_uuid);
-                        d($connect_uuid_property);
+//                        d($connect_property_uuid);
+//                        d($connect_uuid_property);
                         Dir::create($dir_property_asc_asc, Dir::CHMOD);
                         $connect_asc_asc_lines = File::write($url_connect_asc_asc, implode(PHP_EOL, $connect_property_uuid), 'lines');
                         File::touch($url_connect_asc_asc, $mtime);
@@ -391,9 +391,7 @@ Trait Sync {
                             $sortable->set('lines', $lines_asc_asc);
                             $sortable->set('url.asc.asc', $url_property_asc_asc);
                             $sortable->set('url.asc.desc', $url_property_asc_desc);
-
-                            $test = $sortable->set('url.connect.asc.asc.property.uuid', $url_connect_asc_asc, true);
-                            ddd($test);
+                            $sortable->set('url.connect.asc.asc.property.uuid', $url_connect_asc_asc);
                             $sortable->set('url.connect.asc.asc.uuid.property', $url_connect_asc_asc_reverse);
                             $sortable->set('url.connect.asc.desc.property.uuid', $url_connect_asc_desc);
                             $sortable->set('url.connect.asc.desc.uuid.property', $url_connect_asc_desc_reverse);
