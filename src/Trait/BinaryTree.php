@@ -917,6 +917,57 @@ Trait BinaryTree {
             File::exist($options['url_uuid'])
         ){
             $read = File::read($options['url_uuid'], File::ARRAY);
+            foreach($read as $uuid){
+                $uuid = rtrim($uuid, PHP_EOL);
+                $url = $object->config('project.dir.data') .
+                    'Node' .
+                    $object->config('ds') .
+                    'Storage' .
+                    $object->config('ds') .
+                    substr($uuid, 0, 2) .
+                    $object->config('ds') .
+                    $uuid .
+                    $object->config('extension.json')
+                ;
+                $read = $object->data_read($url);
+                $record = $read->data();
+                ddd($record);
+                $class = $record->{'#class'};
+                $object_url = $object->config('project.dir.data') .
+                    'Node' .
+                    $object->config('ds') .
+                    'Object' .
+                    $object->config('ds') .
+                    ucfirst($class) .
+                    $object->config('extension.json')
+                ;
+                $options_json = Core::object($options, Core::OBJECT_JSON);
+                $object_data = $object->data_read($object_url, sha1($object_url . '.' . $options_json));
+                $record = $this->binary_tree_relation($record, $object_data, $role, $options);
+                $expose = $this->expose_get(
+                    $object,
+                    $class,
+                    $class . '.' . $options['function'] . '.expose'
+                );
+                $node = new Storage($record);
+                $record = $this->expose(
+                    $node,
+                    $expose,
+                    $class,
+                    $options['function'],
+                    $role
+                );
+                $record = $record->data();
+                if(!empty($options['filter'])){
+                    $record = $this->filter($record, $options['filter'], $options);
+                }
+                elseif(!empty($options['where'])){
+                    $record = $this->where($record, $options['where'], $options);
+                }
+                if($record){
+                    $count++;
+                }
+            }
             ddd($read);
         }
 
