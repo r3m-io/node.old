@@ -175,6 +175,8 @@ Trait Sync {
                             $object->config('extension.connect')
                         ;
                         $url_connect_asc_asc_reverse = $dir_property_asc_asc .
+                            'Reverse' .
+                            '.' .
                             Controller::name(implode('-', array_reverse($properties))) .
                             $object->config('extension.connect')
                         ;
@@ -183,6 +185,8 @@ Trait Sync {
                             $object->config('extension.connect')
                         ;
                         $url_connect_asc_desc_reverse = $dir_property_asc_desc .
+                            'Reverse' .
+                            '.' .
                             Controller::name(implode('-', array_reverse($properties))) .
                             $object->config('extension.connect')
                         ;
@@ -207,6 +211,8 @@ Trait Sync {
                             $object->config('extension.connect')
                         ;
                         $url_connect_asc_reverse = $dir_property_asc .
+                            'Reverse' .
+                            '.' .
                             Controller::name(implode('-', array_reverse($properties_connect))) .
                             $object->config('extension.connect')
                         ;
