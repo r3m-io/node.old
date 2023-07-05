@@ -910,7 +910,6 @@ Trait BinaryTree {
         $index = 0;
         $count = 0;
         $time_start = microtime(true);
-        $list = [];
         while(true){
             $record = $this->binary_tree_index($file, [
                 'lines'=> $options['lines'],
@@ -964,7 +963,6 @@ Trait BinaryTree {
                     $record = $this->where($record, $options['where'], $options);
                 }
                 if($record){
-                    $list[] = $record;
                     $count++;
                 }
             } else {
@@ -980,7 +978,6 @@ Trait BinaryTree {
                 $object->logger($object->config('project.log.node'))->info('Duration: (5) ' . round($duration, 2) . ' sec url: ' . $options['url']);
             }
         }
-        d($list);
         return $count;
     }
 
