@@ -181,7 +181,7 @@ Trait Sync {
                             'Reverse' .
                             $object->config('ds')
                         ;
-                        $url_connect_asc_asc_reverse = $dir_connect_asc_asc_reverse
+                        $url_connect_asc_asc_reverse = $dir_connect_asc_asc_reverse .
                             Controller::name(implode('-', array_reverse($properties))) .
                             $object->config('extension.connect')
                         ;
