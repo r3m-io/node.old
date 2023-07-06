@@ -1048,6 +1048,7 @@ Trait BinaryTree {
     /**
      * @throws Exception
      */
+    /*
     private function binary_tree_list($file, $options=[]): array
     {
         if(!array_key_exists('limit', $options)){
@@ -1161,10 +1162,12 @@ Trait BinaryTree {
         }
         return $page;
     }
+    */
 
     /**
      * @throws ObjectException
      */
+    /*
     private function binary_tree_node($line='', $options=[]){
         d($line);
         ddd($options);
@@ -1221,8 +1224,8 @@ Trait BinaryTree {
             $object->config('extension.json')
         ;
         return $record;
-        */
     }
+    */
 
     /**
      * @throws ObjectException
