@@ -711,7 +711,11 @@ Trait Create {
                         $binary_tree[] = $uuid;
                         $binary_tree_count++;
                         sort($binary_tree, SORT_NATURAL);
-                        $lines = File::write($binary_tree_url, implode('', $binary_tree, File::LINES));
+                        $lines = File::write(
+                            $binary_tree_url,
+                            implode('', $binary_tree),
+                            File::LINES
+                        );
                         if ($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
                             $command = 'chmod 666 ' . $binary_search_url;
                             exec($command);
