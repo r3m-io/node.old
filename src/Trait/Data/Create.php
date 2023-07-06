@@ -696,8 +696,8 @@ Trait Create {
                             exec($command);
                         }
                     } else {
-                        $binarySearch = File::read($binary_search_url, File::ARRAY);
-                        ddd($binarySearch);
+                        $binary_tree = File::read($binary_tree_url, File::ARRAY);
+                        ddd($binary_tree);
 
 
                         $record->set('uuid', $uuid);
