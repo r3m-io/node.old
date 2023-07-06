@@ -138,7 +138,6 @@ Trait BinaryTree {
                     'mtime' => $mtime
                 ]
             );
-            ddd($filter_list);
             /*
             $filter_list = $this->binary_tree_list($file, [
                 'filter' => $options['filter'],
