@@ -22,25 +22,26 @@ Trait BinaryTree {
      * @throws FileWriteException
      * @throws Exception
      */
-    private function binary_tree_list_create($class, $options=[]): void
+    private function binary_tree_list_create($class, $role, $options=[]): void
     {
         $object = $this->object();
         $name = Controller::name($class);
         $dir_node = $object->config('project.dir.data') .
             'Node' .
             $object->config('ds');
-        $dir_binarysearch = $dir_node .
-            'BinarySearch' .
+        $dir_binary_tree = $dir_node .
+            'BinaryTree' .
             $object->config('ds') .
             $name .
             $object->config('ds')
         ;
-        $url = $dir_binarysearch .
+        $url = $dir_binary_tree .
             'Asc' .
             $object->config('ds') .
             'Uuid' .
-            $object->config('extension.json')
+            $object->config('extension.btree')
         ;
+        $url_uuid = $url;
         $meta_url = $object->config('project.dir.data') .
             'Node' .
             $object->config('ds') .
@@ -70,6 +71,7 @@ Trait BinaryTree {
         $mtime = File::mtime($url);
         $properties = [];
         $url_key = 'url.';
+        $url_connect_key = '';
         if(!array_key_exists('sort', $options)){
             $debug = debug_backtrace(true);
             ddd($debug[0]['file'] . ' ' . $debug[0]['line']);
@@ -77,11 +79,19 @@ Trait BinaryTree {
         foreach($options['sort'] as $key => $order) {
             if(empty($properties)){
                 $url_key .= 'asc.';
+                $url_connect_key .= 'Asc' . $object->config('ds');
             } else {
                 $url_key .= strtolower($order) . '.';
+                $url_connect_key .= ucfirst(strtolower($order)) . $object->config('ds');
             }
             $properties[] = $key;
         }
+        $property = implode('-', $properties);
+        $url_connect_property = $dir_binary_tree .
+            $url_connect_key .
+            Controller::name($property) .
+            $object->config('extension.connect')
+        ;
         $url_key = substr($url_key, 0, -1);
         $sort_key = [
             'property' => $properties,
@@ -102,8 +112,35 @@ Trait BinaryTree {
             ];
             $key = sha1(Core::object($key, Core::OBJECT_JSON));
             $file = new SplFileObject($url_property);
-            $limit = $meta->get('Filter.' . $class . '.' . $key . '.limit') ?? 1000;
-            $filter_list = $this->binary_search_list($file, [
+            $file_uuid = new splFileObject($url_uuid);
+            $file_connect_property =new splFileObject($url_connect_property);
+            $limit = $meta->get('Filter.' . $name . '.' . $key . '.limit') ?? 1000;
+            $response = $this->binary_tree_page(
+                $file,
+                $file_uuid,
+                $file_connect_property,
+                $role,
+                $counter,
+                [
+                    'filter' => $options['filter'],
+                    'page' => $options['page'] ?? 1,
+                    'limit' => $options['limit'] ?? 1000,
+                    'lines'=> $sort_lines,
+                    'counter' => 0,
+                    'direction' => 'next',
+                    'url' => $url_property,
+                    'url_uuid' => $url_uuid,
+                    'url_connect_property' => $url_connect_property,
+                    'function' => $options['function'],
+                    'relation' => $options['relation'],
+                    'name' => $name,
+                    'ramdisk' => $options['ramdisk'] ?? false,
+                    'mtime' => $mtime
+                ]
+            );
+            ddd($response);
+            /*
+            $filter_list = $this->binary_tree_list($file, [
                 'filter' => $options['filter'],
                 'limit' => $limit,
                 'lines'=> $sort_lines,
@@ -111,6 +148,7 @@ Trait BinaryTree {
                 'direction' => 'next',
                 'url' => $url_property
             ]);
+            */
             if(!empty($filter_list)){
                 $filter = [];
                 $index = false;
@@ -142,12 +180,12 @@ Trait BinaryTree {
                 } else {
                     $count = $index + 1;
                 }
-                $meta->set('Filter.' . $class . '.' . $key . '.lines', $lines);
-                $meta->set('Filter.' . $class . '.' . $key . '.count', $count);
-                $meta->set('Filter.' . $class . '.' . $key . '.limit', $limit);
-                $meta->set('Filter.' . $class . '.' . $key . '.mtime', $mtime);
-                $meta->set('Filter.' . $class . '.' . $key . '.filter', $options['filter']);
-                $meta->set('Filter.' . $class . '.' . $key . '.sort', $options['sort']);
+                $meta->set('Filter.' . $name . '.' . $key . '.lines', $lines);
+                $meta->set('Filter.' . $name . '.' . $key . '.count', $count);
+                $meta->set('Filter.' . $name . '.' . $key . '.limit', $limit);
+                $meta->set('Filter.' . $name . '.' . $key . '.mtime', $mtime);
+                $meta->set('Filter.' . $name . '.' . $key . '.filter', $options['filter']);
+                $meta->set('Filter.' . $name . '.' . $key . '.sort', $options['sort']);
                 if($object->config(Config::POSIX_ID) === 0){
                     $command = 'chown www-data:www-data ' . $filter_url;
                     exec($command);
@@ -177,8 +215,34 @@ Trait BinaryTree {
             ];
             $key = sha1(Core::object($key, Core::OBJECT_JSON));
             $file = new SplFileObject($url_property);
+            $file_uuid = new splFileObject($url_uuid);
+            $file_connect_property =new splFileObject($url_connect_property);
             $limit = $meta->get('Where.' . $class . '.' . $key . '.limit') ?? 1000;
-            $where_list = $this->binary_search_list($file, [
+            $where_list = $this->binary_tree_page(
+                $file,
+                $file_uuid,
+                $file_connect_property,
+                $role,
+                $counter,
+                [
+                    'where' => $options['where'],
+                    'page' => $options['page'] ?? 1,
+                    'limit' => $options['limit'] ?? 1000,
+                    'lines'=> $sort_lines,
+                    'counter' => 0,
+                    'direction' => 'next',
+                    'url' => $url_property,
+                    'url_uuid' => $url_uuid,
+                    'url_connect_property' => $url_connect_property,
+                    'function' => $options['function'],
+                    'relation' => $options['relation'],
+                    'name' => $name,
+                    'ramdisk' => $options['ramdisk'] ?? false,
+                    'mtime' => $mtime
+                ]
+            );
+            /*
+            $where_list = $this->binary_tree_list($file, [
                 'where' => $options['where'],
                 'limit' => $limit,
                 'lines'=> $sort_lines,
@@ -186,6 +250,7 @@ Trait BinaryTree {
                 'direction' => 'next',
                 'url' => $url_property,
             ]);
+            */
             if(!empty($where_list)){
                 $where = [];
                 $index = false;
@@ -217,12 +282,12 @@ Trait BinaryTree {
                 } else {
                     $count = $index + 1;
                 }
-                $meta->set('Where.' . $class . '.' . $key . '.lines', $lines);
-                $meta->set('Where.' . $class . '.' . $key . '.count', $count);
-                $meta->set('Where.' . $class . '.' . $key . '.limit', $limit);
-                $meta->set('Where.' . $class . '.' . $key . '.mtime', $mtime);
-                $meta->set('Where.' . $class . '.' . $key . '.where', $options['where']);
-                $meta->set('Where.' . $class . '.' . $key . '.sort', $options['sort']);
+                $meta->set('Where.' . $name . '.' . $key . '.lines', $lines);
+                $meta->set('Where.' . $name . '.' . $key . '.count', $count);
+                $meta->set('Where.' . $name . '.' . $key . '.limit', $limit);
+                $meta->set('Where.' . $name . '.' . $key . '.mtime', $mtime);
+                $meta->set('Where.' . $name . '.' . $key . '.where', $options['where']);
+                $meta->set('Where.' . $name . '.' . $key . '.sort', $options['sort']);
                 if($object->config(Config::POSIX_ID) === 0){
                     $command = 'chown www-data:www-data ' . $where_url;
                     exec($command);

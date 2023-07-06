@@ -24,6 +24,7 @@ Trait Record {
         if(!array_key_exists('sort', $options)){
             throw new Exception('Sort is missing in options');
         }
+        $options['debug'] = true;
         d($options);
         $list = $this->list($class, $role, $options);
         if(

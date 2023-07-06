@@ -187,7 +187,7 @@ Trait NodeList {
                 return (array) $ramdisk_data->data();
             }
         }
-        $this->binary_search_list_create($class, $options);
+        $this->binary_tree_list_create($class, $role, $options);
         if(!array_key_exists('where', $options)){
             $options['where'] = [];
         }
