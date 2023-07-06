@@ -696,7 +696,18 @@ Trait Create {
                             exec($command);
                         }
                     } else {
-                        $binary_tree = File::read($binary_tree_url, File::ARRAY);
+                        if(File::exist($binary_tree_url)){
+                            $binary_tree = File::read($binary_tree_url, File::ARRAY);
+                            if(is_array($binary_tree)){
+                                $binary_tree_count = count($binary_tree);
+                                $binary_tree[$binary_tree_count] .= PHP_EOL;
+                            } else {
+                                $binary_tree = [];
+                            }
+                        } else {
+                            $binary_tree = [];
+                        }
+                        $binary_tree[] = $uuid;
                         ddd($binary_tree);
 
 
