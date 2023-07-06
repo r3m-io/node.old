@@ -322,6 +322,7 @@ Trait NodeList {
                                 'mtime' => $mtime
                             ]
                         );
+                        ddd($list);
                     }
                 }
                 $result = [];
