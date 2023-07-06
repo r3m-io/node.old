@@ -13,6 +13,7 @@
 
 use R3m\Io\App;
 
+use R3m\Io\Module\Dir;
 use R3m\Io\Module\File;
 use R3m\Io\Node\Model\Node;
 use R3m\Io\Module\Data as Storage;
