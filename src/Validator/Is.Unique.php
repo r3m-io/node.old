@@ -89,12 +89,32 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
     if($class === false){
         throw new Exception('Class not set for Is.Unique');
     }
+    $url_uuid = $object->config('project.dir.data') .
+        'Node' .
+        $object->config('ds') .
+        'BinaryTree' .
+        $object->config('ds') .
+        $class .
+        $object->config('ds') .
+        'Asc' .
+        $object->config('ds') .
+        'Uuid' .
+        $object->config('extension.btree');
+
+    $url_connect_property = File::basename($url) . '.connect';
+
+    d($url);
+    d($class);
+    d($url_uuid);
+    d($url_connect_property);
+
     $unique = $object->data('Is.Unique');
     if (empty($unique)) {
         $unique = new Node($object);
         $object->data('Is.Unique', $unique);
     }
     $record = $unique->record($class, $unique->role_system(), $options);
+    ddd($record);
     if (empty($record)) {
         return true;
     }
