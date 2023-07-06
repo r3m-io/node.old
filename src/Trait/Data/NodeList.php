@@ -194,6 +194,7 @@ Trait NodeList {
         if(!array_key_exists('filter', $options)){
             $options['filter'] = [];
         }
+        d($url);
         if(!File::exist($url)){
             $list = [];
             $result = [];
@@ -284,6 +285,7 @@ Trait NodeList {
                             'mtime' => $mtime
                         ]
                     );
+                    ddd($list);
                 } else {
                     $sort_key = [
                         'property' => $properties,
