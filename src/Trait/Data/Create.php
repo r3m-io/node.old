@@ -708,6 +708,7 @@ Trait Create {
                             $binary_tree = [];
                         }
                         $binary_tree[] = $uuid;
+                        sort($binary_tree, SORT_NATURAL);
                         ddd($binary_tree);
 
 
