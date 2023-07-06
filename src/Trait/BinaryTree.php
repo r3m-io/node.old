@@ -115,7 +115,7 @@ Trait BinaryTree {
             $file_uuid = new splFileObject($url_uuid);
             $file_connect_property =new splFileObject($url_connect_property);
             $limit = $meta->get('Filter.' . $name . '.' . $key . '.limit') ?? 1000;
-            $response = $this->binary_tree_page(
+            $filter_list = $this->binary_tree_page(
                 $file,
                 $file_uuid,
                 $file_connect_property,
@@ -138,7 +138,7 @@ Trait BinaryTree {
                     'mtime' => $mtime
                 ]
             );
-            ddd($response);
+            ddd($filter_list);
             /*
             $filter_list = $this->binary_tree_list($file, [
                 'filter' => $options['filter'],
@@ -153,11 +153,12 @@ Trait BinaryTree {
                 $filter = [];
                 $index = false;
                 foreach($filter_list as $index => $node){
-                    $filter[$key][$index] = [
-                        'uuid' => $node->uuid,
-                        '#index' => $index,
-//                        '#key' => $key
-                    ];
+                    if(property_exists($node, 'uuid')){
+                        $filter[$key][$index] = [
+                            'uuid' => $node->uuid,
+                            '#index' => $index
+                        ];
+                    }
                 }
                 $filter_dir = $dir_node .
                     'Filter' .
@@ -217,7 +218,7 @@ Trait BinaryTree {
             $file = new SplFileObject($url_property);
             $file_uuid = new splFileObject($url_uuid);
             $file_connect_property =new splFileObject($url_connect_property);
-            $limit = $meta->get('Where.' . $class . '.' . $key . '.limit') ?? 1000;
+            $limit = $meta->get('Where.' . $name . '.' . $key . '.limit') ?? 1000;
             $where_list = $this->binary_tree_page(
                 $file,
                 $file_uuid,
