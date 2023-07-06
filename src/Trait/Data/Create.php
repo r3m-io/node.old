@@ -696,6 +696,7 @@ Trait Create {
                             exec($command);
                         }
                     } else {
+                        $binary_tree_count = 0;
                         if(File::exist($binary_tree_url)){
                             $binary_tree = File::read($binary_tree_url, File::ARRAY);
                             if(is_array($binary_tree)){
@@ -708,27 +709,9 @@ Trait Create {
                             $binary_tree = [];
                         }
                         $binary_tree[] = $uuid;
+                        $binary_tree_count++;
                         sort($binary_tree, SORT_NATURAL);
-                        ddd($binary_tree);
-
-
-                        $record->set('uuid', $uuid);
-                        $list[] = (object) [
-                            'uuid' => $uuid,
-                        ];
-                        $list = Sort::list($list)->with([
-                            'uuid' => 'ASC',
-                        ], [
-                            'key_reset' => true,
-                        ]);
-                        $binarySearch->delete($name);
-                        $binarySearch->data($name, $list);
-                        $count = 0;
-                        foreach ($binarySearch->data($name) as $item) {
-                            $item->{'#index'} = $count;
-                            $count++;
-                        }
-                        $lines = $binarySearch->write($binary_search_url, 'lines');
+                        $lines = File::write($binary_tree_url, implode('', $binary_tree, File::LINES));
                         if ($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
                             $command = 'chmod 666 ' . $binary_search_url;
                             exec($command);
@@ -751,10 +734,26 @@ Trait Create {
                         $key = sha1(Core::object($key, Core::OBJECT_JSON));
                         $meta->set('Sort.' . $name . '.' . $key . '.property', $property);
                         $meta->set('Sort.' . $name . '.' . $key . '.lines', $lines);
-                        $meta->set('Sort.' . $name . '.' . $key . '.count', $count);
-                        $meta->set('Sort.' . $name . '.' . $key . '.url.asc', $binary_search_url);
+                        $meta->set('Sort.' . $name . '.' . $key . '.count', $binary_tree_count);
+                        $meta->set('Sort.' . $name . '.' . $key . '.url.asc', $binary_tree_url);
                         $meta->write($meta_url);
-                        $record->write($url);
+                        if(
+                            array_key_exists('compression', $options) &&
+                            !empty($options['compression']) &&
+                            array_key_exists('algorithm', $options['compression']) &&
+                            array_key_exists('level', $options['compression'])
+                        ){
+                            switch(strtolower($options['compression']['algorithm'])){
+                                case 'gz':
+                                    $record_data = Core::object($record->data(), Core::OBJECT_JSON);
+                                    $gz = gzencode($record_data, $options['compression']['level']);
+                                    Dir::create(Dir::name($url));
+                                    File::write($url, $gz);
+                                    break;
+                            }
+                        } else {
+                            $record->write($url);
+                        }
                         if ($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
                             $command = 'chmod 666 ' . $url;
                             exec($command);
@@ -773,7 +772,7 @@ Trait Create {
                         'class' => $name,
                         'options' => $options,
                         'url' => $url,
-                        'binary_search_url' => $binary_search_url,
+                        'binary_tree_url' => $binary_search_url,
                         'meta_url' => $meta_url,
                         'node' => $record->data(),
                     ]);
@@ -786,7 +785,7 @@ Trait Create {
                     'class' => $name,
                     'options' => $options,
                     'url' => $url,
-                    'binary_search_url' => $binary_search_url,
+                    'binary_tree_url' => $binary_search_url,
                     'meta_url' => $meta_url,
                     'node' => $object->request('node'),
                     'error' => $validate->test,
