@@ -285,6 +285,7 @@ Trait NodeList {
                             'mtime' => $mtime
                         ]
                     );
+                    d(File::read($filter_url));
                     ddd($list);
                 } else {
                     $sort_key = [
