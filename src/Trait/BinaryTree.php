@@ -876,6 +876,7 @@ Trait BinaryTree {
                 $record
             ){
                 $read = $object->data_read($record->{'#read'}->url, sha1($record->{'#read'}->url));
+                d($read);
                 if($read){
                     $record = Core::object_merge($record, $read->data());
                 }
