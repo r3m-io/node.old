@@ -700,7 +700,7 @@ Trait Create {
                             $binary_tree = File::read($binary_tree_url, File::ARRAY);
                             if(is_array($binary_tree)){
                                 $binary_tree_count = count($binary_tree);
-                                $binary_tree[$binary_tree_count] .= PHP_EOL;
+                                $binary_tree[$binary_tree_count - 1] .= PHP_EOL;
                             } else {
                                 $binary_tree = [];
                             }
