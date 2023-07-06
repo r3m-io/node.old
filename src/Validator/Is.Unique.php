@@ -101,7 +101,7 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
         'Uuid' .
         $object->config('extension.btree');
 
-    $url_connect_property = File::basename($url) . '.connect';
+    $url_connect_property = Dir::name($url) . File::basename($url) . '.connect';
 
     d($url);
     d($class);
