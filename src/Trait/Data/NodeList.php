@@ -263,7 +263,7 @@ Trait NodeList {
 //                    $file = new SplFileObject($filter_url);
                     $list = [];
                     if($read){
-                        foreach($read->data() as $index => $record){
+                        foreach($read->data($name) as $index => $record){
                             if(property_exists($record, 'uuid')){
                                 $record->{'#read'} = [];
                                 $record->{'#read'}['url'] = $filter_url;
