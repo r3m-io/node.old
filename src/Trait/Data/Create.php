@@ -715,7 +715,7 @@ Trait Create {
                         sort($binary_tree, SORT_NATURAL);
                         $lines = File::write(
                             $binary_tree_url,
-                            implode('', $binary_tree),
+                            implode(PHP_EOL, $binary_tree),
                             File::LINES
                         );
                         d($binary_tree);
