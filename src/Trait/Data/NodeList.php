@@ -304,7 +304,6 @@ Trait NodeList {
                                 'mtime' => $mtime
                             ]
                         );
-                        ddd($list);
                     }
                 }
                 $result = [];
@@ -328,7 +327,7 @@ Trait NodeList {
                         'ramdisk_url' => $ramdisk_url,
                     ]);
                 }
-                d($result);
+                ddd($result);
                 return $result;
             }
             elseif(!empty($options['where'])){
