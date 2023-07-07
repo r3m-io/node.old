@@ -810,7 +810,6 @@ Trait BinaryTree {
         }
         $time_start = microtime(true);
         $url = false;
-        d($options);
         if(
             array_key_exists('mtime', $options) &&
             array_key_exists('ramdisk', $options) &&
@@ -948,7 +947,10 @@ Trait BinaryTree {
             $options['ramdisk'] === true &&
             $url
         ){
-            $cache = new Storage($page);
+            $cache = new Storage();
+            $cache->set('counter', $counter);
+            $cache->set('page', $page);
+            $cache->set('options', $options);
             $cache->write($url);
             File::touch($url, $options['mtime']);
             File::touch($options['url'], $options['mtime']);
