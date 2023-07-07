@@ -814,6 +814,8 @@ Trait BinaryTree {
         d($debug[0]['file'] . ':' . $debug[0]['line']);
         d($debug[1]['file'] . ':' . $debug[1]['line']);
         d($debug[2]['file'] . ':' . $debug[2]['line']);
+        d($debug[3]['file'] . ':' . $debug[3]['line']);
+        d($debug[4]['file'] . ':' . $debug[4]['line']);
         ddd($options);
         if(
             array_key_exists('mtime', $options) &&
