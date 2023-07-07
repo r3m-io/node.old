@@ -695,9 +695,11 @@ Trait Create {
                                 $value = trim($value);
                                 if(empty($value)){
                                     unset($binary_tree[$key]);
+                                    continue;
                                 }
                                 if(strlen($value) > 36){
                                     unset($binary_tree[$key]);
+                                    continue;
                                 }
                                 $binary_tree[$binary_tree_count] = $value;
                                 $binary_tree_count++;
