@@ -587,11 +587,6 @@ Trait Create {
             'Asc' .
             $object->config('ds')
         ;
-        $dir_binary_search =
-            $dir_binary_search_class .
-            'Asc' .
-            $object->config('ds')
-        ;
         $create_dir = $object->data('Create.dir');
         if(empty($create_dir)){
             $this->sync_file([
@@ -616,10 +611,6 @@ Trait Create {
             'Uuid' .
             $object->config('extension.btree')
         ;
-        $binary_search_url =
-            $dir_binary_search .
-            'Uuid' .
-            $object->config('extension.json');
         $meta_url = $dir_meta . $name . $object->config('extension.json');
         if(
             array_key_exists('validation', $options) &&
@@ -716,12 +707,14 @@ Trait Create {
                             implode('', $binary_tree),
                             File::LINES
                         );
+                        d($binary_tree);
+                        ddd($binary_tree_url);
                         if ($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
-                            $command = 'chmod 666 ' . $binary_search_url;
+                            $command = 'chmod 666 ' . $binary_tree_url;
                             exec($command);
                         }
                         if ($object->config(Config::POSIX_ID) === 0) {
-                            $command = 'chown www-data:www-data ' . $binary_search_url;
+                            $command = 'chown www-data:www-data ' . $binary_tree_url;
                             exec($command);
                         }
                         $meta = $object->data_read($meta_url);
@@ -776,7 +769,7 @@ Trait Create {
                         'class' => $name,
                         'options' => $options,
                         'url' => $url,
-                        'binary_tree_url' => $binary_search_url,
+                        'binary_tree_url' => $binary_tree_url,
                         'meta_url' => $meta_url,
                         'node' => $record->data(),
                     ]);
@@ -789,7 +782,7 @@ Trait Create {
                     'class' => $name,
                     'options' => $options,
                     'url' => $url,
-                    'binary_tree_url' => $binary_search_url,
+                    'binary_tree_url' => $binary_tree_url,
                     'meta_url' => $meta_url,
                     'node' => $object->request('node'),
                     'error' => $validate->test,
