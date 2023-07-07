@@ -307,7 +307,7 @@ Trait NodeList {
                                     new Storage($record),
                                     $expose,
                                     $record->{'#class'},
-                                    $options['function'],
+                                    $options['function'],   //maybe change this (because filter has different read attributes)
                                     $role
                                 );
                                 $record = $record->data();
@@ -315,7 +315,6 @@ Trait NodeList {
                             }
                         }
                     }
-                    ddd($list);
                 } else {
                     $sort_key = [
                         'property' => $properties,
