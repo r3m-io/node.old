@@ -810,6 +810,8 @@ Trait BinaryTree {
         }
         $time_start = microtime(true);
         $url = false;
+        $debug = debug_backtrace(true);
+        d($debug[0]['file'] . ':' . $debug[0]['line']);
         ddd($options);
         $options['ramdisk'] = false; //cache disabled
         if(
