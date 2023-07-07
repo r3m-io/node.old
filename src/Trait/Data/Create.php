@@ -712,7 +712,6 @@ Trait Create {
                         }
                         $binary_tree[$binary_tree_count] = $uuid;
                         $binary_tree_count++;
-                        ddd($binary_tree);
                         sort($binary_tree, SORT_NATURAL);
                         $lines = File::write(
                             $binary_tree_url,
