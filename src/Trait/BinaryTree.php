@@ -949,7 +949,7 @@ Trait BinaryTree {
             $url
         ){
             $cache = new Storage();
-            $cache->set('counter', $counter);
+            $options['count'] = $counter;
             $cache->set('page', $page);
             $cache->set('options', $options);
             $cache->write($url);
