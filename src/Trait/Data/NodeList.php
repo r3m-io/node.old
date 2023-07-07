@@ -259,11 +259,11 @@ Trait NodeList {
                     $mtime === $filter_mtime &&
                     $lines >= 0
                 ){
-                    $read = $object->data_read($filter_url, $key);
+                    $list_data = $object->data_read($filter_url, $key);
 //                    $file = new SplFileObject($filter_url);
                     $list = [];
-                    if($read){
-                        foreach($read->data($key) as $index => $record){
+                    if($list_data){
+                        foreach($list_data->data($key) as $index => $record){
                             if(property_exists($record, 'uuid')){
                                 $record->{'#read'} = [];
                                 $record->{'#read'}['url'] = $object->config('project.dir.data') .
@@ -279,6 +279,38 @@ Trait NodeList {
                                 $record->{'#read'}['lines'] = $lines;
                                 $record->{'#read'}['count'] = $count;
                                 $record->{'#read'} = (object) $record->{'#read'};
+                                $read = $object->data_read($record->{'#read'}->url, sha1($record->{'#read'}->url));
+                                if($read){
+                                    $record = Core::object_merge($record, $read->data());
+                                }
+                                if(!property_exists($record, '#class')){
+                                    //need to trigger sync
+                                    continue;
+                                }
+                                $object_url = $object->config('project.dir.data') .
+                                'Node' .
+                                $object->config('ds') .
+                                'Object' .
+                                $object->config('ds') .
+                                ucfirst($record->{'#class'}) .
+                                $object->config('extension.json')
+                                ;
+                                $options_json = Core::object($options, Core::OBJECT_JSON);
+                                $object_data = $object->data_read($object_url, sha1($object_url . '.' . $options_json));
+                                $record = $this->binary_tree_relation($record, $object_data, $role, $options);
+                                $expose = $this->expose_get(
+                                    $object,
+                                    $record->{'#class'},
+                                    $record->{'#class'} . '.' . $options['function'] . '.expose'
+                                );
+                                $record = $this->expose(
+                                    new Storage($record),
+                                    $expose,
+                                    $record->{'#class'},
+                                    $options['function'],
+                                    $role
+                                );
+                                $record = $record->data();
                                 $list[] = $record;
                             }
                         }
