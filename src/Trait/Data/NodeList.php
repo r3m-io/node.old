@@ -253,6 +253,7 @@ Trait NodeList {
                     $key .
                     $object->config('extension.json')
                 ;
+                $filter_url = false;
                 $filter_mtime = File::mtime($filter_url);
                 if(
                     File::exist($filter_url) &&
@@ -277,9 +278,6 @@ Trait NodeList {
                         File::exist($url) &&
                         $lines > 0
                     ){
-                        d($url);
-                        d($url_uuid);
-                        d($url_connect_property);
                         $file = new SplFileObject($url);
                         $file_uuid = new splFileObject($url_uuid);
                         $file_connect_property =new splFileObject($url_connect_property);
