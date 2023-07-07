@@ -86,7 +86,9 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
         throw new Exception('Url not set for Is.Unique');
     }
     if(File::exist($url) === false){
-        //log url doesn't exist for is.unique (maybe new object)
+        if($object->config('project.log.node')){
+            $object->logger($object->config('project.log.node'))->info('Is.Unique: ' . $url . ' doesn\'t exist (new object) ?');
+        }
         return true;
     }
     if($class === false){
@@ -105,12 +107,6 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
         $object->config('extension.btree');
 
     $url_connect_property = Dir::name($url) . File::basename($url) . '.connect';
-
-    d($url);
-    d($class);
-    d($url_uuid);
-    d($url_connect_property);
-
     $unique = $object->data('Is.Unique');
     if (empty($unique)) {
         $unique = new Node($object);
@@ -129,7 +125,6 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
     ){
         $options['ramdisk'] = true;
     }
-    ddd($options);
     $record = $unique->record($class, $unique->role_system(), $options);
     ddd($record);
     if (empty($record)) {
