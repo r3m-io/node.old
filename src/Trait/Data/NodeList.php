@@ -258,35 +258,10 @@ Trait NodeList {
                     $mtime === $filter_mtime &&
                     $lines >= 0
                 ){
-                    $file = new SplFileObject($filter_url);
-                    $file_uuid = new splFileObject($url_uuid);
-                    $file_connect_property =new splFileObject($url_connect_property);
-//                        $options['filter']['#key'] = $key;
-                    $list = $this->binary_tree_page(
-                        $file,
-                        $file_uuid,
-                        $file_connect_property,
-                        $role,
-                        $counter,
-                        [
-                            'filter' => $options['filter'],
-                            'page' => $options['page'] ?? 1,
-                            'limit' => $options['limit'] ?? 1000,
-                            'lines'=> $lines,
-                            'counter' => 0,
-                            'direction' => 'next',
-                            'url' => $filter_url,
-                            'url_uuid' => $url_uuid,
-                            'url_connect_property' => $url_connect_property,
-                            'function' => $options['function'],
-                            'relation' => $options['relation'],
-                            'name' => $name,
-                            'ramdisk' => $options['ramdisk'] ?? false,
-                            'mtime' => $mtime
-                        ]
-                    );
-                    d(File::read($filter_url));
-                    ddd($list);
+                    $read = $object->data_read($filter_url, $key);
+//                    $file = new SplFileObject($filter_url);
+
+                    ddd($read);
                 } else {
                     $sort_key = [
                         'property' => $properties,
