@@ -851,7 +851,9 @@ Trait BinaryTree {
                             $object->logger($object->config('project.log.node'))->info('Duration: (9) ' . round($duration, 2) . ' sec url: ' . $options['url']);
                         }
                     }
-                    return (array) $data->data();
+                    $result = (array) $data->data();
+                    ddd($result);
+                    return $result;
                 }
             }
         }
