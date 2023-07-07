@@ -25,7 +25,6 @@ Trait Record {
             throw new Exception('Sort is missing in options');
         }
         $options['debug'] = true;
-        d($options);
         $list = $this->list($class, $role, $options);
         if(
             is_array($list) &&
@@ -35,6 +34,9 @@ Trait Record {
             $record = $list;
             $record['node'] = $list['list'][0];
             unset($record['list']);
+            unset($record['page']);
+            unset($record['limit']);
+            unset($record['count']);
             return $record;
         }
         return null;
