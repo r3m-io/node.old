@@ -114,6 +114,7 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
         $unique = new Node($object);
         $object->data('Is.Unique', $unique);
     }
+    ddd($options);
     $record = $unique->record($class, $unique->role_system(), $options);
     ddd($record);
     if (empty($record)) {
