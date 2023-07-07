@@ -264,6 +264,7 @@ Trait NodeList {
                         'lines' => $lines,
                         'count' => $count,
                         'key' => $key,
+                        'function' => $options['function'],
                     ]);
                 } else {
                     $sort_key = [

@@ -39,6 +39,9 @@ Trait Filter {
         if(!array_key_exists('count', $options)){
             return $list;
         }
+        if(!array_key_exists('function', $options)){
+            return $list;
+        }
         $list_data = $object->data_read($options['url'], $options['key']);
         if($list_data){
             foreach($list_data->data($options['key']) as $index => $record){
