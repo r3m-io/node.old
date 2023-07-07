@@ -49,52 +49,6 @@ Trait NodeList {
         return false;
     }
 
-    /*
-    private function ramdisk_permission($options=[]): void
-    {
-        if(!array_key_exists('ramdisk_url', $options)){
-            return;
-        }
-        if(!array_key_exists('ramdisk_dir', $options)){
-            return;
-        }
-        if(!array_key_exists('namespace_dir', $options)){
-            return;
-        }
-        if(!array_key_exists('package_dir', $options)){
-            return;
-        }
-        if(!array_key_exists('user_dir', $options)){
-            return;
-        }
-        $object = $this->object();
-        if($object->config(Config::POSIX_ID) === 0){
-            $command = 'chown www-data:www-data ' . $options['ramdisk_url'];
-            exec($command);
-            $command = 'chown www-data:www-data ' . $options['ramdisk_dir'];
-            exec($command);
-            $command = 'chown www-data:www-data ' . $options['namespace_dir'];
-            exec($command);
-            $command = 'chown www-data:www-data ' . $options['package_dir'];
-            exec($command);
-            $command = 'chown www-data:www-data ' . $options['user_dir'];
-            exec($command);
-        }
-        if($object->config('framework.environment') === Config::MODE_DEVELOPMENT){
-            $command = 'chmod 666 ' . $options['ramdisk_url'];
-            exec($command);
-            $command = 'chmod 777 ' . $options['ramdisk_dir'];
-            exec($command);
-            $command = 'chmod 777 ' . $options['namespace_dir'];
-            exec($command);
-            $command = 'chmod 777 ' . $options['package_dir'];
-            exec($command);
-            $command = 'chmod 777 ' . $options['user_dir'];
-            exec($command);
-        }
-    }
-    */
-
     /**
      * @throws ObjectException
      * @throws FileWriteException
@@ -196,7 +150,6 @@ Trait NodeList {
         if(!array_key_exists('filter', $options)){
             $options['filter'] = [];
         }
-        d($url);
         if(!File::exist($url)){
             $list = [];
             $result = [];
@@ -319,7 +272,6 @@ Trait NodeList {
                 $result['mtime'] = $mtime;
                 if($ramdisk_url){
                     $ramdisk_data = new Storage($result);
-                    d($ramdisk_url);
                     $ramdisk_data->write($ramdisk_url);
                     //sync_permission
                     $this->sync_file([
@@ -330,7 +282,6 @@ Trait NodeList {
                         'ramdisk_url' => $ramdisk_url,
                     ]);
                 }
-                ddd($result);
                 return $result;
             }
             elseif(!empty($options['where'])){
