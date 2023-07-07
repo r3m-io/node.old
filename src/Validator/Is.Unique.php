@@ -106,12 +106,6 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
     if(empty($node_ramdisk)){
         $node_ramdisk = [];
     }
-    d($node_ramdisk);
-    d($class);
-    d($object->config('package.r3m-io/node.ramdisk'));
-    d($object->config('package.r3m-io/node'));
-    d($object->config('package'));
-    d($object->config());
     if(
         in_array(
             $class,
@@ -121,7 +115,6 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
     ){
         $options['ramdisk'] = true;
     }
-    ddd($options);
     $record = $unique->record($class, $unique->role_system(), $options);
     ddd($record);
     if (empty($record)) {
