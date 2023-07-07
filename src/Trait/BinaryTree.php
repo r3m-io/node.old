@@ -812,8 +812,9 @@ Trait BinaryTree {
         $url = false;
         $debug = debug_backtrace(true);
         d($debug[0]['file'] . ':' . $debug[0]['line']);
+        d($debug[1]['file'] . ':' . $debug[1]['line']);
+        d($debug[2]['file'] . ':' . $debug[2]['line']);
         ddd($options);
-        $options['ramdisk'] = false; //cache disabled
         if(
             array_key_exists('mtime', $options) &&
             array_key_exists('ramdisk', $options) &&
