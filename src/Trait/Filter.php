@@ -1,6 +1,11 @@
 <?php
 namespace R3m\Io\Node\Trait;
 
+use R3m\Io\Module\Core;
+use R3m\Io\Module\Controller;
+use R3m\Io\Module\Data as Storage;
+use R3m\Io\Module\Filter as Module;
+
 Trait Filter {
 
     /**
@@ -10,7 +15,7 @@ Trait Filter {
 
         $list = [];
         $list[] = $record;
-        $list = \R3m\Io\Module\Filter::list($list)->where($filter);
+        $list = Module::list($list)->where($filter);
         if(!empty($list)){
             return $record;
         }
@@ -19,7 +24,7 @@ Trait Filter {
 
     public function filter_nodelist($class, $role, $options): array
     {
-        $name = Controller::name($class);
+        $name =  Controller::name($class);
         $object = $this->object();
         $list = [];
         if(!array_key_exists('url', $options)){
