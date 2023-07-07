@@ -330,6 +330,7 @@ Trait NodeList {
                         'ramdisk_url' => $ramdisk_url,
                     ]);
                 }
+                d($result)l
                 return $result;
             }
             elseif(!empty($options['where'])){
