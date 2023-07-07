@@ -106,6 +106,8 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
     if(empty($node_ramisk)){
         $node_ramdisk = [];
     }
+    d($node_ramdisk);
+    d($class);
     if(
         in_array(
             $class,
