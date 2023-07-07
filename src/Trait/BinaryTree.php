@@ -949,9 +949,11 @@ Trait BinaryTree {
             $url
         ){
             $cache = new Storage();
-            $options['count'] = $counter;
             $cache->set('page', $page);
-            $cache->set('options', $options);
+            $cache->set('input', $options);
+            $cache->set('output.count', $counter);
+            $cache->set('output.page', $options['page']);
+            $cache->set('output.limit', $options['limit']);
             $cache->write($url);
             File::touch($url, $options['mtime']);
             File::touch($options['url'], $options['mtime']);
