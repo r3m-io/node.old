@@ -852,6 +852,7 @@ Trait BinaryTree {
                     }
                     $data->set('output.key', $key);
                     $result = (array) $data->data('page');
+                    $counter = $data->data('output.count');
                     return $result;
                 }
             }
