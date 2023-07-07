@@ -304,6 +304,8 @@ Trait NodeList {
                                 'mtime' => $mtime
                             ]
                         );
+                        d($list);
+                        ddd($counter);
                     }
                 }
                 $result = [];
