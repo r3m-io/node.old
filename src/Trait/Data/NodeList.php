@@ -278,7 +278,7 @@ Trait NodeList {
                                 ;
                                 $record->{'#read'}['lines'] = $lines;
                                 $record->{'#read'}['count'] = $count;
-                                $record['#read'] = (object) $record['#read'];
+                                $record->{'#read'} = (object) $record->{'#read'};
                                 $list[] = $record;
                             }
                         }
