@@ -87,7 +87,7 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
     }
     if(File::exist($url) === false){
         if($object->config('project.log.node')){
-            $object->logger($object->config('project.log.node'))->info('R3m-io/Node/Validator/Is.Unique: ' . $url . ' doesn\'t exist (new object) ?');
+            $object->logger($object->config('project.log.node'))->info('R3m-io/Node/Validator/Is.Unique: ' . $url . ' doesn\'t exist (new class) ?');
         }
         return true;
     }
