@@ -49,6 +49,7 @@ Trait NodeList {
         return false;
     }
 
+    /*
     private function ramdisk_permission($options=[]): void
     {
         if(!array_key_exists('ramdisk_url', $options)){
@@ -92,6 +93,7 @@ Trait NodeList {
             exec($command);
         }
     }
+    */
 
     /**
      * @throws ObjectException
@@ -319,7 +321,8 @@ Trait NodeList {
                     $ramdisk_data = new Storage($result);
                     d($ramdisk_url);
                     $ramdisk_data->write($ramdisk_url);
-                    $this->ramdisk_permission([
+                    //sync_permission
+                    $this->sync_file([
                         'user_dir' => $user_dir,
                         'package_dir' => $package_dir,
                         'namespace_dir' => $namespace_dir,
@@ -434,7 +437,7 @@ Trait NodeList {
                 if($ramdisk_url){
                     $ramdisk_data = new Storage($result);
                     $ramdisk_data->write($ramdisk_url);
-                    $this->ramdisk_permission([
+                    $this->sync_file([
                         'user_dir' => $user_dir,
                         'package_dir' => $package_dir,
                         'namespace_dir' => $namespace_dir,
@@ -502,7 +505,7 @@ Trait NodeList {
                     if($ramdisk_url){
                         $ramdisk_data = new Storage($result);
                         $ramdisk_data->write($ramdisk_url);
-                        $this->ramdisk_permission([
+                        $this->sync_file([
                             'user_dir' => $user_dir,
                             'package_dir' => $package_dir,
                             'namespace_dir' => $namespace_dir,
