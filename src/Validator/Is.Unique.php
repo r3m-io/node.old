@@ -103,7 +103,7 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
         $object->data('Is.Unique', $unique);
     }
     $node_ramdisk = $object->config('package.r3m-io/node.ramdisk');
-    if(empty($node_ramisk)){
+    if(empty($node_ramdisk)){
         $node_ramdisk = [];
     }
     d($node_ramdisk);
