@@ -39,9 +39,11 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
                 $value = [];
                 foreach ($attribute as $nr => $record) {
                     $explode = explode(':', $record);
+                    /*
                     foreach($explode as $explode_nr => $explode_value){
                         $explode[$explode_nr] = trim($explode_value);
                     }
+                    */
                     $value[$nr] = $object->request('node.' . $explode[0]);
                 }
             }
@@ -113,6 +115,19 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
     if (empty($unique)) {
         $unique = new Node($object);
         $object->data('Is.Unique', $unique);
+    }
+    $node_ramisk = $object->config('package.r3m-io/node.ramdisk');
+    if(empty($node_ramisk)){
+        $node_ramisk = [];
+    }
+    if(
+        in_array(
+            $class,
+            $node_ramisk,
+            true
+        )
+    ){
+        $options['ramdisk'] = true;
     }
     ddd($options);
     $record = $unique->record($class, $unique->role_system(), $options);
