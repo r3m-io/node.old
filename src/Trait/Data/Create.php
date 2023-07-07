@@ -688,21 +688,29 @@ Trait Create {
                         }
                     } else {
                         $binary_tree_count = 0;
+                        $bin_tree = [];
                         if(File::exist($binary_tree_url)){
                             $binary_tree = File::read($binary_tree_url, File::ARRAY);
-                            ddd($binary_tree);
-
-                            if(is_array($binary_tree)){
-                                $binary_tree_count = count($binary_tree);
-                                $binary_tree[$binary_tree_count - 1] = $binary_tree[$binary_tree_count - 1] . PHP_EOL;
-                            } else {
-                                $binary_tree = [];
+                            foreach($binary_tree as $key => $value){
+                                $value = trim($value);
+                                if(empty($value)){
+                                    unset($binary_tree[$key]);
+                                }
+                                if(strlen($value) > 36){
+                                    unset($binary_tree[$key]);
+                                }
+                                $binary_tree[$binary_tree_count] = $value;
+                                $binary_tree_count++;
+                                if($key > $binary_tree_count){
+                                    unset($binary_tree[$key]);
+                                }
                             }
                         } else {
                             $binary_tree = [];
                         }
-                        $binary_tree[] = $uuid;
+                        $binary_tree[$binary_tree_count] = $uuid;
                         $binary_tree_count++;
+                        ddd($binary_tree);
                         sort($binary_tree, SORT_NATURAL);
                         $lines = File::write(
                             $binary_tree_url,
