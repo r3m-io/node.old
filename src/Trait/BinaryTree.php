@@ -810,7 +810,7 @@ Trait BinaryTree {
         }
         $time_start = microtime(true);
         $url = false;
-        ddd($options);
+        d($options);
         if(
             array_key_exists('mtime', $options) &&
             array_key_exists('ramdisk', $options) &&
