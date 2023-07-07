@@ -690,6 +690,8 @@ Trait Create {
                         $binary_tree_count = 0;
                         if(File::exist($binary_tree_url)){
                             $binary_tree = File::read($binary_tree_url, File::ARRAY);
+                            ddd($binary_tree);
+
                             if(is_array($binary_tree)){
                                 $binary_tree_count = count($binary_tree);
                                 $binary_tree[$binary_tree_count - 1] = $binary_tree[$binary_tree_count - 1] . PHP_EOL;
