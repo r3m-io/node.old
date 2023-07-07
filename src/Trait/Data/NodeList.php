@@ -242,6 +242,7 @@ Trait NodeList {
                 ];
                 $key = sha1(Core::object($key, Core::OBJECT_JSON));
                 $lines = $meta->get('Filter.' . $name . '.' . $key . '.lines');
+                $count = $meta->get('Filter.' . $name . '.' . $key . '.count');
                 $filter_url = $object->config('project.dir.data') .
                     'Node' .
                     $object->config('ds') .
@@ -260,8 +261,20 @@ Trait NodeList {
                 ){
                     $read = $object->data_read($filter_url, $key);
 //                    $file = new SplFileObject($filter_url);
-
-                    ddd($read);
+                    $list = [];
+                    if($read){
+                        foreach($read->data() as $index => $record){
+                            if(property_exists($record, 'uuid')){
+                                $record->{'#read'} = [];
+                                $record->{'#read'}['url'] = $filter_url;
+                                $record->{'#read'}['lines'] = $lines;
+                                $record->{'#read'}['count'] = $count;
+                                $record['#read'] = (object) $record['#read'];
+                                $list[] = $record;
+                            }
+                        }
+                    }
+                    ddd($list);
                 } else {
                     $sort_key = [
                         'property' => $properties,
