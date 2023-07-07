@@ -850,7 +850,8 @@ Trait BinaryTree {
                             $object->logger($object->config('project.log.node'))->info('Duration: (9) ' . round($duration, 2) . ' sec url: ' . $options['url']);
                         }
                     }
-                    $result = (array) $data->data();
+                    ddd($data);
+                    $result = (array) $data->data('page');
                     ddd($result);
                     return $result;
                 }
