@@ -718,8 +718,6 @@ Trait Create {
                             implode(PHP_EOL, $binary_tree),
                             File::LINES
                         );
-                        d($binary_tree);
-                        ddd($binary_tree_url);
                         if ($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
                             $command = 'chmod 666 ' . $binary_tree_url;
                             exec($command);
