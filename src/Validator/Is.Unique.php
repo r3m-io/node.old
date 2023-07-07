@@ -87,39 +87,29 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
     }
     if(File::exist($url) === false){
         if($object->config('project.log.node')){
-            $object->logger($object->config('project.log.node'))->info('Is.Unique: ' . $url . ' doesn\'t exist (new object) ?');
+            $object->logger($object->config('project.log.node'))->info('R3m-io/Node/Validator/Is.Unique: ' . $url . ' doesn\'t exist (new object) ?');
         }
         return true;
     }
     if($class === false){
+        if($object->config('project.log.node')){
+            $object->logger($object->config('project.log.node'))->info('R3m-io/Node/Validator/Is.Unique: Class not set for Is.Unique');
+        }
         throw new Exception('Class not set for Is.Unique');
     }
-    $url_uuid = $object->config('project.dir.data') .
-        'Node' .
-        $object->config('ds') .
-        'BinaryTree' .
-        $object->config('ds') .
-        $class .
-        $object->config('ds') .
-        'Asc' .
-        $object->config('ds') .
-        'Uuid' .
-        $object->config('extension.btree');
-
-    $url_connect_property = Dir::name($url) . File::basename($url) . '.connect';
     $unique = $object->data('Is.Unique');
     if (empty($unique)) {
         $unique = new Node($object);
         $object->data('Is.Unique', $unique);
     }
-    $node_ramisk = $object->config('package.r3m-io/node.ramdisk');
+    $node_ramdisk = $object->config('package.r3m-io/node.ramdisk');
     if(empty($node_ramisk)){
-        $node_ramisk = [];
+        $node_ramdisk = [];
     }
     if(
         in_array(
             $class,
-            $node_ramisk,
+            $node_ramdisk,
             true
         )
     ){
