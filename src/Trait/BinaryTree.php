@@ -852,7 +852,6 @@ Trait BinaryTree {
                     }
                     $data->set('output.key', $key);
                     $result = (array) $data->data('page');
-                    ddd($result);
                     return $result;
                 }
             }
