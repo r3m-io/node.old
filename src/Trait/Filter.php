@@ -59,6 +59,7 @@ Trait Filter {
                     ;
                     $record->{'#read'}['lines'] = $options['lines'];
                     $record->{'#read'}['count'] = $options['count'];
+                    $record->{'#read'}['index'] = $index;
                     $record->{'#read'} = (object) $record->{'#read'};
                     $read = $object->data_read($record->{'#read'}->url, sha1($record->{'#read'}->url));
                     if($read){
