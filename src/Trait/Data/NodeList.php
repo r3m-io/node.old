@@ -266,7 +266,16 @@ Trait NodeList {
                         foreach($read->data($key) as $index => $record){
                             if(property_exists($record, 'uuid')){
                                 $record->{'#read'} = [];
-                                $record->{'#read'}['url'] = $filter_url;
+                                $record->{'#read'}['url'] = $object->config('project.dir.data') .
+                                    'Node' .
+                                    $object->config('ds') .
+                                    'Storage' .
+                                    $object->config('ds') .
+                                    substr($record->uuid, 0, 2) .
+                                    $object->config('ds') .
+                                    $record->uuid .
+                                    $object->config('extension.json')
+                                ;
                                 $record->{'#read'}['lines'] = $lines;
                                 $record->{'#read'}['count'] = $count;
                                 $record['#read'] = (object) $record['#read'];
