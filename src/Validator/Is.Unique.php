@@ -110,7 +110,7 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
     d($class);
     d($object->config('package.r3m-io/node.ramdisk'));
     d($object->config('package.r3m-io/node'));
-    e($object->config('package'));
+    d($object->config('package'));
     d($object->config());
     if(
         in_array(
