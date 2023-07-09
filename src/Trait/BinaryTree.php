@@ -1389,7 +1389,9 @@ Trait BinaryTree {
         d($file);
         if(
             $file_connect_property === null &&
-            $file
+            $file &&
+            $file_uuid &&
+            $file === $file_uuid
         ){
             ddd($options);
             ddd(rtrim($file->current(), PHP_EOL));
