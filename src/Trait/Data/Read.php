@@ -16,6 +16,7 @@ Trait Read {
      */
     public function read($class, $role, $options=[]): false|array|object
     {
+        $object = $this->object();
         $name = Controller::name($class);
         $options = Core::object($options, Core::OBJECT_ARRAY);
         if(!array_key_exists('uuid', $options)){
@@ -34,6 +35,17 @@ Trait Read {
             'function' => __FUNCTION__,
             'multiple' => true
         ];
+        $ramdisk = $object->data('package/r3m-io.ramdisk');
+        if(empty($ramdisk)){
+            $ramdisk = [];
+        }
+        if(in_array(
+            $name,
+            $ramdisk,
+            true
+        )){
+            $options_record['ramdisk'] = true;
+        }
         $data = $this->record($name, $role, $options_record);
         if($data){
             return $data;
