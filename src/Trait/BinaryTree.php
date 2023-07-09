@@ -1404,6 +1404,7 @@ Trait BinaryTree {
             $options['url'] === $options['url_uuid'] &&
             array_key_exists('line', $options)
         ){
+            d($options);
             return rtrim($options['line'], PHP_EOL);
         }
         elseif(
