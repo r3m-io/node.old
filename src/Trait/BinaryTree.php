@@ -1315,7 +1315,7 @@ Trait BinaryTree {
                 break;
             }
             if ($options['index'] === $seek) {
-                echo $line . PHP_EOL;
+                $options['line'] = $line;
 //                echo 'Seek: ' . $seek . ' options.index: ' . $options['index'] . PHP_EOL;
                 $uuid = $this->binary_tree_uuid($file, $file_uuid, $file_connect_property, $options);
 //                echo 'UUID: ' . $uuid . PHP_EOL;
@@ -1389,6 +1389,7 @@ Trait BinaryTree {
             $file_connect_property === null &&
             $file
         ){
+            ddd($options);
             ddd(rtrim($file->current(), PHP_EOL));
         }
         elseif(
