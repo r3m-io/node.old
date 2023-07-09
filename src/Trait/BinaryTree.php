@@ -820,11 +820,6 @@ Trait BinaryTree {
         }
         $time_start = microtime(true);
         $url = false;
-        d($options);
-        $debug = debug_backtrace(true);
-        d($debug[0]['file'] . ' line: ' . $debug[0]['line'] );
-        d($debug[1]['file'] . ' line: ' . $debug[1]['line'] );
-        d($debug[2]['file'] . ' line: ' . $debug[2]['line'] );
         if(
             array_key_exists('mtime', $options) &&
             array_key_exists('ramdisk', $options) &&

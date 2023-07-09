@@ -36,7 +36,6 @@ Trait Read {
             'multiple' => true
         ];
         $ramdisk_record = $object->config('package.r3m-io/node.ramdisk');
-        d($ramdisk_record);
         if(empty($ramdisk_record)){
             $ramdisk_record = [];
         }
@@ -47,7 +46,7 @@ Trait Read {
         )){
             $options_record['ramdisk'] = true;
         }
-        d($options_record);
+        $options_record['ramdisk'] = false;
         $data = $this->record($name, $role, $options_record);
         if($data){
             return $data;
