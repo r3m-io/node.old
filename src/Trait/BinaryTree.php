@@ -41,6 +41,8 @@ Trait BinaryTree {
             'Uuid' .
             $object->config('extension.btree')
         ;
+        d($url);
+        d(File::exist($url));
         if(!File::exist($url)){
             return;
         }
