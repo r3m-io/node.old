@@ -114,8 +114,16 @@ Trait BinaryTree {
             ];
             $key = sha1(Core::object($key, Core::OBJECT_JSON));
             $file = new SplFileObject($url_property);
-            $file_uuid = new splFileObject($url_uuid);
-            $file_connect_property =new splFileObject($url_connect_property);
+            if(File::exist($url_uuid)){
+                $file_uuid = new SplFileObject($url_uuid);
+            } else {
+                $file_uuid = null;
+            }
+            if(File::exist($url_connect_property)){
+                $file_connect_property = new SplFileObject($url_connect_property);
+            } else {
+                $file_connect_property = null;
+            }
             $limit = $meta->get('Filter.' . $name . '.' . $key . '.limit') ?? 1000;
             $filter_list = $this->binary_tree_page(
                 $file,
@@ -1307,7 +1315,7 @@ Trait BinaryTree {
             }
             if ($options['index'] === $seek) {
 //                echo 'Seek: ' . $seek . ' options.index: ' . $options['index'] . PHP_EOL;
-                $uuid = $this->binary_tree_uuid($file_uuid, $file_connect_property, $options);
+                $uuid = $this->binary_tree_uuid($file, $file_uuid, $file_connect_property, $options);
 //                echo 'UUID: ' . $uuid . PHP_EOL;
                 if($uuid){
                     $record = [];
@@ -1371,10 +1379,17 @@ Trait BinaryTree {
         return false;
     }
 
-    private function binary_tree_uuid($file_uuid, $file_connect_property, $options=[]): ?string
+    private function binary_tree_uuid($file, $file_uuid, $file_connect_property, $options=[]): ?string
     {
         $object = $this->object();
         if(
+            $file_uuid === null &&
+            $file_connect_property === null &&
+            $file
+        ){
+            ddd(rtrim($file->current(), PHP_EOL));
+        }
+        elseif(
             array_key_exists('url_connect_property', $options) &&
             File::exist($options['url_connect_property']) &&
             array_key_exists('url_uuid', $options) &&
