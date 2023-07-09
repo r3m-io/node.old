@@ -1260,6 +1260,7 @@ Trait BinaryTree {
      * @throws Exception
      */
     private function binary_tree_index($file, $file_uuid, $file_connect_property, $options=[]){
+        d($options);
         if(!array_key_exists('counter', $options)){
             $options['counter'] = 0;
         }
@@ -1267,7 +1268,6 @@ Trait BinaryTree {
             return false;
         }
         if(!array_key_exists('index', $options)){
-            d('found');
             return false;
         } else {
             $options['index'] = (float) $options['index'];
