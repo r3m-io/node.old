@@ -1391,7 +1391,10 @@ Trait BinaryTree {
             $file_connect_property === null &&
             $file &&
             $file_uuid &&
-            $file === $file_uuid
+            array_key_exists('url', $options) &&
+            File::exist($options['url']) &&
+            array_key_exists('url_uuid', $options) &&
+            $options['url'] === $options['url_uuid']
         ){
             ddd($options);
             ddd(rtrim($file->current(), PHP_EOL));
