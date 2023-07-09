@@ -1384,9 +1384,6 @@ Trait BinaryTree {
     private function binary_tree_uuid($file, $file_uuid, $file_connect_property, $options=[]): ?string
     {
         $object = $this->object();
-        d($file_uuid);
-        d($file_connect_property);
-        d($file);
         if(
             $file_connect_property === null &&
             $file &&
@@ -1394,10 +1391,10 @@ Trait BinaryTree {
             array_key_exists('url', $options) &&
             File::exist($options['url']) &&
             array_key_exists('url_uuid', $options) &&
-            $options['url'] === $options['url_uuid']
+            $options['url'] === $options['url_uuid'] &&
+            array_key_exists('line', $options)
         ){
-            ddd($options);
-            ddd(rtrim($file->current(), PHP_EOL));
+            return rtrim($options['line'], PHP_EOL);
         }
         elseif(
             array_key_exists('url_connect_property', $options) &&
