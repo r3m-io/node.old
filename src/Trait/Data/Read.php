@@ -35,7 +35,7 @@ Trait Read {
             'function' => __FUNCTION__,
             'multiple' => true
         ];
-        $ramdisk = $object->data('package/r3m-io.ramdisk');
+        $ramdisk = $object->data('package.r3m-io/node.ramdisk');
         d($ramdisk);
         if(empty($ramdisk)){
             $ramdisk = [];
