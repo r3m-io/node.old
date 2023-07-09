@@ -244,8 +244,16 @@ Trait NodeList {
                     ){
                         d($url);
                         $file = new SplFileObject($url);
-                        $file_uuid = new splFileObject($url_uuid);
-                        $file_connect_property =new splFileObject($url_connect_property);
+                        if(File::exist($url_uuid)){
+                            $file_uuid = new SplFileObject($url_uuid);
+                        } else {
+                            $file_uuid = false;
+                        }
+                        if(File::exist($url_connect_property)){
+                            $file_connect_property = new SplFileObject($url_connect_property);
+                        } else {
+                            $file_connect_property = false;
+                        }
                         $list = $this->binary_tree_page(
                             $file,
                             $file_uuid,
