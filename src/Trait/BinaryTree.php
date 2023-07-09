@@ -952,6 +952,8 @@ Trait BinaryTree {
                     $counter++;
                 } else {
                     $end++;
+                    d($i);
+                    d($end);
                 }
             } else {
                 d('yes2');
