@@ -873,7 +873,7 @@ Trait BinaryTree {
         $end = $start + $options['limit'];
         $page = [];
         $record_index = $index;
-        d($i);
+        d($start);
         d($end);
         for($i = $start; $i < $end; $i++){
             d($i);
