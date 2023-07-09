@@ -1384,6 +1384,9 @@ Trait BinaryTree {
     private function binary_tree_uuid($file, $file_uuid, $file_connect_property, $options=[]): ?string
     {
         $object = $this->object();
+        d($file_uuid);
+        d($file_connect_property);
+        d($file);
         if(
             $file_uuid === null &&
             $file_connect_property === null &&
