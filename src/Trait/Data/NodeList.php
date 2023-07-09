@@ -254,6 +254,9 @@ Trait NodeList {
                         } else {
                             $file_connect_property = false;
                         }
+                        d($url);
+                        d($url_uuid);
+                        d($url_connect_property);
                         d($file);
                         d($file_uuid);
                         d($file_connect_property);
