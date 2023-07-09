@@ -944,6 +944,7 @@ Trait BinaryTree {
                 ){
                     $record = $this->where($record, $options['where'], $options);
                 }
+                d($record);
                 if($record){
                     $record->{'#index'} = $record_index;
                     $page[] = $record;
@@ -953,6 +954,7 @@ Trait BinaryTree {
                     $end++;
                 }
             } else {
+                d('yes2');
                 break;
             }
         }
