@@ -41,6 +41,9 @@ Trait BinaryTree {
             'Uuid' .
             $object->config('extension.btree')
         ;
+        if(!File::exist($url)){
+            return;
+        }
         $url_uuid = $url;
         $meta_url = $object->config('project.dir.data') .
             'Node' .
@@ -50,10 +53,6 @@ Trait BinaryTree {
             $name .
             $object->config('extension.json')
         ;
-        $data = $object->data_read($url);
-        if(!$data){
-            return;
-        }
         $meta = $object->data_read($meta_url, sha1($meta_url));
         if(!$meta){
             return;
