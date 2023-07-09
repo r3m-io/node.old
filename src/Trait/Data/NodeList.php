@@ -238,6 +238,7 @@ Trait NodeList {
                         File::exist($url) &&
                         $lines > 0
                     ){
+                        d($url);
                         $file = new SplFileObject($url);
                         $file_uuid = new splFileObject($url_uuid);
                         $file_connect_property =new splFileObject($url_connect_property);
@@ -264,6 +265,7 @@ Trait NodeList {
                                 'mtime' => $mtime
                             ]
                         );
+                        d($list);
                     }
                 }
                 $result = [];
