@@ -86,8 +86,8 @@ Trait BinaryTree {
             }
             $properties[] = $key;
         }
-        d($property);
         $property = implode('-', $properties);
+        d($property);
         $url_connect_property = $dir_binary_tree .
             $url_connect_key .
             Controller::name($property) .
