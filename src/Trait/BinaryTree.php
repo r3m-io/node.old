@@ -873,11 +873,7 @@ Trait BinaryTree {
         $end = $start + $options['limit'];
         $page = [];
         $record_index = $index;
-        d($start);
-        d($end);
         for($i = $start; $i < $end; $i++){
-            d($i);
-            d($end);
             $record = $this->binary_tree_index($file, $file_uuid, $file_connect_property, [
 //                'page' => $options['page'],
 //                'limit' => $options['limit'],
@@ -896,10 +892,10 @@ Trait BinaryTree {
                 if($read){
                     $record = Core::object_merge($record, $read->data());
                 }
-                d($record);
                 if(!property_exists($record, '#class')){
                     $end++;
                     //need to trigger sync
+                    //delete file ?
                     continue;
                 }
                 $object_url = $object->config('project.dir.data') .
@@ -940,7 +936,6 @@ Trait BinaryTree {
                     !empty($options['filter'])
                 ){
                     $record = $this->filter($record, $options['filter'], $options);
-                    d($record);
                 }
                 elseif(
                     !empty($record) &&
@@ -948,7 +943,6 @@ Trait BinaryTree {
                 ){
                     $record = $this->where($record, $options['where'], $options);
                 }
-                d($record);
                 if($record){
                     $record->{'#index'} = $record_index;
                     $page[] = $record;
@@ -956,11 +950,8 @@ Trait BinaryTree {
                     $counter++;
                 } else {
                     $end++;
-                    d($i);
-                    d($end);
                 }
             } else {
-                d('yes2');
                 break;
             }
         }
