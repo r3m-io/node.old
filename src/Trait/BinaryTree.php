@@ -954,6 +954,7 @@ Trait BinaryTree {
                 break;
             }
         }
+        d($url);
         d($page);
         if(
             array_key_exists('mtime', $options) &&
