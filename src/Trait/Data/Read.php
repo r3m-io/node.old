@@ -35,14 +35,14 @@ Trait Read {
             'function' => __FUNCTION__,
             'multiple' => true
         ];
-        $ramdisk = $object->data('package.r3m-io/node.ramdisk');
-        d($ramdisk);
-        if(empty($ramdisk)){
-            $ramdisk = [];
+        $ramdisk_record = $object->config('package.r3m-io/node.ramdisk');
+        d($ramdisk_record);
+        if(empty($ramdisk_record)){
+            $ramdisk_record = [];
         }
         if(in_array(
             $name,
-            $ramdisk,
+            $ramdisk_record,
             true
         )){
             $options_record['ramdisk'] = true;
