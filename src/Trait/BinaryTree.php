@@ -898,6 +898,7 @@ Trait BinaryTree {
                 }
                 d($record);
                 if(!property_exists($record, '#class')){
+                    $end++;
                     //need to trigger sync
                     continue;
                 }
