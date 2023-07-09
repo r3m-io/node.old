@@ -254,6 +254,9 @@ Trait NodeList {
                         } else {
                             $file_connect_property = false;
                         }
+                        d($file);
+                        d($file_uuid);
+                        d($file_connect_property);
                         $list = $this->binary_tree_page(
                             $file,
                             $file_uuid,
