@@ -891,6 +891,7 @@ Trait BinaryTree {
                 if($read){
                     $record = Core::object_merge($record, $read->data());
                 }
+                d($record);
                 if(!property_exists($record, '#class')){
                     $end++;
                     //need to trigger sync
