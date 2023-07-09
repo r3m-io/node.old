@@ -142,7 +142,7 @@ Trait NodeList {
             if($ramdisk_data){
                 d($options);
                 d($ramdisk_url);
-                ddd($ramdisk_data->data());
+                d($ramdisk_data->data());
                 $debug = debug_backtrace(true);
                 d($debug[0]['file'] . ' ' . $debug[0]['line'] . ' ' . $ramdisk_url);
                 d($debug[1]['file'] . ' ' . $debug[1]['line'] . ' ' . $ramdisk_url);
