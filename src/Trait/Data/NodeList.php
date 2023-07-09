@@ -153,7 +153,6 @@ Trait NodeList {
             }
         }
         $this->binary_tree_list_create($class, $role, $options);
-        ddd('end');
         if(!array_key_exists('where', $options)){
             $options['where'] = [];
         }
