@@ -1388,7 +1388,6 @@ Trait BinaryTree {
         d($file_connect_property);
         d($file);
         if(
-            $file_uuid === null &&
             $file_connect_property === null &&
             $file
         ){
