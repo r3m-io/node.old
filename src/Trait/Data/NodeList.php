@@ -139,6 +139,7 @@ Trait NodeList {
             ;
             $ramdisk_data = $object->data_read($ramdisk_url, $ramdisk_key);
             if($ramdisk_data){
+                d($ramdisk_data);
                 //add mtime to ramdisk data
                 return (array) $ramdisk_data->data();
             }
