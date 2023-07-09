@@ -33,6 +33,7 @@ Trait NodeList {
             $dir .= ucfirst($order) . $object->config('ds');
         }
         $property = implode('-', $properties);
+        d($property);
         return $dir .
             Controller::name($property) .
             $object->config('extension.btree')
