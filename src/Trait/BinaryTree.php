@@ -1422,6 +1422,9 @@ Trait BinaryTree {
             $file_uuid_line = $file_uuid->current();
             return rtrim($file_uuid_line, PHP_EOL);
         }
+        d($file);
+        d($file_uuid);
+        d($file_connect_property);
         d($options);
         d('error');
         return null;
