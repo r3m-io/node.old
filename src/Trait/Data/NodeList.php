@@ -234,15 +234,13 @@ Trait NodeList {
                         $lines > 0
                     ){
                         $file = new SplFileObject($url);
+                        $file_uuid = false;
                         if(File::exist($url_uuid)){
                             $file_uuid = new SplFileObject($url_uuid);
-                        } else {
-                            $file_uuid = false;
                         }
+                        $file_connect_property = false;
                         if(File::exist($url_connect_property)){
                             $file_connect_property = new SplFileObject($url_connect_property);
-                        } else {
-                            $file_connect_property = false;
                         }
                         $list = $this->binary_tree_page(
                             $file,
@@ -320,8 +318,14 @@ Trait NodeList {
                     $lines >= 0
                 ){
                     $file = new SplFileObject($where_url);
-                    $file_uuid = new splFileObject($url_uuid);
-                    $file_connect_property =new splFileObject($url_connect_property);
+                    $file_uuid = false;
+                    if(File::exist($file_uuid)){
+                        $file_uuid = new splFileObject($url_uuid);
+                    }
+                    $file_connect_property = false;
+                    if(File::exist($url_connect_property)){
+                        $file_connect_property = new splFileObject($url_connect_property);
+                    }
                     $where = [];
                     $list = $this->binary_tree_page(
                         $file,
@@ -357,8 +361,14 @@ Trait NodeList {
                         $lines > 0
                     ){
                         $file = new SplFileObject($url);
-                        $file_uuid = new splFileObject($url_uuid);
-                        $file_connect_property =new splFileObject($url_connect_property);
+                        $file_uuid = false;
+                        if(File::exist($url_uuid)){
+                            $file_uuid = new SplFileObject($url_uuid);
+                        }
+                        $file_connect_property = false;
+                        if(File::exist($url_connect_property)){
+                            $file_connect_property = new SplFileObject($url_connect_property);
+                        }
                         $list = $this->binary_tree_page(
                             $file,
                             $file_uuid,
@@ -429,8 +439,14 @@ Trait NodeList {
                     $lines > 0
                 ){
                     $file = new SplFileObject($url);
-                    $file_uuid = new splFileObject($url_uuid);
-                    $file_connect_property =new splFileObject($url_connect_property);
+                    $file_uuid = false;
+                    if(File::exist($url_uuid)){
+                        $file_uuid = new splFileObject($url_uuid);
+                    }
+                    $file_connect_property = false;
+                    if(File::exist($url_connect_property)){
+                        $file_connect_property =new splFileObject($url_connect_property);
+                    }
                     $list = $this->binary_tree_page(
                         $file,
                         $file_uuid,
