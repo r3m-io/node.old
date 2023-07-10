@@ -117,12 +117,12 @@ Trait BinaryTree {
             if(File::exist($url_uuid)){
                 $file_uuid = new SplFileObject($url_uuid);
             } else {
-                $file_uuid = null;
+                $file_uuid = false;
             }
             if(File::exist($url_connect_property)){
                 $file_connect_property = new SplFileObject($url_connect_property);
             } else {
-                $file_connect_property = null;
+                $file_connect_property = false;
             }
             $limit = $meta->get('Filter.' . $name . '.' . $key . '.limit') ?? 1000;
             $filter_list = $this->binary_tree_page(
@@ -225,8 +225,16 @@ Trait BinaryTree {
             ];
             $key = sha1(Core::object($key, Core::OBJECT_JSON));
             $file = new SplFileObject($url_property);
-            $file_uuid = new splFileObject($url_uuid);
-            $file_connect_property =new splFileObject($url_connect_property);
+            if(File::exist($url_uuid)){
+                $file_uuid = new SplFileObject($url_uuid);
+            } else {
+                $file_uuid = false;
+            }
+            if(File::exist($url_connect_property)){
+                $file_connect_property = new SplFileObject($url_connect_property);
+            } else {
+                $file_connect_property = false;
+            }
             $limit = $meta->get('Where.' . $name . '.' . $key . '.limit') ?? 1000;
             $where_list = $this->binary_tree_page(
                 $file,
@@ -1395,7 +1403,7 @@ Trait BinaryTree {
     {
         $object = $this->object();
         if(
-            $file_connect_property === null &&
+            $file_connect_property === false &&
             $file &&
             $file_uuid &&
             array_key_exists('url', $options) &&
