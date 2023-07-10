@@ -33,7 +33,6 @@ Trait NodeList {
             $dir .= ucfirst($order) . $object->config('ds');
         }
         $property = implode('-', $properties);
-        d($property);
         return $dir .
             Controller::name($property) .
             $object->config('extension.btree')
@@ -140,14 +139,6 @@ Trait NodeList {
             ;
             $ramdisk_data = $object->data_read($ramdisk_url, $ramdisk_key);
             if($ramdisk_data){
-                d($options);
-                d($ramdisk_url);
-                d($ramdisk_data->data());
-                $debug = debug_backtrace(true);
-                d($debug[0]['file'] . ' ' . $debug[0]['line'] . ' ' . $ramdisk_url);
-                d($debug[1]['file'] . ' ' . $debug[1]['line'] . ' ' . $ramdisk_url);
-                d($debug[2]['file'] . ' ' . $debug[2]['line'] . ' ' . $ramdisk_url);
-
                 //add mtime to ramdisk data
                 return (array) $ramdisk_data->data();
             }
@@ -254,12 +245,6 @@ Trait NodeList {
                         } else {
                             $file_connect_property = false;
                         }
-                        d($url);
-                        d($url_uuid);
-                        d($url_connect_property);
-                        d($file);
-                        d($file_uuid);
-                        d($file_connect_property);
                         $list = $this->binary_tree_page(
                             $file,
                             $file_uuid,
@@ -283,7 +268,6 @@ Trait NodeList {
                                 'mtime' => $mtime
                             ]
                         );
-                        d($list);
                     }
                 }
                 $result = [];
