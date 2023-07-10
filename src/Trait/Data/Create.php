@@ -714,19 +714,16 @@ Trait Create {
                         $binary_tree_count++;
                         $sort = new Sort();
                         usort($binary_tree, array($sort,"uuid_compare_ascending"));
+                        Dir::create($dir_binary_tree, Dir::CHMOD);
                         $lines = File::write(
                             $binary_tree_url,
                             implode(PHP_EOL, $binary_tree),
                             File::LINES
                         );
-                        if ($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
-                            $command = 'chmod 666 ' . $binary_tree_url;
-                            exec($command);
-                        }
-                        if ($object->config(Config::POSIX_ID) === 0) {
-                            $command = 'chown www-data:www-data ' . $binary_tree_url;
-                            exec($command);
-                        }
+                        $this->file_sync([
+                            'dir_binary_tree' => $dir_binary_tree,
+                            'binary_tree_url' => $binary_tree_url,
+                        ]);
                         $meta = $object->data_read($meta_url);
                         if (!$meta) {
                             $meta = new Storage();
@@ -761,18 +758,10 @@ Trait Create {
                         } else {
                             $record->write($url);
                         }
-                        if ($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
-                            $command = 'chmod 666 ' . $url;
-                            exec($command);
-                            $command = 'chmod 666 ' . $meta_url;
-                            exec($command);
-                        }
-                        if ($object->config(Config::POSIX_ID) === 0) {
-                            $command = 'chown www-data:www-data ' . $url;
-                            exec($command);
-                            $command = 'chown www-data:www-data ' . $meta_url;
-                            exec($command);
-                        }
+                        $this->sync_file([
+                            'url' => $url,
+                            'meta_url' => $meta_url,
+                        ]);
                     }
                     $response['node'] = Core::object($record->data(), Core::OBJECT_ARRAY);
                     Event::trigger($object, 'r3m.io.node.data.create', [
