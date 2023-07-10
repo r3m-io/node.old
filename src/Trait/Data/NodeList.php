@@ -91,6 +91,9 @@ Trait NodeList {
         ;
         $url = $this->url($dir, $options);
         $url_uuid = $dir . 'Asc' . $object->config('ds') . 'Uuid' . $object->config('extension.btree');
+        if(!array_key_exists(1, $properties)){
+            $properties[] = 'uuid';
+        }
         $property = implode('-', $properties);
         $url_connect_property = $dir .
             $url_connect_key .
