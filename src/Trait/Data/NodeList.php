@@ -446,6 +446,9 @@ Trait NodeList {
                     $file_connect_property = false;
                     if(File::exist($url_connect_property)){
                         $file_connect_property =new splFileObject($url_connect_property);
+                    } else {
+                        d($url_connect_property);
+                        ddd('error');
                     }
                     $list = $this->binary_tree_page(
                         $file,
