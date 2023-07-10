@@ -720,7 +720,7 @@ Trait Create {
                             implode(PHP_EOL, $binary_tree),
                             File::LINES
                         );
-                        $this->file_sync([
+                        $this->sync_file([
                             'dir_binary_tree' => $dir_binary_tree,
                             'binary_tree_url' => $binary_tree_url,
                         ]);
