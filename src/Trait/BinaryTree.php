@@ -1260,7 +1260,6 @@ Trait BinaryTree {
      * @throws Exception
      */
     private function binary_tree_index($file, $file_uuid, $file_connect_property, $options=[]){
-        d($options);
         if(!array_key_exists('counter', $options)){
             $options['counter'] = 0;
         }
@@ -1404,7 +1403,6 @@ Trait BinaryTree {
             $options['url'] === $options['url_uuid'] &&
             array_key_exists('line', $options)
         ){
-            d($options);
             return rtrim($options['line'], PHP_EOL);
         }
         elseif(
@@ -1422,11 +1420,6 @@ Trait BinaryTree {
             $file_uuid_line = $file_uuid->current();
             return rtrim($file_uuid_line, PHP_EOL);
         }
-        d($file);
-        d($file_uuid);
-        d($file_connect_property);
-        d($options);
-        d('error');
         return null;
     }
 }
