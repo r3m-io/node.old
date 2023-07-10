@@ -880,8 +880,6 @@ Trait BinaryTree {
         $end = $start + $options['limit'];
         $page = [];
         $record_index = $index;
-        d($start);
-        d($end);
         for($i = $start; $i < $end; $i++){
             $record = $this->binary_tree_index($file, $file_uuid, $file_connect_property, [
 //                'page' => $options['page'],
@@ -894,9 +892,6 @@ Trait BinaryTree {
                 'url_uuid' => $options['url_uuid'],
                 'url_connect_property' => $options['url_connect_property'],
             ]);
-            d($i);
-            d($options);
-            d($record);
             if(
                 $record
             ){
@@ -904,7 +899,6 @@ Trait BinaryTree {
                 if($read){
                     $record = Core::object_merge($record, $read->data());
                 }
-                d($record);
                 if(!property_exists($record, '#class')){
                     $end++;
                     //need to trigger sync
@@ -968,8 +962,6 @@ Trait BinaryTree {
                 break;
             }
         }
-        d($url);
-        d($page);
         if(
             array_key_exists('mtime', $options) &&
             array_key_exists('ramdisk', $options) &&
