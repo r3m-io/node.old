@@ -41,8 +41,6 @@ Trait BinaryTree {
             'Uuid' .
             $object->config('extension.btree')
         ;
-        d($url);
-        d(File::exist($url));
         if(!File::exist($url)){
             return;
         }
@@ -88,7 +86,6 @@ Trait BinaryTree {
             $properties[] = $key;
         }
         $property = implode('-', $properties);
-        d($property);
         $url_connect_property = $dir_binary_tree .
             $url_connect_key .
             Controller::name($property) .

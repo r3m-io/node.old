@@ -233,7 +233,6 @@ Trait NodeList {
                         File::exist($url) &&
                         $lines > 0
                     ){
-                        d($url);
                         $file = new SplFileObject($url);
                         if(File::exist($url_uuid)){
                             $file_uuid = new SplFileObject($url_uuid);
