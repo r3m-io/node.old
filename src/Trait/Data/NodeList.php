@@ -439,27 +439,26 @@ Trait NodeList {
                 $sort_key = sha1(Core::object($sort_key, Core::OBJECT_JSON));
                 $url = $meta->get('Sort.' . $class . '.' . $sort_key . '.'. $url_key);
                 $lines = $meta->get('Sort.' . $class . '.' . $sort_key . '.lines');
-                d($url);
-                d($lines);
                 if(
                     File::exist($url) &&
                     $lines > 0
                 ){
                     $file = new SplFileObject($url);
                     $file_uuid = false;
-                    d($url_uuid);
                     if(File::exist($url_uuid)){
                         $file_uuid = new splFileObject($url_uuid);
                     }
                     $file_connect_property = false;
-                    d($url_connect_property);
                     if(File::exist($url_connect_property)){
                         $file_connect_property =new splFileObject($url_connect_property);
                     }
                     elseif($url === $url_uuid){
-
+                        //nothing
                     }
                     else {
+                        d($url);
+                        d($url_uuid);
+                        d($properties);
                         d($url_connect_property);
                         ddd('error');
                     }
