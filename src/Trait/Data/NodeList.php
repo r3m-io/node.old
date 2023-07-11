@@ -455,7 +455,11 @@ Trait NodeList {
                     d($url_connect_property);
                     if(File::exist($url_connect_property)){
                         $file_connect_property =new splFileObject($url_connect_property);
-                    } else {
+                    }
+                    elseif($url === $url_uuid){
+
+                    }
+                    else {
                         d($url_connect_property);
                         ddd('error');
                     }
