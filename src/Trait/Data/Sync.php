@@ -398,6 +398,7 @@ Trait Sync {
                             $connect_asc_desc_lines === $connect_asc_desc_reverse_lines &&
                             $connect_asc_desc_lines === $lines_asc_desc
                         ) {
+                            d($properties);
                             $count = $index;
                             $sortable = new Storage();
                             $sortable->set('property', $properties);
@@ -462,6 +463,7 @@ Trait Sync {
                             $connect_asc_reverse_lines &&
                             $connect_asc_lines === $lines
                         ){
+                            d($properties);
                             $count = $index;
                             $sortable = new Storage();
                             $sortable->set('property', $properties);
