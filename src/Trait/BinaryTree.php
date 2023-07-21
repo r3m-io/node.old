@@ -95,7 +95,6 @@ Trait BinaryTree {
         $sort_key = [
             'property' => $properties,
         ];
-        ddd($sort_key);
         $sort_key = sha1(Core::object($sort_key, Core::OBJECT_JSON));
         $url_property = $meta->get('Sort.' . $class . '.' . $sort_key . '.'. $url_key);
         if(empty($url_property)){
