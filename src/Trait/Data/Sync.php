@@ -398,7 +398,6 @@ Trait Sync {
                             $connect_asc_desc_lines === $connect_asc_desc_reverse_lines &&
                             $connect_asc_desc_lines === $lines_asc_desc
                         ) {
-                            d($properties);
                             $count = $index;
                             $sortable = new Storage();
                             $sortable->set('property', $properties);
@@ -407,7 +406,6 @@ Trait Sync {
                             $sortable->set('lines', $lines_asc_asc);
                             $sortable->set('url.asc.asc', $url_property_asc_asc);
                             $sortable->set('url.asc.desc', $url_property_asc_desc);
-                            $sortable->set('property.uuid', $url_connect_asc_asc);
                             $sortable->set('url.connect.asc.asc.property.uuid', $url_connect_asc_asc);
                             $sortable->set('url.connect.asc.asc.uuid.property', $url_connect_asc_asc_reverse);
                             $sortable->set('url.connect.asc.desc.property.uuid', $url_connect_asc_desc);
@@ -418,7 +416,6 @@ Trait Sync {
                             $key = sha1(Core::object($key, Core::OBJECT_JSON));
                             $meta->set('Sort.' . $class . '.' . $key, $sortable->data());
                             $meta->write($meta_url);
-                            die('test1');
                         }
                     } else {
                         $sort = Sort::list($list)->with([
@@ -464,7 +461,6 @@ Trait Sync {
                             $connect_asc_reverse_lines &&
                             $connect_asc_lines === $lines
                         ){
-                            d($properties);
                             $count = $index;
                             $sortable = new Storage();
                             $sortable->set('property', $properties);
