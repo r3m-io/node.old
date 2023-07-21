@@ -418,6 +418,7 @@ Trait Sync {
                             $key = sha1(Core::object($key, Core::OBJECT_JSON));
                             $meta->set('Sort.' . $class . '.' . $key, $sortable->data());
                             $meta->write($meta_url);
+                            die('test1');
                         }
                     } else {
                         $sort = Sort::list($list)->with([
@@ -479,6 +480,7 @@ Trait Sync {
                             $key = sha1(Core::object($key, Core::OBJECT_JSON));
                             $meta->set('Sort.' . $class . '.' . $key, $sortable->data());
                             $meta->write($meta_url);
+                            die('test2');
                         }
                     }
                     $this->sync_file([
