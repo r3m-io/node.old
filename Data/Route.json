@@ -2,6 +2,7 @@
   "r3m-io-node-read-uuid-page": {
     "path": "\/Node\/{{$class}}\/{{$uuid:uuid}}\/Page",
     "host": [
+      "*"
     ],
     "controller": "Node.Controller.Node.page",
     "method": [
@@ -11,6 +12,7 @@
   "r3m-io-node-read-uuid": {
     "path": "\/Node\/{{$class}}\/{{$uuid:uuid}}",
     "host": [
+      "*"
     ],
     "controller": "Node.Controller.Node.read",
     "method": [
@@ -20,6 +22,7 @@
   "r3m-io-node-put-uuid": {
     "path": "\/Node\/{{$class}}\/{{$uuid:uuid}}",
     "host": [
+      "*"
     ],
     "controller": "Node.Controller.Node.update",
     "method": [
@@ -30,6 +33,7 @@
   "r3m-io-node-delete-uuid": {
     "path": "\/Node\/{{$class}}\/{{$uuid:uuid}}",
     "host": [
+      "*"
     ],
     "controller": "Node.Controller.Node.delete",
     "method": [
@@ -39,6 +43,7 @@
   "r3m-io-node-class1-class2-get": {
     "path": "\/Node\/{{$class1}}\/{{$class2}}",
     "host": [
+      "*"
     ],
     "controller": "Node.Controller.Node.getRelation",
     "method": [
@@ -48,6 +53,7 @@
   "r3m-io-node-class1-class2-add": {
     "path": "\/Node\/{{$class1}}\/{{$class2}}",
     "host": [
+      "*"
     ],
     "controller": "Node.Controller.Node.add_or_set",
     "method": [
@@ -57,6 +63,7 @@
   "r3m-io-node-class1-class2-delete": {
     "path": "\/Node\/{{$class1}}\/{{$class2}}",
     "host": [
+      "*"
     ],
     "controller": "Node.Controller.Node.delete",
     "method": [
@@ -66,6 +73,7 @@
   "r3m-io-node-class-list": {
     "path": "\/Node\/{{$class}}",
     "host": [
+      "*"
     ],
     "controller": "Node.Controller.Node.list",
     "method": [
@@ -75,6 +83,7 @@
   "r3m-io-node-class-post": {
     "path": "\/Node\/{{$class}}",
     "host": [
+      "*"
     ],
     "controller": "Node.Controller.Node.create",
     "method": [
