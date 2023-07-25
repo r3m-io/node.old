@@ -95,21 +95,6 @@ Trait Rename {
             $options->to .
             $object->config('ds')
         ;
-//        File::move($from_dir_binary_tree, $to_dir_binary_tree, true);
-        if(File::exist($from_url_expose)){
-            $data = $object->data_read($from_url_expose);
-            if($data){
-                $expose = $data->get($options->from);
-                if($expose){
-                    $storage = new Storage();
-                    $storage->set($options->to, $expose);
-//                    $storage->write($to_url_expose);
-//                    File::delete($from_url_expose);
-                }
-            }
-        }
-//        File::move($from_dir_filter, $to_dir_filter, true);
-
         $from_url_meta = $object->config('project.dir.data') .
             'Node' .
             $object->config('ds') .
@@ -126,6 +111,22 @@ Trait Rename {
             $options->to .
             $object->config('extension.json')
         ;
+//        File::move($from_dir_binary_tree, $to_dir_binary_tree, true);
+        if(File::exist($from_url_expose)){
+            $data = $object->data_read($from_url_expose);
+            if($data){
+                $expose = $data->get($options->from);
+                if($expose){
+                    $storage = new Storage();
+                    $storage->set($options->to, $expose);
+//                    $storage->write($to_url_expose);
+//                    File::delete($from_url_expose);
+                }
+            }
+        }
+//        File::move($from_dir_filter, $to_dir_filter, true);
+
+
         if(File::exist($from_url_meta)){
             $read = File::read($from_url_meta);
 
@@ -147,10 +148,7 @@ Trait Rename {
             ;
             $read = str_replace($search, $replace, $read);
             ddd($read);
-
         }
-
-
         ddd($options);
     }
 }
