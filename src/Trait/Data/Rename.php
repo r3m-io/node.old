@@ -82,7 +82,11 @@ Trait Rename {
 //        File::move($from_dir_binary_tree, $to_dir_binary_tree, true);
         if(File::exist($from_url_expose)){
             $data = $object->data_read($from_url_expose);
-            ddd($data);
+            if($data){
+                $expose = $data->get($options->from);
+                ddd($expose);
+            }
+
         }
         ddd($options);
     }
