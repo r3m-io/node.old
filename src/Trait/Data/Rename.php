@@ -125,11 +125,8 @@ Trait Rename {
             }
         }
 //        File::move($from_dir_filter, $to_dir_filter, true);
-
-
         if(File::exist($from_url_meta)){
             $read = File::read($from_url_meta);
-
             $search = $object->config('project.dir.data') .
                 'Node' .
                 $object->config('ds') .
@@ -149,8 +146,29 @@ Trait Rename {
             $search = str_replace('/', '\/', $search);
             $replace = str_replace('/', '\/', $replace);
             $read = str_replace($search, $replace, $read);
-            ddd($read);
+            $data = new Storage();
+            $storage = new Storage();
+            $data->data(Core::object($read, Core::OBJECT_OBJECT));
+
+            $attributes = [
+                'Sort',
+                'Filter',
+                'Where',
+                'Count'
+            ];
+            foreach($attributes as $attribute){
+                if($data->has($attribute . '.' . $options->from)){
+                    $get = $data->get($attribute . '.' . $options->from);
+                    if($get){
+                        $storage->set($attribute . '.' . $options->to, $get);
+                    }
+                }
+            }
+            ddd($storage);
+//            $storage->write($to_url_meta);
+//            File::delete($from_url_meta);
         }
+
         ddd($options);
     }
 }
