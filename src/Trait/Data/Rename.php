@@ -146,6 +146,8 @@ Trait Rename {
                 $options->to .
                 $object->config('ds')
             ;
+            $search = str_replace('/', '\/', $search);
+            $replace = str_replace('/', '\/', $replace);
             $read = str_replace($search, $replace, $read);
             ddd($read);
         }
