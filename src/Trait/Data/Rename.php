@@ -84,9 +84,12 @@ Trait Rename {
             $data = $object->data_read($from_url_expose);
             if($data){
                 $expose = $data->get($options->from);
-                ddd($expose);
+                if($expose){
+                    $storage = new Storage();
+                    $storage->set($options->to, $expose);
+                    ddd($storage);
+                }
             }
-
         }
         ddd($options);
     }
