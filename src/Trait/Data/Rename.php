@@ -38,6 +38,52 @@ Trait Rename {
         } else {
             throw new Exception('Option to is missing');
         }
+        $from_dir_binary_tree = $object->config('project.dir.data') .
+            'Node' .
+            $object->config('ds') .
+            'BinaryTree' .
+            $object->config('ds') .
+            $options->from .
+            $object->config('ds')
+        ;
+        $to_dir_binary_tree = $object->config('project.dir.data') .
+            'Node' .
+            $object->config('ds') .
+            'BinaryTree' .
+            $object->config('ds') .
+            $options->to .
+            $object->config('ds')
+        ;
+        $from_url_expose = $object->config('project.dir.data') .
+            'Node' .
+            $object->config('ds') .
+            'Expose' .
+            $object->config('ds') .
+            $options->from .
+            $object->config('extension.json')
+        ;
+        $to_url_expose = $object->config('project.dir.data') .
+            'Node' .
+            $object->config('ds') .
+            'Expose' .
+            $object->config('ds') .
+            $options->to .
+            $object->config('extension.json')
+        ;
+        if($from_dir_binary_tree === $to_dir_binary_tree){
+            throw new Exception('From and to are the same');
+        }
+        if(!Dir::is($from_dir_binary_tree)){
+            throw new Exception('From does not exist');
+        }
+        if(Dir::is($to_dir_binary_tree)){
+            throw new Exception('To already exists');
+        }
+//        File::move($from_dir_binary_tree, $to_dir_binary_tree, true);
+        if(File::exist($from_url_expose)){
+            $data = $object->data_read($from_url_expose);
+            ddd($data);
+        }
         ddd($options);
     }
 }
