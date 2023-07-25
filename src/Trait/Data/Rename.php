@@ -111,6 +111,38 @@ Trait Rename {
             $options->to .
             $object->config('extension.json')
         ;
+        $from_url_object = $object->config('project.dir.data') .
+            'Node' .
+            $object->config('ds') .
+            'Object' .
+            $object->config('ds') .
+            $options->from .
+            $object->config('extension.json')
+        ;
+        $to_url_object = $object->config('project.dir.data') .
+            'Node' .
+            $object->config('ds') .
+            'Object' .
+            $object->config('ds') .
+            $options->to .
+            $object->config('extension.json')
+        ;
+        $from_url_validate = $object->config('project.dir.data') .
+            'Node' .
+            $object->config('ds') .
+            'Validate' .
+            $object->config('ds') .
+            $options->from .
+            $object->config('extension.json')
+        ;
+        $to_url_validate = $object->config('project.dir.data') .
+            'Node' .
+            $object->config('ds') .
+            'Validate' .
+            $object->config('ds') .
+            $options->to .
+            $object->config('extension.json')
+        ;
 //        File::move($from_dir_binary_tree, $to_dir_binary_tree, true);
         if(File::exist($from_url_expose)){
             $data = $object->data_read($from_url_expose);
@@ -168,6 +200,44 @@ Trait Rename {
 //            $storage->write($to_url_meta);
 //            File::delete($from_url_meta);
         }
+//        File::move($from_url_object, $to_url_object, true);
+        if(File::exist($from_url_validate)){
+            $read = File::read($from_url_validate);
+            $search = 'Node' .
+                $object->config('ds') .
+                'BinaryTree' .
+                $object->config('ds') .
+                $options->from .
+                $object->config('ds')
+            ;
+            $replace = 'Node' .
+                $object->config('ds') .
+                'BinaryTree' .
+                $object->config('ds') .
+                $options->to .
+                $object->config('ds')
+            ;
+            $search = str_replace('/', '\/', $search);
+            $replace = str_replace('/', '\/', $replace);
+            $read = str_replace($search, $replace, $read);
+            $search = 'class": "' . $options->from . '"';
+            $replace = 'class": "' . $options->to . '"';
+            $read = str_replace($search, $replace, $read);
+            $search = 'class":"' . $options->from . '"';
+            $replace = 'class": "' . $options->to . '"';
+            $read = str_replace($search, $replace, $read);
+            $data = new Storage();
+            $storage = new Storage();
+            $data->data(Core::object($read, Core::OBJECT_OBJECT));
+            if($data->has($options->from)) {
+                $storage->set($options->to, $data->get($options->from));
+            }
+
+            ddd($storage);
+//            $storage->write($to_url_meta);
+//            File::delete($from_url_meta);
+        }
+
 
         ddd($options);
     }
