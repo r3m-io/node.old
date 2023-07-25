@@ -38,6 +38,7 @@ Trait Data {
     use Data\Put;
     use Data\Read;
     use Data\Record;
+    use Data\Rename;
     use Data\Sync;
     use Data\Truncate;
 
