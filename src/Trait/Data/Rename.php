@@ -79,6 +79,22 @@ Trait Rename {
         if(Dir::is($to_dir_binary_tree)){
             throw new Exception('To already exists');
         }
+        $from_dir_filter = $object->config('project.dir.data') .
+            'Node' .
+            $object->config('ds') .
+            'Filter' .
+            $object->config('ds') .
+            $options->from .
+            $object->config('ds')
+        ;
+        $to_dir_filter = $object->config('project.dir.data') .
+            'Node' .
+            $object->config('ds') .
+            'Filter' .
+            $object->config('ds') .
+            $options->to .
+            $object->config('ds')
+        ;
 //        File::move($from_dir_binary_tree, $to_dir_binary_tree, true);
         if(File::exist($from_url_expose)){
             $data = $object->data_read($from_url_expose);
@@ -87,10 +103,54 @@ Trait Rename {
                 if($expose){
                     $storage = new Storage();
                     $storage->set($options->to, $expose);
-                    ddd($storage);
+//                    $storage->write($to_url_expose);
+//                    File::delete($from_url_expose);
                 }
             }
         }
+//        File::move($from_dir_filter, $to_dir_filter, true);
+
+        $from_url_meta = $object->config('project.dir.data') .
+            'Node' .
+            $object->config('ds') .
+            'Meta' .
+            $object->config('ds') .
+            $options->from .
+            $object->config('extension.json')
+        ;
+        $to_url_meta = $object->config('project.dir.data') .
+            'Node' .
+            $object->config('ds') .
+            'Meta' .
+            $object->config('ds') .
+            $options->to .
+            $object->config('extension.json')
+        ;
+        if(File::exist($from_url_meta)){
+            $read = File::read($from_url_meta);
+
+            $search = $object->config('project.dir.data') .
+                'Node' .
+                $object->config('ds') .
+                'BinaryTree' .
+                $object->config('ds') .
+                $options->from .
+                $object->config('ds')
+            ;
+            $replace = $object->config('project.dir.data') .
+                'Node' .
+                $object->config('ds') .
+                'BinaryTree' .
+                $object->config('ds') .
+                $options->to .
+                $object->config('ds')
+            ;
+            $read = str_replace($search, $replace, $read);
+            ddd($read);
+
+        }
+
+
         ddd($options);
     }
 }
