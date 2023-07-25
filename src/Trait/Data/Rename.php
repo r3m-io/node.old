@@ -196,7 +196,7 @@ Trait Rename {
                     }
                 }
             }
-            ddd($storage);
+//            ddd($storage);
 //            $storage->write($to_url_meta);
 //            File::delete($from_url_meta);
         }
