@@ -234,8 +234,8 @@ Trait Rename {
             }
 
             ddd($storage);
-//            $storage->write($to_url_meta);
-//            File::delete($from_url_meta);
+//            $storage->write($to_url_validate);
+//            File::delete($from_url_validate);
         }
 
 
