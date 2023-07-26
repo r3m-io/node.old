@@ -295,6 +295,8 @@ Trait Rename {
             $storage->write($to_url_validate);
             File::delete($from_url_validate);
         }
-        File::move($from_dir_where, $to_dir_where, true);
+        if(File::exist($from_dir_where)){
+            File::move($from_dir_where, $to_dir_where, true);
+        }
     }
 }
