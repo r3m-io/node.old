@@ -79,6 +79,33 @@ Trait Rename {
         if(Dir::is($to_dir_binary_tree)){
             throw new Exception('To already exists');
         }
+        $dir_node = $object->config('project.dir.data') .
+            'Node' .
+            $object->config('ds');
+        $dir_binary_tree = $dir_node .
+            'BinaryTree' .
+            $object->config('ds');
+        ;
+        $dir_binary_tree_class = $dir_binary_tree .
+            $options->to .
+            $object->config('ds')
+        ;
+        $dir_binary_tree_sort = $dir_binary_tree_class .
+            'Asc' .
+            $object->config('ds')
+        ;
+
+        $url = $dir_binary_tree_sort .
+            'Uuid' .
+            $object->config('extension.btree');
+        if(!File::exist($url)){
+            //logger error url not found
+        }
+        $mtime = File::mtime($url);
+        d($url);
+        d($mtime);
+        $data = File::read($url, File::ARRAY);
+        ddd($data);
         $from_dir_filter = $object->config('project.dir.data') .
             'Node' .
             $object->config('ds') .
@@ -254,33 +281,7 @@ Trait Rename {
 //            File::delete($from_url_validate);
         }
 //        File::move($from_dir_where, $to_dir_where, true);
-        $dir_node = $object->config('project.dir.data') .
-            'Node' .
-            $object->config('ds');
-        $dir_binary_tree = $dir_node .
-            'BinaryTree' .
-            $object->config('ds');
-        ;
-        $dir_binary_tree_class = $dir_binary_tree .
-            $options->to .
-            $object->config('ds')
-        ;
-        $dir_binary_tree_sort = $dir_binary_tree_class .
-            'Asc' .
-            $object->config('ds')
-        ;
 
-        $url = $dir_binary_tree_sort .
-            'Uuid' .
-            $object->config('extension.btree');
-        if(!File::exist($url)){
-            //logger error url not found
-        }
-        $mtime = File::mtime($url);
-        d($url);
-        d($mtime);
-        $data = File::read($url, File::ARRAY);
-        ddd($data);
 
 
         ddd($meta);
