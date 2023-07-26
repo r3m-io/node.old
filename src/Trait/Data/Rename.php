@@ -117,6 +117,14 @@ Trait Rename {
                 $data_node = $object->data_read($url_node);
                 $data_node->set('#class', $options->to);
                 $data_node->write($url_node);
+                if($object->config(Config::POSIX_ID) === 0){
+                    $command = 'chown www-data:www-data ' . $url_node;
+                    exec($command);
+                }
+                if($object->config('framework.environment') === Config::MODE_DEVELOPMENT){
+                    $command = 'chmod 666 ' . $url_node;
+                    exec($command);
+                }
             }
         }
         $from_dir_filter = $object->config('project.dir.data') .
@@ -200,6 +208,14 @@ Trait Rename {
             $object->config('ds')
         ;
         File::move($from_dir_binary_tree, $to_dir_binary_tree, true);
+        if($object->config(Config::POSIX_ID) === 0){
+            $command = 'chown www-data:www-data ' . $to_dir_binary_tree;
+            exec($command);
+        }
+        if($object->config('framework.environment') === Config::MODE_DEVELOPMENT){
+            $command = 'chmod 777 ' . $to_dir_binary_tree;
+            exec($command);
+        }
         if(File::exist($from_url_expose)){
             $data = $object->data_read($from_url_expose);
             if($data){
@@ -209,10 +225,26 @@ Trait Rename {
                     $expose_data->set($options->to, $expose);
                     $expose_data->write($to_url_expose);
                     File::delete($from_url_expose);
+                    if($object->config(Config::POSIX_ID) === 0){
+                        $command = 'chown www-data:www-data ' . $to_url_expose;
+                        exec($command);
+                    }
+                    if($object->config('framework.environment') === Config::MODE_DEVELOPMENT){
+                        $command = 'chmod 666 ' . $to_url_expose;
+                        exec($command);
+                    }
                 }
             }
         }
         File::move($from_dir_filter, $to_dir_filter, true);
+        if($object->config(Config::POSIX_ID) === 0){
+            $command = 'chown www-data:www-data ' . $to_dir_filter;
+            exec($command);
+        }
+        if($object->config('framework.environment') === Config::MODE_DEVELOPMENT){
+            $command = 'chmod 777 ' . $to_dir_filter;
+            exec($command);
+        }
         if(File::exist($from_url_meta)){
             $read = File::read($from_url_meta);
             $search = $object->config('project.dir.data') .
@@ -258,6 +290,14 @@ Trait Rename {
                 }
             }
             $meta->write($to_url_meta);
+            if($object->config(Config::POSIX_ID) === 0){
+                $command = 'chown www-data:www-data ' . $to_url_meta;
+                exec($command);
+            }
+            if($object->config('framework.environment') === Config::MODE_DEVELOPMENT){
+                $command = 'chmod 666 ' . $to_url_meta;
+                exec($command);
+            }
             File::delete($from_url_meta);
         }
         if(File::exist($from_url_object)) {
@@ -270,6 +310,14 @@ Trait Rename {
             $read = str_replace($search, $replace, $read);
             File::write($to_url_object, $read);
             File::delete($from_url_object);
+            if($object->config(Config::POSIX_ID) === 0){
+                $command = 'chown www-data:www-data ' . $to_url_object;
+                exec($command);
+            }
+            if($object->config('framework.environment') === Config::MODE_DEVELOPMENT){
+                $command = 'chmod 666 ' . $to_url_object;
+                exec($command);
+            }
         }
         if(File::exist($from_url_validate)){
             $read = File::read($from_url_validate);
@@ -304,9 +352,25 @@ Trait Rename {
             }
             $storage->write($to_url_validate);
             File::delete($from_url_validate);
+            if($object->config(Config::POSIX_ID) === 0){
+                $command = 'chown www-data:www-data ' . $to_url_validate;
+                exec($command);
+            }
+            if($object->config('framework.environment') === Config::MODE_DEVELOPMENT){
+                $command = 'chmod 666 ' . $to_url_validate;
+                exec($command);
+            }
         }
         if(File::exist($from_dir_where)){
             File::move($from_dir_where, $to_dir_where, true);
+            if($object->config(Config::POSIX_ID) === 0){
+                $command = 'chown www-data:www-data ' . $to_dir_where;
+                exec($command);
+            }
+            if($object->config('framework.environment') === Config::MODE_DEVELOPMENT){
+                $command = 'chmod 777 ' . $to_dir_where;
+                exec($command);
+            }
         }
     }
 }
