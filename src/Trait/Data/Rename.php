@@ -87,7 +87,7 @@ Trait Rename {
             $object->config('ds');
         ;
         $dir_binary_tree_class = $dir_binary_tree .
-            $options->to .
+            $options->from .
             $object->config('ds')
         ;
         $dir_binary_tree_sort = $dir_binary_tree_class .
