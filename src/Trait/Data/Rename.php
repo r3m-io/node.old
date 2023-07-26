@@ -95,17 +95,33 @@ Trait Rename {
             $object->config('ds')
         ;
 
-        $url = $dir_binary_tree_sort .
+        $url_binary_tree_sort = $dir_binary_tree_sort .
             'Uuid' .
             $object->config('extension.btree');
-        if(!File::exist($url)){
-            //logger error url not found
+        if(!File::exist($url_binary_tree_sort)){
+            //logger error $url_binary_tree_sort not found
         }
-        $mtime = File::mtime($url);
-        d($url);
+        $mtime = File::mtime($url_binary_tree_sort);
+        d($url_binary_tree_sort);
         d($mtime);
-        $data = File::read($url, File::ARRAY);
-        ddd($data);
+        $data_uuid = File::read($url_binary_tree_sort, File::ARRAY);
+        if(is_array($data_uuid)){
+            foreach($data_uuid as $uuid){
+                $url_node = $object->config('project.dir.data') .
+                    'Node' .
+                    $object->config('ds') .
+                    'Storage' .
+                    $object->config('ds') .
+                    substr($uuid, 0, 2) .
+                    $object->config('ds') .
+                    $uuid .
+                    $object->config('extension.json')
+                ;
+                $data_node = $object->data_read($url_node);
+                ddd($data_node);
+            }
+        }
+        ddd($data_uuid);
         $from_dir_filter = $object->config('project.dir.data') .
             'Node' .
             $object->config('ds') .
