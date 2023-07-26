@@ -94,7 +94,6 @@ Trait Rename {
             'Asc' .
             $object->config('ds')
         ;
-
         $url_binary_tree_sort = $dir_binary_tree_sort .
             'Uuid' .
             $object->config('extension.btree');
@@ -102,8 +101,6 @@ Trait Rename {
             //logger error $url_binary_tree_sort not found
         }
         $mtime = File::mtime($url_binary_tree_sort);
-        d($url_binary_tree_sort);
-        d($mtime);
         $data_uuid = File::read($url_binary_tree_sort, File::ARRAY);
         if(is_array($data_uuid)){
             foreach($data_uuid as $uuid){
