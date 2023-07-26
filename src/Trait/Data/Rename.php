@@ -237,6 +237,12 @@ Trait Rename {
             $search = str_replace('/', '\/', $search);
             $replace = str_replace('/', '\/', $replace);
             $read = str_replace($search, $replace, $read);
+            $search = 'class": "' . $options->from . '"';
+            $replace = 'class": "' . $options->to . '"';
+            $read = str_replace($search, $replace, $read);
+            $search = 'class":"' . $options->from . '"';
+            $replace = 'class": "' . $options->to . '"';
+            $read = str_replace($search, $replace, $read);
             $data = new Storage();
             $meta = new Storage();
             $data->data(Core::object($read, Core::OBJECT_OBJECT));
