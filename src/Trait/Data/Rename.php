@@ -205,9 +205,9 @@ Trait Rename {
             if($data){
                 $expose = $data->get($options->from);
                 if($expose){
-                    $storage = new Storage();
-                    $storage->set($options->to, $expose);
-                    $storage->write($to_url_expose);
+                    $expose_data = new Storage();
+                    $expose_data->set($options->to, $expose);
+                    $expose_data->write($to_url_expose);
                     File::delete($from_url_expose);
                 }
             }
@@ -257,7 +257,7 @@ Trait Rename {
                     }
                 }
             }
-            $storage->write($to_url_meta);
+            $meta->write($to_url_meta);
             File::delete($from_url_meta);
         }
         File::move($from_url_object, $to_url_object, true);
