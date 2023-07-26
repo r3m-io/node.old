@@ -118,10 +118,10 @@ Trait Rename {
                     $object->config('extension.json')
                 ;
                 $data_node = $object->data_read($url_node);
-                ddd($data_node);
+                $data_node->set('#class', $options->to);
+                $data_node->write($url_node);
             }
         }
-        ddd($data_uuid);
         $from_dir_filter = $object->config('project.dir.data') .
             'Node' .
             $object->config('ds') .
@@ -202,7 +202,7 @@ Trait Rename {
             $options->to .
             $object->config('ds')
         ;
-//        File::move($from_dir_binary_tree, $to_dir_binary_tree, true);
+        File::move($from_dir_binary_tree, $to_dir_binary_tree, true);
         if(File::exist($from_url_expose)){
             $data = $object->data_read($from_url_expose);
             if($data){
@@ -210,12 +210,12 @@ Trait Rename {
                 if($expose){
                     $storage = new Storage();
                     $storage->set($options->to, $expose);
-//                    $storage->write($to_url_expose);
-//                    File::delete($from_url_expose);
+                    $storage->write($to_url_expose);
+                    File::delete($from_url_expose);
                 }
             }
         }
-//        File::move($from_dir_filter, $to_dir_filter, true);
+        File::move($from_dir_filter, $to_dir_filter, true);
         if(File::exist($from_url_meta)){
             $read = File::read($from_url_meta);
             $search = $object->config('project.dir.data') .
@@ -240,7 +240,6 @@ Trait Rename {
             $data = new Storage();
             $meta = new Storage();
             $data->data(Core::object($read, Core::OBJECT_OBJECT));
-
             $attributes = [
                 'Sort',
                 'Filter',
@@ -255,11 +254,10 @@ Trait Rename {
                     }
                 }
             }
-//            ddd($storage);
-//            $storage->write($to_url_meta);
-//            File::delete($from_url_meta);
+            $storage->write($to_url_meta);
+            File::delete($from_url_meta);
         }
-//        File::move($from_url_object, $to_url_object, true);
+        File::move($from_url_object, $to_url_object, true);
         if(File::exist($from_url_validate)){
             $read = File::read($from_url_validate);
             $search = 'Node' .
@@ -291,23 +289,9 @@ Trait Rename {
             if($data->has($options->from)) {
                 $storage->set($options->to, $data->get($options->from));
             }
-
-//            ddd($storage);
-//            $storage->write($to_url_validate);
-//            File::delete($from_url_validate);
+            $storage->write($to_url_validate);
+            File::delete($from_url_validate);
         }
-//        File::move($from_dir_where, $to_dir_where, true);
-
-
-
-        ddd($meta);
-        /*
-        $sort = [
-            ''
-        ]
-*/
-
-
-        ddd($options);
+        File::move($from_dir_where, $to_dir_where, true);
     }
 }
