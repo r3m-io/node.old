@@ -260,7 +260,17 @@ Trait Rename {
             $meta->write($to_url_meta);
             File::delete($from_url_meta);
         }
-        File::move($from_url_object, $to_url_object, true);
+        if(File::exist($from_url_object)) {
+            $read = File::read($from_url_object);
+            $search = 'class": "' . $options->from . '"';
+            $replace = 'class": "' . $options->to . '"';
+            $read = str_replace($search, $replace, $read);
+            $search = 'class":"' . $options->from . '"';
+            $replace = 'class": "' . $options->to . '"';
+            $read = str_replace($search, $replace, $read);
+            File::write($to_url_object, $read);
+            File::delete($from_url_object);
+        }
         if(File::exist($from_url_validate)){
             $read = File::read($from_url_validate);
             $search = 'Node' .
