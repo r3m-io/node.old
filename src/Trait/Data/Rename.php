@@ -277,6 +277,8 @@ Trait Rename {
             //logger error url not found
         }
         $mtime = File::mtime($url);
+        d($url);
+        d($mtime);
         $data = File::read($url, File::ARRAY);
         ddd($data);
 
