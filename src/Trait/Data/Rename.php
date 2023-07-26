@@ -143,6 +143,22 @@ Trait Rename {
             $options->to .
             $object->config('extension.json')
         ;
+        $from_dir_where = $object->config('project.dir.data') .
+            'Node' .
+            $object->config('ds') .
+            'Where' .
+            $object->config('ds') .
+            $options->from .
+            $object->config('ds')
+        ;
+        $to_dir_where = $object->config('project.dir.data') .
+            'Node' .
+            $object->config('ds') .
+            'Where' .
+            $object->config('ds') .
+            $options->to .
+            $object->config('ds')
+        ;
 //        File::move($from_dir_binary_tree, $to_dir_binary_tree, true);
         if(File::exist($from_url_expose)){
             $data = $object->data_read($from_url_expose);
@@ -179,7 +195,7 @@ Trait Rename {
             $replace = str_replace('/', '\/', $replace);
             $read = str_replace($search, $replace, $read);
             $data = new Storage();
-            $storage = new Storage();
+            $meta = new Storage();
             $data->data(Core::object($read, Core::OBJECT_OBJECT));
 
             $attributes = [
@@ -192,7 +208,7 @@ Trait Rename {
                 if($data->has($attribute . '.' . $options->from)){
                     $get = $data->get($attribute . '.' . $options->from);
                     if($get){
-                        $storage->set($attribute . '.' . $options->to, $get);
+                        $meta->set($attribute . '.' . $options->to, $get);
                     }
                 }
             }
@@ -233,11 +249,12 @@ Trait Rename {
                 $storage->set($options->to, $data->get($options->from));
             }
 
-            ddd($storage);
+//            ddd($storage);
 //            $storage->write($to_url_validate);
 //            File::delete($from_url_validate);
         }
-
+//        File::move($from_dir_where, $to_dir_where, true);
+        ddd($meta);
 
         ddd($options);
     }
