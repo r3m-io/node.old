@@ -550,7 +550,7 @@ Trait Sync {
             $property = '["' . implode('", "', $property) . '"]';
         }
         elseif(is_object($property)){
-            $property = '[' . Core::object($property, Core::OBJECT_JSON) . ']';
+            $property = '[' . Core::object($property, Core::OBJECT_JSON_LINE) . ']';
         }
         return $property;
     }
