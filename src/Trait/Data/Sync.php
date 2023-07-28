@@ -53,7 +53,6 @@ Trait Sync {
             $expose = false;
             $class = File::basename($file->name, $object->config('extension.json'));
             $role = $this->role_system();
-            ddd($role);
             if(property_exists($options, 'class')){
                 if(!in_array($class, $options->class, 1)){
                     continue;
