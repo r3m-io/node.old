@@ -115,8 +115,10 @@ Trait Rename {
                     $object->config('extension.json')
                 ;
                 $data_node = $object->data_read($url_node);
-                $data_node->set('#class', $options->to);
-                $data_node->write($url_node);
+                if($data_node){
+                    $data_node->set('#class', $options->to);
+                    $data_node->write($url_node);
+                }
                 if($object->config(Config::POSIX_ID) === 0){
                     $command = 'chown www-data:www-data ' . $url_node;
                     exec($command);
