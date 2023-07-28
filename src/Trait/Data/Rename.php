@@ -115,6 +115,7 @@ Trait Rename {
                     $object->config('extension.json')
                 ;
                 $data_node = $object->data_read($url_node);
+                ddd($data_node);
                 if($data_node){
                     $data_node->set('#class', $options->to);
                     $data_node->write($url_node);
