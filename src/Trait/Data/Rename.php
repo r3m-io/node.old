@@ -118,14 +118,14 @@ Trait Rename {
                 if($data_node){
                     $data_node->set('#class', $options->to);
                     $data_node->write($url_node);
-                }
-                if($object->config(Config::POSIX_ID) === 0){
-                    $command = 'chown www-data:www-data ' . $url_node;
-                    exec($command);
-                }
-                if($object->config('framework.environment') === Config::MODE_DEVELOPMENT){
-                    $command = 'chmod 666 ' . $url_node;
-                    exec($command);
+                    if($object->config(Config::POSIX_ID) === 0){
+                        $command = 'chown www-data:www-data ' . $url_node;
+                        exec($command);
+                    }
+                    if($object->config('framework.environment') === Config::MODE_DEVELOPMENT){
+                        $command = 'chmod 666 ' . $url_node;
+                        exec($command);
+                    }
                 }
             }
         }
