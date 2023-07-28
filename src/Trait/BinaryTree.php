@@ -920,6 +920,7 @@ Trait BinaryTree {
                 }
                 */
                 $record = $this->binary_tree_relation($record, $object_data, $role, $options);
+                d($record);
                 $expose = $this->expose_get(
                     $object,
                     $record->{'#class'},
