@@ -104,6 +104,7 @@ Trait Rename {
         $data_uuid = File::read($url_binary_tree_sort, File::ARRAY);
         if(is_array($data_uuid)){
             foreach($data_uuid as $uuid){
+                $uuid = rtrim($uuid, PHP_EOL);
                 $url_node = $object->config('project.dir.data') .
                     'Node' .
                     $object->config('ds') .
