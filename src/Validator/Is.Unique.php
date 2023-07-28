@@ -115,6 +115,7 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
     ){
         $options['ramdisk'] = true;
     }
+    ddd($options);
     $record = $unique->record($class, $unique->role_system(), $options);
     if (empty($record)) {
         return true;
