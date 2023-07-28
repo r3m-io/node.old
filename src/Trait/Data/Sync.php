@@ -531,10 +531,10 @@ Trait Sync {
             $property_2 = '"' . implode('", "', $property_2) . '"';
         }
         if(is_object($property_1)){
-            $property_1 = Core::object($property_1, Core::OBJECT_JSON);
+            $property_1 = Core::object($property_1, Core::OBJECT_JSON_LINE);
         }
         if(is_object($property_2)){
-            $property_2 = Core::object($property_2, Core::OBJECT_JSON);
+            $property_2 = Core::object($property_2, Core::OBJECT_JSON_LINE);
         }
         return '[' . $property_1 . ', ' . $property_2 . ']';
     }
