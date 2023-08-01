@@ -89,6 +89,10 @@ Trait Delete {
             $uuid .
             $object->config('extension.json')
         ;
+        $options = (object) [
+            'class' => $class,
+        ];
+        $this->sync($options);
         return File::delete($url_node);
     }
 

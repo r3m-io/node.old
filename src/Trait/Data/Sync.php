@@ -24,10 +24,12 @@ Trait Sync {
     /**
      * @throws Exception
      */
-    public function sync(): void
+    public function sync($options=''): void
     {
         $object = $this->object();
-        $options = App::options($object);
+        if(empty($options)){
+            $options = App::options($object);
+        }
         if(property_exists($options, 'class')){
             $options->class = explode(',', $options->class);
             foreach($options->class as $nr => $class){
