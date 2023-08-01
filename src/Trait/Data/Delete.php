@@ -58,46 +58,22 @@ Trait Delete {
         $count = $meta->get('Sort.' . $name . '.' . $sort_key . '.' . 'count');
         $url_property = $meta->get('Sort.' . $name . '.' . $sort_key . '.' . $url_key);
 
-        ddd($url_property);
-
-        $data = $object->data_read($url_property);
+        $data = File::read($url_property, File::ARRAY);
         if(!$data){
-            return false;
-        }
-        $list = (array) $data->get($name);
-        if(empty($list)){
             return false;
         }
         $uuid = $node->get('uuid');
         if(empty($uuid)){
             return false;
         }
-        foreach($list as $nr => $record){
-            if(
-                is_array($record) &&
-                array_key_exists('uuid', $record) &&
-                $record['uuid'] === $uuid
-            ){
-                unset($list[$nr]);
-                break;
-            }
-            elseif(
-                is_object($record) &&
-                property_exists($record,'uuid') &&
-                $record->uuid === $uuid
-            ){
-                unset($list[$nr]);
+        foreach($data as $nr => $record){
+            $record_uuid = rtrim($record, PHP_EOL);
+            if($record_uuid === $uuid){
+                unset($data[$nr]);
                 break;
             }
         }
-        $index = 0;
-        $result = [];
-        foreach($list as $record){
-            $record->{'#index'} = $index;
-            $result[$index] = $record;
-            $index++;
-        }
-        $data->set($name, $result);
+        ddd($data);
         $lines = $data->write($url_property, 'lines');
         $count = $index;
         if($count < 0){
