@@ -74,8 +74,6 @@ Trait Delete {
             }
         }
         $lines = File::write($url_property, implode('', $data), File::LINES);
-
-        ddd($lines);
         $count = $lines;
         if($count < 0){
             $count = 0;
