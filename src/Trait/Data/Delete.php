@@ -64,6 +64,7 @@ Trait Delete {
         $url_property = $meta->get('Sort.' . $name . '.' . $sort_key . '.' . $url_key);
 
         $data = File::read($url_property, File::ARRAY);
+
         if(!$data){
             return false;
         }
@@ -71,13 +72,15 @@ Trait Delete {
         if(empty($uuid)){
             return false;
         }
+        $is_found = false;
         foreach($data as $nr => $record){
             $record_uuid = rtrim($record, PHP_EOL);
             if($record_uuid === $uuid){
-                unset($data[$nr]);
+                $is_found = true;
                 break;
             }
         }
+        /*
         $lines = File::write($url_property, implode('', $data), File::LINES);
         $count = $lines;
         if($count < 0){
@@ -86,6 +89,7 @@ Trait Delete {
         $meta->set('Sort.' . $name . '.' . $sort_key . '.' . 'count', $count);
         $meta->set('Sort.' . $name . '.' . $sort_key . '.' . 'lines', $lines);
         $meta->write($meta_url);
+        */
         $url_node = $dir_node .
             'Storage' .
             $object->config('ds') .
@@ -111,7 +115,10 @@ Trait Delete {
             $uuid .
             $object->config('extension.json')
         ;
-        return File::move($url_node, $target_url);
+        if(($is_found)){
+            return File::move($url_node, $target_url);
+        }
+        return false;
     }
 
     /**
