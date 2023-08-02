@@ -961,12 +961,14 @@ Trait BinaryTree {
                     $record_index++;
                     $counter++;
                 } else {
+                    /*
                     if(!empty($options['filter'])){
                         break;
                     }
                     elseif(!empty($options['where'])){
                         break;
                     }
+                    */
                     $end++;
                 }
             } else {
