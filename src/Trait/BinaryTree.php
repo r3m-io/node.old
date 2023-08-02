@@ -868,7 +868,6 @@ Trait BinaryTree {
                     $data->set('output.key', $key);
                     $result = (array) $data->data('page');
                     $counter = $data->data('output.count');
-                    d($result);
                     return $result;
                 }
             }
@@ -959,6 +958,12 @@ Trait BinaryTree {
                     $record_index++;
                     $counter++;
                 } else {
+                    if(!empty($options['filter'])){
+                        break;
+                    }
+                    elseif(!empty($options['where'])){
+                        break;
+                    }
                     $end++;
                 }
             } else {
