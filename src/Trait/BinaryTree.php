@@ -878,7 +878,6 @@ Trait BinaryTree {
         $page = [];
         $record_index = $index;
         for($i = $start; $i < $end; $i++){
-            d($i);
             $record = $this->binary_tree_index($file, $file_uuid, $file_connect_property, [
 //                'page' => $options['page'],
 //                'limit' => $options['limit'],
@@ -890,7 +889,6 @@ Trait BinaryTree {
                 'url_uuid' => $options['url_uuid'],
                 'url_connect_property' => $options['url_connect_property'],
             ]);
-            d($record);
             if(
                 $record
             ){
@@ -962,6 +960,7 @@ Trait BinaryTree {
                     $counter++;
                 } else {
                     /*
+                     * does break the code...
                     if(!empty($options['filter'])){
                         break;
                     }
