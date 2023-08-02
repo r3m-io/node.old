@@ -106,7 +106,7 @@ Trait Delete {
             'isDeleted' .
             $object->config('ds')
         ;
-        Dir::create($target_dir, Dir::chmod);
+        Dir::create($target_dir, Dir::CHMOD);
         $target_url = $target_dir .
             $uuid .
             $object->config('extension.json')
