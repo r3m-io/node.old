@@ -49,6 +49,7 @@ Trait Read {
             $options_record['ramdisk'] = true;
         }
         d($options_record);
+        d($role);
         $data = $this->record($name, $role, $options_record);
         d($data);
         if($data){
