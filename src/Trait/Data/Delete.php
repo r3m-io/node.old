@@ -2,11 +2,15 @@
 
 namespace R3m\Io\Node\Trait\Data;
 
-use R3m\Io\Exception\ObjectException;
+use R3m\Io\App;
+use R3m\Io\Config;
+
 use R3m\Io\Module\Controller;
 use R3m\Io\Module\Core;
 use R3m\Io\Module\Data as Storage;
 use R3m\Io\Module\File;
+
+use R3m\Io\Exception\ObjectException;
 
 Trait Delete {
 
@@ -89,11 +93,24 @@ Trait Delete {
             $uuid .
             $object->config('extension.json')
         ;
-        $options = (object) [
-            'class' => $class,
-        ];
-        $this->sync($options);
-        return File::delete($url_node);
+        $target_dir = $object->config('ramdisk.url') .
+            $object->config(Config::POSIX_ID) .
+            $object->config('ds') .
+            'Package' .
+            $object->config('ds') .
+            'R3m_io' .
+            $object->config('ds') .
+            'Node' .
+            $object->config('ds') .
+            'isDeleted' .
+            $object->config('ds')
+        ;
+        Dir::create($target_dir, Dir::chmod);
+        $target_url = $target_dir .
+            $uuid .
+            $object->config('extension.json')
+        ;
+        return File::move($url_node, $target_url);
     }
 
     /**
