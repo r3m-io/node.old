@@ -19,6 +19,8 @@ Trait Read {
         $object = $this->object();
         $name = Controller::name($class);
         $options = Core::object($options, Core::OBJECT_ARRAY);
+        d($name);
+        d($options);
         if(!array_key_exists('uuid', $options)){
             return false;
         }
