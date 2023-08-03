@@ -9,7 +9,7 @@ Submodule: {{$submodule|uppercase.first}}
 {{$is.all = false}}
 {{if(is.empty.object($options))}}
 {{$is.all = true}}
-{{$files = dir.read(config('controller.dir.view') + dir.uppercase.first($package) + 'Object/Info/')}}
+{{$files = dir.read(config('controller.dir.view') + 'Object/Info/')}}
 {{$files = data.sort($files, ['url' => 'ASC'])}}
 Options:
 {{for.each($files as $file)}}
@@ -23,7 +23,7 @@ Options:
 {{/if}}
 {{/for.each}}
 {{else}}
-{{$files = dir.read(config('controller.dir.view') + dir.uppercase.first($package) + 'Object/Info/')}}
+{{$files = dir.read(config('controller.dir.view') + 'Object/Info/')}}
 {{$files = data.sort($files, ['url' => 'ASC'])}}
 {{for.each($files as $file)}}
 {{if($file.name === 'Object.Info.tpl')}}
