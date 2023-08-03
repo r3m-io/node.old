@@ -892,15 +892,12 @@ Trait BinaryTree {
                 $record
             ){
                 $read = $object->data_read($record->{'#read'}->url, sha1($record->{'#read'}->url));
-                /*
-                if($read && $read->has('#class') && $read->get('#class') === 'App.Event'){
-                    $read->set('#class', 'Server.Event');
-                    $read->write($record->{'#read'}->url);
+                if(!$read){
+                    ///deleted record ?
+                    $end++;
+                    continue;
                 }
-                */
-                if($read){
-                    $record = Core::object_merge($record, $read->data());
-                }
+                $record = Core::object_merge($record, $read->data());
                 if(!property_exists($record, '#class')){
                     $end++;
                     //need to trigger sync
