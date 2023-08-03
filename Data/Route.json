@@ -1,7 +1,7 @@
 {
   "r3m_io-node-cli": {
     "path": "r3m_io\/node",
-    "controller": "Node.Controller.Cli.run",
+    "controller": "Package.R3m_io.Node.Controller.Cli.run",
     "language": "en",
     "method": [
       "CLI"
