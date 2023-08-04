@@ -58,10 +58,11 @@ class Cli extends Controller {
 
         $scan = Cli::scan($object, $package);
         $module = $object->parameter($object, $package, 1);
+        d($module);
         if(!in_array($module, $scan['module'])){
             $module = Cli::MODULE_INFO;
         }
-        $submodule = $object->parameter($object, $package, 3);
+        $submodule = $object->parameter($object, $package, 2);
         if(
             !in_array(
                 $submodule,
@@ -71,7 +72,7 @@ class Cli extends Controller {
         ){
             $submodule = false;
         }
-        $command = $object->parameter($object, $package, 4);
+        $command = $object->parameter($object, $package, 3);
         if(
             !in_array(
                 $command,
@@ -83,7 +84,7 @@ class Cli extends Controller {
         ){
             $command = false;
         }
-        $subcommand = $object->parameter($object, $package, 5);
+        $subcommand = $object->parameter($object, $package, 4);
         if(
             !in_array(
                 $subcommand,
@@ -96,7 +97,7 @@ class Cli extends Controller {
         ){
             $subcommand = false;
         }
-        $action = $object->parameter($object, $package, 6);
+        $action = $object->parameter($object, $package, 5);
         if(
             !in_array(
                 $action,
@@ -110,7 +111,7 @@ class Cli extends Controller {
         ){
             $action = false;
         }
-        $subaction = $object->parameter($object, $package, 7);
+        $subaction = $object->parameter($object, $package, 6);
         if(
             !in_array(
                 $subaction,
@@ -125,7 +126,7 @@ class Cli extends Controller {
         ){
             $subaction = false;
         }
-        $category = $object->parameter($object, $package, 8);
+        $category = $object->parameter($object, $package, 7);
         if(
             !in_array(
                 $category,
@@ -141,7 +142,7 @@ class Cli extends Controller {
         ){
             $category = false;
         }
-        $subcategory = $object->parameter($object, $package, 9);
+        $subcategory = $object->parameter($object, $package, 8);
         if(
             !in_array(
                 $subcategory,
