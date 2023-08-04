@@ -295,7 +295,6 @@ class Cli extends Controller {
             ){
                 $url = Cli::locate(
                     $object,
-                    Dir::ucfirst($package) .
                     ucfirst($module) .
                     '.' .
                     ucfirst($submodule)
@@ -306,7 +305,6 @@ class Cli extends Controller {
             ){
                 $url = Cli::locate(
                     $object,
-                    Dir::ucfirst($package) .
                     ucfirst($module)
                 );
             }
