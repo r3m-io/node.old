@@ -3,8 +3,11 @@
 {{$module = 'object'}}
 {{$submodule = 'info'}}
 Package: {{$package}}
+
 Module: {{$module|uppercase.first}}
+
 Submodule: {{$submodule|uppercase.first}}
+
 {{$options = options()}}
 {{$is.all = false}}
 {{if(is.empty.object($options))}}
