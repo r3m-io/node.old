@@ -59,6 +59,7 @@ class Cli extends Controller {
         $scan = Cli::scan($object, $package);
         $module = $object->parameter($object, $package, 1);
         d($module);
+        d($scan);
         if(!in_array($module, $scan['module'])){
             $module = Cli::MODULE_INFO;
         }
@@ -319,7 +320,6 @@ class Cli extends Controller {
 
     private static function scan(App $object, $package=''): array
     {
-        $package_dir = Dir::ucfirst($package);
         $scan = [
             'module' => [],
             'submodule' => [],
@@ -332,8 +332,7 @@ class Cli extends Controller {
         ];
         $url = $object->config('controller.dir.root') .
             'View' .
-            $object->config('ds') .
-            $package_dir
+            $object->config('ds')
         ;
         if(!Dir::exist($url)){
             return $scan;
