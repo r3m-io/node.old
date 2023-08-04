@@ -45,6 +45,7 @@ class Cli extends Controller {
             'Validator' .
             $object->config('ds')
         );
+        $url = false;
         $autoload = [];
         $data = new Data();
 //        $data->set('prefix', 'Node');
@@ -170,7 +171,6 @@ class Cli extends Controller {
             ){
                 $url = Cli::locate(
                     $object,
-                    Dir::ucfirst($package) .
                     ucfirst($module) .
                     '.' .
                     ucfirst($submodule) .
@@ -199,7 +199,6 @@ class Cli extends Controller {
             ){
                 $url = Cli::locate(
                     $object,
-                    Dir::ucfirst($package) .
                     ucfirst($module) .
                     '.' .
                     ucfirst($submodule) .
@@ -225,7 +224,6 @@ class Cli extends Controller {
             ){
                 $url = Cli::locate(
                     $object,
-                    Dir::ucfirst($package) .
                     ucfirst($module) .
                     '.' .
                     ucfirst($submodule) .
@@ -248,7 +246,6 @@ class Cli extends Controller {
             ){
                 $url = Cli::locate(
                     $object,
-                    Dir::ucfirst($package) .
                     ucfirst($module) .
                     '.' .
                     ucfirst($submodule) .
@@ -268,7 +265,6 @@ class Cli extends Controller {
             ){
                 $url = Cli::locate(
                     $object,
-                    Dir::ucfirst($package) .
                     ucfirst($module) .
                     '.' .
                     ucfirst($submodule) .
@@ -285,7 +281,6 @@ class Cli extends Controller {
             ){
                 $url = Cli::locate(
                     $object,
-                    Dir::ucfirst($package) .
                     ucfirst($module) .
                     '.' .
                     ucfirst($submodule) .
@@ -314,10 +309,13 @@ class Cli extends Controller {
                     ucfirst($module)
                 );
             }
-            return Cli::response($object, $url);
+            if($url){
+                return Cli::response($object, $url);
+            }
         } catch (Exception | UrlEmptyException | UrlNotExistException | LocateException $exception){
             return $exception;
         }
+        return null;
     }
 
     private static function scan(App $object, $package=''): array
