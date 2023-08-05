@@ -1,6 +1,5 @@
 {{R3M}}
 {{$request = request()}}
-{{d($request)}}
 Package: {{$request.package}}
 
 Module: {{$request.module|uppercase.first}}
@@ -8,7 +7,6 @@ Module: {{$request.module|uppercase.first}}
 {{if(!is.empty($request.submodule))}}
 Submodule: {{$request.submodule|uppercase.first}}
 {{/if}}
-{{dd($request)}}
 {{if($request.module === 'info')}}
 Commands:
 {{binary()}} {{$request.package}} object drop
