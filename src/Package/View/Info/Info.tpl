@@ -1,4 +1,6 @@
 {{R3M}}
+{{$request = request()}}
+{{dd($request)}}
 {{$package = 'r3m_io/node'}}
 {{$module = 'object'}}
 {{$submodule = 'info'}}
