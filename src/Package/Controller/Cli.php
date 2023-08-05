@@ -55,13 +55,13 @@ class Cli extends Controller {
 //        $data->set('autoload', $autoload);
 //        Cli::autoload($object, $data);
         $package = strtolower($object->request(0));
-
+        $object->data('package', $package);
         $scan = Cli::scan($object, $package);
-        $module = $object->parameter($object, $package, 1);
+        $module = App::parameter($object, $package, 1);
         if(!in_array($module, $scan['module'])){
             $module = Cli::MODULE_INFO;
         }
-        $submodule = $object->parameter($object, $package, 2);
+        $submodule = App::parameter($object, $package, 2);
         if(
             !in_array(
                 $submodule,
@@ -71,7 +71,7 @@ class Cli extends Controller {
         ){
             $submodule = false;
         }
-        $command = $object->parameter($object, $package, 3);
+        $command = App::parameter($object, $package, 3);
         if(
             !in_array(
                 $command,
@@ -83,7 +83,7 @@ class Cli extends Controller {
         ){
             $command = false;
         }
-        $subcommand = $object->parameter($object, $package, 4);
+        $subcommand = App::parameter($object, $package, 4);
         if(
             !in_array(
                 $subcommand,
@@ -96,7 +96,7 @@ class Cli extends Controller {
         ){
             $subcommand = false;
         }
-        $action = $object->parameter($object, $package, 5);
+        $action = App::parameter($object, $package, 5);
         if(
             !in_array(
                 $action,
@@ -110,7 +110,7 @@ class Cli extends Controller {
         ){
             $action = false;
         }
-        $subaction = $object->parameter($object, $package, 6);
+        $subaction = App::parameter($object, $package, 6);
         if(
             !in_array(
                 $subaction,
@@ -125,7 +125,7 @@ class Cli extends Controller {
         ){
             $subaction = false;
         }
-        $category = $object->parameter($object, $package, 7);
+        $category = App::parameter($object, $package, 7);
         if(
             !in_array(
                 $category,
@@ -141,7 +141,7 @@ class Cli extends Controller {
         ){
             $category = false;
         }
-        $subcategory = $object->parameter($object, $package, 8);
+        $subcategory = App::parameter($object, $package, 8);
         if(
             !in_array(
                 $subcategory,
@@ -169,6 +169,14 @@ class Cli extends Controller {
                 !empty($category) &&
                 !empty($subcategory)
             ){
+                $object->request('module', $module);
+                $object->request('submodule', $submodule);
+                $object->request('command', $command);
+                $object->request('subcommand', $subcommand);
+                $object->request('action', $action);
+                $object->request('subaction', $subaction);
+                $object->request('category', $category);
+                $object->request('subcategory', $subcategory);
                 $url = Cli::locate(
                     $object,
                     ucfirst($module) .
@@ -197,6 +205,13 @@ class Cli extends Controller {
                 !empty($subaction) &&
                 !empty($category)
             ){
+                $object->request('module', $module);
+                $object->request('submodule', $submodule);
+                $object->request('command', $command);
+                $object->request('subcommand', $subcommand);
+                $object->request('action', $action);
+                $object->request('subaction', $subaction);
+                $object->request('category', $category);
                 $url = Cli::locate(
                     $object,
                     ucfirst($module) .
@@ -222,6 +237,12 @@ class Cli extends Controller {
                 !empty($action) &&
                 !empty($subaction)
             ){
+                $object->request('module', $module);
+                $object->request('submodule', $submodule);
+                $object->request('command', $command);
+                $object->request('subcommand', $subcommand);
+                $object->request('action', $action);
+                $object->request('subaction', $subaction);
                 $url = Cli::locate(
                     $object,
                     ucfirst($module) .
@@ -244,6 +265,11 @@ class Cli extends Controller {
                 !empty($subcommand) &&
                 !empty($action)
             ){
+                $object->request('module', $module);
+                $object->request('submodule', $submodule);
+                $object->request('command', $command);
+                $object->request('subcommand', $subcommand);
+                $object->request('action', $action);
                 $url = Cli::locate(
                     $object,
                     ucfirst($module) .
@@ -263,6 +289,10 @@ class Cli extends Controller {
                 !empty($command) &&
                 !empty($subcommand)
             ){
+                $object->request('module', $module);
+                $object->request('submodule', $submodule);
+                $object->request('command', $command);
+                $object->request('subcommand', $subcommand);
                 $url = Cli::locate(
                     $object,
                     ucfirst($module) .
@@ -279,6 +309,9 @@ class Cli extends Controller {
                 !empty($submodule) &&
                 !empty($command)
             ){
+                $object->request('module', $module);
+                $object->request('submodule', $submodule);
+                $object->request('command', $command);
                 $url = Cli::locate(
                     $object,
                     ucfirst($module) .
@@ -292,6 +325,8 @@ class Cli extends Controller {
                 !empty($module) &&
                 !empty($submodule)
             ){
+                $object->request('module', $module);
+                $object->request('submodule', $submodule);
                 $url = Cli::locate(
                     $object,
                     ucfirst($module) .
@@ -302,6 +337,7 @@ class Cli extends Controller {
             elseif(
                 !empty($module)
             ){
+                $object->request('module', $module);
                 $url = Cli::locate(
                     $object,
                     ucfirst($module)
