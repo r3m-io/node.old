@@ -12,9 +12,6 @@ Submodule: {{$request.submodule|uppercase.first}}
 {{$files = data.sort($files, ['url' => 'ASC'])}}
 Commands:
 {{for.each($files as $file)}}
-{{if($file.type === 'Dir')}}
-
-{{/if}}
 {{$file.basename = file.basename($file.name, config('extension.tpl'))}}
 {{binary()}} {{$request.package}} object {{$file.basename|lowercase}}
 
