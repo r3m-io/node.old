@@ -8,14 +8,21 @@ Module: {{$request.module|uppercase.first}}
 Submodule: {{$request.submodule|uppercase.first}}
 {{/if}}
 {{if($request.module === 'info')}}
+{{$files = dir.read(config('controller.dir.view') + 'Object/')}}
+{{$files = data.sort($files, ['url' => 'ASC'])}}
 Commands:
-{{binary()}} {{$request.package}} object drop
-{{binary()}} {{$request.package}} object export
-{{binary()}} {{$request.package}} object import
-{{binary()}} {{$request.package}} object info
-{{binary()}} {{$request.package}} object rename
-{{binary()}} {{$request.package}} object sync
-{{binary()}} {{$request.package}} object truncate
+{{for.each($files as $file)}}
+{{continue()}}
+{{/if}}
+{{if($file.type === 'Dir')}}
+
+{{/if}}
+{{$file.basename = file.basename($file.name, config('extension.tpl'))}}
+{{if(!is.empty($options[$file.basename|lowercase])}}
+{{binary()}} {{$request.package}} {{$request.module}} {{$file.basename|lowercase}}
+
+{{/if}}
+{{/for.each}}
 {{else}}
 {{$options = options()}}
 {{$is.all = false}}
