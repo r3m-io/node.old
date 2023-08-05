@@ -1,10 +1,8 @@
 {{R3M}}
-{{$package = 'r3m_io/node'}}
-{{$module = 'object'}}
-{{$submodule = 'info'}}
-Package: {{$package}}
-Module: {{$module|uppercase.first}}
-Submodule: {{$submodule|uppercase.first}}
+{{$request = request()}}
+Package: {{$request.package}}
+Module: {{$request.module|uppercase.first}}
+Submodule: {{$request.submodule|uppercase.first}}
 {{$options = options()}}
 {{$is.all = false}}
 {{if(is.empty.object($options))}}
@@ -18,7 +16,7 @@ Options:
 {{/if}}
 {{$file.basename = file.basename($file.name, config('extension.tpl'))}}
 {{if(!is.empty($options[$file.basename|lowercase]) || !is.empty($is.all))}}
-{{binary()}} {{$package}} {{$module}} {{$submodule}} -{{$file.basename|lowercase}}
+{{binary()}} {{$request.package}} {{$request.module}} {{$request.submodule}} -{{$file.basename|lowercase}}
 
 {{/if}}
 {{/for.each}}
