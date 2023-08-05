@@ -14,7 +14,7 @@ use R3m\Io\Module\File;
 
 class Cli extends Controller {
     const DIR = __DIR__ . '/';
-    const MODULE_INFO = 'Info';
+    const MODULE_INFO = 'info';
     const INFO = [
         '{{binary()}} r3m_io/node                    | Node (Object store) options',
         '{{binary()}} r3m_io/node setup              | Node setup'
