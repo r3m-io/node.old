@@ -12,10 +12,12 @@ Commands:
 {{binary()}} {{$package}} {{$module}} drop
 {{binary()}} {{$package}} {{$module}} export
 {{binary()}} {{$package}} {{$module}} import
+{{binary()}} {{$package}} {{$module}} info
 {{binary()}} {{$package}} {{$module}} rename
 {{binary()}} {{$package}} {{$module}} sync
 {{binary()}} {{$package}} {{$module}} truncate
 
+/*
 {{$options = options()}}
 {{$is.all = false}}
 {{if(is.empty.object($options))}}
@@ -46,3 +48,4 @@ Options:
 {{/if}}
 {{/for.each}}
 {{/if}}
+*/
