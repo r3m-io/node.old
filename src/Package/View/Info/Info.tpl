@@ -16,10 +16,7 @@ Commands:
 
 {{/if}}
 {{$file.basename = file.basename($file.name, config('extension.tpl'))}}
-{{if(!is.empty($options[$file.basename|lowercase])}}
 {{binary()}} {{$request.package}} {{$request.module}} {{$file.basename|lowercase}}
-
-{{/if}}
 {{/for.each}}
 {{else}}
 {{$options = options()}}
