@@ -9,13 +9,13 @@ Submodule: {{$request.submodule|uppercase.first}}
 {{/if}}
 {{if($request.module === 'info')}}
 Commands:
-{{binary()}} {{$package}} {{$module}} drop
-{{binary()}} {{$package}} {{$module}} export
-{{binary()}} {{$package}} {{$module}} import
-{{binary()}} {{$package}} {{$module}} info
-{{binary()}} {{$package}} {{$module}} rename
-{{binary()}} {{$package}} {{$module}} sync
-{{binary()}} {{$package}} {{$module}} truncate
+{{binary()}} {{$request.package}} object drop
+{{binary()}} {{$request.package}} object export
+{{binary()}} {{$request.package}} object import
+{{binary()}} {{$request.package}} object info
+{{binary()}} {{$request.package}} object rename
+{{binary()}} {{$request.package}} object sync
+{{binary()}} {{$request.package}} object truncate
 {{else}}
 {{$options = options()}}
 {{$is.all = false}}
@@ -30,7 +30,7 @@ Options:
 {{/if}}
 {{$file.basename = file.basename($file.name, config('extension.tpl'))}}
 {{if(!is.empty($options[$file.basename|lowercase]) || !is.empty($is.all))}}
-{{binary()}} {{$package}} {{$module}} {{$submodule}} -{{$file.basename|lowercase}}
+{{binary()}} {{$request.package}} {{$request.module}} {{$request.submodule}} -{{$file.basename|lowercase}}
 
 {{/if}}
 {{/for.each}}
