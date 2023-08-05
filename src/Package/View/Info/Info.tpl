@@ -17,6 +17,7 @@ Commands:
 {{/if}}
 {{$file.basename = file.basename($file.name, config('extension.tpl'))}}
 {{binary()}} {{$request.package}} {{$request.module}} {{$file.basename|lowercase}}
+
 {{/for.each}}
 {{else}}
 {{$options = options()}}
