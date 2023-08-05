@@ -58,8 +58,6 @@ class Cli extends Controller {
 
         $scan = Cli::scan($object, $package);
         $module = $object->parameter($object, $package, 1);
-        d($module);
-        d($scan);
         if(!in_array($module, $scan['module'])){
             $module = Cli::MODULE_INFO;
         }
