@@ -12,8 +12,6 @@ Submodule: {{$request.submodule|uppercase.first}}
 {{$files = data.sort($files, ['url' => 'ASC'])}}
 Commands:
 {{for.each($files as $file)}}
-{{continue()}}
-{{/if}}
 {{if($file.type === 'Dir')}}
 
 {{/if}}
