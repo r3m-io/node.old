@@ -1,15 +1,13 @@
 {{R3M}}
 {{$request = request()}}
-{{dd($request)}}
-{{$package = 'r3m_io/node'}}
-{{$module = 'object'}}
-{{$submodule = 'info'}}
-Package: {{$package}}
+Package: {{$request.package}}
 
-Module: {{$module|uppercase.first}}
+Module: {{$request.module|uppercase.first}}
 
-Submodule: {{$submodule|uppercase.first}}
-
+{{if(!is.empty($request.submodule))}}
+Submodule: {{$request.submodule|uppercase.first}}
+{{/if}}
+{{if($request.module === 'info')}}
 Commands:
 {{binary()}} {{$package}} {{$module}} drop
 {{binary()}} {{$package}} {{$module}} export
@@ -18,8 +16,7 @@ Commands:
 {{binary()}} {{$package}} {{$module}} rename
 {{binary()}} {{$package}} {{$module}} sync
 {{binary()}} {{$package}} {{$module}} truncate
-
-/*
+{{else}}
 {{$options = options()}}
 {{$is.all = false}}
 {{if(is.empty.object($options))}}
@@ -50,4 +47,4 @@ Options:
 {{/if}}
 {{/for.each}}
 {{/if}}
-*/
+{/if}
