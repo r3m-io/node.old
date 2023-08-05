@@ -55,7 +55,7 @@ class Cli extends Controller {
 //        $data->set('autoload', $autoload);
 //        Cli::autoload($object, $data);
         $package = strtolower($object->request(0));
-        $object->data('package', $package);
+        $object->request('package', $package);
         $scan = Cli::scan($object, $package);
         $module = App::parameter($object, $package, 1);
         if(!in_array($module, $scan['module'])){
