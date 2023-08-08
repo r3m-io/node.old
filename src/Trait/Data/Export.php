@@ -29,7 +29,6 @@ Trait Export {
         if(File::exist($options['url'])){
             return;
         }
-        ddd($options);
         $name = Controller::name($class);
         $object = $this->object();
         $dir_name = Dir::name($options['url']);
