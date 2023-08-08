@@ -113,7 +113,15 @@ Trait Export {
         $dir = $url;
         while(true){
             $dir = Dir::name($dir);
-            if($dir === '/Application/'){
+            if(in_array(
+                $dir,
+                [
+                    '/Application/' ,
+                    '/'
+                ],
+                true
+                )
+            ){
                 break;
             }
             if($object->config(Config::POSIX_ID) === 0) {
