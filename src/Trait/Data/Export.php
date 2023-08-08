@@ -111,10 +111,15 @@ Trait Export {
             exec($command);
         }
         $dir = $url;
+        $counter = 0;
         while(true){
             $dir = Dir::name($dir);
             d($dir);
             if(empty($dir)){
+                break;
+            }
+            $counter++;
+            if($counter > 10){
                 break;
             }
             /*
