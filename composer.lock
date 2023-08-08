@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4bbb0d2fd117bfa15fb1a5e54ea5c693",
+    "content-hash": "9f9454c6bc2bb75449cc8962d613ccc5",
     "packages": [
         {
             "name": "defuse/php-encryption",
@@ -276,17 +276,65 @@
             "time": "2021-07-14T16:46:02+00:00"
         },
         {
-            "name": "r3m_io/framework",
-            "version": "0.53.1007",
+            "name": "r3m_io/event",
+            "version": "dev-main",
             "source": {
                 "type": "git",
-                "url": "https://github.com/r3m-io/framework.git",
-                "reference": "a2ec61f1af3479c4a455e662ea0be6d1b39dad29"
+                "url": "https://github.com/r3m-io/event.git",
+                "reference": "d39ef114747cb8c5f410923a44f9cb73ffd39dca"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/r3m-io/framework/zipball/a2ec61f1af3479c4a455e662ea0be6d1b39dad29",
-                "reference": "a2ec61f1af3479c4a455e662ea0be6d1b39dad29",
+                "url": "https://api.github.com/repos/r3m-io/event/zipball/d39ef114747cb8c5f410923a44f9cb73ffd39dca",
+                "reference": "d39ef114747cb8c5f410923a44f9cb73ffd39dca",
+                "shasum": ""
+            },
+            "require": {
+                "ext-iconv": "*",
+                "ext-posix": "*",
+                "ext-zlib": "*",
+                "r3m_io/node": "dev-main"
+            },
+            "default-branch": true,
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Remco van der Velde",
+                    "email": "development@universeorange.com"
+                }
+            ],
+            "description": "r3m_io/event see https://r3m.io for detailed usage",
+            "homepage": "https://r3m.io",
+            "keywords": [
+                "event",
+                "framework",
+                "library",
+                "node",
+                "r3m",
+                "r3m.io"
+            ],
+            "support": {
+                "issues": "https://github.com/r3m-io/event/issues",
+                "source": "https://github.com/r3m-io/event/tree/main"
+            },
+            "time": "2023-08-01T16:31:05+00:00"
+        },
+        {
+            "name": "r3m_io/framework",
+            "version": "0.54.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/r3m-io/framework.git",
+                "reference": "5be848d8cec893c69a27bfba0219aeda9a724884"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/r3m-io/framework/zipball/5be848d8cec893c69a27bfba0219aeda9a724884",
+                "reference": "5be848d8cec893c69a27bfba0219aeda9a724884",
                 "shasum": ""
             },
             "require": {
@@ -294,10 +342,16 @@
                 "ext-json": "*",
                 "ext-mbstring": "*",
                 "ext-openssl": "*",
+                "ext-pcntl": "*",
                 "ext-posix": "*",
+                "ext-readline": "*",
+                "ext-shmop": "*",
                 "ext-zend-opcache": "*",
+                "ext-zip": "*",
                 "monolog/monolog": "^2.2",
-                "php": ">=7.4"
+                "php": ">=8.0",
+                "r3m_io/event": "dev-main",
+                "r3m_io/node": "dev-main"
             },
             "type": "library",
             "autoload": {
@@ -311,8 +365,8 @@
             ],
             "authors": [
                 {
-                    "name": "Remco van der Velde",
-                    "email": "remco@universeorange.com"
+                    "name": "Universe Orange",
+                    "email": "development@universeorange.com"
                 }
             ],
             "description": "R3M framework see https://r3m.io for detailed usage",
@@ -323,13 +377,14 @@
                 "language",
                 "library",
                 "r3m",
+                "r3m.io",
                 "template"
             ],
             "support": {
                 "issues": "https://github.com/r3m-io/framework/issues",
-                "source": "https://github.com/r3m-io/framework/tree/0.53.1007"
+                "source": "https://github.com/r3m-io/framework/tree/0.54.2"
             },
-            "time": "2023-02-08T23:20:07+00:00"
+            "time": "2023-08-01T14:30:15+00:00"
         }
     ],
     "packages-dev": [],

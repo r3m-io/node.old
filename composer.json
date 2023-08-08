@@ -7,7 +7,8 @@
     "require" : {
         "ext-posix": "*",
         "ext-zlib": "*",
-        "ext-iconv": "*"
+        "ext-iconv": "*",
+        "r3m_io/framework": "^0.54.2"
     },
     "license" : "MIT",
     "authors" : [{
@@ -18,5 +19,7 @@
         "psr-4" : {
             "R3m\\Io\\Node\\" : "src/"
         }
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
