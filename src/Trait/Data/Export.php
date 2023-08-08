@@ -111,6 +111,25 @@ Trait Export {
             $command = 'chmod 666 ' . $url;
             exec($command);
         }
+        $dir = $url;
+        while(true){
+            $dir = Dir::name($dir);
+            d($dir);
+            if(empty($dir)){
+                break;
+            }
+            /*
+            if($object->config(Config::POSIX_ID) === 0) {
+                $command = 'chown www-data:www-data ' . $dir;
+                exec($command);
+            }
+            if($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
+                $command = 'chmod 777 ' . $dir;
+                exec($command);
+            }
+            */
+        }
+        /*
         $dir_class = Dir::name($dir_name);
         $dir_node = Dir::name($dir_class);
         $dir_package = Dir::name($dir_node);
@@ -140,5 +159,6 @@ Trait Export {
             $command = 'chmod 777 ' . $dir_mount;
             exec($command);
         }
+        */
     }
 }
