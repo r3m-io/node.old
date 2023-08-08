@@ -5,7 +5,6 @@
     "keywords" : ["node", "r3m", "library", "framework", "node", "r3m.io"],
     "homepage": "https://r3m.io",
     "require" : {
-        "r3m_io/framework": "*",
         "ext-posix": "*",
         "ext-zlib": "*",
         "ext-iconv": "*"
@@ -19,7 +18,5 @@
         "psr-4" : {
             "R3m\\Io\\Node\\" : "src/"
         }
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+    }
 }
