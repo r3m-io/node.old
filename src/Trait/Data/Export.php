@@ -71,6 +71,12 @@ Trait Export {
         $page_max = ceil($count / $list_options['limit']);
         $data = new Storage();
         for($page=1; $page <= $page_max; $page++){
+            if(
+                array_key_exists('page', $options) &&
+                $page !== $options['page']
+            ){
+                continue;
+            }
             $list_options['page'] = $page;
             $response = $this->list($name, $role, $list_options);
             $list = [];
