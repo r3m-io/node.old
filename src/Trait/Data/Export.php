@@ -81,6 +81,7 @@ Trait Export {
             $url = false;
             if(
                 array_key_exists('compression', $options) &&
+                is_array($options['compression']) &&
                 array_key_exists('algorithm', $options['compression']) &&
                 array_key_exists('level', $options['compression'])
             ){
