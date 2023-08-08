@@ -111,18 +111,11 @@ Trait Export {
             exec($command);
         }
         $dir = $url;
-        $counter = 0;
         while(true){
             $dir = Dir::name($dir);
-            d($dir);
-            if(empty($dir)){
+            if($dir === '/Application/'){
                 break;
             }
-            $counter++;
-            if($counter > 10){
-                break;
-            }
-            /*
             if($object->config(Config::POSIX_ID) === 0) {
                 $command = 'chown www-data:www-data ' . $dir;
                 exec($command);
@@ -131,38 +124,6 @@ Trait Export {
                 $command = 'chmod 777 ' . $dir;
                 exec($command);
             }
-            */
         }
-        /*
-        $dir_class = Dir::name($dir_name);
-        $dir_node = Dir::name($dir_class);
-        $dir_package = Dir::name($dir_node);
-        $dir_backup = Dir::name($dir_package);
-        $dir_mount = Dir::name($dir_backup);
-        if($object->config(Config::POSIX_ID) === 0){
-            $command = 'chown www-data:www-data ' . $dir_name;
-            exec($command);
-            $command = 'chown www-data:www-data ' . $dir_class;
-            exec($command);
-            $command = 'chown www-data:www-data ' . $dir_node;
-            exec($command);
-            $command = 'chown www-data:www-data ' . $dir_package;
-            exec($command);
-            $command = 'chown www-data:www-data ' . $dir_mount;
-            exec($command);
-        }
-        if($object->config('framework.environment') === Config::MODE_DEVELOPMENT){
-            $command = 'chmod 777 ' . $dir_name;
-            exec($command);
-            $command = 'chmod 777 ' . $dir_class;
-            exec($command);
-            $command = 'chmod 777 ' . $dir_node;
-            exec($command);
-            $command = 'chmod 777 ' . $dir_package;
-            exec($command);
-            $command = 'chmod 777 ' . $dir_mount;
-            exec($command);
-        }
-        */
     }
 }
