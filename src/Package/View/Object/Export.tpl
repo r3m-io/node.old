@@ -26,6 +26,20 @@ config('extension.json')}}
 {{else}}
 {{$options.compression = false}}
 {{/if}}
+{{if(is.empty($options.limit))}}
+{{$options.limit = 1000}}
+{{/if}}
+{{if(!is.empty($options.page))}}
+{{R3m.Io.Node:Data:export(
+$options.class,
+R3m.Io.Node:Role:role.system(),
+[
+'url' => $options.url,
+'compression' => $options.compression,
+'page' => $options.page,
+'limit' => $options.limit
+])}}
+{{else}}
 {{R3m.Io.Node:Data:export(
 $options.class,
 R3m.Io.Node:Role:role.system(),
@@ -33,3 +47,4 @@ R3m.Io.Node:Role:role.system(),
 'url' => $options.url,
 'compression' => $options.compression
 ])}}
+{{/if}}
