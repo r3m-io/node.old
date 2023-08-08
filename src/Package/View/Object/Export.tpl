@@ -15,7 +15,7 @@ $options.class +
 '/' +
 date('Y-m-d-H-i-s') +
 '/' +
-$class +
+$options.class +
 config('extension.json')}}
 {{/if}}
 {{if(!is.empty($options.compression))}}
