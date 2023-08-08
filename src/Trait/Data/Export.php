@@ -33,6 +33,8 @@ Trait Export {
         $object = $this->object();
         $dir_name = Dir::name($options['url']);
         $file_name = File::basename($options['url'], $object->config('extension.json'));
+        d($options);
+        ddd($file_name);
         $meta_url = $object->config('project.dir.data') .
             'Node' .
             $object->config('ds') .
