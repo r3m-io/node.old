@@ -29,12 +29,11 @@ Trait Export {
         if(File::exist($options['url'])){
             return;
         }
+        ddd($options);
         $name = Controller::name($class);
         $object = $this->object();
         $dir_name = Dir::name($options['url']);
         $file_name = File::basename($options['url'], $object->config('extension.json'));
-        d($options);
-        ddd($file_name);
         $meta_url = $object->config('project.dir.data') .
             'Node' .
             $object->config('ds') .
@@ -71,43 +70,46 @@ Trait Export {
         $sort_key = sha1(Core::object($sort_key, Core::OBJECT_JSON));
         $count = $meta->get('Sort.' . $name . '.' . $sort_key . '.' . 'count');
         $page_max = ceil($count / $list_options['limit']);
+        $data = new Storage();
         for($page=1; $page <= $page_max; $page++){
             $list_options['page'] = $page;
             $response = $this->list($name, $role, $list_options);
-            $data = new Storage();
             $list = [];
             foreach($response['list'] as $record){
+                if(property_exists($record, '#index')){
+                    unset($record->{'#index'});
+                }
                 $list[] = $record;
             }
             $data->set($name, $list);
-            $url = false;
-            if(
-                array_key_exists('compression', $options) &&
-                is_array($options['compression']) &&
-                array_key_exists('algorithm', $options['compression']) &&
-                array_key_exists('level', $options['compression'])
-            ){
-                switch(strtolower($options['compression']['algorithm'])){
-                    case 'gz':
-                        $url = $dir_name . $file_name . '.' . $page . $object->config('extension.json') . $object->config('extension.gz');
-                        $data = Core::object($data->data(), Core::OBJECT_JSON);
-                        $gz = gzencode($data, $options['compression']['level']);
-                        Dir::create($dir_name);
-                        File::write($url, $gz);
+        }
+        $url = false;
+        if(
+            array_key_exists('compression', $options) &&
+            is_array($options['compression']) &&
+            array_key_exists('algorithm', $options['compression']) &&
+            array_key_exists('level', $options['compression'])
+        ){
+            switch(strtolower($options['compression']['algorithm'])){
+                case 'gz':
+                    $url = $dir_name . $file_name . $object->config('extension.json') . $object->config('extension.gz');
+                    $data = Core::object($data->data(), Core::OBJECT_JSON);
+                    $gz = gzencode($data, $options['compression']['level']);
+                    Dir::create($dir_name);
+                    File::write($url, $gz);
                     break;
-                }
-            } else {
-                $url = $dir_name . $file_name . '.' . $page . $object->config('extension.json');
-                $data->write($url);
             }
-            if($object->config(Config::POSIX_ID) === 0 && $url){
-                $command = 'chown www-data:www-data ' . $url;
-                exec($command);
-            }
-            if($object->config('framework.environment') === Config::MODE_DEVELOPMENT && $url){
-                $command = 'chmod 666 ' . $url;
-                exec($command);
-            }
+        } else {
+            $url = $dir_name . $file_name . $object->config('extension.json');
+            $data->write($url);
+        }
+        if($object->config(Config::POSIX_ID) === 0 && $url){
+            $command = 'chown www-data:www-data ' . $url;
+            exec($command);
+        }
+        if($object->config('framework.environment') === Config::MODE_DEVELOPMENT && $url){
+            $command = 'chmod 666 ' . $url;
+            exec($command);
         }
         $dir_class = Dir::name($dir_name);
         $dir_node = Dir::name($dir_class);
