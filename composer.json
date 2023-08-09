@@ -19,7 +19,5 @@
         "psr-4" : {
             "R3m\\Io\\Node\\" : "src/"
         }
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+    }
 }
