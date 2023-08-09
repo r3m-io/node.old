@@ -3,6 +3,7 @@
 {{while(is.empty($options.class))}}
 {{$options.class = terminal.readline('Class: ')}}
 {{/while}}
+{{$class = controller.name($options.class)}}
 {{if(is.empty($options.url))}}
 {{$options.url = config('project.dir.mount') +
 'Backup' +
@@ -11,11 +12,11 @@
 '/' +
 'R3m.Io.Node' +
 '/' +
-$options.class +
+$class +
 '/' +
 date('Y-m-d-H-i-s') +
 '/' +
-$options.class +
+$class +
 config('extension.json')}}
 {{/if}}
 {{if(!is.empty($options.compression))}}
@@ -31,7 +32,7 @@ config('extension.json')}}
 {{/if}}
 {{if(!is.empty($options.page))}}
 {{R3m.Io.Node:Data:export(
-$options.class,
+$class,
 R3m.Io.Node:Role:role.system(),
 [
 'url' => $options.url,
@@ -41,7 +42,7 @@ R3m.Io.Node:Role:role.system(),
 ])}}
 {{else}}
 {{R3m.Io.Node:Data:export(
-$options.class,
+$class,
 R3m.Io.Node:Role:role.system(),
 [
 'url' => $options.url,
