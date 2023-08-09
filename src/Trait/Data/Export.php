@@ -26,9 +26,6 @@ Trait Export {
         if(!array_key_exists('url', $options)){
             return;
         }
-        if(File::exist($options['url'])){
-            return;
-        }
         $name = Controller::name($class);
         $object = $this->object();
         $dir_name = Dir::name($options['url']);
