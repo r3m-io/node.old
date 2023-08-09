@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9f9454c6bc2bb75449cc8962d613ccc5",
+    "content-hash": "dcbfd251ceee8576b5332ae53883c79b",
     "packages": [
         {
             "name": "defuse/php-encryption",
@@ -277,25 +277,24 @@
         },
         {
             "name": "r3m_io/event",
-            "version": "dev-main",
+            "version": "0.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/r3m-io/event.git",
-                "reference": "d39ef114747cb8c5f410923a44f9cb73ffd39dca"
+                "reference": "5c3051e0a459e3893878f6a3e3aa86ab2e343949"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/r3m-io/event/zipball/d39ef114747cb8c5f410923a44f9cb73ffd39dca",
-                "reference": "d39ef114747cb8c5f410923a44f9cb73ffd39dca",
+                "url": "https://api.github.com/repos/r3m-io/event/zipball/5c3051e0a459e3893878f6a3e3aa86ab2e343949",
+                "reference": "5c3051e0a459e3893878f6a3e3aa86ab2e343949",
                 "shasum": ""
             },
             "require": {
                 "ext-iconv": "*",
                 "ext-posix": "*",
                 "ext-zlib": "*",
-                "r3m_io/node": "dev-main"
+                "r3m_io/framework": "*"
             },
-            "default-branch": true,
             "type": "library",
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -319,22 +318,22 @@
             ],
             "support": {
                 "issues": "https://github.com/r3m-io/event/issues",
-                "source": "https://github.com/r3m-io/event/tree/main"
+                "source": "https://github.com/r3m-io/event/tree/0.0.1"
             },
-            "time": "2023-08-01T16:31:05+00:00"
+            "time": "2023-08-09T05:22:12+00:00"
         },
         {
             "name": "r3m_io/framework",
-            "version": "0.54.2",
+            "version": "0.54.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/r3m-io/framework.git",
-                "reference": "5be848d8cec893c69a27bfba0219aeda9a724884"
+                "reference": "dd2326749c291ada82a9008dafee27b12235bdf4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/r3m-io/framework/zipball/5be848d8cec893c69a27bfba0219aeda9a724884",
-                "reference": "5be848d8cec893c69a27bfba0219aeda9a724884",
+                "url": "https://api.github.com/repos/r3m-io/framework/zipball/dd2326749c291ada82a9008dafee27b12235bdf4",
+                "reference": "dd2326749c291ada82a9008dafee27b12235bdf4",
                 "shasum": ""
             },
             "require": {
@@ -350,8 +349,8 @@
                 "ext-zip": "*",
                 "monolog/monolog": "^2.2",
                 "php": ">=8.0",
-                "r3m_io/event": "dev-main",
-                "r3m_io/node": "dev-main"
+                "r3m_io/event": "*",
+                "r3m_io/node": "*"
             },
             "type": "library",
             "autoload": {
@@ -365,7 +364,7 @@
             ],
             "authors": [
                 {
-                    "name": "Universe Orange",
+                    "name": "Remco van der Velde",
                     "email": "development@universeorange.com"
                 }
             ],
@@ -382,16 +381,16 @@
             ],
             "support": {
                 "issues": "https://github.com/r3m-io/framework/issues",
-                "source": "https://github.com/r3m-io/framework/tree/0.54.2"
+                "source": "https://github.com/r3m-io/framework/tree/0.54.3"
             },
-            "time": "2023-08-01T14:30:15+00:00"
+            "time": "2023-08-09T05:20:27+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "stability-flags": [],
-    "prefer-stable": true,
+    "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
         "ext-posix": "*",
