@@ -119,6 +119,7 @@ Trait Export {
         $dir = $url;
         while(true){
             $dir = Dir::name($dir);
+            d($dir);
             if(in_array(
                 $dir,
                 [
@@ -130,7 +131,9 @@ Trait Export {
             ){
                 break;
             }
-            d($dir);
+            if(empty($dir)){
+                break;
+            }
             if($object->config(Config::POSIX_ID) === 0) {
                 $command = 'chown www-data:www-data ' . $dir;
                 exec($command);
