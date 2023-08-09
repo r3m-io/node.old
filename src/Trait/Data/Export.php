@@ -119,7 +119,6 @@ Trait Export {
         $dir = $url;
         while(true){
             $dir = Dir::name($dir);
-            d($dir);
             if(in_array(
                 $dir,
                 [
