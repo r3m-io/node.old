@@ -306,6 +306,7 @@ Trait Sync {
                                 }
                             }
                             $lines = File::write($url, implode(PHP_EOL, $data), File::LINES);
+                            $mtime = File::mtime($url);
                             $key = [
                                 'property' => [
                                     'uuid'
@@ -314,6 +315,7 @@ Trait Sync {
                             $key = sha1(Core::object($key, Core::OBJECT_JSON));
                             $meta->set('Sort.' . $class . '.' . $key . '.lines', $lines);
                             $meta->set('Sort.' . $class . '.' . $key . '.count', $count);
+                            $meta->set('Sort.' . $class . '.' . $key . '.mtime', $mtime);
                             //rewrite data.
                         }
                     }
