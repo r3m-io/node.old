@@ -3,8 +3,11 @@
 {{$options = options()}}
 {{if($options.confirmation !== 'y')}}
 Package: {{$request.package}}
+
 Module: {{$request.module|uppercase.first}}
+
 Submodule: {{$request.submodule|uppercase.first}}
+
 {{/if}}
 {{while(is.empty($options.class))}}
 {{$options.class = terminal.readline('Class: ')}}
