@@ -1422,7 +1422,7 @@ Trait BinaryTree {
             $key = sha1($options['url_connect_property']);
 
             $file_connect_property->seek($options['index']);
-            $file_connect_line = (float) (rtrim($file_connect_property->current(), PHP_EOL) + 0);
+            $file_connect_line = (float) rtrim($file_connect_property->current(), PHP_EOL);
             $key = sha1($options['url_uuid']);
             $file_uuid->seek($file_connect_line);
             $file_uuid_line = $file_uuid->current();
