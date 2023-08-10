@@ -1,8 +1,9 @@
 {{R3M}}
+{{$request = request()}}
 {{$options = options()}}
-Package: R3m-io/Node
-Module: Object
-Submodule: Import
+Package: {{$request.package}}
+Module: {{$request.module|uppercase.first}}
+Submodule: {{$request.submodule|uppercase.first}}
 {{while(is.empty($options.class))}}
 {{$options.class = terminal.readline('Class: ')}}
 {{/while}}
