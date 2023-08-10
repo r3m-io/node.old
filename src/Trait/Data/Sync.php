@@ -60,8 +60,8 @@ Trait Sync {
                     continue;
                 }
             }
-            if(in_array($class, $exception, 1)){
-
+            if(in_array($class, $exception, true)){
+                //skip
             } else {
                 /*
                 $role = $this->record('Role', $role, [
@@ -80,7 +80,7 @@ Trait Sync {
                     throw new Exception('Role ROLE_SYSTEM not found');
                 }
                 if(property_exists($options, 'disable-expose') && $options->{'disable-expose'} == true){
-
+                    //disable expose
                 } else {
                     $expose = $this->expose_get(
                         $object,
@@ -228,7 +228,7 @@ Trait Sync {
                         ;
                         $mtime_property = File::mtime($url_property_asc);
                     }
-                    $mtime_property = false;
+                    $mtime_property = false; // delete this if you want continue
                     if ($mtime === $mtime_property) {
                         //same cache
                         continue;
@@ -250,6 +250,7 @@ Trait Sync {
                                 ;
                                 $record = $object->data_read($storage_url);
                                 if($record === false){
+                                    unset($data[$index]);
                                     //object no longer exists.
                                     continue;
                                 }
@@ -262,7 +263,6 @@ Trait Sync {
                                         ucfirst($record->get('#class')) .
                                         $object->config('extension.json')
                                     ;
-
                                     if(
                                         property_exists($options, 'disable-relation') &&
                                         $options->{'disable-relation'} === true
@@ -303,6 +303,15 @@ Trait Sync {
                                     }
                                 }
                             }
+                            $lines = File::write($url, implode(PHP_EOL, $data), File::LINES);
+                            $key = [
+                                'property' => [
+                                    'uuid'
+                                ]
+                            ];
+                            $key = sha1(Core::object($key, Core::OBJECT_JSON));
+                            $meta->set('Sort.' . $class . '.' . $key . '.lines', $lines);
+                            //rewrite data.
                         }
                     }
                     if (array_key_exists(1, $properties)) {
