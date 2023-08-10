@@ -18,8 +18,10 @@ Submodule: {{$request.submodule|uppercase.first}}
 {{exit()}}
 {{/if}}
 {{/while}}
-{{R3m.Io.Node:Data:truncate(
+{{$response = R3m.Io.Node:Data:truncate(
 $options.class,
 R3m.Io.Node:Role:role.system(),
 [
 ])}}
+{{$response|json.encode:'JSON_PRETTY_PRINT'}}
+
