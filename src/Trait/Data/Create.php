@@ -35,7 +35,6 @@ Trait Create {
         ];
         $count = 0;
         $error = 0;
-        ddd($data);
         foreach($data as $record){
             $response = $this->create(
                 $class,
@@ -51,6 +50,7 @@ Trait Create {
                 'compression' => $options['compression'] ?? false
                 ]
             );
+            d($response);
             if(
                 $response &&
                 array_key_exists('error', $response)
