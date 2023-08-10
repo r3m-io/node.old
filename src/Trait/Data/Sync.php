@@ -235,10 +235,10 @@ Trait Sync {
                     }
                     if (empty($list)) {
                         $list = new Storage();
-                        $count = 0;
+                        $count_uuid = 0;
                         if(is_array($data)){
                             foreach ($data as $index => $uuid) {
-                                $count++;
+                                $count_uuid++;
                                 $uuid = rtrim($uuid, PHP_EOL);
                                 $storage_url = $object->config('project.dir.data') .
                                     'Node' .
@@ -305,17 +305,17 @@ Trait Sync {
                                     }
                                 }
                             }
-                            $lines = File::write($url, implode(PHP_EOL, $data), File::LINES);
-                            $mtime = File::mtime($url);
-                            $key = [
+                            $lines_uuid = File::write($url, implode(PHP_EOL, $data), File::LINES);
+                            $mtime_uuid = File::mtime($url);
+                            $key_uuid = [
                                 'property' => [
                                     'uuid'
                                 ]
                             ];
-                            $key = sha1(Core::object($key, Core::OBJECT_JSON));
-                            $meta->set('Sort.' . $class . '.' . $key . '.lines', $lines);
-                            $meta->set('Sort.' . $class . '.' . $key . '.count', $count);
-                            $meta->set('Sort.' . $class . '.' . $key . '.mtime', $mtime);
+                            $key_uuid = sha1(Core::object($key_uuid, Core::OBJECT_JSON));
+                            $meta->set('Sort.' . $class . '.' . $key_uuid . '.lines', $lines_uuid);
+                            $meta->set('Sort.' . $class . '.' . $key_uuid . '.count', $count_uuid);
+                            $meta->set('Sort.' . $class . '.' . $key_uuid . '.mtime', $mtime_uuid);
                             //rewrite data.
                         }
                     }
