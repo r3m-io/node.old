@@ -520,9 +520,9 @@ Trait Sync {
             $time_end = microtime(true);
             $time_duration = $time_end - $time_start;
             if($time_duration >= 1){
-                echo 'Duration: (3) ' . round($time_duration, 2) . 'sec class: ' . $class . PHP_EOL;
+                echo 'Duration: (3) ' . round($time_duration, 2) . ' sec class: ' . $class . PHP_EOL;
             } else {
-                echo 'Duration: (3) ' . round($time_duration * 1000, 2) . 'msec class: ' . $class . PHP_EOL;
+                echo 'Duration: (3) ' . round($time_duration * 1000, 2) . ' msec class: ' . $class . PHP_EOL;
             }
         }
     }
