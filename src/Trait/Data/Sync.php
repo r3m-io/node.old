@@ -235,8 +235,10 @@ Trait Sync {
                     }
                     if (empty($list)) {
                         $list = new Storage();
+                        $count = 0;
                         if(is_array($data)){
                             foreach ($data as $index => $uuid) {
+                                $count++;
                                 $uuid = rtrim($uuid, PHP_EOL);
                                 $storage_url = $object->config('project.dir.data') .
                                     'Node' .
@@ -311,6 +313,7 @@ Trait Sync {
                             ];
                             $key = sha1(Core::object($key, Core::OBJECT_JSON));
                             $meta->set('Sort.' . $class . '.' . $key . '.lines', $lines);
+                            $meta->set('Sort.' . $class . '.' . $key . '.count', $count);
                             //rewrite data.
                         }
                     }
