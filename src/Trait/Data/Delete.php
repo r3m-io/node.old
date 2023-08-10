@@ -169,7 +169,9 @@ Trait Delete {
         $count = $meta->get('Sort.' . $name . '.' . $sort_key . '.' . 'count');
         $url_property = $meta->get('Sort.' . $name . '.' . $sort_key . '.' . $url_key);
 
-        ddd($url_property);
+        $list = File::read($url_property, File::ARRAY);
+
+        ddd($list);
 
         $data = $object->data_read($url_property);
         if(!$data){
