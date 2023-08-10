@@ -30,7 +30,6 @@ Trait Truncate {
             $object->config('extension.json')
         ;
         $meta = $object->data_read($meta_url);
-        ddd($meta);
         $list_options = [
             'sort' => [
                 'uuid' => 'asc'
