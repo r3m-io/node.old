@@ -11,12 +11,17 @@ use R3m\Io\Module\Dir;
 use R3m\Io\Module\Data as Storage;
 use R3m\Io\Module\File;
 
+use R3m\Io\Exception\DirectoryCreateException;
+use R3m\Io\Exception\FileMoveException;
+use R3m\Io\Exception\FileWriteException;
 use R3m\Io\Exception\ObjectException;
 
 Trait Delete {
 
     /**
      * @throws ObjectException
+     * @throws FileMoveException
+     * @throws DirectoryCreateException
      */
     public function delete($class, $role, $options=[]): bool
     {
@@ -80,6 +85,10 @@ Trait Delete {
                 break;
             }
         }
+        /**
+         * if we delete them from the list a sync is needed
+         * so we only move the file and reading will skip it
+         */
         /*
         $lines = File::write($url_property, implode('', $data), File::LINES);
         $count = $lines;
@@ -116,13 +125,26 @@ Trait Delete {
             $object->config('extension.json')
         ;
         if(($is_found)){
-            return File::move($url_node, $target_url);
+            $data = $object->data_read($url_node);
+            if(
+                $data &&
+                $data->has('#class') &&
+                $data->get('#class') === $name
+            ){
+                return File::move($url_node, $target_url);
+            }
+            if(!$data){
+                return File::move($url_node, $target_url);
+            }
         }
         return false;
     }
 
     /**
      * @throws ObjectException
+     * @throws FileWriteException
+     * @throws DirectoryCreateException
+     * @throws FileMoveException
      */
     public function delete_many($class, $role, $options=[]): array
     {
@@ -170,62 +192,43 @@ Trait Delete {
         $url_property = $meta->get('Sort.' . $name . '.' . $sort_key . '.' . $url_key);
 
         $list = File::read($url_property, File::ARRAY);
-
-        ddd($list);
-
-        $data = $object->data_read($url_property);
-        if(!$data){
-            return [];
-        }
-        $list = (array) $data->get($name);
-        if(empty($list)){
-            return [];
-        }
         $uuids = $node->get('uuid');
         if(empty($uuids) || !is_array($uuids)){
             return [];
         }
+        /**
+         * if we delete them from the list a sync is needed
+         * so we only move the file and reading will skip it
+         */
+        /*
         $delete_counter = 0;
-        foreach($list as $nr => $record){
-            if(
-                is_array($record) &&
-                array_key_exists('uuid', $record) &&
-                in_array(
-                    $record['uuid'],
-                    $uuids,
-                    true
-                )
-            ){
-                unset($list[$nr]);
-                $delete_counter++;
-            }
-            elseif(
-                is_object($record) &&
-                property_exists($record,'uuid') &&
-                in_array(
-                    $record->uuid,
-                    $uuids,
-                    true
-                )
-            ){
+        foreach($list as $nr => $line){
+            $uuid = rtrim($line, PHP_EOL);
+            if(in_array($uuid, $uuids, true)){
                 unset($list[$nr]);
                 $delete_counter++;
             }
         }
-        $index = 0;
-        $result = [];
-        foreach($list as $record){
-            $record->{'#index'} = $index;
-            $result[$index] = $record;
-            $index++;
-        }
-        $data->set($name, $result);
-        $lines = $data->write($url_property, 'lines');
+        $lines = File::write($url_property, implode('', $list), File::LINES);
         $count = $count - $delete_counter;
         $meta->set('Sort.' . $name . '.' . $sort_key . '.' . 'count', $count);
         $meta->set('Sort.' . $name . '.' . $sort_key . '.' . 'lines', $lines);
         $meta->write($meta_url);
+        */
         $result = [];
+        $target_dir = $object->config('ramdisk.url') .
+            $object->config(Config::POSIX_ID) .
+            $object->config('ds') .
+            'Package' .
+            $object->config('ds') .
+            'R3m_io' .
+            $object->config('ds') .
+            'Node' .
+            $object->config('ds') .
+            'isDeleted' .
+            $object->config('ds')
+        ;
+        Dir::create($target_dir, Dir::CHMOD);
         foreach($uuids as $uuid){
             $url_node = $dir_node .
                 'Storage' .
@@ -235,7 +238,21 @@ Trait Delete {
                 $uuid .
                 $object->config('extension.json')
             ;
-            $result[$uuid] = File::delete($url_node);
+            $target_url = $target_dir .
+                $uuid .
+                $object->config('extension.json')
+            ;
+            $data = $object->data_read($url_node);
+            if(
+                $data &&
+                $data->has('#class') &&
+                $data->get('#class') === $name
+            ){
+                $result[$uuid] = File::move($url_node, $target_url);
+            }
+            if(!$data){
+                $result[$uuid] = File::move($url_node, $target_url);
+            }
         }
         return $result;
     }
