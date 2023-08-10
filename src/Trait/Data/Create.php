@@ -451,7 +451,7 @@ Trait Create {
             $command = 'chown www-data:www-data ' . $meta_url;
             exec($command);
         }
-        if($object->config('project.log.node')){
+        if($object->config('project.log.node') && $count > 0){
             $duration = microtime(true) - $start;
             $duration_per_item = $duration / $count;
             $item_per_second = 1 / $duration_per_item;
