@@ -85,6 +85,10 @@ Trait Truncate {
                 $result[] = $uuid;
             }
         }
+        $meta->delete('filter');
+        $meta->delete('where');
+        $meta->delete('count');
+        $meta->write($meta_url);
         return $result;
     }
 
