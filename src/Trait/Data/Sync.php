@@ -29,6 +29,8 @@ Trait Sync {
         $object = $this->object();
         if(empty($options)){
             $options = App::options($object);
+        } else {
+            $options = (object) $options;
         }
         if(property_exists($options, 'class')){
             $options->class = explode(',', $options->class);
