@@ -152,8 +152,9 @@ Trait Import {
                 $counter++;
             }
             $i = 0;
+            Core::interactive();
             d($create_many);
-            ddd($put_many);
+            d($put_many);
             while($i < $create_many_count){
                 $temp = array_slice($create_many, $i, 1000, true);
                 $length = count($temp);
