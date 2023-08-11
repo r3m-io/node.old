@@ -241,8 +241,6 @@ Trait Create {
                 }
             }
         }
-        Core::interactive();
-        d($list);
         $sort = new Sort();
         usort($list, array($sort,"uuid_compare_ascending"));
         Dir::create($dir_binary_tree_asc, Dir::CHMOD);
