@@ -221,6 +221,8 @@ Trait Create {
                     property_exists($record, 'uuid')
                 ){
                     $uuid = $record->uuid;
+                } else {
+                    ddd($record);
                 }
                 if(
                     !in_array(
