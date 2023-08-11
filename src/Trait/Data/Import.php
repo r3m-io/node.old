@@ -209,8 +209,6 @@ Trait Import {
         if($result['error']['count'] === 0){
             unset($result['error']);
         }
-        d($result);
-        d('in commit');
         $this->commit($class, $role, $result, $options);
         return $result;
     }
