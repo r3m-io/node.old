@@ -78,7 +78,7 @@ Trait Create {
         if($result['error']['count'] === 0){
             unset($result['error']);
         }
-        ddd($result);
+        d($result);
         if(
             array_key_exists('transaction', $options) &&
             $options['transaction'] === true){
