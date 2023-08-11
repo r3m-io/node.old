@@ -78,7 +78,6 @@ Trait Create {
         if($result['error']['count'] === 0){
             unset($result['error']);
         }
-        d($result);
         if(
             array_key_exists('transaction', $options) &&
             $options['transaction'] === true){
@@ -224,7 +223,7 @@ Trait Create {
                 ){
                     $uuid = $record->uuid;
                 } else {
-                    ddd($record);
+                    $uuid = $record;
                 }
                 if(
                     !in_array(
