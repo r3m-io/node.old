@@ -188,7 +188,7 @@ Trait Import {
                 $put_options = $options;
 //                $put_options['ramdisk'] = true;
                 $put_many_response = $this->put_many($class, $role, $temp, $put_options);
-                ddd($put_many_response);
+                d($put_many_response);
                 foreach ($put_many_response['list'] as $nr => $record) {
                     $result['list'][] = $record;
                     $index++;
@@ -202,8 +202,15 @@ Trait Import {
                 }
                 $result['count'] += $put_many_response['count'];
                 if(array_key_exists('error', $put_many_response)) {
-                    foreach ($put_many_response['error']['list'] as $nr => $record) {
-                        $result['error']['list'][] = $record;
+                    if(array_key_exists('list', $put_many_response['error'])){
+                        foreach ($put_many_response['error']['list'] as $nr => $record) {
+                            $result['error']['list'][] = $record;
+                        }
+                    }
+                    if(array_key_exists('uuid', $put_many_response['error'])){
+                        foreach ($put_many_response['error']['uuid'] as $nr => $record) {
+                            $result['error']['uuid'][] = $record;
+                        }
                     }
                     $result['error']['count'] += $put_many_response['error']['count'];
                 }
@@ -214,6 +221,7 @@ Trait Import {
         if($result['error']['count'] === 0){
             unset($result['error']);
         }
+        d($result);
         $this->commit($class, $role, $result, $options);
         return $result;
     }
