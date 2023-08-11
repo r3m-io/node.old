@@ -208,6 +208,7 @@ Trait Create {
                 $count++;
             }
         }
+        ddd($data);
         if(!empty($data['list'])){
             foreach($data['list'] as $nr => $record) {
                 if(
