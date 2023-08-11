@@ -296,10 +296,7 @@ Trait BinaryTree {
                     $key .
                     $object->config('extension.json')
                 ;
-                d($where_url);
-                ddd($where);
-                $storage = new Storage($where);
-                $lines = $storage->write($where_url, 'lines');
+                $lines = File::write($where_url, implode(PHP_EOL, $where), File::LINES);
                 File::touch($where_url, $mtime);
                 if($index === false){
                     $count = 0;
