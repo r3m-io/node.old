@@ -247,6 +247,7 @@ Trait Create {
         usort($list, array($sort,"uuid_compare_ascending"));
         Dir::create($dir_binary_tree_asc, Dir::CHMOD);
         $lines = File::write($binary_tree_url, implode(PHP_EOL, $list), File::LINES);
+        ddd('test');
         $mtime = File::mtime($binary_tree_url);
         $this->sync_file([
             'url' => $binary_tree_url,
