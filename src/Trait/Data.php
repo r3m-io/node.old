@@ -302,33 +302,46 @@ Trait Data {
                 exec($command);
             }
         }
-        if(array_key_exists('binary_search_class', $dir)){
-            if(!Dir::is($dir['binary_search_class'])) {
-                Dir::create($dir['binary_search_class'], Dir::CHMOD);
+        if(array_key_exists('binary_tree_class', $dir)){
+            if(!Dir::is($dir['binary_tree_class'])) {
+                Dir::create($dir['binary_tree_class'], Dir::CHMOD);
                 if($object->config(Config::POSIX_ID) === 0){
-                    $command = 'chown www-data:www-data ' . $dir['binary_search_class'];
+                    $command = 'chown www-data:www-data ' . $dir['binary_tree_class'];
                     exec($command);
-                    $command = 'chown www-data:www-data ' . Dir::name($dir['binary_search_class']);
+                    $command = 'chown www-data:www-data ' . Dir::name($dir['binary_tree_class']);
                     exec($command);
                 }
             }
             if($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
-                $command = 'chmod 777 ' . $dir['binary_search_class'];
+                $command = 'chmod 777 ' . $dir['binary_tree_class'];
                 exec($command);
-                $command = 'chmod 777 ' . Dir::name($dir['binary_search_class']);
+                $command = 'chmod 777 ' . Dir::name($dir['binary_tree_class']);
                 exec($command);
             }
         }
-        if(array_key_exists('binary_search', $dir)){
-            if(!Dir::is($dir['binary_search'])) {
-                Dir::create($dir['binary_search'], Dir::CHMOD);
+        if(array_key_exists('binary_tree_asc', $dir)){
+            if(!Dir::is($dir['binary_tree_asc'])) {
+                Dir::create($dir['binary_tree_asc'], Dir::CHMOD);
                 if($object->config(Config::POSIX_ID) === 0){
-                    $command = 'chown www-data:www-data ' . $dir['binary_search'];
+                    $command = 'chown www-data:www-data ' . $dir['binary_tree_asc'];
                     exec($command);
                 }
             }
             if($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
-                $command = 'chmod 777 ' . $dir['binary_search'];
+                $command = 'chmod 777 ' . $dir['binary_tree_asc'];
+                exec($command);
+            }
+        }
+        if(array_key_exists('binary_tree', $dir)){
+            if(!Dir::is($dir['binary_tree'])) {
+                Dir::create($dir['binary_tree'], Dir::CHMOD);
+                if($object->config(Config::POSIX_ID) === 0){
+                    $command = 'chown www-data:www-data ' . $dir['binary_tree'];
+                    exec($command);
+                }
+            }
+            if($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
+                $command = 'chmod 777 ' . $dir['binary_tree'];
                 exec($command);
             }
         }

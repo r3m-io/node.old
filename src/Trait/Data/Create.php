@@ -109,7 +109,7 @@ Trait Create {
                 $permission['name'] = $class . '.' . __FUNCTION__;
                 $permission['attribute'] = [];
                 $permission['role'] = $role->uuid;
-                $permission['#class'] = 'App.Permission';
+                $permission['#class'] = 'Account.Permission';
                 $role->permission = [];
                 $role->permission[] = (object) $permission;
             }
@@ -134,7 +134,6 @@ Trait Create {
         if(!$can_commit){
             throw new Exception('Permission denied for commit (' . $class . '.' . __FUNCTION__ .')');
         }
-
         $name = Controller::name($class);
         $object = $this->object();
         $dir_node = $object->config('project.dir.data') .
@@ -145,16 +144,16 @@ Trait Create {
             'Meta'.
             $object->config('ds')
         ;
-        $dir_binary_search = $dir_node .
-            'BinarySearch'.
+        $dir_binary_tree = $dir_node .
+            'BinaryTree'.
             $object->config('ds')
         ;
-        $dir_binary_search_class = $dir_binary_search .
+        $dir_binary_tree_class = $dir_binary_tree .
             $name .
             $object->config('ds')
         ;
-        $dir_binary_search =
-            $dir_binary_search_class .
+        $dir_binary_tree_asc =
+            $dir_binary_tree_class .
             'Asc' .
             $object->config('ds')
         ;
@@ -165,8 +164,9 @@ Trait Create {
             [
                 'node' => $dir_node,
                 'meta' => $dir_meta,
-                'binary_search_class' => $dir_binary_search_class,
-                'binary_search' => $dir_binary_search,
+                'binary_tree_class' => $dir_binary_tree_class,
+                'binary_tree_asc' => $dir_binary_tree_asc,
+                'binary_tree' => $dir_binary_tree,
                 'commit' => $dir_commit
             ]
         );
@@ -184,49 +184,26 @@ Trait Create {
             $commit_counter++;
         }
         File::touch($url_commit);
-        $binary_search_url =
-            $dir_binary_search .
+        $binary_tree_url =
+            $dir_binary_tree_asc .
             'Uuid' .
             $object->config('extension.json');
         $meta_url = $dir_meta . $name . $object->config('extension.json');
-        $binarySearch = $object->data_read($binary_search_url);
-        if (!$binarySearch) {
-            $binarySearch = new Storage();
-        }
-        $list = $binarySearch->data($class);
-        if (empty($list)) {
-            $list = [];
-        }
-        if (is_object($list)) {
-            $list_data = [];
-            foreach ($list as $key => $record) {
-                $list_data[] = $record;
-                unset($list[$key]);
-            }
-            $list = $list_data;
-            unset($list_data);
+        $list = File::read($binary_tree_url, File::ARRAY);
+
+        foreach($list as $nr => $record){
+            $list[$nr] = rtrim($record, PHP_EOL);
         }
         if(!empty($data['list'])){
             foreach($data['list'] as $nr => $uuid) {
-                $item = [
-                    'uuid' => $uuid
-                ];
-                $list[] = (object) $item;
+                $list[] = $uuid;
             }
         }
-        $list = Sort::list($list)->with([
-            'uuid' => 'ASC',
-        ], [
-            'key_reset' => true,
-        ]);
-        $binarySearch->delete($class);
-        $binarySearch->data($class, $list);
-        $count = 0;
-        foreach ($binarySearch->data($class) as $record) {
-            $record->{'#index'} = $count;
-            $count++;
-        }
-        $lines = $binarySearch->write($binary_search_url, 'lines');
+        $sort = new Sort();
+        usort($list, array($sort,"uuid_compare_ascending"));
+        $lines = File::write($binary_tree_url, implode(PHP_EOL, $list), File::LINES);
+        d($list);
+        ddd($lines);
         if ($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
             $command = 'chmod 666 ' . $binary_search_url;
             exec($command);
@@ -490,15 +467,7 @@ Trait Create {
             'BinaryTree'.
             $object->config('ds')
         ;
-        $dir_binary_search = $dir_node .
-            'BinarySearch'.
-            $object->config('ds')
-        ;
         $dir_binary_tree_class = $dir_binary_tree .
-            $name .
-            $object->config('ds')
-        ;
-        $dir_binary_search_class = $dir_binary_search .
             $name .
             $object->config('ds')
         ;
@@ -691,7 +660,7 @@ Trait Create {
                         if(File::exist($binary_tree_url)){
                             $binary_tree = File::read($binary_tree_url, File::ARRAY);
                             foreach($binary_tree as $key => $value){
-                                $value = trim($value);
+                                $value = rtrim($value, PHP_EOL);
                                 if(empty($value)){
                                     unset($binary_tree[$key]);
                                     continue;
