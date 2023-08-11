@@ -210,10 +210,12 @@ Trait Create {
         }
         if(!empty($data['list'])){
             foreach($data['list'] as $nr => $uuid) {
+                ddd($uuid);
                 $list[] = $uuid;
                 $count++;
             }
         }
+        d($list);
         $sort = new Sort();
         usort($list, array($sort,"uuid_compare_ascending"));
         ddd($list);
