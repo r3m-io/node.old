@@ -150,7 +150,6 @@ Trait Import {
                 $length = count($temp);
                 $object->logger($object->config('project.log.node'))->info('Count: ' . $length . ' / ' . $create_many_count . ' Start: ' . $i . ' Offset: ' . $options['offset']);
                 $create_many_response = $this->create_many($class, $role, $temp, $options);
-                ddd($create_many_response);
                 foreach ($create_many_response['list'] as $nr => $uuid) {
                     $result['list'][] = $uuid;
                     $index++;

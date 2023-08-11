@@ -50,7 +50,6 @@ Trait Create {
                 'compression' => $options['compression'] ?? false
                 ]
             );
-            d($response);
             if(
                 $response &&
                 array_key_exists('error', $response)
