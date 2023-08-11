@@ -46,6 +46,9 @@ Trait Import {
         if(property_exists($app_options, 'limit')){
             $options['limit'] = $app_options->limit;
         }
+        if(property_exists($app_options, 'ramdisk')){
+            $options['ramdisk'] = $app_options->ramdisk;
+        }
         if(
             property_exists($app_options, 'compression') &&
             $app_options->compression === 'gz'
@@ -144,7 +147,6 @@ Trait Import {
             }
             $i = 0;
             $options['transaction'] = true;
-            $options['ramdisk'] = true;
             while($i < $create_many_count){
                 $temp = array_slice($create_many, $i, 1000, true);
                 $length = count($temp);
