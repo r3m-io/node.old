@@ -222,14 +222,19 @@ Trait Create {
                 ){
                     $uuid = $record->uuid;
                 }
-                $list[] = $uuid;
-                $count++;
+                if(
+                    !in_array(
+                        $uuid,
+                        $list,
+                        true)
+                ){
+                    $list[] = $uuid;
+                    $count++;
+                }
             }
         }
-        d($list);
         $sort = new Sort();
         usort($list, array($sort,"uuid_compare_ascending"));
-        ddd($list);
         Dir::create($dir_binary_tree_asc, Dir::CHMOD);
         $lines = File::write($binary_tree_url, implode(PHP_EOL, $list), File::LINES);
         $mtime = File::mtime($binary_tree_url);
