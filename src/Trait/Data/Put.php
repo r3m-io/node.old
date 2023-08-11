@@ -30,6 +30,7 @@ Trait Put {
                 'count' => 0
             ]
         ];
+        d($data);
         foreach($data as $record){
             $response = $this->put(
                 $class,
@@ -44,8 +45,11 @@ Trait Put {
                 $result['error']['list'][] = false;
                 $result['error']['count']++;
             }
-            elseif(array_key_exists('node', $response)){
-                $result['list'][] = $response['node'];
+            elseif(
+                array_key_exists('node', $response) &&
+                array_key_exists('uuid', $response['node'])
+            ){
+                $result['list'][] = $response['node']['uuid'];
                 $result['count']++;
             }
             elseif(array_key_exists('error', $response)) {
