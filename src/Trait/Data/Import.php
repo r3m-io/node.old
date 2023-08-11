@@ -58,6 +58,12 @@ Trait Import {
         } else {
             $options['compression'] = false;
         }
+        if(property_exists($app_options, 'disable-transaction')){
+            $options['transaction'] = false;
+        } else {
+            $options['transaction'] = true;
+        }
+
         if(property_exists($app_options, 'disable-validation')){
             $options['validation'] = false;
         } else {
@@ -146,7 +152,6 @@ Trait Import {
                 $counter++;
             }
             $i = 0;
-            $options['transaction'] = true;
             while($i < $create_many_count){
                 $temp = array_slice($create_many, $i, 1000, true);
                 $length = count($temp);
