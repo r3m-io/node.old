@@ -32,7 +32,6 @@ Trait Sync {
         } else {
             $options = (object) $options;
         }
-        ddd($options);
         if(property_exists($options, 'class')){
             $options->class = explode(',', $options->class);
             foreach($options->class as $nr => $class){
@@ -54,10 +53,6 @@ Trait Sync {
         }
         $dir = new Dir();
         $read = $dir->read($url_object);
-
-
-        ddd($read);
-
         if(empty($read)){
             return;
         }
