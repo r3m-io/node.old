@@ -27,6 +27,7 @@ Trait Put {
             'count' => 0,
             'error' => [
                 'list' => [],
+                'uuid' => [],
                 'count' => 0
             ]
         ];
@@ -41,7 +42,20 @@ Trait Put {
                     'function' => $options['function'] ?? __FUNCTION__,
                 ]
             );
+            if(
+                is_object($record) &&
+                property_exists($record, 'uuid')
+            ){
+                $uuid = $record->uuid;
+            }
+            elseif(
+                is_array($record) &&
+                array_key_exists('uuid', $record)
+            ){
+                $uuid = $record['uuid'];
+            }
             if(!$response){
+                $record['error']['uuid'][] = $uuid;
                 $result['error']['list'][] = false;
                 $result['error']['count']++;
             }
@@ -53,9 +67,11 @@ Trait Put {
                 $result['count']++;
             }
             elseif(array_key_exists('error', $response)) {
+                $record['error']['uuid'][] = $uuid;
                 $result['error']['list'][] = $response['error'];
                 $result['error']['count']++;
             } else {
+                $record['error']['uuid'][] = $uuid;
                 $result['error']['list'][] = false;
                 $result['error']['count']++;
             }
