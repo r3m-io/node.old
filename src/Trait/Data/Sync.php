@@ -32,7 +32,6 @@ Trait Sync {
         } else {
             $options = (object) $options;
         }
-        ddd($options);
         if(property_exists($options, 'class')){
             $options->class = explode(',', $options->class);
             foreach($options->class as $nr => $class){
@@ -62,6 +61,7 @@ Trait Sync {
             $expose = false;
             $class = File::basename($file->name, $object->config('extension.json'));
             $role = $this->role_system();
+            d($options->class);
             if(property_exists($options, 'class')){
                 if(!in_array($class, $options->class, true)){
                     continue;
