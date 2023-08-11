@@ -159,11 +159,17 @@ Trait BinaryTree {
                 $filter = [];
                 $index = false;
                 foreach($filter_list as $index => $node){
-                    if(property_exists($node, 'uuid')){
-                        $filter[$key][$index] = [
-                            'uuid' => $node->uuid,
-                            '#index' => $index
-                        ];
+                    if(
+                        is_object($node) &&
+                        property_exists($node, 'uuid')
+                    ){
+                        $filter[$index] = $node->uuid;
+                    }
+                    elseif(
+                        is_array($node) &&
+                        array_key_exists('uuid', $node)
+                    ){
+                        $filter[$index] = $node['uuid'];
                     }
                 }
                 $filter_dir = $dir_node .
@@ -179,8 +185,7 @@ Trait BinaryTree {
                     $key .
                     $object->config('extension.json')
                 ;
-                $storage = new Storage($filter);
-                $lines = $storage->write($filter_url, 'lines');
+                $lines = File::write($filter_url, implode(PHP_EOL, $filter), File::LINES);
                 File::touch($filter_url, $mtime);
                 if($index === false){
                     $count = 0;
