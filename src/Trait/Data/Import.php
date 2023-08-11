@@ -110,7 +110,6 @@ Trait Import {
                 $options['limit'] = (int) substr($options['limit'], 0, -1);
                 $options['limit'] = (int) ($total * ($options['limit'] / 100));
             }
-            ddd($data);
             foreach ($data->data($class) as $key => $record) {
                 if($counter < $options['offset']){
                     $counter++;
@@ -153,6 +152,8 @@ Trait Import {
                 $counter++;
             }
             $i = 0;
+            d($create_many);
+            ddd($put_many);
             while($i < $create_many_count){
                 $temp = array_slice($create_many, $i, 1000, true);
                 $length = count($temp);
