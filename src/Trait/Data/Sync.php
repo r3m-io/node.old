@@ -42,9 +42,13 @@ Trait Sync {
             'Object' .
             $object->config('ds')
         ;
-        $exception = [
-            'Role'
-        ];
+        $exception = [];
+        if(property_exists($options, 'exception')){
+            $exception = explode(',', $options->exception);
+            foreach($exception as $nr => $class){
+                $exception[$nr] = Controller::name(trim($class));
+            }
+        }
         $dir = new Dir();
         $read = $dir->read($url_object);
 
