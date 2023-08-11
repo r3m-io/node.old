@@ -31,7 +31,6 @@ Trait Put {
                 'count' => 0
             ]
         ];
-        d($data);
         foreach($data as $record){
             $response = $this->put(
                 $class,
