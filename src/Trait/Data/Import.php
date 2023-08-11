@@ -152,15 +152,11 @@ Trait Import {
                 $counter++;
             }
             $i = 0;
-            Core::interactive();
-            d($create_many);
-            d($put_many);
             while($i < $create_many_count){
                 $temp = array_slice($create_many, $i, 1000, true);
                 $length = count($temp);
                 $object->logger($object->config('project.log.node'))->info('Count: ' . $length . ' / ' . $create_many_count . ' Start: ' . $i . ' Offset: ' . $options['offset']);
                 $create_many_response = $this->create_many($class, $role, $temp, $options);
-                d($create_many_response);
                 foreach ($create_many_response['list'] as $nr => $uuid) {
                     $result['list'][] = $uuid;
                     $index++;
@@ -188,7 +184,6 @@ Trait Import {
                 $put_options = $options;
 //                $put_options['ramdisk'] = true;
                 $put_many_response = $this->put_many($class, $role, $temp, $put_options);
-                d($put_many_response);
                 foreach ($put_many_response['list'] as $nr => $record) {
                     $result['list'][] = $record;
                     $index++;
@@ -221,7 +216,6 @@ Trait Import {
         if($result['error']['count'] === 0){
             unset($result['error']);
         }
-        d($result);
         $this->commit($class, $role, $result, $options);
         return $result;
     }
