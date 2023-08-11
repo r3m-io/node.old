@@ -67,6 +67,7 @@ Trait Sync {
                     continue;
                 }
             }
+            ddd($class);
             if(in_array($class, $exception, true)){
                 //skip
             } else {
