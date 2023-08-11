@@ -296,6 +296,8 @@ Trait BinaryTree {
                     $key .
                     $object->config('extension.json')
                 ;
+                d($where_url);
+                ddd($where);
                 $storage = new Storage($where);
                 $lines = $storage->write($where_url, 'lines');
                 File::touch($where_url, $mtime);
