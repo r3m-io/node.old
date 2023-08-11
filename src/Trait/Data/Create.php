@@ -205,6 +205,9 @@ Trait Create {
             $list = File::read($binary_tree_url, File::ARRAY);
             foreach($list as $nr => $record){
                 $list[$nr] = rtrim($record, PHP_EOL);
+                if(empty($list[$nr])){
+                    unset($list[$nr]);
+                }
                 $count++;
             }
         }
@@ -223,6 +226,9 @@ Trait Create {
                     $uuid = $record->uuid;
                 } else {
                     $uuid = $record;
+                }
+                if(empty($uuid)){
+                    continue;
                 }
                 if(
                     !in_array(
