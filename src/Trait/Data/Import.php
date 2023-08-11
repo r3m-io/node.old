@@ -110,6 +110,7 @@ Trait Import {
                 $options['limit'] = (int) substr($options['limit'], 0, -1);
                 $options['limit'] = (int) ($total * ($options['limit'] / 100));
             }
+            ddd($data);
             foreach ($data->data($class) as $key => $record) {
                 if($counter < $options['offset']){
                     $counter++;
@@ -182,8 +183,9 @@ Trait Import {
                 $temp = array_slice($put_many, $i, 1000, true);
                 $length = count($temp);
                 $put_options = $options;
-                $put_options['ramdisk'] = true;
+//                $put_options['ramdisk'] = true;
                 $put_many_response = $this->put_many($class, $role, $temp, $put_options);
+                ddd($put_many_response);
                 foreach ($put_many_response['list'] as $nr => $record) {
                     $result['list'][] = $record;
                     $index++;
