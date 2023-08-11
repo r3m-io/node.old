@@ -44,5 +44,5 @@ R3m.Io.Node:Role:role.system(),
 'limit' => $options.limit,
 'compression' => $options.compression
 ])}}
-{{$response|json.encode:'JSON_PRETTY_PRINT'}}
+Amount ({{$class}}) : {{$response.count}}
 
