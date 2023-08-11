@@ -203,7 +203,7 @@ Trait Import {
             unset($result['error']);
         }
         d($result);
-        ddd('in commit');
+        d('in commit');
         $this->commit($class, $role, $result, $options);
         return $result;
     }

@@ -171,7 +171,6 @@ Trait Create {
             ]
         );
         $url_commit = $dir_commit . $name . $object->config('extension.lock');
-
         $commit_counter =0;
         while(File::exist($url_commit)){
             if($object->config('project.log.node')){
