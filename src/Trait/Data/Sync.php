@@ -244,15 +244,15 @@ Trait Sync {
                         if(is_array($data)){
                             foreach ($data as $index => $uuid) {
                                 $count_uuid++;
-                                $uuid = rtrim($uuid, PHP_EOL);
+                                $data[$index] = rtrim($uuid, PHP_EOL);
                                 $storage_url = $object->config('project.dir.data') .
                                     'Node' .
                                     $object->config('ds') .
                                     'Storage' .
                                     $object->config('ds') .
-                                    substr($uuid, 0, 2) .
+                                    substr($data[$index], 0, 2) .
                                     $object->config('ds') .
-                                    $uuid .
+                                    $data[$index] .
                                     $object->config('extension.json')
                                 ;
                                 $record = $object->data_read($storage_url);
@@ -286,7 +286,7 @@ Trait Sync {
                                 }
                                 if ($record) {
                                     if(in_array($class, $exception, true)){
-                                        $list->set($uuid, $record->data());
+                                        $list->set($data[$index], $record->data());
                                     }
                                     elseif($expose) {
                                         $record = $this->expose(
@@ -300,13 +300,13 @@ Trait Sync {
                                         if(is_object($node)){
                                             $node->{'#index'} = $index;
                                         }
-                                        $list->set($uuid, $node);
+                                        $list->set($data[$index], $node);
                                     } else {
                                         $node = $record->data();
                                         if(is_object($node)){
                                             $node->{'#index'} = $index;
                                         }
-                                        $list->set($uuid, $node);
+                                        $list->set($data[$index], $node);
                                     }
                                 }
                             }
