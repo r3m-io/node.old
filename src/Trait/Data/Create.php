@@ -160,6 +160,15 @@ Trait Create {
         $dir_commit = $dir_node .
             'Commit' .
             $object->config('ds');
+        $this->sync_file([
+                'node' => $dir_node,
+                'meta' => $dir_meta,
+                'binary_tree_class' => $dir_binary_tree_class,
+                'binary_tree_asc' => $dir_binary_tree_asc,
+                'binary_tree' => $dir_binary_tree,
+                'commit' => $dir_commit
+        ]);
+        /*
         $this->dir($object,
             [
                 'node' => $dir_node,
@@ -170,6 +179,7 @@ Trait Create {
                 'commit' => $dir_commit
             ]
         );
+        */
         $url_commit = $dir_commit . $name . $object->config('extension.lock');
         $commit_counter =0;
         while(File::exist($url_commit)){
@@ -187,31 +197,32 @@ Trait Create {
         $binary_tree_url =
             $dir_binary_tree_asc .
             'Uuid' .
-            $object->config('extension.json');
+            $object->config('extension.btree');
         $meta_url = $dir_meta . $name . $object->config('extension.json');
-        $list = File::read($binary_tree_url, File::ARRAY);
-
-        foreach($list as $nr => $record){
-            $list[$nr] = rtrim($record, PHP_EOL);
+        $list = [];
+        $count = 0;
+        if(File::exist($binary_tree_url)){
+            $list = File::read($binary_tree_url, File::ARRAY);
+            foreach($list as $nr => $record){
+                $list[$nr] = rtrim($record, PHP_EOL);
+                $count++;
+            }
         }
         if(!empty($data['list'])){
             foreach($data['list'] as $nr => $uuid) {
                 $list[] = $uuid;
+                $count++;
             }
         }
         $sort = new Sort();
         usort($list, array($sort,"uuid_compare_ascending"));
+        Dir::create($dir_binary_tree_asc, Dir::CHMOD);
         $lines = File::write($binary_tree_url, implode(PHP_EOL, $list), File::LINES);
-        d($list);
-        ddd($lines);
-        if ($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
-            $command = 'chmod 666 ' . $binary_search_url;
-            exec($command);
-        }
-        if ($object->config(Config::POSIX_ID) === 0) {
-            $command = 'chown www-data:www-data ' . $binary_search_url;
-            exec($command);
-        }
+        $mtime = File::mtime($binary_tree_url);
+        $this->sync_file([
+            'url' => $binary_tree_url,
+            'dir' => $dir_binary_tree_asc
+        ]);
         $meta = $object->data_read($meta_url);
         if (!$meta) {
             $meta = new Storage();
@@ -227,16 +238,12 @@ Trait Create {
         $meta->set('Sort.' . $class . '.' . $key . '.property', $property);
         $meta->set('Sort.' . $class . '.' . $key . '.lines', $lines);
         $meta->set('Sort.' . $class . '.' . $key . '.count', $count);
-        $meta->set('Sort.' . $class . '.' . $key . '.url.asc', $binary_search_url);
+        $meta->set('Sort.' . $class . '.' . $key . '.mtime', $mtime);
+        $meta->set('Sort.' . $class . '.' . $key . '.url.asc', $binary_tree_url);
         $meta->write($meta_url);
-        if ($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
-            $command = 'chmod 666 ' . $meta_url;
-            exec($command);
-        }
-        if ($object->config(Config::POSIX_ID) === 0) {
-            $command = 'chown www-data:www-data ' . $meta_url;
-            exec($command);
-        }
+        $this->sync_file([
+            'meta_url' => $meta_url
+        ]);
         if(
             array_key_exists('ramdisk', $options) &&
             $options['ramdisk'] === true &&
@@ -268,16 +275,16 @@ Trait Create {
             'Meta'.
             $object->config('ds')
         ;
-        $dir_binary_search = $dir_node .
-            'BinarySearch'.
+        $dir_binary_tree = $dir_node .
+            'BinaryTree'.
             $object->config('ds')
         ;
-        $dir_binary_search_class = $dir_binary_search .
+        $dir_binary_tree_class = $dir_binary_tree .
             $name .
             $object->config('ds')
         ;
-        $dir_binary_search =
-            $dir_binary_search_class .
+        $dir_binary_tree_asc =
+            $dir_binary_tree_class .
             'Asc' .
             $object->config('ds')
         ;
@@ -302,6 +309,15 @@ Trait Create {
                 $object->config('ds')
             ;
         }
+        $this->sync_file([
+            'node' => $dir_node,
+            'meta' => $dir_meta,
+            'binary_tree_class' => $dir_binary_tree_class,
+            'binary_tree_asc' => $dir_binary_tree_asc,
+            'binary_tree' => $dir_binary_tree,
+            'ramdisk' => $dir_ramdisk,
+        ]);
+        /*
         $this->dir($object,
             [
                 'node' => $dir_node,
@@ -311,27 +327,20 @@ Trait Create {
                 'ramdisk' => $dir_ramdisk,
             ]
         );
-        $binary_search_url =
-            $dir_binary_search .
+        */
+        $binary_tree_url =
+            $dir_binary_tree_asc .
             'Uuid' .
             $object->config('extension.json');
         $meta_url = $dir_meta . $name . $object->config('extension.json');
-        $binarySearch = $object->data_read($binary_search_url);
-        if (!$binarySearch) {
-            $binarySearch = new Storage();
-        }
-        $list = $binarySearch->data($class);
-        if (empty($list)) {
-            $list = [];
-        }
-        if (is_object($list)) {
-            $list_data = [];
-            foreach ($list as $key => $record) {
-                $list_data[] = $record;
-                unset($list[$key]);
+        $list = [];
+        $count = 0;
+        if(File::exist($binary_tree_url)){
+            $list = File::read($binary_tree_url, File::ARRAY);
+            foreach($list as $nr => $record){
+                $list[$nr] = rtrim($record, PHP_EOL);
+                $count++;
             }
-            $list = $list_data;
-            unset($list_data);
         }
         $dir_storage = $object->config('project.dir.data') .
             'Node' .
@@ -375,33 +384,24 @@ Trait Create {
                     ;
                 }
                 File::move($source, $destination, true);
-                $item = [
-                    'uuid' => $uuid
-                ];
-                $list[] = (object) $item;
+                $list[] = $uuid;
+                $count++;
             }
         }
+        $sort = new Sort();
+        usort($list, array($sort,"uuid_compare_ascending"));
+        Dir::create($dir_binary_tree_asc, Dir::CHMOD);
+        $lines = File::write($binary_tree_url, implode(PHP_EOL, $list), File::LINES);
+        $mtime = File::mtime($binary_tree_url);
         $list = Sort::list($list)->with([
             'uuid' => 'ASC',
         ], [
             'key_reset' => true,
         ]);
-        $binarySearch->delete($class);
-        $binarySearch->data($class, $list);
-        $count = 0;
-        foreach ($binarySearch->data($class) as $record) {
-            $record->{'#index'} = $count;
-            $count++;
-        }
-        $lines = $binarySearch->write($binary_search_url, 'lines');
-        if ($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
-            $command = 'chmod 666 ' . $binary_search_url;
-            exec($command);
-        }
-        if ($object->config(Config::POSIX_ID) === 0) {
-            $command = 'chown www-data:www-data ' . $binary_search_url;
-            exec($command);
-        }
+        $this->sync_file([
+            'url' => $binary_tree_url,
+            'dir' => $dir_binary_tree_asc
+        ]);
         $meta = $object->data_read($meta_url);
         if (!$meta) {
             $meta = new Storage();
@@ -417,16 +417,12 @@ Trait Create {
         $meta->set('Sort.' . $class . '.' . $key . '.property', $property);
         $meta->set('Sort.' . $class . '.' . $key . '.lines', $lines);
         $meta->set('Sort.' . $class . '.' . $key . '.count', $count);
-        $meta->set('Sort.' . $class . '.' . $key . '.url.asc', $binary_search_url);
+        $meta->set('Sort.' . $class . '.' . $key . '.mtime', $mtime);
+        $meta->set('Sort.' . $class . '.' . $key . '.url.asc', $binary_tree_url);
         $meta->write($meta_url);
-        if ($object->config('framework.environment') === Config::MODE_DEVELOPMENT) {
-            $command = 'chmod 666 ' . $meta_url;
-            exec($command);
-        }
-        if ($object->config(Config::POSIX_ID) === 0) {
-            $command = 'chown www-data:www-data ' . $meta_url;
-            exec($command);
-        }
+        $this->sync_file([
+            'meta_url' => $meta_url
+        ]);
         if($object->config('project.log.node') && $count > 0){
             $duration = microtime(true) - $start;
             $duration_per_item = $duration / $count;
