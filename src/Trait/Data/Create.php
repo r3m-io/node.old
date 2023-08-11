@@ -222,7 +222,6 @@ Trait Create {
                 ){
                     $uuid = $record->uuid;
                 }
-                ddd($uuid);
                 $list[] = $uuid;
                 $count++;
             }
