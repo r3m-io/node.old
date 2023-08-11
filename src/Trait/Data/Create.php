@@ -209,7 +209,19 @@ Trait Create {
             }
         }
         if(!empty($data['list'])){
-            foreach($data['list'] as $nr => $uuid) {
+            foreach($data['list'] as $nr => $record) {
+                if(
+                    is_array($record) &&
+                    array_key_exists('uuid', $record)
+                ){
+                    $uuid = $record['uuid'];
+                }
+                elseif(
+                    is_object($record) &&
+                    property_exists($record, 'uuid')
+                ){
+                    $uuid = $record->uuid;
+                }
                 ddd($uuid);
                 $list[] = $uuid;
                 $count++;
