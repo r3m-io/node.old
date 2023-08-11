@@ -313,7 +313,7 @@ Trait NodeList {
                     $name .
                     $object->config('ds') .
                     $key .
-                    $object->config('extension.json')
+                    $object->config('extension.btree')
                 ;
                 $where_mtime = File::mtime($where_url);
                 if(

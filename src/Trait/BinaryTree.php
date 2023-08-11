@@ -270,11 +270,18 @@ Trait BinaryTree {
                 $where = [];
                 $index = false;
                 foreach($where_list as $index => $node){
-                    $where[$key][$index] = [
-                        'uuid' => $node->uuid,
-                        '#index' => $index,
-//                        '#key' => $key
-                    ];
+                    if(
+                        is_object($node) &&
+                        property_exists($node, 'uuid')
+                    ){
+                        $where[$index] = $node->uuid;
+                    }
+                    elseif(
+                        is_array($node) &&
+                        array_key_exists('uuid', $node)
+                    ){
+                        $where[$index] = $node['uuid'];
+                    }
                 }
                 $where_dir = $dir_node .
                     'Where' .
@@ -303,33 +310,17 @@ Trait BinaryTree {
                 $meta->set('Where.' . $name . '.' . $key . '.mtime', $mtime);
                 $meta->set('Where.' . $name . '.' . $key . '.where', $options['where']);
                 $meta->set('Where.' . $name . '.' . $key . '.sort', $options['sort']);
-                if($object->config(Config::POSIX_ID) === 0){
-                    $command = 'chown www-data:www-data ' . $where_url;
-                    exec($command);
-                    $command = 'chown www-data:www-data ' . $where_dir;
-                    exec($command);
-                    $command = 'chown www-data:www-data ' . $where_name_dir;
-                    exec($command);
-                }
-                if($object->config('framework.environment') === Config::MODE_DEVELOPMENT){
-                    $command = 'chmod 666 ' . $where_url;
-                    exec($command);
-                    $command = 'chmod 777 ' . $where_dir;
-                    exec($command);
-                    $command = 'chmod 777 ' . $where_name_dir;
-                    exec($command);
-                }
+                $this->sync_file([
+                    'where_url' => $where_url,
+                    'where_dir' => $where_dir,
+                    'where_name_dir' => $where_name_dir,
+                ]);
             }
         }
         $meta->write($meta_url);
-        if($object->config(Config::POSIX_ID) === 0){
-            $command = 'chown www-data:www-data ' . $meta_url;
-            exec($command);
-        }
-        if($object->config('framework.environment') === Config::MODE_DEVELOPMENT){
-            $command = 'chmod 666 ' . $meta_url;
-            exec($command);
-        }
+        $this->sync_file([
+            'meta_url' => $meta_url,
+        ]);
     }
 
     private function binary_tree_relation_inner($relation, $data=[], $options=[], &$counter=0): false|array|stdClass
