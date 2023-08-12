@@ -321,10 +321,6 @@ Trait NodeList {
                     $object->config('extension.btree')
                 ;
                 $where_mtime = File::mtime($where_url);
-                d($where_url);
-                d($where_mtime);
-                d($mtime);
-                d($lines);
                 if(
                     File::exist($where_url) &&
                     $mtime === $where_mtime &&
@@ -363,7 +359,6 @@ Trait NodeList {
                             'mtime' => $mtime
                         ]
                     );
-                    ddd($list);
                 } else {
                     $sort_key = [
                         'property' => $properties,
@@ -406,7 +401,6 @@ Trait NodeList {
                                 'mtime' => $mtime
                             ]
                         );
-                        ddd($list);
                     }
                 }
                 $result = [];
