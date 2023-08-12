@@ -286,7 +286,6 @@ Trait Create {
                 'class' => $class,
             ]);
         }
-
         File::delete($url_commit);
         return $data;
     }
