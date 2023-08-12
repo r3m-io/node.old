@@ -323,7 +323,7 @@ Trait NodeList {
                 ){
                     $file = new SplFileObject($where_url);
                     $file_uuid = false;
-                    if(File::exist($file_uuid)){
+                    if(File::exist($url_uuid)){
                         $file_uuid = new splFileObject($url_uuid);
                     }
                     $file_connect_property = false;
@@ -354,6 +354,7 @@ Trait NodeList {
                             'mtime' => $mtime
                         ]
                     );
+                    ddd($list);
                 } else {
                     $sort_key = [
                         'property' => $properties,
