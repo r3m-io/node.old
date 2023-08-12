@@ -235,6 +235,7 @@ Trait NodeList {
                         'key' => $key,
                         'function' => $options['function'],
                     ]);
+                    d($options);
                     ddd($list);
                     $counter = $count;
                 } else {
