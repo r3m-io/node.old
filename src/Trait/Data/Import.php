@@ -63,7 +63,11 @@ Trait Import {
         } else {
             $options['transaction'] = true;
         }
-
+        if(property_exists($app_options, 'disable-sync')){
+            $options['sync'] = false;
+        } else {
+            $options['sync'] = true;
+        }
         if(property_exists($app_options, 'disable-validation')){
             $options['validation'] = false;
         } else {

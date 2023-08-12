@@ -278,9 +278,15 @@ Trait Create {
         ){
             $this->copy($class, $role, $data, $options);
         }
-        $this->sync([
-            'class' => $class,
-        ]);
+        if(
+            array_key_exists('sync', $options) &&
+            $options['sync'] === true
+        ){
+            $this->sync([
+                'class' => $class,
+            ]);
+        }
+
         File::delete($url_commit);
         return $data;
     }
