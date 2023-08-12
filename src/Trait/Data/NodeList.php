@@ -215,10 +215,14 @@ Trait NodeList {
                     $name .
                     $object->config('ds') .
                     $key .
-                    $object->config('extension.json')
+                    $object->config('extension.btree')
                 ;
-                $filter_url = false;
+//                $filter_url = false; //debug
                 $filter_mtime = File::mtime($filter_url);
+                d($filter_url);
+                d($filter_mtime);
+                d($mtime);
+                d($lines);
                 if(
                     File::exist($filter_url) &&
                     $mtime === $filter_mtime &&
@@ -231,6 +235,7 @@ Trait NodeList {
                         'key' => $key,
                         'function' => $options['function'],
                     ]);
+                    ddd($list);
                     $counter = $count;
                 } else {
                     $sort_key = [

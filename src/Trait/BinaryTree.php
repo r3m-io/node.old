@@ -98,7 +98,7 @@ Trait BinaryTree {
         $sort_key = sha1(Core::object($sort_key, Core::OBJECT_JSON));
         $url_property = $meta->get('Sort.' . $class . '.' . $sort_key . '.'. $url_key);
         if(empty($url_property)){
-            throw new Exception('Binary search list not found in meta file (class: ' . $class . '). properties: ['. implode(', ', $properties) . '] sort key: ' . $sort_key . ' url key: ' . $url_key);
+            throw new Exception('Binary tree list not found in meta file (class: ' . $class . '). properties: ['. implode(', ', $properties) . '] sort key: ' . $sort_key . ' url key: ' . $url_key);
         }
         $sort_lines = $meta->get('Sort.' . $class . '.' . $sort_key . '.lines');
         if(!empty($options['filter'])){
@@ -183,7 +183,7 @@ Trait BinaryTree {
                 Dir::create($filter_name_dir, Dir::CHMOD);
                 $filter_url = $filter_name_dir .
                     $key .
-                    $object->config('extension.json')
+                    $object->config('extension.btree')
                 ;
                 $lines = File::write($filter_url, implode(PHP_EOL, $filter), File::LINES);
                 File::touch($filter_url, $mtime);
@@ -198,22 +198,11 @@ Trait BinaryTree {
                 $meta->set('Filter.' . $name . '.' . $key . '.mtime', $mtime);
                 $meta->set('Filter.' . $name . '.' . $key . '.filter', $options['filter']);
                 $meta->set('Filter.' . $name . '.' . $key . '.sort', $options['sort']);
-                if($object->config(Config::POSIX_ID) === 0){
-                    $command = 'chown www-data:www-data ' . $filter_url;
-                    exec($command);
-                    $command = 'chown www-data:www-data ' . $filter_dir;
-                    exec($command);
-                    $command = 'chown www-data:www-data ' . $filter_name_dir;
-                    exec($command);
-                }
-                if($object->config('framework.environment') === Config::MODE_DEVELOPMENT){
-                    $command = 'chmod 666 ' . $filter_url;
-                    exec($command);
-                    $command = 'chmod 777 ' . $filter_dir;
-                    exec($command);
-                    $command = 'chmod 777 ' . $filter_name_dir;
-                    exec($command);
-                }
+                $this->sync_file([
+                    'filter_url' => $filter_url,
+                    'filter_dir' => $filter_dir,
+                    'filter_name_dir' => $filter_name_dir,
+                ]);
             }
         }
         elseif(!empty($options['where'])){
