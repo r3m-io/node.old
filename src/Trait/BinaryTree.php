@@ -299,7 +299,7 @@ Trait BinaryTree {
                 Dir::create($where_name_dir, Dir::CHMOD);
                 $where_url = $where_name_dir .
                     $key .
-                    $object->config('extension.json')
+                    $object->config('extension.btree')
                 ;
                 $lines = File::write($where_url, implode(PHP_EOL, $where), File::LINES);
                 File::touch($where_url, $mtime);

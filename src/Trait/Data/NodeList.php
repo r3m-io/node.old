@@ -90,7 +90,12 @@ Trait NodeList {
             $object->config('ds')
         ;
         $url = $this->url($dir, $options);
-        $url_uuid = $dir . 'Asc' . $object->config('ds') . 'Uuid' . $object->config('extension.btree');
+        $url_uuid = $dir .
+            'Asc' .
+            $object->config('ds') .
+            'Uuid' .
+            $object->config('extension.btree')
+        ;
         $properties_connect = $properties;
         if(!array_key_exists(1, $properties_connect)){
             $properties_connect[] = 'uuid';
@@ -401,6 +406,7 @@ Trait NodeList {
                                 'mtime' => $mtime
                             ]
                         );
+                        ddd($list);
                     }
                 }
                 $result = [];
