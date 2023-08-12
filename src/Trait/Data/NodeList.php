@@ -219,10 +219,6 @@ Trait NodeList {
                 ;
 //                $filter_url = false; //debug
                 $filter_mtime = File::mtime($filter_url);
-                d($filter_url);
-                d($filter_mtime);
-                d($mtime);
-                d($lines);
                 if(
                     File::exist($filter_url) &&
                     $mtime === $filter_mtime &&
@@ -235,8 +231,6 @@ Trait NodeList {
                         'key' => $key,
                         'function' => $options['function'],
                     ]);
-                    d($options);
-                    ddd($list);
                     $counter = $count;
                 } else {
                     $sort_key = [
@@ -303,6 +297,7 @@ Trait NodeList {
                         'ramdisk_url' => $ramdisk_url,
                     ]);
                 }
+                d($result);
                 return $result;
             }
             elseif(!empty($options['where'])){
