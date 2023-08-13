@@ -69,6 +69,7 @@ Trait NodeList {
         if(!array_key_exists('sort', $options)){
             throw new Exception('Sort is missing in options for ' . $name . '::' . $options['function'] . '()');
         }
+        d($options);
         $first = true;
         $properties = [];
         $url_connect_key = '';
