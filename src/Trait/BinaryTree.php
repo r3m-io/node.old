@@ -110,7 +110,7 @@ Trait BinaryTree {
                 'limit' => $options['limit'] ?? 1000,
                 'mtime' => $mtime,
             ];
-            ddd($key);
+            d($key);
             $key = sha1(Core::object($key, Core::OBJECT_JSON));
             $file = new SplFileObject($url_property);
             if(File::exist($url_uuid)){
@@ -123,7 +123,11 @@ Trait BinaryTree {
             } else {
                 $file_connect_property = false;
             }
-            $limit = $meta->get('Filter.' . $name . '.' . $key . '.limit') ?? 1000;
+            $limit = $meta->get('Filter.' . $name . '.' . $key . '.limit') ??
+                $options['limit'] ??
+                1000
+            ;
+            d($limit);
             $filter_list = $this->binary_tree_page(
                 $file,
                 $file_uuid,
@@ -133,7 +137,7 @@ Trait BinaryTree {
                 [
                     'filter' => $options['filter'],
                     'page' => $options['page'] ?? 1,
-                    'limit' => $options['limit'] ?? 1000,
+                    'limit' => $limit,
                     'lines'=> $sort_lines,
                     'counter' => 0,
                     'direction' => 'next',
@@ -147,6 +151,7 @@ Trait BinaryTree {
                     'mtime' => $mtime
                 ]
             );
+            d($filter_list);
             /*
             $filter_list = $this->binary_tree_list($file, [
                 'filter' => $options['filter'],
@@ -228,7 +233,10 @@ Trait BinaryTree {
             } else {
                 $file_connect_property = false;
             }
-            $limit = $meta->get('Where.' . $name . '.' . $key . '.limit') ?? 1000;
+            $limit = $meta->get('Where.' . $name . '.' . $key . '.limit') ??
+                $options['limit'] ??
+                1000
+            ;
             $where_list = $this->binary_tree_page(
                 $file,
                 $file_uuid,
@@ -238,7 +246,7 @@ Trait BinaryTree {
                 [
                     'where' => $options['where'],
                     'page' => $options['page'] ?? 1,
-                    'limit' => $options['limit'] ?? 1000,
+                    'limit' => $limit,
                     'lines'=> $sort_lines,
                     'counter' => 0,
                     'direction' => 'next',
