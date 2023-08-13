@@ -110,6 +110,7 @@ Trait BinaryTree {
                 'limit' => $options['limit'] ?? 1000,
                 'mtime' => $mtime,
             ];
+            ddd($key);
             $key = sha1(Core::object($key, Core::OBJECT_JSON));
             $file = new SplFileObject($url_property);
             if(File::exist($url_uuid)){
