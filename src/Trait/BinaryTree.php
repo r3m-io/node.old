@@ -101,7 +101,6 @@ Trait BinaryTree {
             throw new Exception('Binary tree list not found in meta file (class: ' . $class . '). properties: ['. implode(', ', $properties) . '] sort key: ' . $sort_key . ' url key: ' . $url_key);
         }
         $sort_lines = $meta->get('Sort.' . $class . '.' . $sort_key . '.lines');
-        d($options);
         if(!empty($options['filter'])){
             $key = [
                 'filter' => $options['filter'],
@@ -110,7 +109,6 @@ Trait BinaryTree {
                 'limit' => $options['limit'] ?? 1000,
                 'mtime' => $mtime,
             ];
-            d($key);
             $key = sha1(Core::object($key, Core::OBJECT_JSON));
             $file = new SplFileObject($url_property);
             if(File::exist($url_uuid)){
@@ -127,7 +125,6 @@ Trait BinaryTree {
                 $options['limit'] ??
                 1000
             ;
-            d($limit);
             $filter_list = $this->binary_tree_page(
                 $file,
                 $file_uuid,
@@ -151,7 +148,6 @@ Trait BinaryTree {
                     'mtime' => $mtime
                 ]
             );
-            d($filter_list);
             /*
             $filter_list = $this->binary_tree_list($file, [
                 'filter' => $options['filter'],
