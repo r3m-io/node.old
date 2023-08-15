@@ -68,9 +68,9 @@ Trait NodeList {
         $object = $this->object();
         if(!array_key_exists('sort', $options)){
             $debug = debug_backtrace(true);
-            d($debug[0]['file'] . ':' . $debug[0]['line'] . ' ' . $name . '::' . $options['function'] . '()' . ' sort is missing');
-            d($debug[1]['file'] . ':' . $debug[1]['line'] . ' ' . $name . '::' . $options['function'] . '()' . ' sort is missing');
-            d($debug[2]['file'] . ':' . $debug[2]['line'] . ' ' . $name . '::' . $options['function'] . '()' . ' sort is missing');
+            d($debug[0]['file'] . ':' . $debug[0]['line']);
+            d($debug[1]['file'] . ':' . $debug[1]['line']);
+            d($debug[2]['file'] . ':' . $debug[2]['line']);
             throw new Exception('Sort is missing in options for ' . $name . '::' . $options['function'] . '()');
         }
 //        d($options);
