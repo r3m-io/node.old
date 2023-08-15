@@ -154,7 +154,11 @@ Trait Put {
                     }
                 }
                 $node->set($attribute, $list);
-            } else {
+            }
+            elseif(is_object($value)){
+                $node->set($attribute, Core::object_merge($node->get($attribute), $value));
+            }
+            else {
                 $node->set($attribute, $value);
             }
         }
