@@ -133,8 +133,6 @@ Trait Put {
         }
         $node = new Storage($response['node']);
         $patch = new Storage($record);
-        d($node);
-        ddd($patch);
         foreach($patch->data() as $attribute => $value){
             if(is_array($value)){
                 $list = $node->get($attribute);
@@ -161,6 +159,7 @@ Trait Put {
             }
         }
         $node->set('#class', $class);
+        ddd($node->data());
         $object->request('node', $node->data());
         $validate = $this->validate($object, $validate_url,  $class . '.put');
         $response = [];
