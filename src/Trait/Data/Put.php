@@ -91,7 +91,6 @@ Trait Put {
         if(is_array($record)){
             $record = Core::object($record, Core::OBJECT_OBJECT);
         }
-        ddd($record);
         $uuid = $record->uuid ?? false;
         if($uuid === false){
             return false;
