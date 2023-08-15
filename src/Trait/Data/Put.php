@@ -88,14 +88,14 @@ Trait Put {
      */
     public function put($class, $role, $record=[], $options=[]): false|array|object
     {
-        if(is_object($record)){
-            $record = (array) $record;
+        if(is_array($record)){
+            $record = Core::object($record, Core::OBJECT_OBJECT);
         }
-        $uuid = $record['uuid'] ?? false;
+        $uuid = $record->uuid ?? false;
         if($uuid === false){
             return false;
         }
-        unset($record['uuid']);
+        unset($record->uuid);
         $name = Controller::name($class);
         $object = $this->object();
         $dir_node = $object->config('project.dir.data') .
@@ -133,6 +133,8 @@ Trait Put {
         }
         $node = new Storage($response['node']);
         $patch = new Storage($record);
+        d($node);
+        ddd($patch);
         foreach($patch->data() as $attribute => $value){
             if(is_array($value)){
                 $list = $node->get($attribute);
