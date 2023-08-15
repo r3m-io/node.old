@@ -157,6 +157,7 @@ Trait Put {
             }
             elseif(is_object($value)){
                 $node->set($attribute, Core::object_merge($node->get($attribute), $value));
+                $node->remove_null();
             }
             else {
                 $node->set($attribute, $value);
