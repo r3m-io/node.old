@@ -164,7 +164,6 @@ Trait Put {
             }
         }
         $node->set('#class', $class);
-        ddd($node->data());
         $object->request('node', $node->data());
         $validate = $this->validate($object, $validate_url,  $class . '.put');
         $response = [];
