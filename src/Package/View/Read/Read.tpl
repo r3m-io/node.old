@@ -11,12 +11,13 @@ You need to provide the option class.
 Available classes:
 {{$read = dir.read(config('project.dir.data') + 'Node/Object/')}}
 {{if(is.array($read))}}
+{{$read = data.sort($read, ['name' => 'ASC'])}}
+{{for.each($read as $file)}}
 {{for.each($read as $file)}}
 - {{file.basename($file.name, config('extension.json'))}}
 
 {{/for.each}}
 {{/if}}
-{{dd($read)}}
 {{else}}
 {{if(is.empty($options.uuid))}}
 You can use list to get the uuid.
