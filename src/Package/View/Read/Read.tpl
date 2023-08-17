@@ -9,6 +9,9 @@ Read Event:
 {{/if}}
 {{if(is.empty($class))}}
 You need to provide the option class.
+Available classes:
+{{$read = dir.read(config('project.dir.data') + 'Node/Object/')}}
+{{dd($read)}}
 {{else}}
 {{if(is.empty($options.uuid))}}
 You can use list to get the uuid.
