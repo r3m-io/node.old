@@ -4,8 +4,7 @@
 {{$class = data.extract('options.class')}}
 {{if($options.format === 'json')}}
 {{else}}
-Read Event:
-
+Read {{controller.name($class)}}:
 {{/if}}
 {{if(is.empty($class))}}
 You need to provide the option class.
