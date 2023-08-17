@@ -1,0 +1,25 @@
+{{R3M}}
+{{$request = request()}}
+{{$options = options()}}
+{{$class = data.extract('options.class')}}
+{{if($options.format === 'json')}}
+{{else}}
+Read Event:
+
+{{/if}}
+{{if(is.empty($class))}}
+You need to provide the option class.
+{{else}}
+{{if(is.empty($options.uuid))}}
+You can use list to get the uuid.
+{{else}}
+{{$response = R3m.Io.Node:Data:read(
+$class,
+R3m.Io.Node:Role:role_system(),
+[
+'uuid' => $options.uuid
+])}}
+{{$response|json.encode:'JSON_PRETTY_PRINT'}}
+{{/if}}
+{{/if}}
+
