@@ -2,6 +2,7 @@
 
 namespace R3m\Io\Node\Trait\Data;
 
+use Exception;
 use R3m\Io\App;
 use R3m\Io\Config;
 
@@ -22,6 +23,7 @@ Trait Delete {
      * @throws ObjectException
      * @throws FileMoveException
      * @throws DirectoryCreateException
+     * @throws Exception
      */
     public function delete($class, $role, $options=[]): bool
     {
@@ -71,11 +73,11 @@ Trait Delete {
         $data = File::read($url_property, File::ARRAY);
 
         if(!$data){
-            return false;
+            throw new Exception('No data found in: ' . $url_property);
         }
         $uuid = $node->get('uuid');
         if(empty($uuid)){
-            return false;
+            throw new Exception('No uuid set.');
         }
         $is_found = false;
         foreach($data as $nr => $record){
@@ -137,7 +139,7 @@ Trait Delete {
                 return File::move($url_node, $target_url);
             }
         }
-        return false;
+        throw new Exception('No data found in: ' . $url_node);
     }
 
     /**

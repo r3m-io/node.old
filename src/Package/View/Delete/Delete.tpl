@@ -17,18 +17,13 @@ Available classes:
 {{if(is.empty($options.uuid))}}
 You can use list to get the uuid.
 {{else}}
-{{$delete = R3m.Io.Node:Data:delete(
+{{$response = R3m.Io.Node:Data:delete(
 $class,
 R3m.Io.Node:Role:role_system(),
 [
 'uuid' => $options.uuid
 ])}}
-{{if(is.empty($delete))}}
-{
-
-    "error": "Delete failed: {{$options.uuid}}",
-    "#class": "{{controller.name($class)}}"
-}
+{{$response|json.encode:'JSON_PRETTY_PRINT'}}
 {{/if}}
 {{/if}}
 {{/if}}
