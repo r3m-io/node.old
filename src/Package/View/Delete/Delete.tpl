@@ -29,4 +29,6 @@ R3m.Io.Node:Role:role_system(),
     "#class": "{{controller.name($class)}}"
 }
 {{/if}}
+{{/if}}
+{{/if}}
 
