@@ -13,7 +13,6 @@ Available classes:
 {{if(is.array($read))}}
 {{$read = data.sort($read, ['name' => 'ASC'])}}
 {{for.each($read as $file)}}
-{{for.each($read as $file)}}
 - {{file.basename($file.name, config('extension.json'))}}
 
 {{/for.each}}
