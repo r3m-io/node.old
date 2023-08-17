@@ -3,28 +3,99 @@
 namespace R3m\Io\Node\Trait\Data;
 
 use Exception;
+use R3m\Io\Config;
+use R3m\Io\Exception\FileWriteException;
+use R3m\Io\Exception\ObjectException;
 use R3m\Io\Module\Controller;
 use R3m\Io\Module\Core;
 use R3m\Io\Module\Data as Storage;
-
-use R3m\Io\Exception\FileWriteException;
-use R3m\Io\Exception\ObjectException;
 use R3m\Io\Module\Event;
+use R3m\Io\Module\Sort;
 
 Trait Patch {
 
     /**
      * @throws ObjectException
      * @throws FileWriteException
+     */
+    public function patch_many($class, $role, $data=[], $options=[]): array
+    {
+        $name = Controller::name($class);
+        $object = $this->object();
+        $result = [
+            'list' => [],
+            'count' => 0,
+            'error' => [
+                'list' => [],
+                'uuid' => [],
+                'count' => 0
+            ]
+        ];
+        foreach($data as $record){
+            $response = $this->patch(
+                $class,
+                $role,
+                $record,
+                [
+                    'is_many' => true,
+                    'function' => $options['function'] ?? __FUNCTION__,
+                ]
+            );
+            if(
+                is_object($record) &&
+                property_exists($record, 'uuid')
+            ){
+                $uuid = $record->uuid;
+            }
+            elseif(
+                is_array($record) &&
+                array_key_exists('uuid', $record)
+            ){
+                $uuid = $record['uuid'];
+            }
+            if(!$response){
+                $record['error']['uuid'][] = $uuid;
+                $result['error']['list'][] = false;
+                $result['error']['count']++;
+            }
+            elseif(
+                array_key_exists('node', $response) &&
+                array_key_exists('uuid', $response['node'])
+            ){
+                $result['list'][] = $response['node']['uuid'];
+                $result['count']++;
+            }
+            elseif(array_key_exists('error', $response)) {
+                $record['error']['uuid'][] = $uuid;
+                $result['error']['list'][] = $response['error'];
+                $result['error']['count']++;
+            } else {
+                $record['error']['uuid'][] = $uuid;
+                $result['error']['list'][] = false;
+                $result['error']['count']++;
+            }
+        }
+        if($result['error']['count'] === 0){
+            unset($result['error']);
+        }
+        return $result;
+    }
+
+    /**
+     * @throws ObjectException
+     * @throws FileWriteException
      * @throws Exception
      */
-    public function patch($class, $role, $options=[]): false|array
+    public function patch($class, $role, $record=[], $options=[]): false|array|object
     {
-        $uuid = $options['uuid'] ?? false;
+        if(is_array($record)){
+            $record = Core::object($record, Core::OBJECT_OBJECT);
+        }
+        $uuid = $record->uuid ?? false;
         if($uuid === false){
             return false;
         }
-        unset($options['uuid']);
+        unset($record->uuid);
         $name = Controller::name($class);
         $object = $this->object();
         $dir_node = $object->config('project.dir.data') .
@@ -47,57 +118,67 @@ Trait Patch {
                 'uuid' => 'ASC'
             ],
             'relation' => false,
-            'function' => __FUNCTION__
+            'function' => __FUNCTION__,
         ];
-        $node = $this->record(
+        $response = $this->record(
             $name,
             $role,
             $node_options
         );
-        if(!$node){
+        if(!$response){
             return false;
         }
-        if(!array_key_exists('node', $node)){
+        if(!array_key_exists('node', $response)){
             return false;
         }
-        $node = new Storage($node['node']);
-        $patch = new Storage($options);
+        $node = new Storage($response['node']);
+        $patch = new Storage($record);
         foreach($patch->data() as $attribute => $value){
             if(is_array($value)){
                 $list = $node->get($attribute);
                 if(empty($list) || !is_array($list)){
                     $list = [];
-                }
-                elseif(is_array($list)) {
-                    foreach($list as $nr => $record){
+                } else {
+                    foreach($list as $nr => $item){
                         if(
-                            is_object($record) &&
-                            property_exists($record, 'uuid')
+                            is_object($item) &&
+                            property_exists($item, 'uuid')
                         ){
-                            $list[$nr] = $record->uuid;
+                            $list[$nr] = $item->uuid;
+                        }
+                        elseif(
+                            is_array($item) &&
+                            array_key_exists('uuid', $item)
+                        ){
+                            $list[$nr] = $item['uuid'];
                         }
                     }
                 }
-                foreach($value as $record){
-                    if(!in_array($record, $list, true)){
-                        $list[] = $record;
+                foreach($value as $item){
+                    if(!in_array($item, $list, true)){
+                        $list[] = $item;
                     }
                 }
                 $node->set($attribute, $list);
-            } else {
+            }
+            elseif(is_object($value)){
+                $node->set($attribute, Core::object_merge($node->get($attribute), $value));
+                $node->remove_null();
+            }
+            else {
                 $node->set($attribute, $value);
             }
         }
-        $node->set('#class', $class);
+        $node->set('#class', $name);
         $object->request('node', $node->data());
-        $validate = $this->validate($object, $validate_url,  $class . '.patch');
+        $validate = $this->validate($object, $validate_url,  $name . '.put');
         $response = [];
         if($validate){
             if($validate->success === true){
                 $expose = $this->expose_get(
                     $object,
-                    $class,
-                    $class . '.' . __FUNCTION__ . '.expose'
+                    $name,
+                    $name . '.' . __FUNCTION__ . '.expose'
                 );
                 if(
                     $expose &&
@@ -106,7 +187,7 @@ Trait Patch {
                     $record = $this->expose(
                         new Storage($object->request('node')),
                         $expose,
-                        $class,
+                        $name,
                         __FUNCTION__,
                         $role
                     );
@@ -128,19 +209,19 @@ Trait Patch {
                         $record->write($url);
                         $response['node'] = Core::object($record->data(), Core::OBJECT_ARRAY);
                         Event::trigger($object, 'r3m.io.node.data.patch', [
-                            'class' => $class,
+                            'class' => $name,
                             'options' => $options,
                             'url' => $url,
                             'node' => $record->data(),
                         ]);
                     } else {
-                        throw new Exception('Make sure, you have the right permission (' . $class . '.' . __FUNCTION__ . ')');
+                        throw new Exception('Make sure, you have the right permission (' . $name . '.' . __FUNCTION__ . ')');
                     }
                 }
             } else {
                 $response['error'] = $validate->test;
                 Event::trigger($object, 'r3m.io.node.data.patch.error', [
-                    'class' => $class,
+                    'class' => $name,
                     'options' => $options,
                     'node' => $object->request('node'),
                     'error' => $validate->test,
@@ -150,6 +231,5 @@ Trait Patch {
             throw new Exception('Cannot validate node at: ' . $validate_url);
         }
         return $response;
-   }
+    }
 }
-

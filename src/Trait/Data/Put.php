@@ -146,6 +146,12 @@ Trait Put {
                         ){
                             $list[$nr] = $item->uuid;
                         }
+                        elseif(
+                            is_array($item) &&
+                            array_key_exists('uuid', $item)
+                        ){
+                            $list[$nr] = $item['uuid'];
+                        }
                     }
                 }
                 foreach($value as $item){
@@ -163,16 +169,16 @@ Trait Put {
                 $node->set($attribute, $value);
             }
         }
-        $node->set('#class', $class);
+        $node->set('#class', $name);
         $object->request('node', $node->data());
-        $validate = $this->validate($object, $validate_url,  $class . '.put');
+        $validate = $this->validate($object, $validate_url,  $name . '.put');
         $response = [];
         if($validate){
             if($validate->success === true){
                 $expose = $this->expose_get(
                     $object,
-                    $class,
-                    $class . '.' . __FUNCTION__ . '.expose'
+                    $name,
+                    $name . '.' . __FUNCTION__ . '.expose'
                 );
                 if(
                     $expose &&
@@ -181,7 +187,7 @@ Trait Put {
                     $record = $this->expose(
                         new Storage($object->request('node')),
                         $expose,
-                        $class,
+                        $name,
                         __FUNCTION__,
                         $role
                     );
@@ -203,19 +209,19 @@ Trait Put {
                         $record->write($url);
                         $response['node'] = Core::object($record->data(), Core::OBJECT_ARRAY);
                         Event::trigger($object, 'r3m.io.node.data.put', [
-                            'class' => $class,
+                            'class' => $name,
                             'options' => $options,
                             'url' => $url,
                             'node' => $record->data(),
                         ]);
                     } else {
-                        throw new Exception('Make sure, you have the right permission (' . $class . '.' . __FUNCTION__ . ')');
+                        throw new Exception('Make sure, you have the right permission (' . $name . '.' . __FUNCTION__ . ')');
                     }
                 }
             } else {
                 $response['error'] = $validate->test;
                 Event::trigger($object, 'r3m.io.node.data.put.error', [
-                    'class' => $class,
+                    'class' => $name,
                     'options' => $options,
                     'node' => $object->request('node'),
                     'error' => $validate->test,
