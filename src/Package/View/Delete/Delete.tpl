@@ -23,7 +23,9 @@ R3m.Io.Node:Role:role_system(),
 [
 'uuid' => $options.uuid
 ])}}
+{{if($response !== true)}}
 {{$response|json.encode:'JSON_PRETTY_PRINT'}}
+{{/if}}
 {{/if}}
 {{/if}}
 
