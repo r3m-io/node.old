@@ -406,6 +406,7 @@ Trait NodeList {
                                 'mtime' => $mtime
                             ]
                         );
+                        d($list);
                     }
                 }
                 $result = [];
