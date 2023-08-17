@@ -687,7 +687,6 @@ Trait Create {
                         }
                     } else {
                         $binary_tree_count = 0;
-                        $bin_tree = [];
                         if(File::exist($binary_tree_url)){
                             $binary_tree = File::read($binary_tree_url, File::ARRAY);
                             foreach($binary_tree as $key => $value){

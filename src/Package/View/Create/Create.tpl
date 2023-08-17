@@ -2,7 +2,7 @@
 {{$request = request()}}
 {{$options = options()}}
 {{$class = data.extract('options.class')}}
-{{$response = R3m.Io.Node:Data:patch(
+{{$response = R3m.Io.Node:Data:create(
 $class,
 R3m.Io.Node:Role:role_system(),
 $options
