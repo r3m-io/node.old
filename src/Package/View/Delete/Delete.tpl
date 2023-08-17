@@ -25,7 +25,8 @@ R3m.Io.Node:Role:role_system(),
 ])}}
 {{if(is.empty($delete))}}
 {
-    "error": "Delete failed: {{$options.uuid}}"
+
+    "error": "Delete failed: {{$options.uuid}}",
     "#class": "{{controller.name($class)}}"
 }
 {{/if}}
