@@ -13,6 +13,7 @@ Available classes:
 {{if(is.array($read))}}
 {{for.each($read as $file)}}
 - {{file.basename($file.name, config('extension.json'))}}
+
 {{/for.each}}
 {{/if}}
 {{dd($read)}}
