@@ -1,6 +1,7 @@
 {{R3M}}
 {{$request = request()}}
 {{$options = options()}}
+{{dd($options)}}
 {{$class = data.extract('options.class')}}
 {{if(is.empty($class))}}
 You need to provide the option class.
