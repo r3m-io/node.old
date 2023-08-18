@@ -194,12 +194,12 @@ Trait NodeList {
                 $object->config('ds') .
                 'Meta' .
                 $object->config('ds') .
-                $class .
+                $name .
                 $object->config('extension.json')
             ;
             $meta = $object->data_read($meta_url, sha1($meta_url));
             if(!$meta){
-                return false;
+                throw new Exception('Meta data not found in: ' . $meta_url);
             }
             if(!empty($options['filter'])){
                 $key = [
@@ -229,7 +229,7 @@ Trait NodeList {
                     $mtime === $filter_mtime &&
                     $lines >= 0
                 ){
-                    $list = $this->filter_nodelist($class, $role, [
+                    $list = $this->filter_nodelist($name, $role, [
                         'url' => $filter_url,
                         'lines' => $lines,
                         'count' => $count,
@@ -368,8 +368,10 @@ Trait NodeList {
                     $sort_key = [
                         'property' => $properties,
                     ];
+                    d($sort_key);
                     $sort_key = sha1(Core::object($sort_key, Core::OBJECT_JSON));
-                    $lines = $meta->get('Sort.' . $class . '.' . $sort_key . '.lines');
+                    $lines = $meta->get('Sort.' . $name . '.' . $sort_key . '.lines');
+                    ddd($lines);
                     if(
                         File::exist($url) &&
                         $lines > 0
@@ -446,8 +448,8 @@ Trait NodeList {
                     'property' => $properties
                 ];
                 $sort_key = sha1(Core::object($sort_key, Core::OBJECT_JSON));
-                $url = $meta->get('Sort.' . $class . '.' . $sort_key . '.'. $url_key);
-                $lines = $meta->get('Sort.' . $class . '.' . $sort_key . '.lines');
+                $url = $meta->get('Sort.' . $name . '.' . $sort_key . '.'. $url_key);
+                $lines = $meta->get('Sort.' . $name . '.' . $sort_key . '.lines');
                 if(
                     File::exist($url) &&
                     $lines > 0
