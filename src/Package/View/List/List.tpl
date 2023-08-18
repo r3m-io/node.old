@@ -17,9 +17,8 @@ Available classes:
 {{$response = R3m.Io.Node:Data:list(
 $class,
 R3m.Io.Node:Role:role_system(),
-[
-'uuid' => $options.uuid
-])}}
+$options
+)}}
 {{$response|json.encode:'JSON_PRETTY_PRINT'}}
 {{/if}}
 
