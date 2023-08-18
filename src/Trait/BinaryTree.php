@@ -96,11 +96,11 @@ Trait BinaryTree {
             'property' => $properties,
         ];
         $sort_key = sha1(Core::object($sort_key, Core::OBJECT_JSON));
-        $url_property = $meta->get('Sort.' . $class . '.' . $sort_key . '.'. $url_key);
+        $url_property = $meta->get('Sort.' . $name . '.' . $sort_key . '.'. $url_key);
         if(empty($url_property)){
-            throw new Exception('Binary tree list not found in meta file (class: ' . $class . '). properties: ['. implode(', ', $properties) . '] sort key: ' . $sort_key . ' url key: ' . $url_key);
+            throw new Exception('Binary tree list not found in meta file (class: ' . $name . '). properties: ['. implode(', ', $properties) . '] sort key: ' . $sort_key . ' url key: ' . $url_key);
         }
-        $sort_lines = $meta->get('Sort.' . $class . '.' . $sort_key . '.lines');
+        $sort_lines = $meta->get('Sort.' . $name . '.' . $sort_key . '.lines');
         if(!empty($options['filter'])){
             $key = [
                 'filter' => $options['filter'],
