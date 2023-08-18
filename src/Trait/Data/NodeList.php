@@ -83,6 +83,9 @@ Trait NodeList {
         $options['sort'] = $sort_data->data();
 
         foreach($options['sort'] as $key => $order){
+            if(is_array($order)){
+                ddd($options['sort']);
+            }
             $properties[] = $key;
             if($first){
                 $url_connect_key .= 'Asc' . $object->config('ds');
