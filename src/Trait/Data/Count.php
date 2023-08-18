@@ -4,6 +4,7 @@ namespace R3m\Io\Node\Trait\Data;
 
 use SplFileObject;
 
+use R3m\Io\Module\Data as Storage;
 use R3m\Io\Module\Controller;
 use R3m\Io\Module\Core;
 use R3m\Io\Module\File;
@@ -31,7 +32,7 @@ Trait Count {
             $object->config('ds') .
             'BinaryTree' .
             $object->config('ds') .
-            $class .
+            $name .
             $object->config('ds')
         ;
         $url_uuid = $dir . 'Asc' . $object->config('ds') . 'Uuid' . $object->config('extension.btree');
@@ -49,6 +50,14 @@ Trait Count {
                 'uuid' => 'ASC'
             ];
         }
+        //command line nested to not nested hack.
+        $sort_data = new Storage();
+        $sort_data->do_not_nest_key(true);
+        $sort_data->data($options['sort']);
+        $sort_patch = $sort_data->patch_nested_key();
+        $options['sort'] = $sort_patch;
+
+
         if(array_key_exists('sort', $options)){
             $properties = [];
             $has_descending = false;
@@ -100,28 +109,9 @@ Trait Count {
                 return false;
             }
             $sort_key = [
-                'property' => [
-                    'uuid'
-                ]
-            ];
-//            $url_uuid = $meta->get('Sort.' . $name . '.' . $sort_key . '.url.asc');
-            /*
-            if(!File::exist($url_uuid)) {
-                //logger exception
-                return false;
-            }
-            */
-            $sort_key = [
                 'property' => $properties
             ];
             $sort_key = sha1(Core::object($sort_key, Core::OBJECT_JSON));
-            /*
-            $url_connect_property = $meta->get('Sort.' . $name . '.' . $sort_key . '.url.asc');
-            if(!File::exist($url_connect_property)) {
-                //logger exception
-                return false;
-            }
-            */
             $lines = $meta->get('Sort.' . $name . '.' . $sort_key . '.lines');
             if(
                 File::exist($url) &&
