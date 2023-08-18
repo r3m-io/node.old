@@ -78,6 +78,7 @@ Trait NodeList {
         $url_connect_key = '';
 
         //command line nested to not nested hack.
+        d($options);
         $sort_data = new Storage();
         $sort_data->do_not_nest_key(true);
         $sort_data->data($options['sort']);
