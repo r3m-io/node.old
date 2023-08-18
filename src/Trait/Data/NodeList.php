@@ -79,6 +79,10 @@ Trait NodeList {
 
         //command line nested to not nested hack.
         d($options);
+        $debug = debug_backtrace(true);
+        d($debug[0]['file'] . ':' . $debug[0]['line']);
+        d($debug[1]['file'] . ':' . $debug[1]['line']);
+        d($debug[2]['file'] . ':' . $debug[2]['line']);
         $sort_data = new Storage();
         $sort_data->do_not_nest_key(true);
         $sort_data->data($options['sort']);
