@@ -89,7 +89,7 @@ Trait NodeList {
         $sort_data->do_not_nest_key(true);
         $sort_data->data($options['sort']);
         $sort_data->patch_nested_key();
-        ddd($sort_data);
+        d($sort_data);
         $options['sort'] = $sort_data->data();
 
         d($options);
