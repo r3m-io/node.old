@@ -1415,10 +1415,11 @@ Trait BinaryTree {
             array_key_exists('url_uuid', $options) &&
             File::exist($options['url_uuid'])
         ){
-            $key = sha1($options['url_connect_property']);
+//            $key = sha1($options['url_connect_property']);
             $file_connect_property->seek($options['index']);
             $file_connect_line = (float) rtrim($file_connect_property->current(), PHP_EOL);
-            $key = sha1($options['url_uuid']);
+            d($file_connect_line);
+//            $key = sha1($options['url_uuid']);
             $file_uuid->seek($file_connect_line);
             $file_uuid_line = $file_uuid->current();
             return rtrim($file_uuid_line, PHP_EOL);
