@@ -78,7 +78,9 @@ Trait NodeList {
         $url_connect_key = '';
 
         $sort_data = new Storage($options['sort']);
-        ddd($sort_data);
+        $sort_data->do_not_nest_key(true);
+        $options['sort'] = $sort_data->data();
+        ddd($options);
 
         foreach($options['sort'] as $key => $order){
             $properties[] = $key;
