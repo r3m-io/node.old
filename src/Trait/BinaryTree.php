@@ -24,6 +24,7 @@ Trait BinaryTree {
      */
     private function binary_tree_list_create($class, $role, $options=[]): void
     {
+        d($options);
         $object = $this->object();
         $name = Controller::name($class);
         $dir_node = $object->config('project.dir.data') .
