@@ -89,6 +89,8 @@ Trait NodeList {
         $sort_data->data($options['sort']);
         $options['sort'] = $sort_data->data();
 
+        d($options);
+
         foreach($options['sort'] as $key => $order){
             if(is_array($order)){
                 d($sort_data);
