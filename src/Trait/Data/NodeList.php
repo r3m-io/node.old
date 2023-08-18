@@ -76,6 +76,10 @@ Trait NodeList {
         $first = true;
         $properties = [];
         $url_connect_key = '';
+
+        $sort_data = new Storage($options['sort']);
+        ddd($sort_data);
+
         foreach($options['sort'] as $key => $order){
             $properties[] = $key;
             if($first){
