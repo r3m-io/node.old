@@ -840,7 +840,7 @@ Trait BinaryTree {
                 $key .
                 $object->config('extension.json')
             ;
-            //echo 'binarysearch:ramdisk:url: ' . $url . PHP_EOL;
+            echo 'binarysearch:ramdisk:url: ' . $url . PHP_EOL;
             if(
                 File::exist($url) &&
                 File::mtime($url) === $options['mtime']
@@ -879,6 +879,8 @@ Trait BinaryTree {
                 'url_uuid' => $options['url_uuid'],
                 'url_connect_property' => $options['url_connect_property'],
             ]);
+            d($i);
+            d($record);
             if(
                 $record
             ){
