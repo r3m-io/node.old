@@ -2,9 +2,9 @@
 
 namespace R3m\Io\Node\Trait\Data;
 
-use R3m\Io\Config;
-use R3m\Io\Module\Dir;
 use SplFileObject;
+
+use R3m\Io\Config;
 
 use R3m\Io\Module\Controller;
 use R3m\Io\Module\Core;
@@ -53,9 +53,8 @@ Trait NodeList {
      * @throws ObjectException
      * @throws FileWriteException
      * @throws Exception
-     * @throws \Exception
      */
-    public function list($class, $role, $options=[]): false|array
+    public function list($class, $role, $options=[]): array
     {
         $name = Controller::name($class);
         $options = Core::object($options, Core::OBJECT_ARRAY);
@@ -368,10 +367,8 @@ Trait NodeList {
                     $sort_key = [
                         'property' => $properties,
                     ];
-                    d($sort_key);
                     $sort_key = sha1(Core::object($sort_key, Core::OBJECT_JSON));
                     $lines = $meta->get('Sort.' . $name . '.' . $sort_key . '.lines');
-                    ddd($lines);
                     if(
                         File::exist($url) &&
                         $lines > 0
@@ -467,11 +464,7 @@ Trait NodeList {
                         //nothing
                     }
                     else {
-                        d($url);
-                        d($url_uuid);
-                        d($properties);
-                        d($url_connect_property);
-                        ddd('error');
+                        throw new Exception('No connect property found in: ' . $url_connect_property);
                     }
                     $list = $this->binary_tree_page(
                         $file,
@@ -518,7 +511,7 @@ Trait NodeList {
                 }
             }
         }
-        return false;
+        throw new Exception('Probably descending order (not implemented yet).');
     }
 
     public function list_attribute($list=[], $attribute=[]): array
