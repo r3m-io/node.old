@@ -88,7 +88,7 @@ Trait NodeList {
         $sort_data = new Storage();
         $sort_data->do_not_nest_key(true);
         $sort_data->data($options['sort']);
-        $sort_data->patch_nested_key();
+        $sort_data = $sort_data->patch_nested_key();
         d($sort_data);
         $options['sort'] = $sort_data->data();
 
