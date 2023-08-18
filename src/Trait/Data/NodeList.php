@@ -77,13 +77,6 @@ Trait NodeList {
         $first = true;
         $properties = [];
         $url_connect_key = '';
-
-        d($options);
-        $debug = debug_backtrace(true);
-        d($debug[0]['file'] . ':' . $debug[0]['line']);
-        d($debug[1]['file'] . ':' . $debug[1]['line']);
-        d($debug[2]['file'] . ':' . $debug[2]['line']);
-
         //command line nested to not nested hack.
         $sort_data = new Storage();
         $sort_data->do_not_nest_key(true);
@@ -91,9 +84,11 @@ Trait NodeList {
         $sort_patch = $sort_data->patch_nested_key();
         $options['sort'] = $sort_patch;
         foreach($options['sort'] as $key => $order){
-            if(is_array($order)){
-                d($sort_data);
-                ddd($options['sort']);
+            if(
+                is_array($order) ||
+                is_object($order)
+            ){
+                continue;
             }
             $properties[] = $key;
             if($first){
