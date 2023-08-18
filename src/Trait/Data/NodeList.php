@@ -84,6 +84,7 @@ Trait NodeList {
 
         foreach($options['sort'] as $key => $order){
             if(is_array($order)){
+                d($sort_data);
                 ddd($options['sort']);
             }
             $properties[] = $key;
