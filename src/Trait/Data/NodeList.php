@@ -512,7 +512,6 @@ Trait NodeList {
                             'ramdisk_url' => $ramdisk_url,
                         ]);
                     }
-                    d($result);
                     return $result;
                 }
             }
