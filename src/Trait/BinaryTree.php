@@ -24,7 +24,6 @@ Trait BinaryTree {
      */
     private function binary_tree_list_create($class, $role, $options=[]): void
     {
-        d($options);
         $object = $this->object();
         $name = Controller::name($class);
         $dir_node = $object->config('project.dir.data') .
@@ -879,9 +878,6 @@ Trait BinaryTree {
                 'url_uuid' => $options['url_uuid'],
                 'url_connect_property' => $options['url_connect_property'],
             ]);
-            d($options);
-            d($i);
-            d($record);
             if(
                 $record
             ){
@@ -1316,9 +1312,9 @@ Trait BinaryTree {
                 }
             }
             $file->seek($seek);
-            echo 'Seek 1: ' . $seek . ' options.index: ' . $options['index'] . PHP_EOL;
+//            echo 'Seek 1: ' . $seek . ' options.index: ' . $options['index'] . PHP_EOL;
             $line = $file->current();
-            echo $line . PHP_EOL;
+//            echo $line . PHP_EOL;
             $options['counter']++;
             if($options['counter'] > 1024){
                 throw new Exception('Out of range');
@@ -1327,9 +1323,9 @@ Trait BinaryTree {
             }
             if ($options['index'] === $seek) {
                 $options['line'] = $line;
-                echo 'Seek 2: ' . $seek . ' options.index: ' . $options['index'] . PHP_EOL;
+//                echo 'Seek 2: ' . $seek . ' options.index: ' . $options['index'] . PHP_EOL;
                 $uuid = $this->binary_tree_uuid($file, $file_uuid, $file_connect_property, $options);
-                echo 'UUID: ' . $uuid . PHP_EOL;
+//                echo 'UUID: ' . $uuid . PHP_EOL;
                 if($uuid){
                     $record = [];
                     $record['uuid'] = $uuid;
@@ -1394,8 +1390,6 @@ Trait BinaryTree {
 
     private function binary_tree_uuid($file, $file_uuid, $file_connect_property, $options=[]): ?string
     {
-        d($file_connect_property);
-        d($options);
         $object = $this->object();
         if(
             $file_connect_property === false &&
@@ -1415,11 +1409,8 @@ Trait BinaryTree {
             array_key_exists('url_uuid', $options) &&
             File::exist($options['url_uuid'])
         ){
-//            $key = sha1($options['url_connect_property']);
             $file_connect_property->seek($options['index']);
             $file_connect_line = (float) rtrim($file_connect_property->current(), PHP_EOL);
-            d($file_connect_line);
-//            $key = sha1($options['url_uuid']);
             $file_uuid->seek($file_connect_line);
             $file_uuid_line = $file_uuid->current();
             return rtrim($file_uuid_line, PHP_EOL);
