@@ -243,7 +243,6 @@ Trait Sync {
                         $count_uuid = 0;
                         if(is_array($data)){
                             foreach ($data as $index => $uuid) {
-                                $count_uuid++;
                                 $data[$index] = rtrim($uuid, PHP_EOL);
                                 $storage_url = $object->config('project.dir.data') .
                                     'Node' .
@@ -298,16 +297,17 @@ Trait Sync {
                                         );
                                         $node = $record->data();
                                         if(is_object($node)){
-                                            $node->{'#index'} = $index;
+                                            $node->{'#index'} = $count_uuid;
                                         }
                                         $list->set($data[$index], $node);
                                     } else {
                                         $node = $record->data();
                                         if(is_object($node)){
-                                            $node->{'#index'} = $index;
+                                            $node->{'#index'} = $count_uuid;
                                         }
                                         $list->set($data[$index], $node);
                                     }
+                                    $count_uuid++;
                                 }
                             }
                             $lines_uuid = File::write($url, implode(PHP_EOL, $data), File::LINES);
