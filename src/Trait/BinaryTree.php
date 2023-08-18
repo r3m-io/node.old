@@ -24,7 +24,6 @@ Trait BinaryTree {
      */
     private function binary_tree_list_create($class, $role, $options=[]): void
     {
-        d($options);
         $object = $this->object();
         $name = Controller::name($class);
         $dir_node = $object->config('project.dir.data') .
@@ -263,16 +262,6 @@ Trait BinaryTree {
                     'mtime' => $mtime
                 ]
             );
-            /*
-            $where_list = $this->binary_tree_list($file, [
-                'where' => $options['where'],
-                'limit' => $limit,
-                'lines'=> $sort_lines,
-                'counter' => 0,
-                'direction' => 'next',
-                'url' => $url_property,
-            ]);
-            */
             if(!empty($where_list)){
                 $where = [];
                 $index = false;
