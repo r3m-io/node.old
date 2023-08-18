@@ -80,6 +80,7 @@ Trait BinaryTree {
         $sort_data = new Storage();
         $sort_data->do_not_nest_key(true);
         $sort_data->data($options['sort']);
+        $sort_data->patch_nested_key();
         $options['sort'] = $sort_data->data();
         foreach($options['sort'] as $key => $order) {
             if(empty($properties)){

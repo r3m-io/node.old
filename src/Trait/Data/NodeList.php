@@ -66,6 +66,7 @@ Trait NodeList {
         }
         $object = $this->object();
         if(!array_key_exists('sort', $options)){
+            d($options);
             $debug = debug_backtrace(true);
             d($debug[0]['file'] . ':' . $debug[0]['line']);
             d($debug[1]['file'] . ':' . $debug[1]['line']);
@@ -87,6 +88,7 @@ Trait NodeList {
         $sort_data = new Storage();
         $sort_data->do_not_nest_key(true);
         $sort_data->data($options['sort']);
+        $sort_data->patch_nested_key();
         $options['sort'] = $sort_data->data();
 
         d($options);
