@@ -611,6 +611,7 @@ Trait Where {
         if(empty($where)){
             return $record;
         }
+        ddd($where);
         $deepest = $this->where_get_depth($where);
         $counter =0;
         while($deepest >= 0){
