@@ -94,7 +94,9 @@ Trait Where {
                 $is_collect = $nr;
             }
             elseif($is_collect){
-                $collection[] = $record;
+                if($record['type'] !== Token::TYPE_CURLY_CLOSE){
+                    $collection[] = $record;
+                }
                 unset($tree[$nr]);
             }
         }
