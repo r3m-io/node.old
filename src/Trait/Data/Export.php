@@ -23,6 +23,7 @@ Trait Export {
      * @throws Exception
      */
     public function export($class, $role, $options=[]){
+        $options = Core::object($options, Core::OBJECT_ARRAY);
         if(!array_key_exists('url', $options)){
             return;
         }

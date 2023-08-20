@@ -26,6 +26,7 @@ Trait Import {
      */
     public function import($class, $role, $options=[]): array
     {
+        $options = Core::object($options, Core::OBJECT_ARRAY);
         if(!array_key_exists('url', $options)){
             return [];
         }

@@ -19,10 +19,10 @@ Trait Count {
      * @throws ObjectException
      * @throws FileWriteException
      * @throws Exception
-     * @throws \Exception
      */
     public function count($class, $role, $options=[]): false|int
     {
+        $options = Core::object($options, Core::OBJECT_ARRAY);
         $count = 0;
         $name = Controller::name($class);
         $options['function'] = 'list';
