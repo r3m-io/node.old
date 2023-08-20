@@ -611,6 +611,10 @@ Trait Where {
         if(empty($where)){
             return $record;
         }
+        $debug = debug_backtrace(true);
+        d($debug[0]['function'] . ' ' . $debug[0]['line'] . ' ' . $debug[0]['file']);
+        d($debug[1]['function'] . ' ' . $debug[1]['line'] . ' ' . $debug[1]['file']);
+        d($debug[2]['function'] . ' ' . $debug[2]['line'] . ' ' . $debug[2]['file']);
         ddd($where);
         $deepest = $this->where_get_depth($where);
         $counter =0;
