@@ -130,6 +130,7 @@ Trait Count {
                 $file = new SplFileObject($url);
                 $mtime = File::mtime($url);
                 if(!empty($options['filter'])){
+                    //filter convert ? string to array ?
                     $count_key = [
                         'properties' => $properties,
                         'filter' => $options['filter'],
