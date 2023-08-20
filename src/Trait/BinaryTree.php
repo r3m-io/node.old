@@ -933,6 +933,7 @@ Trait BinaryTree {
                     !empty($record) &&
                     !empty($options['where'])
                 ){
+                    ddd($options['where']);
                     $record = $this->where($record, $options['where'], $options);
                 }
                 if($record){
