@@ -93,7 +93,7 @@ Trait Count {
             }
             if(!File::exist($url_connect_property)) {
                 $object->logger($object->config('project.log.node'))->error('File not found: ' . $url_connect_property);
-                return false;
+//                return false;
             }
             $meta_url = $object->config('project.dir.data') .
                 'Node' .
