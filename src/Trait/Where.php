@@ -189,7 +189,6 @@ Trait Where {
     private function where_get_set(&$where=[], &$key=null, $deep=0){
         $set = [];
         $depth = 0;
-        d($where);
         //convert where to array.
         if(!is_array($where)){
             return $set;
@@ -233,12 +232,6 @@ Trait Where {
      * @throws Exception
      */
     private function where_process($record=[], $set=[], &$where=[], &$key=null, &$operator=null, $options=[]){
-        d($record);
-        d($set);
-        d($where);
-        d($key);
-        d($operator);
-        d($options);
         if(
             array_key_exists(0, $set) &&
             count($set) === 1

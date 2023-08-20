@@ -163,7 +163,6 @@ Trait Count {
                 }
                 elseif(!empty($options['where'])){
                     $options['where'] = $this->where_convert($options['where']);
-                    d($options);
                     $count_key = [
                         'properties' => $properties,
                         'where' => $options['where'],
