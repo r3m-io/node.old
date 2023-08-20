@@ -36,7 +36,6 @@ Trait Where {
                 'xor'
             ]
         ]);
-        d($tree);
         $is_collect = false;
         $previous = null;
         $next = null;
@@ -116,6 +115,7 @@ Trait Where {
             $list[] = $record;
             unset($tree[$nr]);
         }
+        d($list);
         foreach($list as $nr => $record){
             if(array_key_exists($nr - 1, $list)){
                 $previous = $nr - 1;
