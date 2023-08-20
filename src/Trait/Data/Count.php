@@ -20,7 +20,7 @@ Trait Count {
      * @throws FileWriteException
      * @throws Exception
      */
-    public function count($class, $role, $options=[]): false|int
+    public function count($class, $role, $options=[]): int
     {
         $options = Core::object($options, Core::OBJECT_ARRAY);
         $count = 0;
