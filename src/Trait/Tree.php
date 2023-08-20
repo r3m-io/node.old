@@ -135,7 +135,12 @@ Trait Tree {
                 return $record['execute'];
             }
             elseif(array_key_exists('parse', $record)){
-                return $record['parse'];
+                $object = $this->object();
+                $storage = $this->storage();
+                $parse = new Parse($object);
+                if(array_key_exists('parse', $record)){
+                    return $parse->compile($record['parse'], $storage, $object);
+                }
             } else {
                 d($record);
                 return substr($record['value'], 1, -1);
