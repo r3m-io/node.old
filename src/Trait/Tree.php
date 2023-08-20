@@ -98,10 +98,10 @@ Trait Tree {
                     $storage = $this->storage();
                     $parse = new Parse($object);
                     if(array_key_exists('execute', $record)){
-                        return $parse->compile($record['execute'], $storage, $object);
+                        return $record['execute'];
                     }
                     if(array_key_exists('parse', $record)){
-                        return $parse->compile($record['parse'], $storage, $object);
+                        return $parse->compile('{{' . $record['parse'] . '}}', $storage, $object);
                     } else {
                         $result = $parse->compile($record['value'], $storage, $object);
                     }
@@ -124,7 +124,7 @@ Trait Tree {
                 $storage = $this->storage();
                 $parse = new Parse($object);
                 if(array_key_exists('parse', $record)){
-                    return $parse->compile($record['parse'], $storage, $object);
+                    return $parse->compile('{{' . $record['parse'] . '}}', $storage, $object);
                 }
             } else {
                 return $record['value'];
@@ -139,7 +139,7 @@ Trait Tree {
                 $storage = $this->storage();
                 $parse = new Parse($object);
                 if(array_key_exists('parse', $record)){
-                    return $parse->compile($record['parse'], $storage, $object);
+                    return $parse->compile('{{' . $record['parse'] . '}}', $storage, $object);
                 }
             } else {
                 d($record);
