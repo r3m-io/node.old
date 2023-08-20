@@ -83,12 +83,12 @@ Trait Count {
             ;
             if(!File::exist($url)) {
                 $object->logger($object->config('project.log.node'))->error('File not found: ' . $url);
-                return false;
+                return 0;
             }
 
             if(!File::exist($url_uuid)) {
                 $object->logger($object->config('project.log.node'))->error('File not found: ' . $url_uuid);
-                return false;
+                return 0;
             }
             if(!File::exist($url_connect_property)) {
                 $object->logger($object->config('project.log.node'))->error('File not found: ' . $url_connect_property);
