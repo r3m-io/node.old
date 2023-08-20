@@ -57,6 +57,7 @@ Trait Count {
         $sort_data->data($options['sort']);
         $sort_patch = $sort_data->patch_nested_key();
         $options['sort'] = $sort_patch;
+        d($options);
         if(array_key_exists('sort', $options)){
             $properties = [];
             $has_descending = false;
