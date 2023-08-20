@@ -36,6 +36,7 @@ Trait Where {
                 'xor'
             ]
         ]);
+        d($tree);
         $is_collect = false;
         $previous = null;
         $next = null;
@@ -219,7 +220,6 @@ Trait Where {
                 if($key === null){
                     $key = $nr;
                 }
-                d($value);
                 if(!in_array($value, [
                     '(',
                     ')'
