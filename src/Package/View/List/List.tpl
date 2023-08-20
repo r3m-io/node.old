@@ -14,7 +14,7 @@ Available classes:
 {{/for.each}}
 {{/if}}
 {{else}}
-{{if(is.empty($options.sort)}}
+{{if(is.empty($options.sort))}}
 {{$options.sort = [
 'uuid' => 'ASC'
 ]}}
