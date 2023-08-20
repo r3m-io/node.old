@@ -101,7 +101,7 @@ Trait Tree {
                         return $record['execute'];
                     }
                     if(array_key_exists('parse', $record)){
-                        return $parse->compile('{{' . $record['parse'] . '}}', $storage, $object);
+                        return $parse->compile('{' . $record['parse'] . '}', $storage, $object);
                     } else {
                         $result = $parse->compile($record['value'], $storage, $object);
                     }
@@ -124,7 +124,7 @@ Trait Tree {
                 $storage = $this->storage();
                 $parse = new Parse($object);
                 if(array_key_exists('parse', $record)){
-                    return $parse->compile('{{' . $record['parse'] . '}}', $storage, $object);
+                    return $parse->compile('{' . $record['parse'] . '}', $storage, $object);
                 }
             } else {
                 return $record['value'];
@@ -139,10 +139,9 @@ Trait Tree {
                 $storage = $this->storage();
                 $parse = new Parse($object);
                 if(array_key_exists('parse', $record)){
-                    return $parse->compile('{{' . $record['parse'] . '}}', $storage, $object);
+                    return $parse->compile('{' . $record['parse'] . '}', $storage, $object);
                 }
             } else {
-                d($record);
                 return substr($record['value'], 1, -1);
             }
         }
@@ -151,7 +150,12 @@ Trait Tree {
                 $attribute .= $item['execute'];
             }
             elseif(array_key_exists('parse', $item)){
-                $attribute .= $item['parse'];
+                $object = $this->object();
+                $storage = $this->storage();
+                $parse = new Parse($object);
+                if(array_key_exists('parse', $record)){
+                    $attribute .= $parse->compile('{' . $item['parse'] . '}', $storage, $object);
+                }
             } else {
                 $attribute .= $item['value'];
             }
