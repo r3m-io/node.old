@@ -616,7 +616,6 @@ Trait Where {
             return $record;
         }
         $deepest = $this->where_get_depth($where);
-        d($deepest);
         $counter =0;
         while($deepest >= 0){
             if($counter > 1024){
