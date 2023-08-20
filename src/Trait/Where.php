@@ -189,6 +189,7 @@ Trait Where {
     private function where_get_set(&$where=[], &$key=null, $deep=0){
         $set = [];
         $depth = 0;
+        d($where);
         if(!is_array($where)){
             return $set;
         }
