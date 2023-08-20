@@ -133,6 +133,7 @@ Trait Tree {
             elseif(array_key_exists('parse', $record)){
                 return $record['parse'];
             } else {
+                d($record);
                 return substr($record['value'], 1, -1);
             }
         }
