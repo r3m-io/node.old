@@ -625,11 +625,6 @@ Trait Where {
             $set = $this->where_get_set($where, $key, $deepest);
             while($record !== false){
                 $set = $this->where_process($record, $set, $where, $key, $operator, $options);
-                d($where);
-                d($key);
-                d($set);
-                ddd($operator);
-
                 if(empty($set) && $deepest === 0){
                     return $record;
                 }
