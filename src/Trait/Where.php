@@ -115,7 +115,6 @@ Trait Where {
             $list[] = $record;
             unset($tree[$nr]);
         }
-        d($list);
         foreach($list as $nr => $record){
             if(array_key_exists($nr - 1, $list)){
                 $previous = $nr - 1;
@@ -196,7 +195,6 @@ Trait Where {
         if(!is_array($where)){
             return $set;
         }
-        d($where);
         foreach($where as $nr => $value){
             if($value === '('){
                 $depth++;
@@ -612,11 +610,6 @@ Trait Where {
         if(empty($where)){
             return $record;
         }
-        $debug = debug_backtrace(true);
-        d($debug[0]['function'] . ' ' . $debug[0]['line'] . ' ' . $debug[0]['file']);
-        d($debug[1]['function'] . ' ' . $debug[1]['line'] . ' ' . $debug[1]['file']);
-        d($debug[2]['function'] . ' ' . $debug[2]['line'] . ' ' . $debug[2]['file']);
-        ddd($where);
         $deepest = $this->where_get_depth($where);
         $counter =0;
         while($deepest >= 0){
