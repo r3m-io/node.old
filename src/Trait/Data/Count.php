@@ -161,6 +161,7 @@ Trait Count {
                     }
                 }
                 elseif(!empty($options['where'])){
+                    d($options);
                     $count_key = [
                         'properties' => $properties,
                         'where' => $options['where'],
