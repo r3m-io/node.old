@@ -163,6 +163,7 @@ Trait Where {
             $tree[] = $record;
             unset($list[$nr]);
         }
+        d($tree);
         return $tree;
     }
 
