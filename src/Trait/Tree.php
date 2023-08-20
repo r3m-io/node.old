@@ -97,6 +97,7 @@ Trait Tree {
                     $object = $this->object();
                     $storage = $this->storage();
                     $parse = new Parse($object);
+                    ddd($record);
                     $result = $parse->compile($record['value'], $storage, $object);
                     if(
                         is_string($result) &&
