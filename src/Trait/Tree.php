@@ -101,7 +101,7 @@ Trait Tree {
                         return $parse->compile($record['execute'], $storage, $object);
                     }
                     if(array_key_exists('parse', $record)){
-                        $result = $parse->compile($record['parse'], $storage, $object);
+                        return $parse->compile($record['parse'], $storage, $object);
                     } else {
                         $result = $parse->compile($record['value'], $storage, $object);
                     }
@@ -116,7 +116,14 @@ Trait Tree {
                 case Token::TYPE_QUOTE_SINGLE_STRING:
                     return substr($record['value'], 1, -1);
             }
-            return array_key_exists('execute', $record) ? $record['execute'] : $record['value'];
+            if(array_key_exists('execute', $record)){
+                return $record['execute'];
+            }
+            elseif(array_key_exists('parse', $record)){
+                return $record['parse'];
+            } else {
+                return substr($record['value']);
+            }
         }
         if(!is_array($record['collection'])){
             if(array_key_exists('execute', $record)){
