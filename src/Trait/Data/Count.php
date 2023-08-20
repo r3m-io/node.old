@@ -24,7 +24,7 @@ Trait Count {
     {
         $options = Core::object($options, Core::OBJECT_ARRAY);
         $count = 0;
-        ddd($class);
+        d($class);
         $name = Controller::name($class);
         $options['function'] = 'list';
         $object = $this->object();
