@@ -86,7 +86,6 @@ Trait Tree {
      */
     private function tree_record_attribute($record=[])
     {
-        d($record);
         $attribute = '';
         if(!array_key_exists('collection', $record)){
             switch($record['type']){
