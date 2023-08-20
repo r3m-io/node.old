@@ -20,7 +20,6 @@ use R3m\Io\Exception\FileWriteException;
 use R3m\Io\Exception\ObjectException;
 
 Trait Data {
-    use BinarySearch;
     use BinaryTree;
     use Tree;
     use Where;
@@ -41,7 +40,6 @@ Trait Data {
     use Data\Rename;
     use Data\Sync;
     use Data\Truncate;
-
 
     /**
      * @throws ObjectException
