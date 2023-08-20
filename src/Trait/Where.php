@@ -161,12 +161,10 @@ Trait Where {
             }
         }
         $tree = [];
-        d($list);
         foreach($list as $nr => $record){
             $tree[] = $record;
             unset($list[$nr]);
         }
-        d($tree);
         return $tree;
     }
 
