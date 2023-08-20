@@ -1043,6 +1043,7 @@ Trait BinaryTree {
                         $role
                     );
                     $record = $record->data();
+                    d($record);
                     if(!empty($options['filter'])){
                         $record = $this->filter($record, $options['filter'], $options);
                     }
