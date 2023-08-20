@@ -218,6 +218,7 @@ Trait Where {
                 if($key === null){
                     $key = $nr;
                 }
+                d($value);
                 if(!in_array($value, [
                     '(',
                     ')'
