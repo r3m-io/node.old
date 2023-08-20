@@ -97,8 +97,14 @@ Trait Tree {
                     $object = $this->object();
                     $storage = $this->storage();
                     $parse = new Parse($object);
-
-                    $result = $parse->compile($record['value'], $storage, $object);
+                    if(array_key_exists('execute', $record)){
+                        return $parse->compile($record['execute'], $storage, $object);
+                    }
+                    if(array_key_exists('parse', $record)){
+                        $result = $parse->compile($record['parse'], $storage, $object);
+                    } else {
+                        $result = $parse->compile($record['value'], $storage, $object);
+                    }
                     if(
                         is_string($result) &&
                         substr($result, 0, 1) === '"' &&
@@ -113,16 +119,24 @@ Trait Tree {
             return array_key_exists('execute', $record) ? $record['execute'] : $record['value'];
         }
         if(!is_array($record['collection'])){
-            switch($record['type']){
-                case Token::TYPE_QUOTE_DOUBLE_STRING:
-                case Token::TYPE_QUOTE_SINGLE_STRING:
-                    return substr($record['value'], 1, -1);
-
+            if(array_key_exists('execute', $record)){
+                return $record['execute'];
             }
-            return array_key_exists('execute', $record) ? $record['execute'] : $record['value'];
+            elseif(array_key_exists('parse', $record)){
+                return $record['parse'];
+            } else {
+                return substr($record['value'], 1, -1);
+            }
         }
         foreach($record['collection'] as $nr => $item){
-            $attribute .= array_key_exists('execute', $item) ? $item['execute'] : $item['value'];
+            if(array_key_exists('execute', $item)){
+                $attribute .= $item['execute'];
+            }
+            elseif(array_key_exists('parse', $item)){
+                $attribute .= $item['parse'];
+            } else {
+                $attribute .= $item['value'];
+            }
         }
         return $attribute;
     }
