@@ -25,7 +25,9 @@ Trait Count {
         $options = Core::object($options, Core::OBJECT_ARRAY);
         $count = 0;
         $name = Controller::name($class);
-        $options['function'] = 'list';
+        if(!array_key_exists('function', $options)){
+            $options['function'] = 'list';
+        }
         $object = $this->object();
         $dir = $object->config('project.dir.data') .
             'Node' .
@@ -91,8 +93,8 @@ Trait Count {
                 return 0;
             }
             if(!File::exist($url_connect_property)) {
+                d(File::basename($url_connect_property));
                 $object->logger($object->config('project.log.node'))->error('File not found: ' . $url_connect_property);
-//                return false;
             }
             $meta_url = $object->config('project.dir.data') .
                 'Node' .
@@ -179,7 +181,6 @@ Trait Count {
                         $meta->set('Count.' . $name . '.' . $count_key . '.mtime', $mtime);
                         $meta->write($meta_url);
                     }
-
                 } else {
                     $count_key = [
                         'properties' => $properties,
@@ -216,6 +217,6 @@ Trait Count {
             }
             return $count;
         }
-        return false;
+        return 0;
     }
 }
