@@ -122,8 +122,8 @@ Trait Tree {
             elseif(array_key_exists('parse', $record)){
                 return $record['parse'];
             } else {
-                ddd($record);
-                return substr($record['value']);
+                d($record);
+                return $record['value'];
             }
         }
         if(!is_array($record['collection'])){
