@@ -116,7 +116,7 @@ Trait Count {
             $meta = $object->data_read($meta_url, sha1($meta_url));
             if(!$meta){
                 $object->logger($object->config('project.log.node'))->error('File not found: ' . $meta_url);
-                return false;
+                return 0;
             }
             $sort_key = [
                 'property' => $properties
