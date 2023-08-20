@@ -161,6 +161,7 @@ Trait Count {
                     }
                 }
                 elseif(!empty($options['where'])){
+                    $options['where'] = $this->where_convert($options['where']);
                     d($options);
                     $count_key = [
                         'properties' => $properties,
@@ -173,6 +174,7 @@ Trait Count {
                     if($count || $count === 0){
                         return $count;
                     } else {
+
                         $count = $this->binary_tree_count(
                             $file,
                             $role,

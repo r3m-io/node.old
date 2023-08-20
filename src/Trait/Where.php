@@ -190,6 +190,7 @@ Trait Where {
         $set = [];
         $depth = 0;
         d($where);
+        //convert where to array.
         if(!is_array($where)){
             return $set;
         }
