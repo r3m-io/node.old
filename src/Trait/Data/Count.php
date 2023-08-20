@@ -93,8 +93,17 @@ Trait Count {
                 return 0;
             }
             if(!File::exist($url_connect_property)) {
-                d(File::basename($url_connect_property));
-                $object->logger($object->config('project.log.node'))->error('File not found: ' . $url_connect_property);
+                if(
+                    !in_array(
+                        $url_connect_property,
+                        [
+                            'Uuid.connect',
+                        ],
+                    true
+                    )
+                ){
+                    $object->logger($object->config('project.log.node'))->error('File not found: ' . $url_connect_property);
+                }
             }
             $meta_url = $object->config('project.dir.data') .
                 'Node' .
