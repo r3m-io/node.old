@@ -24,6 +24,7 @@ Trait Count {
     {
         $options = Core::object($options, Core::OBJECT_ARRAY);
         $count = 0;
+        ddd($class);
         $name = Controller::name($class);
         $options['function'] = 'list';
         $object = $this->object();
@@ -56,8 +57,6 @@ Trait Count {
         $sort_data->data($options['sort']);
         $sort_patch = $sort_data->patch_nested_key();
         $options['sort'] = $sort_patch;
-
-
         if(array_key_exists('sort', $options)){
             $properties = [];
             $has_descending = false;
@@ -101,7 +100,7 @@ Trait Count {
                 $object->config('ds') .
                 'Meta' .
                 $object->config('ds') .
-                $class .
+                $name .
                 $object->config('extension.json')
             ;
             $meta = $object->data_read($meta_url, sha1($meta_url));
