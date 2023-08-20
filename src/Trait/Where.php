@@ -161,7 +161,7 @@ Trait Where {
             }
         }
         $tree = [];
-        ddd($list);
+        d($list);
         foreach($list as $nr => $record){
             $tree[] = $record;
             unset($list[$nr]);
