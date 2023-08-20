@@ -195,6 +195,7 @@ Trait Where {
         if(!is_array($where)){
             return $set;
         }
+        d($where);
         foreach($where as $nr => $value){
             if($value === '('){
                 $depth++;
