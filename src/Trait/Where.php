@@ -39,7 +39,6 @@ Trait Where {
         $is_collect = false;
         $previous = null;
         $next = null;
-        ddd($tree);
         foreach($tree as $nr => $record){
             if(array_key_exists($nr - 1, $tree)){
                 $previous = $nr - 1;
@@ -160,6 +159,7 @@ Trait Where {
             }
         }
         $tree = [];
+        ddd($list);
         foreach($list as $nr => $record){
             $tree[] = $record;
             unset($list[$nr]);
