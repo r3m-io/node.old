@@ -86,6 +86,7 @@ Trait Tree {
      */
     private function tree_record_attribute($record=[])
     {
+        ddd($record);
         $attribute = '';
         if(!array_key_exists('collection', $record)){
             switch($record['type']){
@@ -97,7 +98,7 @@ Trait Tree {
                     $object = $this->object();
                     $storage = $this->storage();
                     $parse = new Parse($object);
-                    ddd($record);
+
                     $result = $parse->compile($record['value'], $storage, $object);
                     if(
                         is_string($result) &&
