@@ -55,7 +55,7 @@ Trait Count {
         $sort_data->do_not_nest_key(true);
         $sort_data->data($options['sort']);
         $sort_patch = $sort_data->patch_nested_key();
-        $options['sort'] = $sort_patch;
+        $options['sort'] = (array) $sort_patch;
         d($options);
         if(array_key_exists('sort', $options)){
             $properties = [];
@@ -83,16 +83,16 @@ Trait Count {
                 $object->config('extension.connect')
             ;
             if(!File::exist($url)) {
-                //logger exception
+                $object->logger($object->config('project.log.node'))->error('File not found: ' . $url);
                 return false;
             }
 
             if(!File::exist($url_uuid)) {
-                //logger exception
+                $object->logger($object->config('project.log.node'))->error('File not found: ' . $url_uuid);
                 return false;
             }
             if(!File::exist($url_connect_property)) {
-                //logger exception
+                $object->logger($object->config('project.log.node'))->error('File not found: ' . $url_connect_property);
                 return false;
             }
             $meta_url = $object->config('project.dir.data') .
@@ -105,6 +105,7 @@ Trait Count {
             ;
             $meta = $object->data_read($meta_url, sha1($meta_url));
             if(!$meta){
+                $object->logger($object->config('project.log.node'))->error('File not found: ' . $meta_url);
                 return false;
             }
             $sort_key = [
