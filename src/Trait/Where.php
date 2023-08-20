@@ -226,7 +226,6 @@ Trait Where {
                 unset($where[$nr]);
             }
         }
-        ddd($set);
         return $set;
     }
 
