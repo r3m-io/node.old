@@ -14,6 +14,11 @@ Available classes:
 {{/for.each}}
 {{/if}}
 {{else}}
+{{if(is.empty($options.sort)}}
+{{$options.sort = [
+'uuid' => 'ASC'
+]}}
+{{/if}}
 {{$response = R3m.Io.Node:Data:list(
 $class,
 R3m.Io.Node:Role:role_system(),
