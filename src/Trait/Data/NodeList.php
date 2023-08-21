@@ -345,9 +345,11 @@ Trait NodeList {
                 ){
                     $file = new SplFileObject($where_url);
                     $file_uuid = false;
+                    /*
                     if(File::exist($where_url)){
                         $file_uuid = new splFileObject($where_url);
                     }
+                    */
                     $file_connect_property = false;
                     if(File::exist($url_connect_property)){
                         $file_connect_property = new splFileObject($url_connect_property);
