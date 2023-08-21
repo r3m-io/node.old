@@ -338,6 +338,7 @@ Trait NodeList {
                     $object->config('extension.btree')
                 ;
                 $where_mtime = File::mtime($where_url);
+                $mtime = false; //debug
                 if(
                     File::exist($where_url) &&
                     $mtime === $where_mtime &&
