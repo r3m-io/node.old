@@ -862,12 +862,7 @@ Trait BinaryTree {
         $end = $start + $options['limit'];
         $page = [];
         $record_index = $index;
-        d($file);
-        d($file_uuid);
-        d($file_connect_property);
-        d($options);
         for($i = $start; $i < $end; $i++){
-            d($i);
             $record = $this->binary_tree_index($file, $file_uuid, $file_connect_property, [
 //                'page' => $options['page'],
 //                'limit' => $options['limit'],
@@ -879,7 +874,6 @@ Trait BinaryTree {
                 'url_uuid' => $options['url_uuid'],
                 'url_connect_property' => $options['url_connect_property'],
             ]);
-            d($record);
             if(
                 $record
             ){
@@ -946,7 +940,6 @@ Trait BinaryTree {
                     $page[] = $record;
                     $record_index++;
                     $counter++;
-                    d($page);
                 } else {
                     /*
                      * does break the code...
@@ -988,13 +981,6 @@ Trait BinaryTree {
                 $object->logger($object->config('project.log.node'))->info('Duration: (2) ' . round($duration, 2) . ' sec url: ' . $options['url']);
             }
         }
-        if(empty($page)){
-            $debug = debug_backtrace(true);
-            d($debug[0]['file'] . ':' . $debug[0]['line'] . $debug[0]['function']);
-            d($debug[1]['file'] . ':' . $debug[1]['line'] . $debug[1]['function']);
-            ddd($debug[2]['file'] . ':' . $debug[2]['line'] . $debug[2]['function']);
-        }
-        d($page);
         return $page;
     }
 
@@ -1152,9 +1138,9 @@ Trait BinaryTree {
             }
             if ($options['index'] === $seek) {
                 $options['line'] = $line;
-                echo 'Seek 2: ' . $seek . ' options.index: ' . $options['index'] . PHP_EOL;
+//                echo 'Seek 2: ' . $seek . ' options.index: ' . $options['index'] . PHP_EOL;
                 $uuid = $this->binary_tree_uuid($file, $file_uuid, $file_connect_property, $options);
-                echo 'UUID: ' . $uuid . PHP_EOL;
+//                echo 'UUID: ' . $uuid . PHP_EOL;
                 if($uuid){
                     $record = [];
                     $record['uuid'] = $uuid;
@@ -1219,10 +1205,6 @@ Trait BinaryTree {
 
     private function binary_tree_uuid($file, $file_uuid, $file_connect_property, $options=[]): ?string
     {
-        d($file);
-        d($file_uuid);
-        d($file_connect_property);
-        d($options);
         $object = $this->object();
         if(
             $file_connect_property === false &&
