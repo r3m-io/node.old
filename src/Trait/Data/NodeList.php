@@ -378,7 +378,6 @@ Trait NodeList {
                             'mtime' => $mtime
                         ]
                     );
-                    ddd($list);
                 } else {
                     $sort_key = [
                         'property' => $properties,
