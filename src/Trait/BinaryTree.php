@@ -1226,6 +1226,15 @@ Trait BinaryTree {
         $object = $this->object();
         if(
             $file_connect_property === false &&
+            $file_uuid === false &&
+            $file &&
+            File::exist($options['url']) &&
+            array_key_exists('line', $options)
+        ){
+            return rtrim($options['line'], PHP_EOL);
+        }
+        elseif(
+            $file_connect_property === false &&
             $file &&
             $file_uuid &&
             array_key_exists('url', $options) &&
