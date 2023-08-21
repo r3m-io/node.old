@@ -935,6 +935,10 @@ Trait BinaryTree {
                 ){
                     d($record);
                     $record = $this->where($record, $options['where'], $options);
+                    if($record){
+                        d($options);
+                        ddd($record);
+                    }
                     d($record);
                 }
                 if($record){
