@@ -865,7 +865,9 @@ Trait BinaryTree {
         d($file);
         d($file_uuid);
         d($file_connect_property);
+        d($options);
         for($i = $start; $i < $end; $i++){
+            d($i);
             $record = $this->binary_tree_index($file, $file_uuid, $file_connect_property, [
 //                'page' => $options['page'],
 //                'limit' => $options['limit'],
