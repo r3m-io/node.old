@@ -862,6 +862,9 @@ Trait BinaryTree {
         $end = $start + $options['limit'];
         $page = [];
         $record_index = $index;
+        d($file);
+        d($file_uuid);
+        d($file_connect_property);
         for($i = $start; $i < $end; $i++){
             $record = $this->binary_tree_index($file, $file_uuid, $file_connect_property, [
 //                'page' => $options['page'],
@@ -874,6 +877,7 @@ Trait BinaryTree {
                 'url_uuid' => $options['url_uuid'],
                 'url_connect_property' => $options['url_connect_property'],
             ]);
+            d($record);
             if(
                 $record
             ){
