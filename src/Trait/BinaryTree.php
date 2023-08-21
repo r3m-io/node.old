@@ -933,19 +933,14 @@ Trait BinaryTree {
                     !empty($record) &&
                     !empty($options['where'])
                 ){
-                    d($record);
                     $record = $this->where($record, $options['where'], $options);
-                    if($record){
-                        d($options);
-                        ddd($record);
-                    }
-                    d($record);
                 }
                 if($record){
                     $record->{'#index'} = $record_index;
                     $page[] = $record;
                     $record_index++;
                     $counter++;
+                    d($page);
                 } else {
                     /*
                      * does break the code...
