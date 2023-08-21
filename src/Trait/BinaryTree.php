@@ -874,7 +874,6 @@ Trait BinaryTree {
                 'url_uuid' => $options['url_uuid'],
                 'url_connect_property' => $options['url_connect_property'],
             ]);
-            d($record);
             if(
                 $record
             ){
@@ -934,7 +933,9 @@ Trait BinaryTree {
                     !empty($record) &&
                     !empty($options['where'])
                 ){
+                    d($record);
                     $record = $this->where($record, $options['where'], $options);
+                    d($record);
                 }
                 if($record){
                     $record->{'#index'} = $record_index;
