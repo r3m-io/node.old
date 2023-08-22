@@ -1,6 +1,6 @@
 <?php
 
-namespace Node\Controller;
+namespace Package\R3m_io\Node\Controller;
 
 use R3m\Io\App;
 
