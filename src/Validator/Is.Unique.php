@@ -119,6 +119,7 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
     if (empty($record)) {
         return true;
     } else {
+        d($options);
         ddd($record);
     }
     return false;
