@@ -171,7 +171,7 @@ Trait Patch {
         }
         $node->set('#class', $name);
         $object->request('node', $node->data());
-        $validate = $this->validate($object, $validate_url,  $name . '.' __FUNCTION__);
+        $validate = $this->validate($object, $validate_url,  $name . '.' . __FUNCTION__);
         $response = [];
         if($validate){
             if($validate->success === true){
