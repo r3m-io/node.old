@@ -26,7 +26,6 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
 {
     $url = false;
     $class = false;
-    ddd($validate);
     if (is_object($validate)) {
         if (property_exists($validate, 'url')) {
             $url = $validate->url;
@@ -119,6 +118,8 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
     $record = $unique->record($class, $unique->role_system(), $options);
     if (empty($record)) {
         return true;
+    } else {
+        ddd($record);
     }
     return false;
 }
