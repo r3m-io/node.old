@@ -119,6 +119,27 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
     if (empty($record)) {
         return true;
     } else {
+        $is_record = [];
+        if(
+            is_array($attribute) &&
+            is_array($value)
+        ){
+            foreach($attribute as $nr => $key){
+                if(array_key_exists($nr, $value)){
+                    foreach($record->{$key} as $record_nr => $record_value){
+                        if($record_value === $value[$nr]){
+                            $is_record[] = true;
+                        } else {
+                            $is_record[] = false;
+                        }
+                    }
+                }
+            }
+            ddd($is_record);
+        } else {
+            throw Exception('Not implemented yet');
+        }
+
         d($class);
         d($attribute);
         d($value);
