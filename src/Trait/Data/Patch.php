@@ -170,6 +170,7 @@ Trait Patch {
             }
         }
         $node->set('#class', $name);
+        ddd($record);
         $object->request('node', $record);
         d($validate_url);
         d($name);
