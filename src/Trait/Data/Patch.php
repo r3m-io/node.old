@@ -91,9 +91,6 @@ Trait Patch {
         if(is_array($record)){
             $record = Core::object($record, Core::OBJECT_OBJECT);
         }
-        d($class);
-        d($record);
-        ddd($options);
         $uuid = $record->uuid ?? false;
         if($uuid === false){
             return false;
@@ -173,11 +170,12 @@ Trait Patch {
             }
         }
         $node->set('#class', $name);
-        $object->request('node', $node->data());
+        $object->request('node', $record);
         d($validate_url);
         d($name);
         d(__FUNCTION__);
         $validate = $this->validate($object, $validate_url,  $name . '.' . __FUNCTION__);
+        //merge $record with $node
         ddd($validate);
         $response = [];
         if($validate){
