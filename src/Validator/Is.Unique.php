@@ -196,17 +196,20 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
                     }
                 }
             }
-            ddd($is_record);
+            if(
+                in_array(
+                    false,
+                    $is_record,
+                    true)
+            ){
+                //strict comparison fails...
+                return true;
+            } else {
+                return false;
+            }
         } else {
             throw Exception('Not implemented yet');
         }
-
-        d($class);
-        d($attribute);
-        d($value);
-        d($validate);
-        d($options);
-        ddd($response);
     }
     return false;
 }
