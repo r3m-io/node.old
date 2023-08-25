@@ -95,7 +95,7 @@ Trait Patch {
         if($uuid === false){
             return false;
         }
-        unset($record->uuid);
+//        unset($record->uuid);
         $name = Controller::name($class);
         $object = $this->object();
         $dir_node = $object->config('project.dir.data') .
@@ -131,56 +131,55 @@ Trait Patch {
         if(!array_key_exists('node', $response)){
             return false;
         }
-        $node = new Storage($response['node']);
-        $patch = new Storage($record);
-        foreach($patch->data() as $attribute => $value){
-            if(is_array($value)){
-                $list = $node->get($attribute);
-                if(empty($list) || !is_array($list)){
-                    $list = [];
-                } else {
-                    foreach($list as $nr => $item){
-                        if(
-                            is_object($item) &&
-                            property_exists($item, 'uuid')
-                        ){
-                            $list[$nr] = $item->uuid;
-                        }
-                        elseif(
-                            is_array($item) &&
-                            array_key_exists('uuid', $item)
-                        ){
-                            $list[$nr] = $item['uuid'];
-                        }
-                    }
-                }
-                foreach($value as $item){
-                    if(!in_array($item, $list, true)){
-                        $list[] = $item;
-                    }
-                }
-                $node->set($attribute, $list);
-            }
-            elseif(is_object($value)){
-                $node->set($attribute, Core::object_merge($node->get($attribute), $value));
-                $node->remove_null();
-            }
-            else {
-                $node->set($attribute, $value);
-            }
-        }
-        $node->set('#class', $name);
-        ddd($record);
+        d($record);
         $object->request('node', $record);
         d($validate_url);
         d($name);
         d(__FUNCTION__);
         $validate = $this->validate($object, $validate_url,  $name . '.' . __FUNCTION__);
-        //merge $record with $node
         ddd($validate);
         $response = [];
         if($validate){
             if($validate->success === true){
+                $node = new Storage($response['node']);
+                $patch = new Storage($record);
+                foreach($patch->data() as $attribute => $value){
+                    if(is_array($value)){
+                        $list = $node->get($attribute);
+                        if(empty($list) || !is_array($list)){
+                            $list = [];
+                        } else {
+                            foreach($list as $nr => $item){
+                                if(
+                                    is_object($item) &&
+                                    property_exists($item, 'uuid')
+                                ){
+                                    $list[$nr] = $item->uuid;
+                                }
+                                elseif(
+                                    is_array($item) &&
+                                    array_key_exists('uuid', $item)
+                                ){
+                                    $list[$nr] = $item['uuid'];
+                                }
+                            }
+                        }
+                        foreach($value as $item){
+                            if(!in_array($item, $list, true)){
+                                $list[] = $item;
+                            }
+                        }
+                        $node->set($attribute, $list);
+                    }
+                    elseif(is_object($value)){
+                        $node->set($attribute, Core::object_merge($node->get($attribute), $value));
+                        $node->remove_null();
+                    }
+                    else {
+                        $node->set($attribute, $value);
+                    }
+                }
+                $node->set('#class', $name);
                 $expose = $this->expose_get(
                     $object,
                     $name,
@@ -191,7 +190,7 @@ Trait Patch {
                     $role
                 ){
                     $record = $this->expose(
-                        new Storage($object->request('node')),
+                        $node->data(),
                         $expose,
                         $name,
                         __FUNCTION__,
