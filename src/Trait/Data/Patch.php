@@ -131,13 +131,8 @@ Trait Patch {
         if(!array_key_exists('node', $response)){
             return false;
         }
-        d($record);
         $object->request('node', $record);
-        d($validate_url);
-        d($name);
-        d(__FUNCTION__);
         $validate = $this->validate($object, $validate_url,  $name . '.' . __FUNCTION__);
-        ddd($validate);
         $response = [];
         if($validate){
             if($validate->success === true){
@@ -189,7 +184,7 @@ Trait Patch {
                     $expose &&
                     $role
                 ){
-                    $record = $this->expose(
+                    $record_expose = $this->expose(
                         $node->data(),
                         $expose,
                         $name,
@@ -197,8 +192,8 @@ Trait Patch {
                         $role
                     );
                     if(
-                        $record->has('uuid') &&
-                        !empty($record->get('uuid'))
+                        $record_expose->has('uuid') &&
+                        !empty($record_expose->get('uuid'))
                     ){
                         //save $record
                         $url = $object->config('project.dir.data') .
@@ -206,13 +201,13 @@ Trait Patch {
                             $object->config('ds') .
                             'Storage' .
                             $object->config('ds') .
-                            substr($record->get('uuid'), 0, 2) .
+                            substr($record_expose->get('uuid'), 0, 2) .
                             $object->config('ds') .
-                            $record->get('uuid') .
+                            $record_expose->get('uuid') .
                             $object->config('extension.json')
                         ;
-                        $record->write($url);
-                        $response['node'] = Core::object($record->data(), Core::OBJECT_ARRAY);
+                        $record_expose->write($url);
+                        $response['node'] = Core::object($record_expose->data(), Core::OBJECT_ARRAY);
                         Event::trigger($object, 'r3m.io.node.data.patch', [
                             'class' => $name,
                             'options' => $options,
