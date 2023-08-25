@@ -135,6 +135,7 @@ Trait Patch {
         $validate = $this->validate($object, $validate_url,  $name . '.' . __FUNCTION__);
         $node = new Storage($response['node']);
         $patch = new Storage($record);
+        d($patch);
         foreach($patch->data() as $attribute => $value){
             if(is_array($value)){
                 $list = $node->get($attribute);
