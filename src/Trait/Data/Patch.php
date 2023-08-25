@@ -185,7 +185,7 @@ Trait Patch {
                     $role
                 ){
                     $record_expose = $this->expose(
-                        $node->data(),
+                        $node,
                         $expose,
                         $name,
                         __FUNCTION__,
