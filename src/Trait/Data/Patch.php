@@ -139,7 +139,11 @@ Trait Patch {
         foreach($patch->data() as $attribute => $value){
             if(is_array($value)){
                 $list = $node->get($attribute);
-                if(empty($list) || !is_array($list)){
+                if(
+                    empty($list) ||
+                    !is_array($list) ||
+                    empty($value)
+                ){
                     $list = [];
                 } else {
                     foreach($list as $nr => $item){
