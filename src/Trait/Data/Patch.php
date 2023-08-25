@@ -212,7 +212,7 @@ Trait Patch {
                             'class' => $name,
                             'options' => $options,
                             'url' => $url,
-                            'node' => $record->data(),
+                            'node' => $node,
                         ]);
                     } else {
                         throw new Exception('Make sure, you have the right permission (' . $name . '.' . __FUNCTION__ . ')');
@@ -223,7 +223,7 @@ Trait Patch {
                 Event::trigger($object, 'r3m.io.node.data.patch.error', [
                     'class' => $name,
                     'options' => $options,
-                    'node' => $object->request('node'),
+                    'node' => $node,
                     'error' => $validate->test,
                 ]);
             }
