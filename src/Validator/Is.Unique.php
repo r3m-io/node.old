@@ -115,8 +115,8 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
     ){
         $options['ramdisk'] = true;
     }
-    $record = $unique->record($class, $unique->role_system(), $options);
-    if (empty($record)) {
+    $response = $unique->record($class, $unique->role_system(), $options);
+    if (empty($response)) {
         return true;
     } else {
         $is_record = [];
@@ -127,7 +127,7 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
             foreach($attribute as $nr => $key){
                 if(array_key_exists($nr, $value)){
                     d($key);
-                    ddd($record);
+                    ddd($response['node']);
                     /*
                     if(is_array($record)){
                         foreach($record->{$key} as $record_nr => $record_value){
@@ -159,7 +159,7 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
         d($value);
         d($validate);
         d($options);
-        ddd($record);
+        ddd($response);
     }
     return false;
 }
