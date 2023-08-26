@@ -140,13 +140,15 @@ Trait Patch {
         $patch = new Storage($record);
         $flags = new Storage(App::flags($object));
         $is_array_prepend = $flags->get('array.prepend') ?? false;
+        $is_array_empty = $flags->get('array.empty') ?? false;
         foreach($patch->data() as $attribute => $value){
             if(is_array($value)){
                 $list = $node->get($attribute);
                 if(
                     empty($list) ||
                     !is_array($list) ||
-                    empty($value)
+                    empty($value) ||
+                    $is_array_empty
                 ){
                     $list = [];
                 } else {
@@ -173,14 +175,18 @@ Trait Patch {
                          * only if item is uuid
                          */
                         if(!in_array($item, $list, true)){
-                            ddd($is_array_prepend);
-                            $list[] = $item;
+                            if($is_array_prepend){
+                                array_unshift($list, $item);
+                            } else {
+                                $list[] = $item;
+                            }
                         }
+                    }
+                    elseif($is_array_prepend) {
+                        array_unshift($list, $item);
                     } else {
-                        ddd($is_array_prepend);
                         $list[] = $item;
                     }
-
                 }
                 $node->set($attribute, $list);
             }
