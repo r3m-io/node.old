@@ -138,7 +138,7 @@ Trait Patch {
         $validate = $this->validate($object, $validate_url,  $name . '.' . __FUNCTION__);
         $node = new Storage($response['node']);
         $patch = new Storage($record);
-        $flags = App::flags($object);
+        $flags = new Storage(App::flags($object));
         ddd($flags);
         d($patch);
         foreach($patch->data() as $attribute => $value){
