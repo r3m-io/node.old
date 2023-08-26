@@ -139,8 +139,7 @@ Trait Patch {
         $node = new Storage($response['node']);
         $patch = new Storage($record);
         $flags = new Storage(App::flags($object));
-        ddd($flags);
-        d($patch);
+        $is_array_prepend = $flags->get('array.prepend') ?? false;
         foreach($patch->data() as $attribute => $value){
             if(is_array($value)){
                 $list = $node->get($attribute);
@@ -166,19 +165,19 @@ Trait Patch {
                         }
                     }
                 }
-//                ddd()
-//                $is_prepend =
                 foreach($value as $item){
                     if(Core::is_uuid($item)){
-                        //only if item is uuid
                         /*
                          * when a list contains uuid from a relation
                          * these uuids need to be unique in the list
+                         * only if item is uuid
                          */
                         if(!in_array($item, $list, true)){
+                            ddd($is_array_prepend);
                             $list[] = $item;
                         }
                     } else {
+                        ddd($is_array_prepend);
                         $list[] = $item;
                     }
 
