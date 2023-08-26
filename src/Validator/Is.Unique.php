@@ -15,6 +15,7 @@ use R3m\Io\App;
 
 use R3m\Io\Module\Dir;
 use R3m\Io\Module\File;
+use R3m\Io\Module\Filter;
 use R3m\Io\Node\Model\Node;
 use R3m\Io\Module\Data as Storage;
 use R3m\Io\Module\Parse;
@@ -47,7 +48,7 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
                         $explode[$explode_nr] = trim($explode_value);
                     }
                     */
-                    $value[$nr] = $object->request('node.' . $explode[0]);
+                    $value[$nr] = $object->request('node.' . trim($explode[0]));
                 }
             }
         }
@@ -69,10 +70,12 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
                     $explode[$explode_nr] = trim($explode_value);
                 }
                 if(array_key_exists(1, $explode)){
-                    $options['filter'][$explode[1]] = $value[$nr];
+                    $options['filter'][$explode[1]]['operator'] = Filter::OPERATOR_STRICTLY_EXACT;
+                    $options['filter'][$explode[1]]['value'] = $value[$nr];
                     $options['sort'][$explode[1]] = 'ASC';
                 } else {
-                    $options['filter'][$explode[0]] = $value[$nr];
+                    $options['filter'][$explode[0]]['operator'] = Filter::OPERATOR_STRICTLY_EXACT;
+                    $options['filter'][$explode[0]]['value'] = $value[$nr];
                     $options['sort'][$explode[0]] = 'ASC';
                 }
             }
@@ -80,7 +83,10 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
     } else {
         $options = [
             'filter' => [
-                $attribute => $value
+                $attribute => [
+                    'operator' => Filter::OPERATOR_STRICTLY_EXACT,
+                    'value' => $value
+                ]
             ],
             'sort' => [
                 $attribute => 'ASC'
