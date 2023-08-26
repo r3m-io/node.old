@@ -135,6 +135,8 @@ Trait Patch {
         $validate = $this->validate($object, $validate_url,  $name . '.' . __FUNCTION__);
         $node = new Storage($response['node']);
         $patch = new Storage($record);
+        $flags = App::flags($object);
+        ddd($flags);
         d($patch);
         foreach($patch->data() as $attribute => $value){
             if(is_array($value)){
@@ -161,9 +163,15 @@ Trait Patch {
                         }
                     }
                 }
+//                ddd()
+//                $is_prepend =
                 foreach($value as $item){
                     if(Core::is_uuid($item)){
                         //only if item is uuid
+                        /*
+                         * when a list contains uuid from a relation
+                         * these uuids need to be unique in the list
+                         */
                         if(!in_array($item, $list, true)){
                             $list[] = $item;
                         }
