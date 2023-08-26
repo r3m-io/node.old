@@ -178,6 +178,7 @@ Trait Patch {
         }
         $node->set('#class', $name);
         d($node);
+        d($validate);
         $response = [];
         if($validate){
             if($validate->success === true){
