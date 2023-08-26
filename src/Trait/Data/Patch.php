@@ -162,9 +162,15 @@ Trait Patch {
                     }
                 }
                 foreach($value as $item){
-                    if(!in_array($item, $list, true)){
+                    if(Core::is_uuid($item)){
+                        //only if item is uuid
+                        if(!in_array($item, $list, true)){
+                            $list[] = $item;
+                        }
+                    } else {
                         $list[] = $item;
                     }
+
                 }
                 $node->set($attribute, $list);
             }
