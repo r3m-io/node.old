@@ -93,7 +93,6 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
             ]
         ];
     }
-    ddd($options);
     if($url === false){
         throw new Exception('Url not set for Is.Unique');
     }
@@ -130,101 +129,6 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
     $response = $unique->record($class, $unique->role_system(), $options);
     if (empty($response)) {
         return true;
-    } else {
-        /*
-        $is_record = [];
-        if(
-            is_array($attribute) &&
-            is_array($value)
-        ){
-            foreach($attribute as $nr => $key){
-                if(array_key_exists($nr, $value)){
-                    if(
-                        array_key_exists('node', $response) &&
-                        is_object($response['node']) &&
-                        property_exists($response['node'], $key) &&
-                        is_array($response['node']->{$key})
-                    ){
-                        foreach($response['node']->{$key} as $record_attribute => $record_value){
-                            if(
-                                is_array($value[$nr]) &&
-                                array_key_exists($record_attribute, $value[$nr]) &&
-                                $record_value === $value[$nr][$record_attribute]
-                            ){
-                                $is_record[] = true;
-                            }
-                            elseif(
-                                is_object($value[$nr]) &&
-                                property_exists($value[$nr], $record_attribute) &&
-                                $record_value === $value[$nr]->{$record_attribute}
-                            ){
-                                $is_record[] = true;
-                            }
-                            elseif($value[$nr] === $record_value){
-                                $is_record[] = true;
-                            } else {
-                                $is_record[] = false;
-                            }
-                        }
-                    }
-                    elseif(
-                        array_key_exists('node', $response) &&
-                        is_object($response['node']) &&
-                        property_exists($response['node'], $key) &&
-                        is_object($response['node']->{$key})
-                    ){
-                        foreach($response['node']->{$key} as $record_attribute => $record_value){
-                            if(
-                                is_array($value[$nr]) &&
-                                array_key_exists($record_attribute, $value[$nr]) &&
-                                $record_value === $value[$nr][$record_attribute]
-                            ){
-                                $is_record[] = true;
-                            }
-                            elseif(
-                                is_object($value[$nr]) &&
-                                property_exists($value[$nr], $record_attribute) &&
-                                $record_value === $value[$nr]->{$record_attribute}
-                            ){
-                                $is_record[] = true;
-                            }
-                            elseif($value[$nr] === $record_value){
-                                $is_record[] = true;
-                            } else {
-                                $is_record[] = false;
-                            }
-                        }
-                    }
-                    elseif(
-                        array_key_exists('node', $response) &&
-                        property_exists($response['node'], $key)
-                    ){
-                        if($response['node']->{$key} === $value[$nr]){
-                            $is_record[] = true;
-                        } else {
-                            $is_record[] = false;
-                        }
-                    } else {
-                        $is_record[] = false;
-                    }
-                }
-            }
-            if(
-                in_array(
-                    false,
-                    $is_record,
-                    true)
-            ){
-                //strict comparison fails...
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            throw Exception('Not implemented yet');
-        }
-        */
     }
-
     return false;
 }
