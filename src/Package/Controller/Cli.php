@@ -1,5 +1,5 @@
 <?php
-namespace Package\R3m_io\Node\Controller;
+namespace Package\R3m\Io\Node\Controller;
 
 use Exception;
 use R3m\Io\App;
