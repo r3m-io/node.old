@@ -28,7 +28,7 @@ class Cli extends Controller {
         Cli::plugin(
             $object,
             $object->config('project.dir.package') .
-            'R3m_io' .
+            'R3m/Io' .
             $object->config('ds') .
             'Node' .
             $object->config('ds') .
@@ -38,7 +38,7 @@ class Cli extends Controller {
         Cli::validator(
             $object,
             $object->config('project.dir.package') .
-            'R3m_io' .
+            'R3m/Io' .
             $object->config('ds') .
             'Node' .
             $object->config('ds') .
