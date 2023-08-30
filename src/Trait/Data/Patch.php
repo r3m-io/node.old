@@ -95,6 +95,7 @@ Trait Patch {
             $record = Core::object($record, Core::OBJECT_OBJECT);
         }
         $uuid = $record->uuid ?? false;
+        d($uuid);
         if($uuid === false){
             return false;
         }
