@@ -898,6 +898,7 @@ Trait BinaryTree {
                     $options['name'] ?? ucfirst($record->{'#class'}) .
                     $object->config('extension.json')
                 ;
+                d($object_url);
                 $options_json = Core::object($options, Core::OBJECT_JSON);
                 $object_data = $object->data_read($object_url, sha1($object_url . '.' . $options_json));
                 /*
