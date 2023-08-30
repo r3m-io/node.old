@@ -895,7 +895,9 @@ Trait BinaryTree {
                     $object->config('ds') .
                     'Object' .
                     $object->config('ds') .
-                    $options['name'] ?? ucfirst($record->{'#class'}) .
+                    $options['name'] .
+                    $object->config('extension.json') ??
+                    ucfirst($record->{'#class'}) .
                     $object->config('extension.json')
                 ;
                 d($object_url);
