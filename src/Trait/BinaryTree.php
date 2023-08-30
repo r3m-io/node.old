@@ -907,6 +907,9 @@ Trait BinaryTree {
                     $object->data('R3m.Io.Node.BinarySearch.relation', $is_loaded);
                 }
                 */
+                d($options);
+                d($object_data);
+                d($record);
                 $record = $this->binary_tree_relation($record, $object_data, $role, $options);
                 $expose = $this->expose_get(
                     $object,
