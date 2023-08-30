@@ -270,6 +270,7 @@ Trait NodeList {
                         if(File::exist($url_connect_property)){
                             $file_connect_property = new SplFileObject($url_connect_property);
                         }
+                        d($options);
                         $list = $this->binary_tree_page(
                             $file,
                             $file_uuid,
