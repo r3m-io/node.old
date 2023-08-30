@@ -95,9 +95,6 @@ Trait Filter {
                 ;
                 $options_json = Core::object($options, Core::OBJECT_JSON);
                 $object_data = $object->data_read($object_url, sha1($object_url . '.' . $options_json));
-                d($options);
-                d($object_data);
-                d($record);
                 $record = $this->binary_tree_relation($record, $object_data, $role, $options);
                 $expose = $this->expose_get(
                     $object,
