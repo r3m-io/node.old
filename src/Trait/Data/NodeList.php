@@ -510,6 +510,7 @@ Trait NodeList {
                             'mtime' => $mtime
                         ]
                     );
+                    ddd($list);
                     $result = [];
                     $result['page'] = $options['page'] ?? 1;
                     $result['limit'] = $options['limit'] ?? 1000;
