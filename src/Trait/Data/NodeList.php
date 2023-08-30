@@ -250,6 +250,7 @@ Trait NodeList {
                         'key' => $key,
                         'function' => $options['function'],
                     ]);
+                    d($list);
                     $counter = $count;
                 } else {
                     $sort_key = [
