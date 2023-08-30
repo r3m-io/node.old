@@ -239,14 +239,21 @@ Trait Rename {
                 }
             }
         }
-        File::move($from_dir_filter, $to_dir_filter, true);
+        if(File::exist($from_dir_filter)){
+            File::move($from_dir_filter, $to_dir_filter, true);
+        }
+
         if($object->config(Config::POSIX_ID) === 0){
-            $command = 'chown www-data:www-data ' . $to_dir_filter;
-            exec($command);
+            if(File::exist($to_dir_filter)){
+                $command = 'chown www-data:www-data ' . $to_dir_filter;
+                exec($command);
+            }
         }
         if($object->config('framework.environment') === Config::MODE_DEVELOPMENT){
-            $command = 'chmod 777 ' . $to_dir_filter;
-            exec($command);
+            if(File::exist($to_dir_filter)){
+                $command = 'chmod 777 ' . $to_dir_filter;
+                exec($command);
+            }
         }
         if(File::exist($from_url_meta)){
             $read = File::read($from_url_meta);

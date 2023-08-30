@@ -6,6 +6,7 @@ Module: {{$request.module|uppercase.first}}
 {{if(is.empty($request.submodule))}}
 {{$request.submodule = 'info'}}
 {{/if}}
+
 Submodule: {{$request.submodule|uppercase.first}}
 
 {{$options = options()}}
