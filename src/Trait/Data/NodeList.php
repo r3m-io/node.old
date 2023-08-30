@@ -249,6 +249,7 @@ Trait NodeList {
                         'count' => $count,
                         'key' => $key,
                         'function' => $options['function'],
+                        'relation' => $options['relation'],
                     ]);
                     d($list);
                     $counter = $count;
