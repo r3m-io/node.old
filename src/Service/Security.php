@@ -33,14 +33,20 @@ class Security extends Main
             if($permission->get('name') === $name . '.' . $options['function']){
                 $is_permission = true;
             }
-            if($options['relation'] === true){
+            if(
+                array_key_exists('relation', $options) &&
+                $options['relation'] === true
+            ){
                 if($permission->get('name') === $name . '.' . $options['function'] . '.' . 'relation'){
                     $is_permission_relation = true;
                 }
             } else {
                 $is_permission_relation = true;
             }
-            if($options['parse'] === true) {
+            if(
+                array_key_exists('parse', $options) &&
+                $options['parse'] === true
+            ) {
                 if($permission->get('name') === $name . '.' . $options['function'] . '.' . 'parse'){
                     $is_permission_parse = true;
                 }
