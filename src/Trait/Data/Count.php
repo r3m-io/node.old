@@ -9,6 +9,8 @@ use R3m\Io\Module\Controller;
 use R3m\Io\Module\Core;
 use R3m\Io\Module\File;
 
+use R3m\Io\Node\Service\Security;
+
 use Exception;
 
 use R3m\Io\Exception\FileWriteException;
@@ -22,6 +24,13 @@ Trait Count {
      */
     public function count($class, $role, $options=[]): int
     {
+        if(!Security::is_granted(
+            $class,
+            $role,
+            $options
+        )){
+            return 0;
+        }
         $options = Core::object($options, Core::OBJECT_ARRAY);
         $count = 0;
         $name = Controller::name($class);
