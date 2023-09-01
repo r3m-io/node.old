@@ -356,7 +356,8 @@ Trait BinaryTree {
                 foreach($data as $relation_data_nr => $relation_data_uuid){
                     if(
                         $is_allowed &&
-                        is_string($relation_data_uuid)
+                        is_string($relation_data_uuid) &&
+                        Core::is_uuid($relation_data_uuid)
                     ){
                         $relation_data_url = $object->config('project.dir.data') .
                             'Node' .
@@ -424,7 +425,8 @@ Trait BinaryTree {
             case 'many-one':
                 if(
                     $is_allowed &&
-                    is_string($data)
+                    is_string($data) &&
+                    Core::is_uuid($data)
                 ){
                     $relation_data_url = $object->config('project.dir.data') .
                         'Node' .
@@ -489,9 +491,9 @@ Trait BinaryTree {
             case 'one-one':
                 if(
                     $is_allowed &&
-                    is_string($data)
+                    is_string($data) &&
+                    Core::is_uuid($data)
                 ){
-                    ddd($data);
                     $relation_data_url = $object->config('project.dir.data') .
                         'Node' .
                         $object->config('ds') .
@@ -550,9 +552,6 @@ Trait BinaryTree {
                         }
                         $data = $relation_data->data();
                     }
-                } else {
-                    d($is_allowed);
-                    d($data);
                 }
             break;
         }
