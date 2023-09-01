@@ -996,6 +996,7 @@ Trait BinaryTree {
                     $options['function'],
                     $role
                 );
+                d($record);
                 $record_data = $record->data();
                 //need object file, so need $class
                 //relations loaded so we can filter / where on them
