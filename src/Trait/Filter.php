@@ -120,7 +120,6 @@ Trait Filter {
                     //add #role, #user to record ?
                     $record_data = $parse->compile($record_data, $record);
                     unset($record_data->{'#role'});
-                    ddd($record_data);
                 }
                 $list[] = $record_data;
             }
