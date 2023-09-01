@@ -48,7 +48,6 @@ class Node extends Controller {
             $parse = false;
         }
         $relation = $object->request('relation');
-        ddd($relation);
         if(
             empty($relation) &&
             $relation !== false
