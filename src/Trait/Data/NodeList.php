@@ -168,7 +168,6 @@ Trait NodeList {
                 $object->config('extension.json')
             ;
             $ramdisk_data = $object->data_read($ramdisk_url, $ramdisk_key);
-            d('1');
             if($ramdisk_data){
                 //add mtime to ramdisk data
                 return (array) $ramdisk_data->data();
@@ -198,7 +197,6 @@ Trait NodeList {
             $result['relation'] = $options['relation'];
             $result['parse'] = $options['parse'];
             $result['mtime'] = $mtime;
-            d('2');
             return $result;
         }
         if($mtime === false) {
@@ -257,7 +255,6 @@ Trait NodeList {
                         'relation' => $options['relation'],
                         'parse' => $options['parse'],
                     ]);
-                    d('3');
                     $counter = $count;
                 } else {
                     $sort_key = [
@@ -302,7 +299,6 @@ Trait NodeList {
                                 'mtime' => $mtime
                             ]
                         );
-                        d('4');
                     }
                 }
                 $result = [];
@@ -327,7 +323,6 @@ Trait NodeList {
                         'ramdisk_url' => $ramdisk_url,
                     ]);
                 }
-                d('5');
                 return $result;
             }
             elseif(!empty($options['where'])){
@@ -393,7 +388,6 @@ Trait NodeList {
                             'mtime' => $mtime
                         ]
                     );
-                    d('6');
                 } else {
                     $sort_key = [
                         'property' => $properties,
@@ -437,7 +431,6 @@ Trait NodeList {
                                 'mtime' => $mtime
                             ]
                         );
-                        d('7');
                     }
                 }
                 $result = [];
@@ -461,7 +454,6 @@ Trait NodeList {
                         'ramdisk_url' => $ramdisk_url,
                     ]);
                 }
-                d('8');
                 return $result;
             } else {
                 // no filter, no where
@@ -544,7 +536,6 @@ Trait NodeList {
                             'ramdisk_url' => $ramdisk_url,
                         ]);
                     }
-                    d('9');
                     return $result;
                 }
             }
