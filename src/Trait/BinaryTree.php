@@ -987,6 +987,8 @@ Trait BinaryTree {
                     unset($record_data->{'#role'});
                     $record = new Storage($record_data);
                 }
+                d($record_data->{'#class'});
+                d($options['function']);
                 $record = $this->expose(
                     $record,
                     $expose,
