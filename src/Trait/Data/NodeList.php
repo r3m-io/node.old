@@ -156,6 +156,7 @@ Trait NodeList {
                 'filter' => $options['filter'] ?? [],
                 'where' => $options['where'] ?? [],
                 'relation' => $options['relation'],
+                'parse' => $options['parse'],
                 'page' => $options['page'] ?? 1,
                 'limit' => $options['limit'] ?? 1000,
                 'mtime' => $mtime
@@ -194,6 +195,7 @@ Trait NodeList {
                 $result['where'] = $options['where'];
             }
             $result['relation'] = $options['relation'];
+            $result['parse'] = $options['parse'];
             $result['mtime'] = $mtime;
             return $result;
         }
@@ -251,7 +253,7 @@ Trait NodeList {
                         'key' => $key,
                         'function' => $options['function'],
                         'relation' => $options['relation'],
-                        'parse' => $options['parse'] ?? false,
+                        'parse' => $options['parse'],
                     ]);
                     $counter = $count;
                 } else {
@@ -293,7 +295,7 @@ Trait NodeList {
                                 'relation' => $options['relation'],
                                 'name' => $name,
                                 'ramdisk' => $options['ramdisk'] ?? false,
-                                'parse' => $options['parse'] ?? false,
+                                'parse' => $options['parse'],
                                 'mtime' => $mtime
                             ]
                         );
@@ -307,10 +309,8 @@ Trait NodeList {
                 $result['sort'] = $options['sort'];
                 $result['filter'] = $options['filter'];
                 $result['relation'] = $options['relation'];
+                $result['parse'] = $options['parse'];
                 $result['mtime'] = $mtime;
-                if($options['parse'] === true){
-                    ddd($result);
-                }
                 if($ramdisk_url){
                     $ramdisk_data = new Storage($result);
                     $ramdisk_data->write($ramdisk_url);
@@ -384,7 +384,7 @@ Trait NodeList {
                             'relation' => $options['relation'],
                             'name' => $name,
                             'ramdisk' => $options['ramdisk'] ?? false,
-                            'parse' => $options['parse'] ?? false,
+                            'parse' => $options['parse'],
                             'mtime' => $mtime
                         ]
                     );
@@ -427,7 +427,7 @@ Trait NodeList {
                                 'relation' => $options['relation'],
                                 'name' => $name,
                                 'ramdisk' => $options['ramdisk'] ?? false,
-                                'parse' => $options['parse'] ?? false,
+                                'parse' => $options['parse'],
                                 'mtime' => $mtime
                             ]
                         );
@@ -441,10 +441,8 @@ Trait NodeList {
                 $result['sort'] = $options['sort'];
                 $result['where'] = $options['where'];
                 $result['relation'] = $options['relation'];
+                $result['parse'] = $options['parse'];
                 $result['mtime'] = $mtime;
-                if($options['parse'] === true){
-                    ddd($result);
-                }
                 if($ramdisk_url){
                     $ramdisk_data = new Storage($result);
                     $ramdisk_data->write($ramdisk_url);
@@ -514,7 +512,7 @@ Trait NodeList {
                             'relation' => $options['relation'],
                             'name' => $name,
                             'ramdisk' => $options['ramdisk'] ?? false,
-                            'parse' => $options['parse'] ?? false,
+                            'parse' => $options['parse'],
                             'mtime' => $mtime
                         ]
                     );
@@ -525,6 +523,7 @@ Trait NodeList {
                     $result['list'] = $list;
                     $result['sort'] = $options['sort'];
                     $result['relation'] = $options['relation'];
+                    $result['parse'] = $options['parse'];
                     $result['mtime'] = $mtime;
                     if($options['parse'] === true){
                         ddd($result);
