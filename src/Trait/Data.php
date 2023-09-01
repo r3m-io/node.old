@@ -20,7 +20,6 @@ use R3m\Io\Exception\FileWriteException;
 use R3m\Io\Exception\ObjectException;
 
 Trait Data {
-    use BinarySearch;
     use BinaryTree;
     use Tree;
     use Where;
