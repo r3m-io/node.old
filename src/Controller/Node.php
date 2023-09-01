@@ -43,6 +43,17 @@ class Node extends Controller {
         if(empty($where)){
             $where = [];
         }
+        $parse = $object->request('parse');
+        if(empty($parse)){
+            $parse = false;
+        }
+        $relation = $object->request('relation');
+        if(
+            empty($relation) &&
+            $relation !== false
+        ){
+            $relation = true;
+        }
         $response = $model->list(
             $object->request('class'),
             $model->role_system(), //leak
@@ -51,7 +62,9 @@ class Node extends Controller {
                 'filter' => $filter,
                 'where' => $where,
                 'limit' => (int) $object->request('limit'),
-                'page' => (int) $object->request('page')
+                'page' => (int) $object->request('page'),
+                'relation' => (bool) $relation,
+                'parse' => (bool) $parse
             ]
         );
         return new Response(
