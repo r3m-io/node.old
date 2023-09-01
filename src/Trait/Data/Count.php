@@ -24,13 +24,6 @@ Trait Count {
      */
     public function count($class, $role, $options=[]): int
     {
-        if(!Security::is_granted(
-            $class,
-            $role,
-            $options
-        )){
-            return 0;
-        }
         $options = Core::object($options, Core::OBJECT_ARRAY);
         $count = 0;
         $name = Controller::name($class);
@@ -60,6 +53,13 @@ Trait Count {
             $options['sort'] = [
                 'uuid' => 'ASC'
             ];
+        }
+        if(!Security::is_granted(
+            $class,
+            $role,
+            $options
+        )){
+            return 0;
         }
         //command line nested to not nested hack.
         $sort_data = new Storage();
