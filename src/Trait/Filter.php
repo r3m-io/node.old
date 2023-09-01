@@ -61,28 +61,28 @@ Trait Filter {
                 if(empty($uuid)){
                     continue;
                 }
-                $record = (object) [];
-                $record->uuid = $uuid;
-                $record->{'#read'} = [];
-                $record->{'#read'}['url'] = $object->config('project.dir.data') .
+                $record_data = (object) [];
+                $record_data->uuid = $uuid;
+                $record_data->{'#read'} = [];
+                $record_data->{'#read'}['url'] = $object->config('project.dir.data') .
                     'Node' .
                     $object->config('ds') .
                     'Storage' .
                     $object->config('ds') .
                     substr($record->uuid, 0, 2) .
                     $object->config('ds') .
-                    $record->uuid .
+                    $record_data->uuid .
                     $object->config('extension.json')
                 ;
-                $record->{'#read'}['lines'] = $options['lines'];
-                $record->{'#read'}['count'] = $options['count'];
-                $record->{'#read'}['index'] = $index;
-                $record->{'#read'} = (object) $record->{'#read'};
-                $read = $object->data_read($record->{'#read'}->url, sha1($record->{'#read'}->url));
+                $record_data->{'#read'}['lines'] = $options['lines'];
+                $record_data->{'#read'}['count'] = $options['count'];
+                $record_data->{'#read'}['index'] = $index;
+                $record_data->{'#read'} = (object) $record_data->{'#read'};
+                $read = $object->data_read($record_data->{'#read'}->url, sha1($record_data->{'#read'}->url));
                 if($read){
-                    $record = Core::object_merge($record, $read->data());
+                    $record_data = Core::object_merge($record_data, $read->data());
                 }
-                if(!property_exists($record, '#class')){
+                if(!property_exists($record_data, '#class')){
                     //need to trigger sync
                     continue;
                 }
@@ -96,31 +96,31 @@ Trait Filter {
                 ;
                 $options_json = Core::object($options, Core::OBJECT_JSON);
                 $object_data = $object->data_read($object_url, sha1($object_url . '.' . $options_json));
-                $record = $this->binary_tree_relation($record, $object_data, $role, $options);
+                $record_data = $this->binary_tree_relation($record_data, $object_data, $role, $options);
                 $expose = $this->expose_get(
                     $object,
-                    $record->{'#class'},
-                    $record->{'#class'} . '.' . $options['function'] . '.expose'
+                    $record_data->{'#class'},
+                    $record_data->{'#class'} . '.' . $options['function'] . '.expose'
                 );
-                $record = $this->expose(
-                    new Storage($record),
-                    $expose,
-                    $record->{'#class'},
-                    $options['function'],   //maybe change this (because filter has different read attributes)
-                    $role
-                );
-                $record_data = $record->data();
+                $record = new Storage($record_data);
                 if(
                     array_key_exists('parse', $options) &&
                     $options['parse'] === true
                 ){
                     $parse = new Parse($object);
                     $record->set('#role', $role);
-//                    d($record);
                     //add #role, #user to record ?
                     $record_data = $parse->compile($record_data, $record);
                     unset($record_data->{'#role'});
                 }
+                $record = $this->expose(
+                    $record,
+                    $expose,
+                    $record_data->{'#class'},
+                    $options['function'],   //maybe change this (because filter has different read attributes)
+                    $role
+                );
+                $record_data = $record->data();
                 $list[] = $record_data;
             }
         }
