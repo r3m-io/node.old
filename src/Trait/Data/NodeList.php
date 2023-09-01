@@ -56,7 +56,6 @@ Trait NodeList {
      */
     public function list($class, $role, $options=[]): array
     {
-        d($options);
         $name = Controller::name($class);
         $options = Core::object($options, Core::OBJECT_ARRAY);
         if(!array_key_exists('function', $options)){
