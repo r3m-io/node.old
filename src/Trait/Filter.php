@@ -11,6 +11,7 @@ use Exception;
 
 use R3m\Io\Exception\FileWriteException;
 use R3m\Io\Exception\ObjectException;
+use R3m\Io\Module\Parse;
 
 Trait Filter {
 
@@ -108,8 +109,18 @@ Trait Filter {
                     $options['function'],   //maybe change this (because filter has different read attributes)
                     $role
                 );
-                $record = $record->data();
-                $list[] = $record;
+                $record_data = $record->data();
+                if(
+                    array_key_exists('parse', $options) &&
+                    $options['parse'] === true
+                ){
+                    $parse = new Parse($object);
+                    d($record);
+                    //add #role, #user to record ?
+                    $record_data = $parse->compile($record_data, $record);
+                    ddd($record_data);
+                }
+                $list[] = $record_data;
             }
         }
         return $list;

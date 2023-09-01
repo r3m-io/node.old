@@ -252,6 +252,7 @@ Trait NodeList {
                         'key' => $key,
                         'function' => $options['function'],
                         'relation' => $options['relation'],
+                        'parse' => $options['parse'] ?? false,
                     ]);
                     $counter = $count;
                 } else {
