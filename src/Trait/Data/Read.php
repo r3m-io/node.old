@@ -33,7 +33,8 @@ Trait Read {
                 ]
             ],
             'function' => __FUNCTION__,
-            'multiple' => true
+            'multiple' => true,
+            'parse' => $options['parse'] ?? false,
         ];
         $ramdisk_record = $object->config('package.r3m_io/node.ramdisk');
         if(empty($ramdisk_record)){
