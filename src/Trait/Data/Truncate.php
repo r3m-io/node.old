@@ -3,22 +3,34 @@
 namespace R3m\Io\Node\Trait\Data;
 
 use R3m\Io\Module\Core;
-use R3m\Io\Module\File;
 use R3m\Io\Module\Controller;
-use R3m\Io\Module\Data as Storage;
+
+use R3m\Io\Node\Service\Security;
+
+use Exception;
 
 use R3m\Io\Exception\FileWriteException;
 use R3m\Io\Exception\ObjectException;
-
 
 Trait Truncate {
 
     /**
      * @throws ObjectException
      * @throws FileWriteException
+     * @throws Exception
      */
     public function truncate($class, $role, $options=[]): array
     {
+        if(!array_key_exists('function', $options)){
+            $options['function'] = __FUNCTION__;
+        }
+        if(!Security::is_granted(
+            $class,
+            $role,
+            Core::object($options, Core::OBJECT_ARRAY)
+        )){
+            return [];
+        }
         $name = Controller::name($class);
         $object = $this->object();
         $meta_url = $object->config('project.dir.data') .

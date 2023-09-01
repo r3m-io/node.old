@@ -2,6 +2,8 @@
 
 namespace R3m\Io\Node\Trait\Data;
 
+use R3m\Io\Node\Service\Security;
+
 use Exception;
 
 use R3m\Io\Exception\FileWriteException;
@@ -23,6 +25,13 @@ Trait Record {
         }
         if(!array_key_exists('sort', $options)){
             throw new Exception('Sort is missing in options');
+        }
+        if(!Security::is_granted(
+            $class,
+            $role,
+            $options
+        )){
+            return null;
         }
         $list = $this->list($class, $role, $options);
         if(

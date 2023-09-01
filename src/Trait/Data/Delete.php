@@ -16,6 +16,7 @@ use R3m\Io\Exception\DirectoryCreateException;
 use R3m\Io\Exception\FileMoveException;
 use R3m\Io\Exception\FileWriteException;
 use R3m\Io\Exception\ObjectException;
+use R3m\Io\Node\Service\Security;
 
 Trait Delete {
 
@@ -27,6 +28,17 @@ Trait Delete {
      */
     public function delete($class, $role, $options=[]): bool
     {
+        if(!array_key_exists('function', $options)){
+            $options['function'] = __FUNCTION__;
+        }
+        $options['relation'] = false;
+        if(!Security::is_granted(
+            $class,
+            $role,
+            $options
+        )){
+            return false;
+        }
         $name = Controller::name($class);
         $object = $this->object();
         $node = new Storage( (object) $options);
@@ -147,9 +159,21 @@ Trait Delete {
      * @throws FileWriteException
      * @throws DirectoryCreateException
      * @throws FileMoveException
+     * @throws Exception
      */
     public function delete_many($class, $role, $options=[]): array
     {
+        if(!array_key_exists('function', $options)){
+            $options['function'] = __FUNCTION__;
+        }
+        $options['relation'] = false;
+        if(!Security::is_granted(
+            $class,
+            $role,
+            $options
+        )){
+            return [];
+        }
         $name = Controller::name($class);
         $object = $this->object();
         $node = new Storage( (object) $options);

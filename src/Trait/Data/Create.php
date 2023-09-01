@@ -14,6 +14,7 @@ use R3m\Io\Module\Dir;
 use R3m\Io\Module\Event;
 use R3m\Io\Module\File;
 use R3m\Io\Module\Sort;
+use R3m\Io\Node\Service\Security;
 
 Trait Create {
 
@@ -21,6 +22,7 @@ Trait Create {
      * @throws ObjectException
      * @throws FileWriteException
      * @throws FileMoveException
+     * @throws Exception
      */
     public function create_many($class, $role, $data=[], $options=[]): array
     {
@@ -35,6 +37,17 @@ Trait Create {
         ];
         $count = 0;
         $error = 0;
+        if(!array_key_exists('function', $options)){
+            $options['function'] = __FUNCTION__;
+        }
+        $options['relation'] = false;
+        if(!Security::is_granted(
+            $class,
+            $role,
+            $options
+        )){
+            return $result;
+        }
         foreach($data as $record){
             $response = $this->create(
                 $class,
@@ -42,12 +55,13 @@ Trait Create {
                 $record,
                 [
                 'is_many' => true,
-                'function' => $options['function'] ?? __FUNCTION__,
+                'function' => $options['function'],
                 'force' => $options['force'] ?? false,
                 'validation' => $options['validation'] ?? true,
                 'expose' => $options['expose'] ?? true,
                 'ramdisk' => $options['ramdisk'] ?? false,
-                'compression' => $options['compression'] ?? false
+                'compression' => $options['compression'] ?? false,
+                'relation' => $options['relation'],
                 ]
             );
             if(
@@ -478,7 +492,6 @@ Trait Create {
      */
     public function create($class, $role, $node=[], $options=[]): false|array
     {
-        $function = __FUNCTION__;
         $name = Controller::name($class);
         $object = $this->object();
         $object->request('node', (object) $node);
@@ -503,6 +516,17 @@ Trait Create {
             $object->config('ds')
         ;
         $dir_ramdisk = false;
+        if(!array_key_exists('function', $options)){
+            $options['function'] = __FUNCTION__;
+        }
+        $options['relation'] = false;
+        if(!Security::is_granted(
+            $class,
+            $role,
+            $options
+        )){
+            return false;
+        }
         if(
             array_key_exists('ramdisk', $options) &&
             $options['ramdisk'] === true

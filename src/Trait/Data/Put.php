@@ -2,21 +2,26 @@
 
 namespace R3m\Io\Node\Trait\Data;
 
-use Exception;
 use R3m\Io\Config;
-use R3m\Io\Exception\FileWriteException;
-use R3m\Io\Exception\ObjectException;
+
 use R3m\Io\Module\Controller;
 use R3m\Io\Module\Core;
 use R3m\Io\Module\Data as Storage;
 use R3m\Io\Module\Event;
 use R3m\Io\Module\Sort;
+use R3m\Io\Node\Service\Security;
+
+use Exception;
+
+use R3m\Io\Exception\FileWriteException;
+use R3m\Io\Exception\ObjectException;
 
 Trait Put {
 
     /**
      * @throws ObjectException
      * @throws FileWriteException
+     * @throws Exception
      */
     public function put_many($class, $role, $data=[], $options=[]): array
     {
@@ -31,6 +36,16 @@ Trait Put {
                 'count' => 0
             ]
         ];
+        if(!array_key_exists('function', $options)){
+            $options['function'] = __FUNCTION__;
+        }
+        if(!Security::is_granted(
+            $class,
+            $role,
+            $options
+        )){
+            return $result;
+        }
         foreach($data as $record){
             $response = $this->put(
                 $class,
@@ -96,6 +111,17 @@ Trait Put {
             return false;
         }
         unset($record->uuid);
+        if(!array_key_exists('function', $options)){
+            $options['function'] = __FUNCTION__;
+        }
+        $options['relation'] = false;
+        if(!Security::is_granted(
+            $class,
+            $role,
+            $options
+        )){
+            return false;
+        }
         $name = Controller::name($class);
         $object = $this->object();
         $dir_node = $object->config('project.dir.data') .
@@ -117,8 +143,8 @@ Trait Put {
             'sort' => [
                 'uuid' => 'ASC'
             ],
-            'relation' => false,
-            'function' => __FUNCTION__,
+            'relation' => $options['relation'],
+            'function' => $options['function'],
         ];
         $response = $this->record(
             $name,

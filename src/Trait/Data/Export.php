@@ -13,6 +13,7 @@ use Exception;
 
 use R3m\Io\Exception\FileWriteException;
 use R3m\Io\Exception\ObjectException;
+use R3m\Io\Node\Service\Security;
 
 
 Trait Export {
@@ -22,9 +23,21 @@ Trait Export {
      * @throws FileWriteException
      * @throws Exception
      */
-    public function export($class, $role, $options=[]){
+    public function export($class, $role, $options=[]): void
+    {
         $options = Core::object($options, Core::OBJECT_ARRAY);
         if(!array_key_exists('url', $options)){
+            return;
+        }
+        if(!array_key_exists('function', $options)){
+            $options['function'] = __FUNCTION__;
+        }
+        $options['relation'] = false;
+        if(!Security::is_granted(
+            $class,
+            $role,
+            $options
+        )){
             return;
         }
         $name = Controller::name($class);

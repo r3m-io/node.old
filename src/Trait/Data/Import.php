@@ -16,6 +16,7 @@ use Exception;
 
 use R3m\Io\Exception\FileWriteException;
 use R3m\Io\Exception\ObjectException;
+use R3m\Io\Node\Service\Security;
 
 Trait Import {
 
@@ -36,6 +37,14 @@ Trait Import {
         set_time_limit(0);
         $start = microtime(true);
         $options['function'] = __FUNCTION__;
+        $options['relation'] = false;
+        if(!Security::is_granted(
+            $class,
+            $role,
+            $options
+        )){
+            return [];
+        }
         $object = $this->object();
         $app_options = App::options($object);
         if(property_exists($app_options, 'force')){

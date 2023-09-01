@@ -12,7 +12,7 @@ use R3m\Io\Module\Dir;
 use R3m\Io\Module\File;
 use R3m\Io\Module\Sort;
 
-use stdClass;
+use R3m\Io\Node\Service\Security;
 
 use Exception;
 
@@ -37,6 +37,9 @@ Trait Sync {
             foreach($options->class as $nr => $class){
                 $options->class[$nr] = Controller::name(trim($class));
             }
+        }
+        if(!property_exists($options, 'function')){
+            $options->function = __FUNCTION__;
         }
         $url_object = $object->config('project.dir.data') .
             'Node' .
@@ -68,19 +71,13 @@ Trait Sync {
             if(in_array($class, $exception, true)){
                 //skip
             } else {
-                /*
-                $role = $this->record('Role', $role, [
-                    'filter' => [
-                        'name' => 'ROLE_SYSTEM'
-                    ],
-                    'sort' => [
-                        'name' => 'ASC'
-                    ],
-                    'relation' => [
-                        'permission:uuid'
-                    ]
-                ]);
-                */
+                if(!Security::is_granted(
+                    $class,
+                    $role,
+                    Core::object($options, Core::OBJECT_ARRAY)
+                )){
+                    continue;
+                }
                 if(!$role){
                     throw new Exception('Role ROLE_SYSTEM not found');
                 }
@@ -90,7 +87,7 @@ Trait Sync {
                     $expose = $this->expose_get(
                         $object,
                         $class,
-                        $class . '.' . __FUNCTION__ . '.expose'
+                        $class . '.' . $options->function . '.expose'
                     );
                 }
             }

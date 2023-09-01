@@ -10,6 +10,8 @@ use R3m\Io\Module\Data as Storage;
 use R3m\Io\Module\Event;
 use R3m\Io\Module\Sort;
 
+use R3m\Io\Node\Service\Security;
+
 use Exception;
 
 use R3m\Io\Exception\FileWriteException;
@@ -20,6 +22,7 @@ Trait Patch {
     /**
      * @throws ObjectException
      * @throws FileWriteException
+     * @throws Exception
      */
     public function patch_many($class, $role, $data=[], $options=[]): array
     {
@@ -34,6 +37,17 @@ Trait Patch {
                 'count' => 0
             ]
         ];
+        if(!array_key_exists('function', $options)){
+            $options['function'] = __FUNCTION__;
+        }
+        $options['relation'] = false;
+        if(!Security::is_granted(
+            $class,
+            $role,
+            $options
+        )){
+            return $result;
+        }
         foreach($data as $record){
             $response = $this->patch(
                 $class,
@@ -41,7 +55,8 @@ Trait Patch {
                 $record,
                 [
                     'is_many' => true,
-                    'function' => $options['function'] ?? __FUNCTION__,
+                    'function' => $options['function'],
+                    'relation' => $options['relation'],
                 ]
             );
             if(
@@ -94,6 +109,17 @@ Trait Patch {
         if(is_array($record)){
             $record = Core::object($record, Core::OBJECT_OBJECT);
         }
+        if(!array_key_exists('function', $options)){
+            $options['function'] = __FUNCTION__;
+        }
+        $options['relation'] = false;
+        if(!Security::is_granted(
+            $class,
+            $role,
+            $options
+        )){
+            return false;
+        }
         $uuid = $record->uuid ?? false;
         if($uuid === false){
             return false;
@@ -120,8 +146,8 @@ Trait Patch {
             'sort' => [
                 'uuid' => 'ASC'
             ],
-            'relation' => false,
-            'function' => __FUNCTION__,
+            'relation' => $options['relation'],
+            'function' => $options['function'],
         ];
         $response = $this->record(
             $name,

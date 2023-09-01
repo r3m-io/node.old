@@ -10,14 +10,10 @@ use R3m\Io\Module\Core;
 use R3m\Io\Module\Data as Storage;
 use R3m\Io\Module\Dir;
 use R3m\Io\Module\File;
-use R3m\Io\Module\Sort;
 
-use stdClass;
+use R3m\Io\Node\Service\Security;
 
 use Exception;
-
-use R3m\Io\Exception\FileWriteException;
-use R3m\Io\Exception\ObjectException;
 
 Trait Rename {
 
@@ -37,6 +33,17 @@ Trait Rename {
             $options->to = Controller::name(trim($options->to));
         } else {
             throw new Exception('Option to is missing');
+        }
+        $role = $this->role_system();
+        if(!property_exists($options, 'function')){
+            $options->function = 'rename';
+        }
+        if(!Security::is_granted(
+            $options->from,
+            $role,
+            Core::object($options, Core::OBJECT_ARRAY)
+        )){
+            return;
         }
         $from_dir_binary_tree = $object->config('project.dir.data') .
             'Node' .
