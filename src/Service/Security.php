@@ -10,9 +10,24 @@ use Exception;
 class Security extends Main
 {
 
+    /**
+     * @throws Exception
+     */
     public static function is_granted($class, $role, $options){
+        if(!array_key_exists('function', $options)){
+            throw new Exception('Function is missing in options');
+        }
         $name = Controller::name($class);
         $role = new Data($role);
+
+        foreach($role->get('permission') as $permission){
+            $permission = new Data($permission);
+            if($permission->get('name') === $name . '.' . $options['function']){
+                return true;
+            }
+            d($permission);
+        }
+
         d($class);
         d($options);
         ddd($role);
