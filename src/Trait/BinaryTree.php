@@ -929,7 +929,7 @@ Trait BinaryTree {
         $page = [];
         $record_index = $index;
         for($i = $start; $i < $end; $i++){
-            $record = $this->binary_tree_index($file, $file_uuid, $file_connect_property, [
+            $record_data = $this->binary_tree_index($file, $file_uuid, $file_connect_property, [
 //                'page' => $options['page'],
 //                'limit' => $options['limit'],
                 'lines'=> $options['lines'],
@@ -941,16 +941,16 @@ Trait BinaryTree {
                 'url_connect_property' => $options['url_connect_property'],
             ]);
             if(
-                $record
+                $record_data
             ){
-                $read = $object->data_read($record->{'#read'}->url, sha1($record->{'#read'}->url));
+                $read = $object->data_read($record_data->{'#read'}->url, sha1($record_data->{'#read'}->url));
                 if(!$read){
                     ///deleted record ?
                     $end++;
                     continue;
                 }
-                $record = Core::object_merge($record, $read->data());
-                if(!property_exists($record, '#class')){
+                $record_data = Core::object_merge($record_data, $read->data());
+                if(!property_exists($record_data, '#class')){
                     $end++;
                     //need to trigger sync
                     //delete file ?
@@ -963,39 +963,38 @@ Trait BinaryTree {
                     $object->config('ds') .
                     $options['name'] .
                     $object->config('extension.json') ??
-                    ucfirst($record->{'#class'}) .
+                    ucfirst($record_data->{'#class'}) .
                     $object->config('extension.json')
                 ;
                 $options_json = Core::object($options, Core::OBJECT_JSON);
                 $object_data = $object->data_read($object_url, sha1($object_url . '.' . $options_json));
-                $record = $this->binary_tree_relation($record, $object_data, $role, $options);
+                $record_data = $this->binary_tree_relation($record_data, $object_data, $role, $options);
                 $expose = $this->expose_get(
                     $object,
-                    $record->{'#class'},
-                    $record->{'#class'} . '.' . $options['function'] . '.expose'
+                    $record_data->{'#class'},
+                    $record_data->{'#class'} . '.' . $options['function'] . '.expose'
                 );
-                $record = $this->expose(
-                    new Storage($record),
-                    $expose,
-                    $record->{'#class'},
-                    $options['function'],
-                    $role
-                );
-                $record_data = $record->data();
+                $record = new Storage($record_data);
                 //add parse
                 if(
                     array_key_exists('parse', $options) &&
                     $options['parse'] === true
                 ){
                     $parse = new Parse($object);
-                    d($record);
                     $record->set('#role', $role);
                     //add #role, #user to record ?
                     $record_data = $parse->compile($record_data, $record);
                     unset($record_data->{'#role'});
                     ddd($record_data);
                 }
-
+                $record = $this->expose(
+                    $record,
+                    $expose,
+                    $record_data->{'#class'},
+                    $options['function'],
+                    $role
+                );
+                $record_data = $record->data();
                 //need object file, so need $class
                 //relations loaded so we can filter / where on them
                 if(
