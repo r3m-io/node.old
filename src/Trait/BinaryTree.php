@@ -12,6 +12,7 @@ use R3m\Io\Module\Core;
 use R3m\Io\Module\Data as Storage;
 use R3m\Io\Module\Dir;
 use R3m\Io\Module\File;
+use R3m\Io\Module\Parse;
 use SplFileObject;
 use stdClass;
 
@@ -915,24 +916,36 @@ Trait BinaryTree {
                     $options['function'],
                     $role
                 );
-                $record = $record->data();
-                //need object file, so need $class
-                //load relations so we can filter / where on them
+                $record_data = $record->data();
+                //add parse
                 if(
-                    !empty($record) &&
+                    array_key_exists('parse', $options) &&
+                    $options['parse'] === true
+                ){
+                    $parse = new Parse($object);
+                    d($record);
+                    //add #role, #user to record ?
+                    $record_data = $parse->compile($record_data, $record);
+                    ddd($record_data);
+                }
+
+                //need object file, so need $class
+                //relations loaded so we can filter / where on them
+                if(
+                    !empty($record_data) &&
                     !empty($options['filter'])
                 ){
-                    $record = $this->filter($record, $options['filter'], $options);
+                    $record_data = $this->filter($record_data, $options['filter'], $options);
                 }
                 elseif(
-                    !empty($record) &&
+                    !empty($record_data) &&
                     !empty($options['where'])
                 ){
-                    $record = $this->where($record, $options['where'], $options);
+                    $record_data = $this->where($record_data, $options['where'], $options);
                 }
-                if($record){
+                if($record_data){
                     $record->{'#index'} = $record_index;
-                    $page[] = $record;
+                    $page[] = $record_data;
                     $record_index++;
                     $counter++;
                 } else {
