@@ -22,6 +22,7 @@ Trait Read {
         if(!array_key_exists('uuid', $options)){
             return false;
         }
+        d($options);
         $options_record = [
             'sort' => [
                 'uuid' => 'asc'
