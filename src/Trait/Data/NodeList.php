@@ -64,6 +64,9 @@ Trait NodeList {
         if(!array_key_exists('relation', $options)){
             $options['relation'] = true;
         }
+        if(!array_key_exists('parse', $options)){
+            $options['parse'] = true;
+        }
         $object = $this->object();
         if(!array_key_exists('sort', $options)){
             d($options);
@@ -303,6 +306,9 @@ Trait NodeList {
                 $result['filter'] = $options['filter'];
                 $result['relation'] = $options['relation'];
                 $result['mtime'] = $mtime;
+                if($options['parse'] === true){
+                    ddd($result);
+                }
                 if($ramdisk_url){
                     $ramdisk_data = new Storage($result);
                     $ramdisk_data->write($ramdisk_url);
@@ -432,6 +438,9 @@ Trait NodeList {
                 $result['where'] = $options['where'];
                 $result['relation'] = $options['relation'];
                 $result['mtime'] = $mtime;
+                if($options['parse'] === true){
+                    ddd($result);
+                }
                 if($ramdisk_url){
                     $ramdisk_data = new Storage($result);
                     $ramdisk_data->write($ramdisk_url);
@@ -512,6 +521,9 @@ Trait NodeList {
                     $result['sort'] = $options['sort'];
                     $result['relation'] = $options['relation'];
                     $result['mtime'] = $mtime;
+                    if($options['parse'] === true){
+                        ddd($result);
+                    }
                     if($ramdisk_url){
                         $ramdisk_data = new Storage($result);
                         $ramdisk_data->write($ramdisk_url);
