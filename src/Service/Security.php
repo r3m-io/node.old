@@ -24,19 +24,20 @@ class Security extends Main
         $is_permission_relation = false;
         $is_permission_parse = false;
         $permissions = [];
+        $permissions[] = $name . '.' . $options['function'];
         foreach($role->get('permission') as $permission){
             $permission = new Data($permission);
             if($permission->get('name') === $name . '.' . $options['function']){
                 $is_permission = true;
-                $permissions[] = $name . '.' . $options['function'];
             }
             if(
                 array_key_exists('relation', $options) &&
                 $options['relation'] === true
             ){
+                $permissions[] = $name . '.' . $options['function'] . '.' . 'relation';
                 if($permission->get('name') === $name . '.' . $options['function'] . '.' . 'relation'){
                     $is_permission_relation = true;
-                    $permissions[] = $name . '.' . $options['function'] . '.' . 'relation';
+
                 }
             } else {
                 $is_permission_relation = true;
@@ -45,9 +46,9 @@ class Security extends Main
                 array_key_exists('parse', $options) &&
                 $options['parse'] === true
             ) {
+                $permissions[] = $name . '.' . $options['function'] . '.' . 'parse';
                 if($permission->get('name') === $name . '.' . $options['function'] . '.' . 'parse'){
                     $is_permission_parse = true;
-                    $permissions[] = $name . '.' . $options['function'] . '.' . 'parse';
                 }
             } else {
                 $is_permission_parse = true;
