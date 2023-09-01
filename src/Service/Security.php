@@ -20,12 +20,13 @@ class Security extends Main
         $name = Controller::name($class);
         $role = new Data($role);
 
+        ddd($name . '.' . $options['function']);
+
         foreach($role->get('permission') as $permission){
             $permission = new Data($permission);
             if($permission->get('name') === $name . '.' . $options['function']){
                 return true;
             }
-            d($permission);
         }
 
         d($class);
