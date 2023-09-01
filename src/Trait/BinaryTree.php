@@ -987,9 +987,6 @@ Trait BinaryTree {
                     unset($record_data->{'#role'});
                     $record = new Storage($record_data);
                 }
-                d($record);
-                d($record_data->{'#class'});
-                d($options['function']);
                 $record = $this->expose(
                     $record,
                     $expose,
@@ -997,7 +994,6 @@ Trait BinaryTree {
                     $options['function'],
                     $role
                 );
-                d($record);
                 $record_data = $record->data();
                 //need object file, so need $class
                 //relations loaded so we can filter / where on them
