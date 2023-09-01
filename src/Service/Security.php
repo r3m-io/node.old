@@ -20,6 +20,7 @@ class Security extends Main
         $name = Controller::name($class);
         $role = new Data($role);
 
+        d($options);
         d($name . '.' . $options['function']);
 
         foreach($role->get('permission') as $permission){
