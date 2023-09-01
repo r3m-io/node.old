@@ -487,7 +487,73 @@ Trait BinaryTree {
                 }
             break;
             case 'one-one':
-                ddd($relation);
+                if(
+                    $is_allowed &&
+                    is_string($data)
+                ){
+                    ddd($data);
+                    $relation_data_url = $object->config('project.dir.data') .
+                        'Node' .
+                        $object->config('ds') .
+                        'Storage' .
+                        $object->config('ds') .
+                        substr($data, 0, 2) .
+                        $object->config('ds') .
+                        $data .
+                        $object->config('extension.json')
+                    ;
+                    $relation_data = $object->data_read($relation_data_url, sha1($relation_data_url));
+                    if($relation_data) {
+//                        $record = $relation_data->data();
+
+                        $relation_object_url = $object->config('project.dir.data') .
+                            'Node' .
+                            $object->config('ds') .
+                            'Object' .
+                            $object->config('ds') .
+                            $relation->class .
+                            $object->config('extension.json')
+                        ;
+                        $relation_object_data = $object->data_read($relation_object_url, sha1($relation_object_url));
+                        $relation_object_relation = $relation_object_data->data('relation');
+
+                        $is_loaded = $object->data('R3m.Io.Node.BinaryTree.relation');
+                        if(empty($is_loaded)){
+                            $is_loaded = [];
+                        }
+                        if($relation_data->has('#class')){
+                            $is_loaded[] = $relation_data->get('#class');
+                            $object->data('R3m.Io.Node.BinaryTree.relation', $is_loaded);
+                        }
+                        if(is_array($relation_object_relation)){
+                            foreach($relation_object_relation as $relation_object_relation_nr => $relation_object_relation_data){
+                                if(
+                                    property_exists($relation_object_relation_data, 'class') &&
+                                    property_exists($relation_object_relation_data, 'attribute')
+                                ){
+
+                                    if(
+                                        in_array(
+                                            $relation_object_relation_data->class,
+                                            $is_loaded,
+                                            true
+                                        )
+                                    ){
+                                        //already loaded
+                                        continue;
+                                    }
+                                }
+                                $selected = $relation_data->get($relation_object_relation_data->attribute);
+                                $selected = $this->binary_tree_relation_inner($relation_object_relation_data, $selected, $options, $counter);
+                                $relation_data->set($relation_object_relation_data->attribute, $selected);
+                            }
+                        }
+                        $data = $relation_data->data();
+                    }
+                } else {
+                    d($is_allowed);
+                    d($data);
+                }
             break;
         }
         return $data;
@@ -927,6 +993,7 @@ Trait BinaryTree {
                     $record->set('#role', $role);
                     //add #role, #user to record ?
                     $record_data = $parse->compile($record_data, $record);
+                    unset($record_data->{'#role'});
                     ddd($record_data);
                 }
 
