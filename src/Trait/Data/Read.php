@@ -35,6 +35,7 @@ Trait Read {
             ],
             'function' => __FUNCTION__,
             'multiple' => true,
+            'relation' => $options['relation'] ?? false,
             'parse' => $options['parse'] ?? false,
         ];
         $ramdisk_record = $object->config('package.r3m_io/node.ramdisk');
