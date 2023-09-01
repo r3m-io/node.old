@@ -976,6 +976,7 @@ Trait BinaryTree {
                 );
                 $record = new Storage($record_data);
                 //add parse
+                // add role to parse
                 if(
                     array_key_exists('parse', $options) &&
                     $options['parse'] === true
