@@ -91,7 +91,7 @@ Trait Filter {
                     $object->config('ds') .
                     'Object' .
                     $object->config('ds') .
-                    ucfirst($record->{'#class'}) .
+                    ucfirst($record_data->{'#class'}) .
                     $object->config('extension.json')
                 ;
                 $options_json = Core::object($options, Core::OBJECT_JSON);
