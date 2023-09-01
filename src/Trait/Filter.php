@@ -115,6 +115,7 @@ Trait Filter {
                     $options['parse'] === true
                 ){
                     $parse = new Parse($object);
+                    $record->set('#role', $role);
                     d($record);
                     //add #role, #user to record ?
                     $record_data = $parse->compile($record_data, $record);

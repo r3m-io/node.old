@@ -924,6 +924,7 @@ Trait BinaryTree {
                 ){
                     $parse = new Parse($object);
                     d($record);
+                    $record->set('#role', $role);
                     //add #role, #user to record ?
                     $record_data = $parse->compile($record_data, $record);
                     ddd($record_data);
