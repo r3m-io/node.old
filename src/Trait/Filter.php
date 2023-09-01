@@ -69,7 +69,7 @@ Trait Filter {
                     $object->config('ds') .
                     'Storage' .
                     $object->config('ds') .
-                    substr($record->uuid, 0, 2) .
+                    substr($record_data->uuid, 0, 2) .
                     $object->config('ds') .
                     $record_data->uuid .
                     $object->config('extension.json')
