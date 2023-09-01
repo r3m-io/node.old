@@ -2,6 +2,7 @@
 
 namespace R3m\Io\Node\Trait\Data;
 
+use R3m\Io\Node\Service\Security;
 use SplFileObject;
 
 use R3m\Io\Config;
@@ -56,6 +57,7 @@ Trait NodeList {
      */
     public function list($class, $role, $options=[]): array
     {
+        $mtime = false;
         $name = Controller::name($class);
         $options = Core::object($options, Core::OBJECT_ARRAY);
         if(!array_key_exists('function', $options)){
@@ -66,6 +68,29 @@ Trait NodeList {
         }
         if(!array_key_exists('parse', $options)){
             $options['parse'] = false;
+        }
+        if(!Security::is_granted(
+            $class,
+            $role,
+            $options
+        )){
+            $list = [];
+            $result = [];
+            $result['page'] = $options['page'] ?? 1;
+            $result['limit'] = $options['limit'] ?? 1000;
+            $result['count'] = 0;
+            $result['list'] = $list;
+            $result['sort'] = $options['sort'];
+            if(!empty($options['filter'])) {
+                $result['filter'] = $options['filter'];
+            }
+            if(!empty($options['where'])) {
+                $result['where'] = $options['where'];
+            }
+            $result['relation'] = $options['relation'];
+            $result['parse'] = $options['parse'];
+            $result['mtime'] = $mtime;
+            return $result;
         }
         $object = $this->object();
         if(!array_key_exists('sort', $options)){
@@ -126,7 +151,6 @@ Trait NodeList {
             Controller::name($property_connect) .
             $object->config('extension.connect')
         ;
-        $mtime = false;
         $ramdisk_url = false;
         if(
             File::exist($url) &&
