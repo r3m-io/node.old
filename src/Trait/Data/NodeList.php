@@ -293,6 +293,7 @@ Trait NodeList {
                                 'relation' => $options['relation'],
                                 'name' => $name,
                                 'ramdisk' => $options['ramdisk'] ?? false,
+                                'parse' => $options['parse'] ?? false,
                                 'mtime' => $mtime
                             ]
                         );
@@ -383,6 +384,7 @@ Trait NodeList {
                             'relation' => $options['relation'],
                             'name' => $name,
                             'ramdisk' => $options['ramdisk'] ?? false,
+                            'parse' => $options['parse'] ?? false,
                             'mtime' => $mtime
                         ]
                     );
@@ -425,6 +427,7 @@ Trait NodeList {
                                 'relation' => $options['relation'],
                                 'name' => $name,
                                 'ramdisk' => $options['ramdisk'] ?? false,
+                                'parse' => $options['parse'] ?? false,
                                 'mtime' => $mtime
                             ]
                         );
@@ -511,6 +514,7 @@ Trait NodeList {
                             'relation' => $options['relation'],
                             'name' => $name,
                             'ramdisk' => $options['ramdisk'] ?? false,
+                            'parse' => $options['parse'] ?? false,
                             'mtime' => $mtime
                         ]
                     );
