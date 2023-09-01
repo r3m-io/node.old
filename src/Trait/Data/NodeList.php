@@ -65,7 +65,7 @@ Trait NodeList {
             $options['relation'] = true;
         }
         if(!array_key_exists('parse', $options)){
-            $options['parse'] = true;
+            $options['parse'] = false;
         }
         $object = $this->object();
         if(!array_key_exists('sort', $options)){
