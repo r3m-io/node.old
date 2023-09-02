@@ -49,6 +49,14 @@ class Node extends Controller {
         ){
             $relation = true;
         }
+        $limit = (int) $object->request('limit');
+        if(empty($limit)){
+            $limit = 30;
+        }
+        $page = (int) $object->request('page');
+        if(empty($page)){
+            $page = 1;
+        }
         $filter = Node::filter($object);
         $response = $model->list(
             $object->request('class'),
@@ -57,8 +65,8 @@ class Node extends Controller {
                 'sort' => $sort,
                 'filter' => $filter,
                 'where' => $where,
-                'limit' => (int) $object->request('limit'),
-                'page' => (int) $object->request('page'),
+                'limit' => $limit,
+                'page' => $page,
                 'relation' => (bool) $relation,
                 'parse' => (bool) $parse
             ]
