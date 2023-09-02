@@ -971,7 +971,7 @@ Trait BinaryTree {
                     array_key_exists('parse', $options) &&
                     $options['parse'] === true
                 ){
-                    ddd($object->data());
+                    $record->set('R3m\Io', $object->data('R3m\Io'));
                     $parse = new Parse($object);
                     $record->set('#role', $role);
                     //add #role, #user to record ?
