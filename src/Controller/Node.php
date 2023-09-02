@@ -34,17 +34,6 @@ class Node extends Controller {
                 'uuid' => 'ASC'
             ];
         }
-        $filter = $object->request('filter');
-        if(empty($filter)){
-            $filter = [];
-        }
-        elseif(!is_array($filter)){
-            throw new Exception('Filter must be an array.');
-        }
-        $where = $object->request('where');
-        if(empty($where)){
-            $where = [];
-        }
         $parse = $object->request('parse');
         if(empty($parse)){
             $parse = false;
@@ -57,6 +46,7 @@ class Node extends Controller {
             $relation = true;
         }
         $filter = Node::filter($object, $where, $parameters);
+        d($object->request());
         d($where);
         d($parameters);
         ddd($filter);
