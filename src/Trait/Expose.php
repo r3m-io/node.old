@@ -128,9 +128,9 @@ Trait Expose {
                                             $action->objects->$attribute->multiple === true &&
                                             $node->has($attribute)
                                         ) {
-                                            $record[$attribute] = [];
                                             $array = $node->get($attribute);
                                             if(is_array($array) || is_object($array)){
+                                                $record[$attribute] = [];
                                                 foreach ($array as $child) {
                                                     $child = new Storage($child);
                                                     $child_expose =[];
@@ -162,9 +162,9 @@ Trait Expose {
                                         } elseif (
                                             $node->has($attribute)
                                         ) {
-                                            $record[$attribute] = null;
                                             $child = $node->get($attribute);
                                             if (!empty($child)) {
+                                                $record[$attribute] = null;
                                                 $child = new Storage($child);
                                                 $child_expose =[];
                                                 if(
