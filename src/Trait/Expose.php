@@ -129,6 +129,7 @@ Trait Expose {
                                             $node->has($attribute)
                                         ) {
                                             $array = $node->get($attribute);
+
                                             if(is_array($array) || is_object($array)){
                                                 $record[$attribute] = [];
                                                 foreach ($array as $child) {
@@ -158,6 +159,9 @@ Trait Expose {
                                                     );
                                                     $record[$attribute][] = $child->data();
                                                 }
+                                            } else {
+                                                //leave intact for read without parse
+                                                $record[$attribute] = $array;
                                             }
                                         } elseif (
                                             $node->has($attribute)
