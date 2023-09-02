@@ -27,9 +27,6 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
 {
     $url = false;
     $class = false;
-    d($value);
-    d($attribute);
-    d($validate);
     if (is_object($validate)) {
         if (property_exists($validate, 'url')) {
             $url = $validate->url;
@@ -53,8 +50,6 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
             }
         }
     }
-    d($attribute);
-    d($value);
     if (
         is_array($attribute) &&
         is_array($value)
