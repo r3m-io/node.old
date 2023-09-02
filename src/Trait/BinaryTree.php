@@ -965,6 +965,7 @@ Trait BinaryTree {
                     $record_data->{'#class'} . '.' . $options['function'] . '.expose'
                 );
                 $record = new Storage($record_data);
+                ddd($object->data());
                 //add parse
                 // add role to parse
                 if(

@@ -103,6 +103,7 @@ Trait Filter {
                     $record_data->{'#class'} . '.' . $options['function'] . '.expose'
                 );
                 $record = new Storage($record_data);
+                ddd($object->data());
                 if(
                     array_key_exists('parse', $options) &&
                     $options['parse'] === true
