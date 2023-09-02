@@ -881,7 +881,7 @@ Trait BinaryTree {
             d($file_uuid);
             d($file_connect_property);
             d($counter);
-            ddd($options);
+            d($options);
         }
         $time_start = microtime(true);
         $url = false;
