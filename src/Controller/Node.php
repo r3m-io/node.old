@@ -83,7 +83,7 @@ class Node extends Controller {
         unset($request->authorization);
         unset($request->parse);
         unset($request->relation);
-        $alias = lcfirst($object->request('entity'));
+        $alias = lcfirst($object->request('class'));
         $filter = $request;
         $where = [];
         $parameters = [];
@@ -102,6 +102,7 @@ class Node extends Controller {
                 }
             }
             $array = Node::cast_value($array);
+            d($array);
             if(is_array($array)){
                 if(count($array) > 1){
                     foreach($array as $key => $value){
