@@ -155,17 +155,6 @@ Trait BinaryTree {
                     'mtime' => $mtime
                 ]
             );
-            d($filter_list);
-            /*
-            $filter_list = $this->binary_tree_list($file, [
-                'filter' => $options['filter'],
-                'limit' => $limit,
-                'lines'=> $sort_lines,
-                'counter' => 0,
-                'direction' => 'next',
-                'url' => $url_property
-            ]);
-            */
             if(!empty($filter_list)){
                 $filter = [];
                 $index = false;
