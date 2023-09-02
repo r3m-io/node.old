@@ -38,6 +38,10 @@ class Node extends Controller {
         if(empty($parse)){
             $parse = false;
         }
+        $where = $object->request('where');
+        if(empty($where)){
+            $where = false;
+        }
         $relation = $object->request('relation');
         if(
             empty($relation) &&
@@ -45,7 +49,7 @@ class Node extends Controller {
         ){
             $relation = true;
         }
-        $filter = Node::filter($object, $where, $parameters);
+        $filter = Node::filter($object);
         d($object->request());
         d($where);
         d($parameters);
@@ -72,7 +76,8 @@ class Node extends Controller {
     /**
      * @throws \ReflectionException
      */
-    protected static function filter(App $object, &$where=[], &$parameters=[]){
+    protected static function filter(App $object): array
+    {
         $request = clone $object->request();
         unset($request->limit);
         unset($request->pagination);
@@ -84,9 +89,7 @@ class Node extends Controller {
         unset($request->parse);
         unset($request->relation);
         $alias = lcfirst($object->request('class'));
-        $filter = $request;
-        $where = [];
-        $parameters = [];
+        $filter = [];
         foreach($request as $attribute => $array){
             if(substr($attribute, 0, 1) === '@'){
                 $attribute = substr($attribute, 1);
@@ -107,144 +110,224 @@ class Node extends Controller {
                 if(count($array) > 1){
                     foreach($array as $key => $value){
                         if($key === 'gte') {
-                            $where[] = $alias . '.' . $attribute .' >= :' . $attribute . '_' . $key;
-                            $parameters[$attribute . '_' . $key] = $value;
+                            $filter[] = [
+                                'value' => $value,
+                                'operator' => '>=',
+                                'attribute' => $attribute
+                            ];
                             unset($array[$key]);
                         }
                         elseif($key === 'lte') {
-                            $where[] = $alias . '.' . $attribute .' <= :' . $attribute . '_' . $key;
-                            $parameters[$attribute . '_' . $key] = $value;
+                            $filter[] = [
+                                'value' => $value,
+                                'operator' => '<=',
+                                'attribute' => $attribute
+                            ];
                             unset($array[$key]);
                         }
                         elseif($key === 'gt') {
-                            $where[] = $alias . '.' . $attribute .' > :' . $attribute . '_' . $key;
-                            $parameters[$attribute . '_' . $key] = $value;
+                            $filter[] = [
+                                'value' => $value,
+                                'operator' => '>',
+                                'attribute' => $attribute
+                            ];
                             unset($array[$key]);
                         }
                         elseif($key === 'lt') {
-                            $where[] = $alias . '.' . $attribute .' < :' . $attribute . '_' . $key;
-                            $parameters[$attribute . '_' . $key] = $value;
+                            $filter[] = [
+                                'value' => $value,
+                                'operator' => '<',
+                                'attribute' => $attribute
+                            ];
                             unset($array[$key]);
                         }
                     }
                     if(!empty($array)){
                         if($is_not){
-                            $where[] = $alias . '.' . $attribute . ' NOT IN (:' . $attribute . ')';
+                            $filter[] = [
+                                'value' => $array,
+                                'operator' => 'not-in',
+                                'attribute' => $attribute
+                            ];
                         } else {
-                            $where[] = $alias . '.' . $attribute . ' IN (:' . $attribute . ')';
+                            $filter[] = [
+                                'value' => $array,
+                                'operator' => 'in',
+                                'attribute' => $attribute
+                            ];
                         }
-                        $parameters[$attribute] = $array;
                     }
                 } else {
                     foreach($array as $key => $value){
                         if(is_numeric($key)){
-                            if($value === null){
-                                $where[] = $alias . '.' . $attribute . ' IS NULL';
-                            }
-                            elseif(is_array($value)){
-                                $where[] = $alias . '.' . $attribute . ' IN (:' . $attribute . ')';
-                                $parameters[$attribute] = $value;
+                            if(is_array($value)){
+                                $filter[] = [
+                                    'value' => $value,
+                                    'operator' => 'in',
+                                    'attribute' => $attribute
+                                ];
                             } else {
-                                $where[] = $alias . '.' . $attribute . ' = :' . $attribute;
-                                $parameters[$attribute] = $value;
+                                $filter[] = [
+                                    'value' => $value,
+                                    'operator' => '===',
+                                    'attribute' => $attribute
+                                ];
                             }
                         }
                         elseif($key === 'not'){
-                            if($value === null) {
-                                $where[] = $alias . '.' . $attribute . ' IS NOT NULL';
-                            }
-                            elseif(is_array($value)){
-                                $where[] = $alias . '.' . $attribute . ' NOT IN (:' . $attribute . ')';
-                                $parameters[$attribute] = $value;
+                            if(is_array($value)){
+                                $filter[] = [
+                                    'value' => $value,
+                                    'operator' => 'not-in',
+                                    'attribute' => $attribute
+                                ];
                             } else {
-                                $where[] = $alias . '.' . $attribute . ' != :' . $attribute;
-                                $parameters[$attribute] = $value;
+                                $filter[] = [
+                                    'value' => $value,
+                                    'operator' => '!==',
+                                    'attribute' => $attribute
+                                ];
                             }
                         }
                         elseif($key === 'strictly-exact'){
-                            d($alias);
-                            d($attribute);
-                            ddd($is_not);
                             if($is_not){
-                                $where[] = $alias . '.' . $attribute . ' != :' . $attribute . '_' . $key;
+                                $filter[] = [
+                                    'value' => $value,
+                                    'operator' => '!==',
+                                    'attribute' => $attribute
+                                ];
                             } else {
-                                $where[] = $alias . '.' . $attribute . ' = :' . $attribute . '_' . $key;
+                                $filter[] = [
+                                    'value' => $value,
+                                    'operator' => '===',
+                                    'attribute' => $attribute
+                                ];
                             }
-                            $parameters[$attribute . '_' . $key] = $value;
                         }
                         elseif($key === 'exact'){
                             if($is_not){
-                                $where[] = $alias . '.' . $attribute . ' != :' . $attribute . '_' . $key;
+                                $filter[] = [
+                                    'value' => $value,
+                                    'operator' => '!=',
+                                    'attribute' => $attribute
+                                ];
                             } else {
-                                $where[] = $alias . '.' . $attribute . ' = :' . $attribute . '_' . $key;
+                                $filter[] = [
+                                    'value' => $value,
+                                    'operator' => '==',
+                                    'attribute' => $attribute
+                                ];
                             }
-                            $parameters[$attribute . '_' . $key] = $value;
                         }
                         elseif($key === 'partial'){
                             if($is_not){
-                                $where[] = $alias . '.' . $attribute .' NOT LIKE :' . $attribute . '_' . $key;
+                                $filter[] = [
+                                    'value' => $value,
+                                    'operator' => 'not-partial',
+                                    'attribute' => $attribute
+                                ];
                             } else {
-                                $where[] = $alias . '.' . $attribute .' LIKE :' . $attribute . '_' . $key;
+                                $filter[] = [
+                                    'value' => $value,
+                                    'operator' => 'partial',
+                                    'attribute' => $attribute
+                                ];
                             }
-
-                            $parameters[$attribute . '_' . $key] = '%' . $value . '%';
                         }
                         elseif($key === 'start'){
                             if($is_not){
-                                $where[] = $alias . '.' . $attribute .' NOT LIKE :' . $attribute . '_' . $key;
+                                $filter[] = [
+                                    'value' => $value,
+                                    'operator' => 'not-start',
+                                    'attribute' => $attribute
+                                ];
                             } else {
-                                $where[] = $alias . '.' . $attribute . ' LIKE :' . $attribute . '_' . $key;
+                                $filter[] = [
+                                    'value' => $value,
+                                    'operator' => 'start',
+                                    'attribute' => $attribute
+                                ];
                             }
-                            $parameters[$attribute . '_' . $key] = $value . '%';
                         }
                         elseif($key === 'end'){
                             if($is_not){
-                                $where[] = $alias . '.' . $attribute .' NOT LIKE :' . $attribute . '_' . $key;
+                                $filter[] = [
+                                    'value' => $value,
+                                    'operator' => 'not-end',
+                                    'attribute' => $attribute
+                                ];
                             } else {
-                                $where[] = $alias . '.' . $attribute . ' LIKE :' . $attribute . '_' . $key;
+                                $filter[] = [
+                                    'value' => $value,
+                                    'operator' => 'end',
+                                    'attribute' => $attribute
+                                ];
                             }
-                            $parameters[$attribute . '_' . $key] = '%' . $value;
                         }
                         elseif($key === 'gte') {
-                            $where[] = $alias . '.' . $attribute .' >= :' . $attribute . '_' . $key;
-                            $parameters[$attribute . '_' . $key] = $value;
+                            $filter[] = [
+                                'value' => $value,
+                                'operator' => '>=',
+                                'attribute' => $attribute
+                            ];
                         }
                         elseif($key === 'lte') {
-                            $where[] = $alias . '.' . $attribute .' <= :' . $attribute . '_' . $key;
-                            $parameters[$attribute . '_' . $key] = $value;
+                            $filter[] = [
+                                'value' => $value,
+                                'operator' => '<=',
+                                'attribute' => $attribute
+                            ];
                         }
                         elseif($key === 'gt') {
-                            $where[] = $alias . '.' . $attribute .' > :' . $attribute . '_' . $key;
-                            $parameters[$attribute . '_' . $key] = $value;
+                            $filter[] = [
+                                'value' => $value,
+                                'operator' => '>',
+                                'attribute' => $attribute
+                            ];
                         }
                         elseif($key === 'lt') {
-                            $where[] = $alias . '.' . $attribute .' < :' . $attribute . '_' . $key;
-                            $parameters[$attribute . '_' . $key] = $value;
+                            $filter[] = [
+                                'value' => $value,
+                                'operator' => '<',
+                                'attribute' => $attribute
+                            ];
                         }
                         elseif($key === 'after'){
                             $value = strtotime($value);
                             $value = date('Y-m-d H:i:s', $value);
-                            $where[] = $alias . '.' . $attribute .' >= :' . $attribute . '_' . $key;
-                            $parameters[$attribute . '_' . $key] = $value;
+                            $filter[] = [
+                                'value' => $value,
+                                'operator' => '>=',
+                                'attribute' => $attribute
+                            ];
                         }
                         elseif($key === 'before'){
                             $value = strtotime($value);
                             $value = date('Y-m-d H:i:s', $value);
-                            $where[] = $alias . '.' . $attribute .' <= :' . $attribute . '_' . $key;
-                            $parameters[$attribute . '_' . $key] = $value;
+                            $filter[] = [
+                                'value' => $value,
+                                'operator' => '<=',
+                                'attribute' => $attribute
+                            ];
                         }
                         elseif($key === 'strictly_after'){
                             $value = strtotime($value);
                             $value = date('Y-m-d H:i:s', $value);
-                            $where[] = $alias . '.' . $attribute .' > :' . $attribute . '_' . $key;
-                            $parameters[$attribute . '_' . $key] = $value;
+                            $filter[] = [
+                                'value' => $value,
+                                'operator' => '>',
+                                'attribute' => $attribute
+                            ];
 
                         }
                         elseif($key === 'strictly_before'){
                             $value = strtotime($value);
                             $value = date('Y-m-d H:i:s', $value);
-                            $where[] = $alias . '.' . $attribute .' < :' . $attribute . '_' . $key;
-                            $parameters[$attribute . '_' . $key] = $value;
+                            $filter[] = [
+                                'value' => $value,
+                                'operator' => '<',
+                                'attribute' => $attribute
+                            ];
                         }
                         elseif($key === 'between'){
                             $value = explode('..', $value, 2);
@@ -255,13 +338,16 @@ class Node extends Controller {
                                 if(is_numeric($value[1])){
                                     $value[1] += 0;
                                 }
-                                $where[] = $alias . '.' . $attribute .' > :' . $attribute . '_' . $key . '_' . 'gt';
-                                $parameters[$attribute . '_' . $key. '_' . 'gt'] = $value[0];
-                                if(is_numeric($value)){
-                                    $value += 0;
-                                }
-                                $where[] = $alias . '.' . $attribute .' < :' . $attribute . '_' . $key . '_' . 'lt';
-                                $parameters[$attribute . '_' . $key . '_' . 'lt'] = $value[1];
+                                $filter[] = [
+                                    'value' => $value[0],
+                                    'operator' => '>',
+                                    'attribute' => $attribute
+                                ];
+                                $filter[] = [
+                                    'value' => $value[1],
+                                    'operator' => '<',
+                                    'attribute' => $attribute
+                                ];
                             }
                         }
                         elseif($key === 'between-equals'){
@@ -273,29 +359,35 @@ class Node extends Controller {
                                 if(is_numeric($value[1])){
                                     $value[1] += 0;
                                 }
-                                $where[] = $alias . '.' . $attribute .' >= :' . $attribute . '_' . $key . '_' . 'gte';
-                                $parameters[$attribute . '_' . $key. '_' . 'gte'] = $value[0];
-                                if(is_numeric($value)){
-                                    $value += 0;
-                                }
-                                $where[] = $alias . '.' . $attribute .' <= :' . $attribute . '_' . $key . '_' . 'lte';
-                                $parameters[$attribute . '_' . $key . '_' . 'lte'] = $value[1];
+                                $filter[] = [
+                                    'value' => $value[0],
+                                    'operator' => '>=',
+                                    'attribute' => $attribute
+                                ];
+                                $filter[] = [
+                                    'value' => $value[1],
+                                    'operator' => '<=',
+                                    'attribute' => $attribute
+                                ];
                             }
                         }
                     }
                 }
             } else {
                 $value = $array;
-                if($value === null){
-                    $where[] = $alias . '.' . $attribute . ' IS NULL';
-                }
-                elseif(is_array($value)){
-                    $where[] = $alias . '.' . $attribute . ' IN (:' . $attribute . ')';
-                    $parameters[$attribute] = $value;
+                if(is_array($value)){
+                    $filter[] = [
+                        'value' => $value,
+                        'operator' => 'in',
+                        'attribute' => $attribute
+                    ];
                 }
                 elseif($alias) {
-                    $where[] = $alias . '.' . $attribute . ' = :' . $attribute;
-                    $parameters[$attribute] = $value;
+                    $filter[] = [
+                        'value' => $value,
+                        'operator' => '===',
+                        'attribute' => $attribute
+                    ];
                 }
             }
         }
