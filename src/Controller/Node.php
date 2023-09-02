@@ -50,9 +50,6 @@ class Node extends Controller {
             $relation = true;
         }
         $filter = Node::filter($object);
-        d($object->request());
-        d($where);
-        ddd($filter);
         $response = $model->list(
             $object->request('class'),
             $model->role_system(), //leak
