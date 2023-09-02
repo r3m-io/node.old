@@ -876,6 +876,13 @@ Trait BinaryTree {
         ){
             $index = ($options['page'] * $options['limit']) - $options['limit'];
         }
+        if(strtolower($options['name']) !== 'event'){
+            d($file);
+            d($file_uuid);
+            d($file_connect_property);
+            d($counter);
+            ddd($options);
+        }
         $time_start = microtime(true);
         $url = false;
         if(
@@ -941,9 +948,6 @@ Trait BinaryTree {
                 'url_uuid' => $options['url_uuid'],
                 'url_connect_property' => $options['url_connect_property'],
             ]);
-            if(strtolower($options['name']) !== 'event'){
-                d($record_data);
-            }
             if(
                 $record_data
             ){
