@@ -161,6 +161,17 @@ class Node extends Controller {
                                 $parameters[$attribute] = $value;
                             }
                         }
+                        elseif($key === 'strictly-exact'){
+                            d($alias);
+                            d($attribute);
+                            ddd($is_not);
+                            if($is_not){
+                                $where[] = $alias . '.' . $attribute . ' != :' . $attribute . '_' . $key;
+                            } else {
+                                $where[] = $alias . '.' . $attribute . ' = :' . $attribute . '_' . $key;
+                            }
+                            $parameters[$attribute . '_' . $key] = $value;
+                        }
                         elseif($key === 'exact'){
                             if($is_not){
                                 $where[] = $alias . '.' . $attribute . ' != :' . $attribute . '_' . $key;
