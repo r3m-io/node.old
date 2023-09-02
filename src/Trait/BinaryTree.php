@@ -876,13 +876,6 @@ Trait BinaryTree {
         ){
             $index = ($options['page'] * $options['limit']) - $options['limit'];
         }
-        if(strtolower($options['name']) !== 'event'){
-            d($file);
-            d($file_uuid);
-            d($file_connect_property);
-            d($counter);
-            d($options);
-        }
         $time_start = microtime(true);
         $url = false;
         if(
