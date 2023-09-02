@@ -109,50 +109,44 @@ class Node extends Controller {
                 if(count($array) > 1){
                     foreach($array as $key => $value){
                         if($key === 'gte') {
-                            $filter[] = [
+                            $filter[$attribute] = [
                                 'value' => $value,
                                 'operator' => '>=',
-                                'attribute' => $attribute
                             ];
                             unset($array[$key]);
                         }
                         elseif($key === 'lte') {
-                            $filter[] = [
+                            $filter[$attribute] = [
                                 'value' => $value,
                                 'operator' => '<=',
-                                'attribute' => $attribute
                             ];
                             unset($array[$key]);
                         }
                         elseif($key === 'gt') {
-                            $filter[] = [
+                            $filter[$attribute] = [
                                 'value' => $value,
                                 'operator' => '>',
-                                'attribute' => $attribute
                             ];
                             unset($array[$key]);
                         }
                         elseif($key === 'lt') {
-                            $filter[] = [
+                            $filter[$attribute] = [
                                 'value' => $value,
                                 'operator' => '<',
-                                'attribute' => $attribute
                             ];
                             unset($array[$key]);
                         }
                     }
                     if(!empty($array)){
                         if($is_not){
-                            $filter[] = [
+                            $filter[$attribute] = [
                                 'value' => $array,
                                 'operator' => 'not-in',
-                                'attribute' => $attribute
                             ];
                         } else {
-                            $filter[] = [
+                            $filter[$attribute] = [
                                 'value' => $array,
                                 'operator' => 'in',
-                                'attribute' => $attribute
                             ];
                         }
                     }
@@ -160,232 +154,178 @@ class Node extends Controller {
                     foreach($array as $key => $value){
                         if(is_numeric($key)){
                             if(is_array($value)){
-                                $filter[] = [
+                                $filter[$attribute] = [
                                     'value' => $value,
                                     'operator' => 'in',
-                                    'attribute' => $attribute
                                 ];
                             } else {
-                                $filter[] = [
+                                $filter[$attribute] = [
                                     'value' => $value,
                                     'operator' => '===',
-                                    'attribute' => $attribute
                                 ];
                             }
                         }
                         elseif($key === 'not'){
                             if(is_array($value)){
-                                $filter[] = [
+                                $filter[$attribute] = [
                                     'value' => $value,
                                     'operator' => 'not-in',
-                                    'attribute' => $attribute
                                 ];
                             } else {
-                                $filter[] = [
+                                $filter[$attribute] = [
                                     'value' => $value,
                                     'operator' => '!==',
-                                    'attribute' => $attribute
                                 ];
                             }
                         }
                         elseif($key === 'strictly-exact'){
                             if($is_not){
-                                $filter[] = [
+                                $filter[$attribute] = [
                                     'value' => $value,
                                     'operator' => '!==',
-                                    'attribute' => $attribute
                                 ];
                             } else {
-                                $filter[] = [
+                                $filter[$attribute] = [
                                     'value' => $value,
                                     'operator' => '===',
-                                    'attribute' => $attribute
                                 ];
                             }
                         }
                         elseif($key === 'exact'){
                             if($is_not){
-                                $filter[] = [
+                                $filter[$attribute] = [
                                     'value' => $value,
                                     'operator' => '!=',
-                                    'attribute' => $attribute
                                 ];
                             } else {
-                                $filter[] = [
+                                $filter[$attribute] = [
                                     'value' => $value,
                                     'operator' => '==',
-                                    'attribute' => $attribute
                                 ];
                             }
                         }
                         elseif($key === 'partial'){
                             if($is_not){
-                                $filter[] = [
+                                $filter[$attribute] = [
                                     'value' => $value,
                                     'operator' => 'not-partial',
-                                    'attribute' => $attribute
                                 ];
                             } else {
-                                $filter[] = [
+                                $filter[$attribute] = [
                                     'value' => $value,
                                     'operator' => 'partial',
-                                    'attribute' => $attribute
                                 ];
                             }
                         }
                         elseif($key === 'start'){
                             if($is_not){
-                                $filter[] = [
+                                $filter[$attribute] = [
                                     'value' => $value,
                                     'operator' => 'not-start',
-                                    'attribute' => $attribute
                                 ];
                             } else {
-                                $filter[] = [
+                                $filter[$attribute] = [
                                     'value' => $value,
                                     'operator' => 'start',
-                                    'attribute' => $attribute
                                 ];
                             }
                         }
                         elseif($key === 'end'){
                             if($is_not){
-                                $filter[] = [
+                                $filter[$attribute] = [
                                     'value' => $value,
                                     'operator' => 'not-end',
-                                    'attribute' => $attribute
                                 ];
                             } else {
-                                $filter[] = [
+                                $filter[$attribute] = [
                                     'value' => $value,
                                     'operator' => 'end',
-                                    'attribute' => $attribute
                                 ];
                             }
                         }
                         elseif($key === 'gte') {
-                            $filter[] = [
+                            $filter[$attribute] = [
                                 'value' => $value,
                                 'operator' => '>=',
-                                'attribute' => $attribute
                             ];
                         }
                         elseif($key === 'lte') {
-                            $filter[] = [
+                            $filter[$attribute] = [
                                 'value' => $value,
                                 'operator' => '<=',
-                                'attribute' => $attribute
                             ];
                         }
                         elseif($key === 'gt') {
-                            $filter[] = [
+                            $filter[$attribute] = [
                                 'value' => $value,
                                 'operator' => '>',
-                                'attribute' => $attribute
                             ];
                         }
                         elseif($key === 'lt') {
-                            $filter[] = [
+                            $filter[$attribute] = [
                                 'value' => $value,
                                 'operator' => '<',
-                                'attribute' => $attribute
                             ];
                         }
                         elseif($key === 'after'){
                             $value = strtotime($value);
                             $value = date('Y-m-d H:i:s', $value);
-                            $filter[] = [
+                            $filter[$attribute] = [
                                 'value' => $value,
                                 'operator' => '>=',
-                                'attribute' => $attribute
                             ];
                         }
                         elseif($key === 'before'){
                             $value = strtotime($value);
                             $value = date('Y-m-d H:i:s', $value);
-                            $filter[] = [
+                            $filter[$attribute] = [
                                 'value' => $value,
                                 'operator' => '<=',
-                                'attribute' => $attribute
                             ];
                         }
                         elseif($key === 'strictly_after'){
                             $value = strtotime($value);
                             $value = date('Y-m-d H:i:s', $value);
-                            $filter[] = [
+                            $filter[$attribute] = [
                                 'value' => $value,
                                 'operator' => '>',
-                                'attribute' => $attribute
                             ];
 
                         }
                         elseif($key === 'strictly_before'){
                             $value = strtotime($value);
                             $value = date('Y-m-d H:i:s', $value);
-                            $filter[] = [
+                            $filter[$attribute] = [
                                 'value' => $value,
                                 'operator' => '<',
-                                'attribute' => $attribute
                             ];
                         }
                         elseif($key === 'between'){
-                            $value = explode('..', $value, 2);
-                            if(array_key_exists(1, $value)){
-                                if(is_numeric($value[0])){
-                                    $value[0] += 0;
-                                }
-                                if(is_numeric($value[1])){
-                                    $value[1] += 0;
-                                }
-                                $filter[] = [
-                                    'value' => $value[0],
-                                    'operator' => '>',
-                                    'attribute' => $attribute
-                                ];
-                                $filter[] = [
-                                    'value' => $value[1],
-                                    'operator' => '<',
-                                    'attribute' => $attribute
-                                ];
-                            }
+                            $filter[$attribute] = [
+                                'value' => $value,
+                                'operator' => $key,
+                            ];
                         }
                         elseif($key === 'between-equals'){
-                            $value = explode('..', $value, 2);
-                            if(array_key_exists(1, $value)){
-                                if(is_numeric($value[0])){
-                                    $value[0] += 0;
-                                }
-                                if(is_numeric($value[1])){
-                                    $value[1] += 0;
-                                }
-                                $filter[] = [
-                                    'value' => $value[0],
-                                    'operator' => '>=',
-                                    'attribute' => $attribute
-                                ];
-                                $filter[] = [
-                                    'value' => $value[1],
-                                    'operator' => '<=',
-                                    'attribute' => $attribute
-                                ];
-                            }
+                            $filter[$attribute] = [
+                                'value' => $value,
+                                'operator' => $key,
+                            ];
                         }
                     }
                 }
             } else {
                 $value = $array;
                 if(is_array($value)){
-                    $filter[] = [
+                    $filter[$attribute] = [
                         'value' => $value,
                         'operator' => 'in',
-                        'attribute' => $attribute
                     ];
                 }
                 elseif($alias) {
-                    $filter[] = [
+                    $filter[$attribute] = [
                         'value' => $value,
                         'operator' => '===',
-                        'attribute' => $attribute
                     ];
                 }
             }
