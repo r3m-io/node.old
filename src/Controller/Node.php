@@ -101,7 +101,6 @@ class Node extends Controller {
                 }
             }
             $array = Node::cast_value($array);
-            d($array);
             if(is_array($array)){
                 if(count($array) > 1){
                     foreach($array as $key => $value){
