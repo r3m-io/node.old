@@ -52,7 +52,6 @@ class Node extends Controller {
         $filter = Node::filter($object);
         d($object->request());
         d($where);
-        d($parameters);
         ddd($filter);
         $response = $model->list(
             $object->request('class'),
