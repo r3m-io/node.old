@@ -941,7 +941,9 @@ Trait BinaryTree {
                 'url_uuid' => $options['url_uuid'],
                 'url_connect_property' => $options['url_connect_property'],
             ]);
-            d($record_data);
+            if(strtolower($options['name']) !== 'event'){
+                d($record_data);
+            }
             if(
                 $record_data
             ){
