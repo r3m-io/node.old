@@ -79,7 +79,7 @@ class Node extends Controller {
         unset($request->page);
         unset($request->sort);
         unset($request->request);
-        unset($request->entity);
+        unset($request->class);
         unset($request->authorization);
         unset($request->parse);
         unset($request->relation);
