@@ -965,13 +965,13 @@ Trait BinaryTree {
                     $record_data->{'#class'} . '.' . $options['function'] . '.expose'
                 );
                 $record = new Storage($record_data);
-                ddd($object->data());
                 //add parse
                 // add role to parse
                 if(
                     array_key_exists('parse', $options) &&
                     $options['parse'] === true
                 ){
+                    ddd($object->data());
                     $parse = new Parse($object);
                     $record->set('#role', $role);
                     //add #role, #user to record ?
