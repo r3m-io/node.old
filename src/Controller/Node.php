@@ -337,6 +337,10 @@ class Node extends Controller {
         return $filter;
     }
 
+    public static function object_tree(App $object){
+        ddd($object->request());
+    }
+
     protected static function cast_value($array=[]){
         if(is_array($array)){
             foreach($array as $key => $value) {
