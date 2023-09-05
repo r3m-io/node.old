@@ -8,6 +8,7 @@ use R3m\Io\App;
 
 use R3m\Io\Module\Controller;
 use R3m\Io\Module\Core;
+use R3m\Io\Module\Dir;
 use R3m\Io\Module\Response;
 use R3m\Io\Node\Model\Node as Model;
 
@@ -338,6 +339,16 @@ class Node extends Controller {
     }
 
     public static function object_tree(App $object){
+        $dir = new Dir();
+        $read = $dir->read(
+            $object->config('project.dir.data') .
+            'Node' .
+            $object->config('ds') .
+            'Object' .
+            $object->config('ds')
+        ;
+        ddd($read);
+
         ddd($object->request());
     }
 
