@@ -117,6 +117,7 @@ Trait Sync {
                 //logger error url not found
                 continue;
             }
+            File::touch($url);
             $mtime = File::mtime($url);
             $meta_url = $object->config('project.dir.data') .
                 'Node' .
