@@ -345,8 +345,9 @@ class Node extends Controller {
             'Node' .
             $object->config('ds') .
             'Object' .
-            $object->config('ds')
-        ;
+            $object->config('ds'),
+            false
+        );
         ddd($read);
 
         ddd($object->request());
