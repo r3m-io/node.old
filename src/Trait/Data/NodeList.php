@@ -280,6 +280,8 @@ Trait NodeList {
                         'relation' => $options['relation'],
                         'parse' => $options['parse'],
                     ]);
+                    d($lines);
+                    d($count);
                     d($list);
                     $counter = $count;
                 } else {
