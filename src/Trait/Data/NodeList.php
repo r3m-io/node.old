@@ -193,6 +193,7 @@ Trait NodeList {
             ;
             $ramdisk_data = $object->data_read($ramdisk_url, $ramdisk_key);
             if($ramdisk_data){
+                d($ramdisk_data);
                 //add mtime to ramdisk data
                 return (array) $ramdisk_data->data();
             }
@@ -279,6 +280,7 @@ Trait NodeList {
                         'relation' => $options['relation'],
                         'parse' => $options['parse'],
                     ]);
+                    d($list);
                     $counter = $count;
                 } else {
                     $sort_key = [
@@ -323,6 +325,7 @@ Trait NodeList {
                                 'mtime' => $mtime
                             ]
                         );
+                        d($list);
                     }
                 }
                 $result = [];
@@ -412,6 +415,7 @@ Trait NodeList {
                             'mtime' => $mtime
                         ]
                     );
+                    d($list);
                 } else {
                     $sort_key = [
                         'property' => $properties,
@@ -455,6 +459,7 @@ Trait NodeList {
                                 'mtime' => $mtime
                             ]
                         );
+                        d($list);
                     }
                 }
                 $result = [];
@@ -540,6 +545,7 @@ Trait NodeList {
                             'mtime' => $mtime
                         ]
                     );
+                    d($list);
                     $result = [];
                     $result['page'] = $options['page'] ?? 1;
                     $result['limit'] = $options['limit'] ?? 1000;
