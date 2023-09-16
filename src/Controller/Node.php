@@ -349,7 +349,7 @@ class Node extends Controller {
             false
         );
         $data = [];
-        $data['list'] = $read;
+        $data['nodeList'] = $read;
         return new Response(
             $data,
             Response::TYPE_JSON
