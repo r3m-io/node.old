@@ -348,9 +348,15 @@ class Node extends Controller {
             $object->config('ds'),
             false
         );
-        $result = [];
-        $result['list'] = $read;
-        return $result;
+        $data = [];
+        $data['list'] = $read;
+        return new Response(
+            $data,
+            Response::TYPE_JSON
+        );return new Response(
+            $data,
+            Response::TYPE_JSON
+        );
     }
 
     protected static function cast_value($array=[]){
