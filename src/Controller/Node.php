@@ -348,9 +348,9 @@ class Node extends Controller {
             $object->config('ds'),
             false
         );
-        ddd($read);
-
-        ddd($object->request());
+        $result = [];
+        $result['list'] = $read;
+        return $result;
     }
 
     protected static function cast_value($array=[]){
