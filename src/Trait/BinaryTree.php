@@ -113,9 +113,6 @@ Trait BinaryTree {
             throw new Exception('Binary tree list not found in meta file (class: ' . $name . '). properties: ['. implode(', ', $properties) . '] sort key: ' . $sort_key . ' url key: ' . $url_key);
         }
         $sort_lines = $meta->get('Sort.' . $name . '.' . $sort_key . '.lines');
-        if($name !== 'Event'){
-            ddd($options);
-        }
         if(!empty($options['filter'])){
             $key = [
                 'filter' => $options['filter'],
