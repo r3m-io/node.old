@@ -72,6 +72,7 @@ class Node extends Controller {
                 'parse' => (bool) $parse
             ]
         );
+        ddd($response);
         return new Response(
             $response,
             Response::TYPE_JSON
