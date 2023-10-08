@@ -203,10 +203,6 @@ Trait NodeList {
                 return (array) $ramdisk_data->data();
             }
         }
-        if($name !== 'Event'){
-            ddd($options);
-            d($class);
-        }
         $this->binary_tree_list_create($class, $role, $options);
         if(!array_key_exists('where', $options)){
             $options['where'] = [];
