@@ -152,7 +152,6 @@ Trait NodeList {
             $object->config('extension.connect')
         ;
         $ramdisk_url = false;
-        ddd(File::exist($dir));
         if(
             File::exist($url) &&
             array_key_exists('ramdisk', $options) &&
@@ -193,6 +192,7 @@ Trait NodeList {
                 $object->config('extension.json')
             ;
             $ramdisk_data = $object->data_read($ramdisk_url, $ramdisk_key);
+            ddd($ramdisk_data);
             if($ramdisk_data){
                 //add mtime to ramdisk data
                 return (array) $ramdisk_data->data();
