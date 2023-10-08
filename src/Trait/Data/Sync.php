@@ -132,10 +132,13 @@ Trait Sync {
             $data = File::read($url, File::ARRAY);
             $meta = $object->data_read($meta_url, sha1($meta_url));
             $node_data = new Storage();
+
             if (!$meta) {
+                throw new Exception('No meta file found for class (' . $class . ')');
                 continue;
             }
             if(!$item){
+                throw new Exception('No item file found for class (' . $class . ')');
                 continue;
             }
             if ($item->has('sort')) {
