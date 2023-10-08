@@ -140,7 +140,6 @@ Trait BinaryTree {
             d($options['page'] ?? 1);
             d($limit);
             d($sort_lines);
-            d($counter);
             d($url_property);
             d($url_uuid);
             d($url_connect_property);
