@@ -134,6 +134,7 @@ Trait BinaryTree {
             if($limit === null){
                 $limit = $options['limit'];
             }
+            d($limit);
             if($limit === null){
                 $limit = 1000;
             }
