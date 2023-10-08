@@ -42,9 +42,6 @@ Trait BinaryTree {
             'Uuid' .
             $object->config('extension.btree')
         ;
-        if($name !== 'Event'){
-            d($url);
-        }
         if(!File::exist($url)){
             throw new Exception('Btree file found... (' . $url . ')');
             return;
@@ -128,6 +125,7 @@ Trait BinaryTree {
             } else {
                 $file_uuid = false;
             }
+            ddd($url_connect_property);
             if(File::exist($url_connect_property)){
                 $file_connect_property = new SplFileObject($url_connect_property);
             } else {
