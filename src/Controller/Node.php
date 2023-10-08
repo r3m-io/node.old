@@ -60,6 +60,8 @@ class Node extends Controller {
         }
         $filter = Node::filter($object);
 
+        ddd($object->request());
+
         d($filter);
         d($sort);
         d($where);
