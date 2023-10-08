@@ -20,6 +20,9 @@ class Security extends Main
         }
         $name = Controller::name($class);
         $role = new Data($role);
+        d($class);
+        d($options);
+        ddd($role);
         $is_permission = false;
         $is_permission_relation = false;
         $is_permission_parse = false;
