@@ -92,7 +92,6 @@ Trait Sync {
                     );
                 }
             }
-            d($file);
             $list = [];
             $item = $object->data_read($file->url);
             $time_start = microtime(true);
@@ -116,6 +115,7 @@ Trait Sync {
                 'Uuid' .
                 $object->config('extension.btree');
             if(!File::exist($url)){
+                throw new Exception('File not exists (' . $url . ')');
                 //logger error url not found
                 continue;
             }
