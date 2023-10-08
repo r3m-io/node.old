@@ -92,6 +92,7 @@ Trait Sync {
                     );
                 }
             }
+            d($file);
             $list = [];
             $item = $object->data_read($file->url);
             $time_start = microtime(true);
