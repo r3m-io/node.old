@@ -37,39 +37,48 @@ class Security extends Main
         ){
             $permissions[] = $name . '.' . $options['function'] . '.' . 'parse';
         }
-        foreach($role->get('permission') as $permission){
-            $permission = new Data($permission);
-            if($permission->get('name') === $name . '.' . $options['function']){
-                $is_permission = true;
-            }
-            if(
-                array_key_exists('relation', $options) &&
-                $options['relation'] === true
-            ){
-                if($permission->get('name') === $name . '.' . $options['function'] . '.' . 'relation'){
+        $role_permissions = $role->get('permission');
+        if(is_array($role_permissions)){
+            foreach($role->get('permission') as $permission){
+                $permission = new Data($permission);
+                if($permission->get('name') === $name . '.' . $options['function']){
+                    $is_permission = true;
+                }
+                if(
+                    array_key_exists('relation', $options) &&
+                    $options['relation'] === true
+                ){
+                    if($permission->get('name') === $name . '.' . $options['function'] . '.' . 'relation'){
+                        $is_permission_relation = true;
+                    }
+                } else {
                     $is_permission_relation = true;
                 }
-            } else {
-                $is_permission_relation = true;
-            }
-            if(
-                array_key_exists('parse', $options) &&
-                $options['parse'] === true
-            ) {
-                if($permission->get('name') === $name . '.' . $options['function'] . '.' . 'parse'){
+                if(
+                    array_key_exists('parse', $options) &&
+                    $options['parse'] === true
+                ) {
+                    if($permission->get('name') === $name . '.' . $options['function'] . '.' . 'parse'){
+                        $is_permission_parse = true;
+                    }
+                } else {
                     $is_permission_parse = true;
                 }
-            } else {
-                $is_permission_parse = true;
+                if(
+                    $is_permission === true &&
+                    $is_permission_parse === true &&
+                    $is_permission_relation === true
+                ){
+                    return true;
+                }
             }
-            if(
-                $is_permission === true &&
-                $is_permission_parse === true &&
-                $is_permission_relation === true
-            ){
-                return true;
-            }
+        } else {
+            d($name);
+            d($role);
+            d($permissions);
+            ddd($role_permissions);
         }
+
         throw new Exception('Security: permission denied... (' . implode(', ', $permissions) . ')');
     }
 }
