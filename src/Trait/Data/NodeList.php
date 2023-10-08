@@ -72,6 +72,11 @@ Trait NodeList {
         if($class !== 'Event'){
             d($class);
             d($role);
+            d(Security::is_granted(
+                $class,
+                $role,
+                $options
+            ));
             ddd($options);
         }
 
