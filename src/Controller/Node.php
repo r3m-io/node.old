@@ -59,6 +59,16 @@ class Node extends Controller {
             $page = 1;
         }
         $filter = Node::filter($object);
+
+        d($filter);
+        d($sort);
+        d($where);
+        d($limit);
+        d($page);
+        d($relation);
+        d($parse);
+
+
         $response = $model->list(
             $object->request('class'),
             $model->role_system(), //leak
