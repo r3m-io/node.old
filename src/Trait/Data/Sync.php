@@ -32,7 +32,6 @@ Trait Sync {
         } else {
             $options = (object) $options;
         }
-        ddd($options);
         if(property_exists($options, 'class')){
             $options->class = explode(',', $options->class);
             foreach($options->class as $nr => $class){
@@ -77,6 +76,7 @@ Trait Sync {
                     $role,
                     Core::object($options, Core::OBJECT_ARRAY)
                 )){
+                    throw new Exception('Security not granted...');
                     continue;
                 }
                 if(!$role){
