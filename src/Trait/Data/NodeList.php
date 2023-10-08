@@ -69,9 +69,12 @@ Trait NodeList {
         if(!array_key_exists('parse', $options)){
             $options['parse'] = false;
         }
-        d($class);
-        d($role);
-        ddd($options);
+        if($class !== 'Event'){
+            d($class);
+            d($role);
+            ddd($options);
+        }
+
         if(!Security::is_granted(
             $class,
             $role,
