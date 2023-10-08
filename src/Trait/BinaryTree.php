@@ -130,16 +130,13 @@ Trait BinaryTree {
             } else {
                 $file_connect_property = false;
             }
-            d($name);
-            d($key);
             $limit = $meta->get('Filter.' . $name . '.' . $key . '.limit');
-            ddd($limit);
-            /*
-            ??
-                $options['limit'] ??
-                1000
-            ;
-            */
+            if($limit === null){
+                $limit = $options['limit'];
+            }
+            if($limit === null){
+                $limit = 1000;
+            }
             ddd($limit);
             d($options['filter']);
             d($options['page']);
