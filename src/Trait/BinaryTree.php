@@ -125,7 +125,6 @@ Trait BinaryTree {
             } else {
                 $file_uuid = false;
             }
-            ddd($url_connect_property);
             if(File::exist($url_connect_property)){
                 $file_connect_property = new SplFileObject($url_connect_property);
             } else {
@@ -135,6 +134,21 @@ Trait BinaryTree {
                 $options['limit'] ??
                 1000
             ;
+            d($limit);
+            d($counter);
+            d($options['filter']);
+            d($options['page'] ?? 1);
+            d($limit);
+            d($sort_lines);
+            d($counter);
+            d($url_property);
+            d($url_uuid);
+            d($url_connect_property);
+            d($options['function']);
+            d($options['relation']);
+            d($name);
+            d($options['ramdisk']);
+            d($mtime);
             $filter_list = $this->binary_tree_page(
                 $file,
                 $file_uuid,
