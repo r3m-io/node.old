@@ -69,17 +69,6 @@ Trait NodeList {
         if(!array_key_exists('parse', $options)){
             $options['parse'] = false;
         }
-        if($class !== 'Event'){
-            d($class);
-            d($role);
-            d(Security::is_granted(
-                $class,
-                $role,
-                $options
-            ));
-            ddd($options);
-        }
-
         if(!Security::is_granted(
             $class,
             $role,
@@ -163,6 +152,7 @@ Trait NodeList {
             $object->config('extension.connect')
         ;
         $ramdisk_url = false;
+        ddd(File::exist($dir));
         if(
             File::exist($url) &&
             array_key_exists('ramdisk', $options) &&
