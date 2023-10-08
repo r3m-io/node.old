@@ -59,6 +59,12 @@ Trait NodeList {
     {
         $mtime = false;
         $name = Controller::name($class);
+        if($name !== 'Event'){
+            $debug = debug_backtrace(true);
+            d($debug[0]['file'] . ':' . $debug[0]['line']);
+            d($debug[1]['file'] . ':' . $debug[1]['line']);
+            d($debug[2]['file'] . ':' . $debug[2]['line']);
+        }
         $options = Core::object($options, Core::OBJECT_ARRAY);
         if(!array_key_exists('function', $options)){
             $options['function'] = __FUNCTION__;
