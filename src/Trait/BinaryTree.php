@@ -135,7 +135,7 @@ Trait BinaryTree {
                 1000
             ;
             d($options['filter']);
-            d($options['page'] ?? 1);
+            d($options['page']);
             d($limit);
             d($sort_lines);
             d($url_property);
