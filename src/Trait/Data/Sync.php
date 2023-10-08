@@ -32,6 +32,7 @@ Trait Sync {
         } else {
             $options = (object) $options;
         }
+        ddd($options);
         if(property_exists($options, 'class')){
             $options->class = explode(',', $options->class);
             foreach($options->class as $nr => $class){
