@@ -192,14 +192,14 @@ Trait NodeList {
                 $object->config('extension.json')
             ;
             $ramdisk_data = $object->data_read($ramdisk_url, $ramdisk_key);
-            if($name !== 'Event'){
-                ddd($ramdisk_data);
-            }
-
             if($ramdisk_data){
                 //add mtime to ramdisk data
                 return (array) $ramdisk_data->data();
             }
+        }
+        if($name !== 'Event'){
+            d($options);
+            ddd($class);
         }
         $this->binary_tree_list_create($class, $role, $options);
         if(!array_key_exists('where', $options)){
