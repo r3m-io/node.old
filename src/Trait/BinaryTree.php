@@ -137,7 +137,8 @@ Trait BinaryTree {
             if($limit === null){
                 $limit = 1000;
             }
-            ddd($limit);
+            d($limit);
+            die;
             d($options['filter']);
             d($options['page']);
             d($limit);
