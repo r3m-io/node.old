@@ -42,6 +42,9 @@ Trait BinaryTree {
             'Uuid' .
             $object->config('extension.btree')
         ;
+        if($name !== 'Event'){
+            d($url);
+        }
         if(!File::exist($url)){
             return;
         }
@@ -56,6 +59,7 @@ Trait BinaryTree {
         ;
         $meta = $object->data_read($meta_url, sha1($meta_url));
         if(!$meta){
+            throw new Exception('No Meta file found... (' . $meta_url . ')');
             return;
         }
         $object_url = $object->config('project.dir.data') .

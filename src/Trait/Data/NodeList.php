@@ -199,7 +199,7 @@ Trait NodeList {
         }
         if($name !== 'Event'){
             d($options);
-            ddd($class);
+            d($class);
         }
         $this->binary_tree_list_create($class, $role, $options);
         if(!array_key_exists('where', $options)){
