@@ -18,6 +18,10 @@ class Security extends Main
         if(!array_key_exists('function', $options)){
             throw new Exception('Function is missing in options');
         }
+        $debug = debug_backtrace(true);
+        d($debug[0]['file'] . ' (' . $debug[0]['line'] . ')' . ' ' . $debug[0]['function'] . ' ' . $debug[0]['class']);
+        d($debug[1]['file'] . ' (' . $debug[1]['line'] . ')' . ' ' . $debug[1]['function'] . ' ' . $debug[1]['class']);
+        d($debug[2]['file'] . ' (' . $debug[2]['line'] . ')' . ' ' . $debug[2]['function'] . ' ' . $debug[2]['class']);
         ddd($role);
         $name = Controller::name($class);
         $role = new Data($role);
