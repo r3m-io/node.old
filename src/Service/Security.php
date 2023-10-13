@@ -18,6 +18,7 @@ class Security extends Main
         if(!array_key_exists('function', $options)){
             throw new Exception('Function is missing in options');
         }
+        ddd($role);
         $name = Controller::name($class);
         $role = new Data($role);
         $is_permission = false;
