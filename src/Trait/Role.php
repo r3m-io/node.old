@@ -21,7 +21,6 @@ Trait Role {
         ){
             $url = $object->config('project.dir.data') . 'Account' . $object->config('ds') . 'Role.System.json';
             $data = $object->data_read($url);
-            ddd($data);
             if($data){
                 return $data->data();
             }
