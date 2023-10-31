@@ -25,7 +25,6 @@ class Node extends Controller {
      * @throws Exception
      */
     public static function list(App $object){
-        ddd('here2');
         $model = new Model($object);
 
         $sort = $object->request('sort');
