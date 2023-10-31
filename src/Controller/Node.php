@@ -71,11 +71,13 @@ class Node extends Controller {
         }
         $limit = (int) $object->request('limit');
         if(empty($limit)){
-            $limit = 30;
+            $object->request('limit', 30);
+            $limit = (int) $object->request('limit');
         }
         $page = (int) $object->request('page');
         if(empty($page)){
-            $page = 1;
+            $object->request('page', 1);
+            $page = (int) $object->request('page');
         }
         $filter = Node::filter($object);
 
