@@ -40,14 +40,22 @@ class Node extends Controller {
         elseif(!is_array($filter)){
             throw new Exception('Filter must be an array.');
         }
+        $limit = (int) $object->request('limit');
+        if(empty($limit)){
+            $limit = 30;
+        }
+        $page = (int) $object->request('page');
+        if(empty($page)){
+            $page = 1;
+        }
         $response = $model->list(
             $object->request('class'),
             $model->role_system(), //leak
             [
                 'sort' => $sort,
                 'filter' => $filter,
-                'limit' => (int) $object->request('limit'),
-                'page' => (int) $object->request('page')
+                'limit' =>  $limit,
+                'page' => $page
             ]
         );
         return new Response(
