@@ -36,9 +36,6 @@ class Node extends Controller {
         return new Response(
             $data,
             Response::TYPE_JSON
-        );return new Response(
-            $data,
-            Response::TYPE_JSON
         );
     }
 
