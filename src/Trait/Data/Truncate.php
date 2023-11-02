@@ -68,11 +68,11 @@ Trait Truncate {
         ];
         $sort_key = sha1(Core::object($sort_key, Core::OBJECT_JSON));
         $count = $meta->get('Sort.' . $name . '.' . $sort_key . '.' . 'count');
-//        $url_property = $meta->get('Sort.' . $name . '.' . $sort_key . '.' . $url_key);
+        $url_property = $meta->get('Sort.' . $name . '.' . $sort_key . '.' . $url_key);
         $page_max = ceil($count / $list_options['limit']);
         $result = [];
         echo 'Pages: ' . $page_max . PHP_EOL;
-        ddd($meta);
+        ddd($url_property);
         die;
         for($page=1; $page <= $page_max; $page++) {
             $list_options['page'] = $page;

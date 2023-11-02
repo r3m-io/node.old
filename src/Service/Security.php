@@ -19,7 +19,6 @@ class Security extends Main
             throw new Exception('Function is missing in options');
         }
         $name = Controller::name($class);
-        d($role);
         $role = new Data($role);
         $is_permission = false;
         $is_permission_relation = false;
