@@ -72,7 +72,11 @@ Trait Truncate {
         $page_max = ceil($count / $list_options['limit']);
         $result = [];
         echo 'Pages: ' . $page_max . PHP_EOL;
-        ddd($url_property);
+
+        $data = $object->data_read($url_property);
+        ddd($data);
+
+
         die;
         for($page=1; $page <= $page_max; $page++) {
             $list_options['page'] = $page;
