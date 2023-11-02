@@ -272,11 +272,15 @@ Trait Delete {
             if(
                 $data &&
                 $data->has('#class') &&
-                $data->get('#class') === $name
+                $data->get('#class') === $name &&
+                File::exist($url_node)
             ){
                 $result[$uuid] = File::move($url_node, $target_url);
             }
-            if(!$data){
+            if(
+                !$data &&
+                File::exist($url_node)
+            ){
                 $result[$uuid] = File::move($url_node, $target_url);
             }
         }

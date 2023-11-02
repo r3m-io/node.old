@@ -19,6 +19,7 @@ class Security extends Main
             throw new Exception('Function is missing in options');
         }
         $name = Controller::name($class);
+        d($role);
         $role = new Data($role);
         $is_permission = false;
         $is_permission_relation = false;
@@ -73,8 +74,6 @@ class Security extends Main
                 }
             }
         } else {
-
-            
             $debug = debug_backtrace(true);
             d($debug[0]['file'] . ' (' . $debug[0]['line'] . ')' . ' ' . $debug[0]['function'] . ' ' . $debug[0]['class']);
             d($debug[1]['file'] . ' (' . $debug[1]['line'] . ')' . ' ' . $debug[1]['function'] . ' ' . $debug[1]['class']);
