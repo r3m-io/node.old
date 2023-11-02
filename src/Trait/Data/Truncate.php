@@ -73,7 +73,7 @@ Trait Truncate {
         $result = [];
         echo 'Pages: ' . $page_max . PHP_EOL;
 
-        $data = $object->data_read($url_property);
+        $data = File::read($url_property, File::ARRAY)
         ddd($data);
 
 
