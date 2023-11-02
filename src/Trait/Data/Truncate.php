@@ -71,7 +71,8 @@ Trait Truncate {
 //        $url_property = $meta->get('Sort.' . $name . '.' . $sort_key . '.' . $url_key);
         $page_max = ceil($count / $list_options['limit']);
         $result = [];
-        ddd($page_max);
+        d($page_max);
+        die;
         for($page=1; $page <= $page_max; $page++) {
             $list_options['page'] = $page;
             $response = $this->list($name, $role, $list_options);
