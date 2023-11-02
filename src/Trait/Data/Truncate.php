@@ -75,9 +75,24 @@ Trait Truncate {
         echo 'Pages: ' . $page_max . PHP_EOL;
 
         $data = File::read($url_property, File::ARRAY);
-        ddd($data);
-
-
+        if($data){
+            foreach($data as $row){
+                $uuid = rtrim($row, PHP_EOL);
+                $url_node = $object->config('project.dir.data') .
+                    'Node' .
+                    $object->config('ds') .
+                    'Storage' .
+                    $object->config('ds') .
+                    substr($uuid, 0, 2) .
+                    $object->config('ds') .
+                    $uuid .
+                    $object->config('extension.json')
+                ;
+                File::delete($url_node);
+            }
+        }
+        File::write($url_property, '');
+        echo 'Done...' . PHP_EOL;
         die;
         for($page=1; $page <= $page_max; $page++) {
             $list_options['page'] = $page;
