@@ -71,11 +71,14 @@ Trait Truncate {
 //        $url_property = $meta->get('Sort.' . $name . '.' . $sort_key . '.' . $url_key);
         $page_max = ceil($count / $list_options['limit']);
         $result = [];
-        d($page_max);
-        die;
+        echo 'Pages: ' . $page_max . PHP_EOL;
         for($page=1; $page <= $page_max; $page++) {
             $list_options['page'] = $page;
+            $start = microtime(true);
             $response = $this->list($name, $role, $list_options);
+            $duration = microtime(true) - $start;
+            d($duration);
+            die;
             $list = [];
             foreach ($response['list'] as $record) {
                 if(
