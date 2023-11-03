@@ -501,7 +501,7 @@ Trait NodeList {
                 $url = $meta->get('Sort.' . $name . '.' . $sort_key . '.'. $url_key);
                 $lines = $meta->get('Sort.' . $name . '.' . $sort_key . '.lines');
                 if($object->config('project.volume.dir.node')) {
-                    $url = str_replace('/Application/Data/Node', $object->config('project.volume.dir.node'), $url);
+                    $url = str_replace('/Application/Data/Node/', $object->config('project.volume.dir.node'), $url);
                 }
                 if(
                     File::exist($url) &&
