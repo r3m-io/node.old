@@ -497,6 +497,8 @@ Trait NodeList {
                 ];
                 $sort_key = sha1(Core::object($sort_key, Core::OBJECT_JSON));
                 $url = $meta->get('Sort.' . $name . '.' . $sort_key . '.'. $url_key);
+                d($url);
+                d($url_uuid);
                 $lines = $meta->get('Sort.' . $name . '.' . $sort_key . '.lines');
                 if(
                     File::exist($url) &&
