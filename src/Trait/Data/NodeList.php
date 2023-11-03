@@ -517,6 +517,10 @@ Trait NodeList {
                         //nothing
                     }
                     else {
+                        d($url);
+                        d($url_uuid);
+                        d($url_connect_property);
+                        die;
                         throw new Exception('No connect property found in: ' . $url_connect_property);
                     }
                     $list = $this->binary_tree_page(
