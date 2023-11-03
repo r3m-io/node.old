@@ -500,6 +500,9 @@ Trait NodeList {
                 $sort_key = sha1(Core::object($sort_key, Core::OBJECT_JSON));
                 $url = $meta->get('Sort.' . $name . '.' . $sort_key . '.'. $url_key);
                 $lines = $meta->get('Sort.' . $name . '.' . $sort_key . '.lines');
+                if($object->config('project.volume.dir.node')) {
+                    $url = str_replace('/Application/Data/Node', $object->config('project.volume.dir.node'), $url);
+                }
                 if(
                     File::exist($url) &&
                     $lines > 0
