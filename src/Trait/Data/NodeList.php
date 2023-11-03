@@ -141,7 +141,7 @@ Trait NodeList {
             'Uuid' .
             $object->config('extension.btree')
         ;
-        $object->logger($object->config('project.log.node'))->info('url2:', [ $url, $url_uuid ]);
+
         $properties_connect = $properties;
         if(!array_key_exists(1, $properties_connect)){
             $properties_connect[] = 'uuid';
@@ -152,6 +152,7 @@ Trait NodeList {
             Controller::name($property_connect) .
             $object->config('extension.connect')
         ;
+        $object->logger($object->config('project.log.node'))->info('url2:', [ $properties_connect, $url, $url_uuid, $url_connect_property ]);
         $ramdisk_url = false;
         if(
             File::exist($url) &&
