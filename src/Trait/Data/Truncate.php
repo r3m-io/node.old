@@ -4,7 +4,6 @@ namespace R3m\Io\Node\Trait\Data;
 
 use R3m\Io\Module\Core;
 use R3m\Io\Module\Controller;
-use R3m\Io\Module\File;
 
 use R3m\Io\Node\Service\Security;
 
@@ -73,34 +72,9 @@ Trait Truncate {
         $page_max = ceil($count / $list_options['limit']);
         $result = [];
         echo 'Pages: ' . $page_max . PHP_EOL;
-
-        $data = File::read($url_property, File::ARRAY);
-        if($data){
-            foreach($data as $row){
-                $uuid = rtrim($row, PHP_EOL);
-                $url_node = $object->config('project.dir.data') .
-                    'Node' .
-                    $object->config('ds') .
-                    'Storage' .
-                    $object->config('ds') .
-                    substr($uuid, 0, 2) .
-                    $object->config('ds') .
-                    $uuid .
-                    $object->config('extension.json')
-                ;
-                File::delete($url_node);
-            }
-        }
-        File::write($url_property, '');
-        echo 'Done...' . PHP_EOL;
-        die;
         for($page=1; $page <= $page_max; $page++) {
             $list_options['page'] = $page;
-            $start = microtime(true);
             $response = $this->list($name, $role, $list_options);
-            $duration = microtime(true) - $start;
-            d($duration);
-            die;
             $list = [];
             foreach ($response['list'] as $record) {
                 if(
@@ -129,5 +103,4 @@ Trait Truncate {
         $meta->write($meta_url);
         return $result;
     }
-
 }
