@@ -134,7 +134,6 @@ Trait NodeList {
             $name .
             $object->config('ds')
         ;
-        d($dir);
         $url = $this->url($dir, $options);
         $url_uuid = $dir .
             'Asc' .
@@ -142,6 +141,8 @@ Trait NodeList {
             'Uuid' .
             $object->config('extension.btree')
         ;
+        d($url);
+        d($url_uuid);
         $properties_connect = $properties;
         if(!array_key_exists(1, $properties_connect)){
             $properties_connect[] = 'uuid';
