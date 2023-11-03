@@ -141,8 +141,7 @@ Trait NodeList {
             'Uuid' .
             $object->config('extension.btree')
         ;
-        d($url);
-        d($url_uuid);
+        $object->logger($object->config('project.log.node'))->info('url2:', [ $url, $url_uuid ]);
         $properties_connect = $properties;
         if(!array_key_exists(1, $properties_connect)){
             $properties_connect[] = 'uuid';
