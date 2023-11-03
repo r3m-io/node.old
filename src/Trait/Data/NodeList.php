@@ -134,6 +134,7 @@ Trait NodeList {
             $name .
             $object->config('ds')
         ;
+        d($dir);
         $url = $this->url($dir, $options);
         $url_uuid = $dir .
             'Asc' .
