@@ -7,7 +7,7 @@ use R3m\Io\App;
 
 use R3m\Io\Module\Controller;
 use R3m\Io\Module\Response;
-use R3m\Io\Node\Model\Node as Model;
+use Package\R3m\Io\Node\Model\Node as Model;
 
 use Exception;
 

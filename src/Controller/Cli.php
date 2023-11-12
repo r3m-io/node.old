@@ -36,7 +36,7 @@ class Cli extends Controller {
         $autoload = [];
         $data = new Data();
         $data->set('prefix', 'Node');
-        $data->set('directory', $object->config('project.dir.root') . 'Node/');
+        $data->set('directory', $object->config('project.dir.node'));
         $autoload[] = clone $data->data();
         $data->clear();
         $data->set('autoload', $autoload);
