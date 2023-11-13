@@ -503,6 +503,7 @@ Trait NodeList {
                 if($object->config('project.volume.dir.node')) {
                     $url = str_replace('/Application/Data/', $object->config('project.volume.dir.data'), $url);
                 }
+                ddd($url);
                 if(
                     File::exist($url) &&
                     $lines > 0
