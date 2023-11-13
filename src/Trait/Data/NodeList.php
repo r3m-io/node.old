@@ -501,7 +501,7 @@ Trait NodeList {
                 $url = $meta->get('Sort.' . $name . '.' . $sort_key . '.'. $url_key);
                 $lines = $meta->get('Sort.' . $name . '.' . $sort_key . '.lines');
                 if($object->config('project.volume.dir.node')) {
-                    $url = str_replace('/Application/Data/', $object->config('project.volume.dir.data'), $url);
+                    $url = str_replace('/mnt/d/Vps2/Data/', $object->config('project.volume.dir.data'), $url);
                 }
                 ddd($url);
                 if(
