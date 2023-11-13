@@ -136,6 +136,9 @@ Trait Sync {
             if (!$meta) {
                 throw new Exception('No meta file found for class (' . $class . ')');
                 continue;
+            } else {
+                d($url);
+                ddd($meta);
             }
             if(!$item){
                 throw new Exception('No item file found for class (' . $class . ')');
