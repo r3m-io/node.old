@@ -137,8 +137,11 @@ Trait Sync {
                 throw new Exception('No meta file found for class (' . $class . ')');
                 continue;
             } else {
+                $property = [
+                    'uuid' => 'ASC'
+                ];
                 d($url);
-                ddd($meta);
+                d($meta);
             }
             if(!$item){
                 throw new Exception('No item file found for class (' . $class . ')');
@@ -327,6 +330,7 @@ Trait Sync {
                             $meta->set('Sort.' . $class . '.' . $key_uuid . '.lines', $lines_uuid);
                             $meta->set('Sort.' . $class . '.' . $key_uuid . '.count', $count_uuid);
                             $meta->set('Sort.' . $class . '.' . $key_uuid . '.mtime', $mtime_uuid);
+                            $meta->set('Sort.' . $class . '.' . $key_uuid . '.url.asc', $url);
                             //rewrite data.
                         }
                     }
