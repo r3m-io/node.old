@@ -533,7 +533,7 @@ Trait Data {
             }
             $validate = $this->object_create_validate($object, [
                 'class' => $name,
-                'is.unique' => $item['is.unique']
+                'is.unique' => $item->{'is.unique'}
             ]);
             if($validate){
                 File::write($url_validate, Core::object($validate, Core::OBJECT_JSON));
