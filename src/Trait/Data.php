@@ -480,7 +480,7 @@ Trait Data {
     public function object_create_property(App $object, $class){
         $properties = [];
         while(true){
-            $name = Cli::read('text', 'Enter the name of the property: ');
+            $name = Cli::read('input', 'Enter the name of the property: ');
             if(empty($name)){
                 break;
             }
@@ -492,7 +492,7 @@ Trait Data {
             echo '    - array' . PHP_EOL;
             echo '    - object' . PHP_EOL;
             echo '    - null' . PHP_EOL;
-            $type = Cli::read('text', 'Enter the type of the property: ');
+            $type = Cli::read('input', 'Enter the type of the property: ');
             while(!in_array($type, [])){
                 echo 'Available types:' . PHP_EOL;
                 echo '    - string' . PHP_EOL;
@@ -504,11 +504,11 @@ Trait Data {
                 echo '    - null' . PHP_EOL;
                 $type = Cli::read('text', 'Enter the type of the property: ');
             }
-            $has_propery = Cli::read('text', 'Does this property has properties ? (y/n): ');
+            $has_propery = Cli::read('input', 'Does this property has properties ? (y/n): ');
             if($has_propery === 'y'){
                 $has_property_properties = [];
                 while(true){
-                    $has_property_name = Cli::read('text', 'Enter the name of the property: ');
+                    $has_property_name = Cli::read('input', 'Enter the name of the property: ');
                     if(empty($has_property_name)){
                         break;
                     }
@@ -520,8 +520,8 @@ Trait Data {
                     echo '    - array' . PHP_EOL;
                     echo '    - object' . PHP_EOL;
                     echo '    - null' . PHP_EOL;
-                    $has_property_type = Cli::read('text', 'Enter the type of the property: ');
-                    $has_property_has_property = Cli::read('text', 'Does this property has properties ? (y/n): ');
+                    $has_property_type = Cli::read('input', 'Enter the type of the property: ');
+                    $has_property_has_property = Cli::read('input', 'Does this property has properties ? (y/n): ');
                     if($has_property_has_property === 'y'){
                         $has_property_properties[] = [
                             'name' => $has_property_name,
