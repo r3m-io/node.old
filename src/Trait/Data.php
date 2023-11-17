@@ -440,6 +440,10 @@ Trait Data {
             'Validate'.
             $object->config('ds')
         ;
+        $dir_object = $dir_node .
+            'Object'.
+            $object->config('ds')
+        ;
         $dir_binary_tree = $dir_node .
             'BinaryTree'.
             $object->config('ds')
@@ -461,31 +465,17 @@ Trait Data {
         }
         $item = [];
         $item['Node'] = [];
-        $item['Node']['#class'] = $class;
+        $item['Node']['#class'] = $name;
         $item['Node']['type'] = 'object';
-        $item['Node']['property'] = $this->object_create_property($object, $class);
-        $item['sort'] = $this->object_create_sort($object, $class);
-        $item['is.unique'] = $this->object_create_is_unique($object, $class);
-        $item['sync'] = $this->object_create_sync($object, $class);
-
+        $item['Node']['property'] = $this->object_create_property($object, $name);
+        $item['sort'] = $this->object_create_sort($object, $name);
+        $item['is.unique'] = $this->object_create_is_unique($object, $name);
+        $item['sync'] = $this->object_create_sync($object, $name);
         $item = (object) $item;
-
-
+        $url = $dir_object . '_' . $name . $object->config('extension.json');
+        File::write($url, Core::object($item, Core::OBJECT_JSON));
         echo 'here we are...';
         die;
-
-
-        /*
-        $data = $object->data_read($object->config('project.dir.data') . 'Node' . $object->config('ds') . 'BinaryTree' . $object->config('ds') . $class . $object->config('extension.json'));
-        if($data){
-            $data = $data->data();
-            $data['#class'] = $class;
-            $data['#key'] = $object->config('node.key');
-            $data['uuid'] = Core::uuid();
-            $data['#node'] = $object->config('node.key');
-            $data['#node'] = $object->config('node.key');
-            $data['#node'] = $object->config('node
-        */
     }
 
     public function object_create_sync(App $object, $class): object
