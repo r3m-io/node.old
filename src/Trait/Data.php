@@ -575,7 +575,6 @@ Trait Data {
         $validate->set($options['class'] . '.put.validate.uuid', $uuid);
         $validate->set($options['class'] . '.patch.validate.uuid', $uuid);
         $is_unique = [];
-        $is_unique['is.unique'] = [];
         if(
             array_key_exists('is.unique', $options) &&
             !empty($options['is.unique']) &&
@@ -599,10 +598,12 @@ Trait Data {
                     default:
                         throw new Exception('Invalid attribute count: ' . $count . '.');
                 }
-                $is_unique['is.unique'][] = (object) [
-                    'class' => $options['class'],
-                    'url' => $url,
-                    'attribute' => $attribute
+                $is_unique[] = (object) [
+                    'is.unique' => [
+                        'class' => $options['class'],
+                        'url' => $url,
+                        'attribute' => $attribute
+                    ]
                 ];
             }
             $validate->set($options['class'] . '.create.validate.' . $action, $is_unique);
