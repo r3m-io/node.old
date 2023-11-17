@@ -483,7 +483,7 @@ Trait Data {
      */
     public function object_create_property(App $object, $class){
         $properties = [];
-        echo 'Leave empty name when finished.' . PHP_EOL;
+        echo 'Leave name empty if finished.' . PHP_EOL;
         while(true){
             $name = Cli::read('input', 'Enter the name of the property: ');
             if(empty($name)){
