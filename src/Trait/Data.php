@@ -477,6 +477,9 @@ Trait Data {
         */
     }
 
+    /**
+     * @throws ObjectException
+     */
     public function object_create_property(App $object, $class){
         $properties = [];
         while(true){
@@ -493,7 +496,21 @@ Trait Data {
             echo '    - object' . PHP_EOL;
             echo '    - null' . PHP_EOL;
             $type = Cli::read('input', 'Enter the type of the property: ');
-            while(!in_array($type, [])){
+            while(
+                !in_array(
+                    $type,
+                    [
+                        'string',
+                        'int',
+                        'float',
+                        'boolean',
+                        'array',
+                        'object',
+                        'null'
+                    ],
+                    true
+                )
+            ){
                 echo 'Available types:' . PHP_EOL;
                 echo '    - string' . PHP_EOL;
                 echo '    - int' . PHP_EOL;
