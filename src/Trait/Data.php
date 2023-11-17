@@ -707,20 +707,20 @@ Trait Data {
                         } else {
                             $has_property_is_multiple = false;
                         }
-                        $has_property_properties[] = [
+                        $has_property_properties[] = (object) [
                             'name' => $has_property_name,
                             'type' => $has_property_type,
                             'property' => $this->object_create_property($object, $class),
                             'multiple' => $has_property_is_multiple
                         ];
                     } else {
-                        $has_property_properties[] = [
+                        $has_property_properties[] = (object) [
                             'name' => $has_property_name,
                             'type' => $has_property_type
                         ];
                     }
                 }
-                $properties[] = [
+                $properties[] = (object) [
                     'name' => $name,
                     'type' => $type,
                     'property' => $has_property_properties,
@@ -728,7 +728,7 @@ Trait Data {
                 ];
                 echo 'Object added...' . PHP_EOL;
             } else {
-                $properties[] = [
+                $properties[] = (object) [
                     'name' => $name,
                     'type' => $type
                 ];
