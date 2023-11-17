@@ -488,39 +488,39 @@ Trait Data {
                 break;
             }
             echo 'Available types:' . PHP_EOL;
-            echo '    - string' . PHP_EOL;
-            echo '    - int' . PHP_EOL;
-            echo '    - float' . PHP_EOL;
-            echo '    - boolean' . PHP_EOL;
             echo '    - array' . PHP_EOL;
-            echo '    - object' . PHP_EOL;
-            echo '    - null' . PHP_EOL;
+            echo '    - boolean' . PHP_EOL;
+            echo '    - float' . PHP_EOL;
+            echo '    - int' . PHP_EOL;
+            echo '    - null' . PHP_EOL
+            echo '    - object' . PHP_EOL;;
+            echo '    - string' . PHP_EOL;
             echo '    - uuid' . PHP_EOL;
             $type = Cli::read('input', 'Enter the type of the property: ');
             while(
                 !in_array(
                     $type,
                     [
-                        'string',
-                        'int',
-                        'float',
-                        'boolean',
                         'array',
-                        'object',
+                        'boolean',
+                        'float',
+                        'int',
                         'null',
+                        'object',
+                        'string',
                         'uuid',
                     ],
                     true
                 )
             ){
                 echo 'Available types:' . PHP_EOL;
-                echo '    - string' . PHP_EOL;
-                echo '    - int' . PHP_EOL;
-                echo '    - float' . PHP_EOL;
-                echo '    - boolean' . PHP_EOL;
                 echo '    - array' . PHP_EOL;
-                echo '    - object' . PHP_EOL;
+                echo '    - boolean' . PHP_EOL;
+                echo '    - float' . PHP_EOL;
+                echo '    - int' . PHP_EOL;
                 echo '    - null' . PHP_EOL;
+                echo '    - object' . PHP_EOL;
+                echo '    - string' . PHP_EOL;
                 echo '    - uuid' . PHP_EOL;
                 $type = Cli::read('input', 'Enter the type of the property: ');
             }
@@ -533,13 +533,13 @@ Trait Data {
                         break;
                     }
                     echo 'Available types:' . PHP_EOL;
-                    echo '    - string' . PHP_EOL;
-                    echo '    - int' . PHP_EOL;
-                    echo '    - float' . PHP_EOL;
-                    echo '    - boolean' . PHP_EOL;
                     echo '    - array' . PHP_EOL;
-                    echo '    - object' . PHP_EOL;
+                    echo '    - boolean' . PHP_EOL;
+                    echo '    - float' . PHP_EOL;
+                    echo '    - int' . PHP_EOL;
                     echo '    - null' . PHP_EOL;
+                    echo '    - object' . PHP_EOL;
+                    echo '    - string' . PHP_EOL;
                     echo '    - uuid' . PHP_EOL;
                     $has_property_type = Cli::read('input', 'Enter the type of the property: ');
                     $has_property_has_property = Cli::read('input', 'Does this property has properties ? (y/n): ');
