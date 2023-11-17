@@ -504,7 +504,7 @@ Trait Data {
                 'url_binary_tree' => $url_binary_tree,
             ]);
         } else {
-            throw new Exception('Object already exists: ' . $url);
+            throw new Exception('Object already exists: ' . $url . ' or ' . $url_binary_tree . '.');
         }
     }
 
