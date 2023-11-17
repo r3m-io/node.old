@@ -561,6 +561,7 @@ Trait Data {
         $meta->set('Sort.' . $options['class'] . '.' . $key . '.lines', 0);
         $meta->set('Sort.' . $options['class'] . '.' . $key . '.count', 0);
         $meta->set('Sort.' . $options['class'] . '.' . $key . '.url.asc', $options['url']);
+        $meta->set('Sort.' . $options['class'] . '.' . $key . '.mtime', File::mtime($options['url']));
         $meta->set('Filter', (object) []);
         $meta->set('Where', (object) []);
         $meta->set('Count', (object) []);
