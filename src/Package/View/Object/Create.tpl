@@ -49,11 +49,12 @@ if(y)
 You need to provide the option class for the new class name.
 {{else}}
 {{dd($class)}}
+/*
 {{$response = R3m.Io.Node:Object:create(
 $class,
 R3m.Io.Node:Role:role_system(),
 $options
 )}}
 {{$response|json.encode:'JSON_PRETTY_PRINT'}}
-
+*/
 {{/if}}
