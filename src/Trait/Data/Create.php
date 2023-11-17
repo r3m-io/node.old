@@ -675,6 +675,7 @@ Trait Create {
                         );
                     }
                 }
+                ddd($record->data());
                 if (
                     $record->has('uuid') &&
                     !empty($record->get('uuid'))
