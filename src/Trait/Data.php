@@ -497,7 +497,6 @@ Trait Data {
             Dir::create($dir_binary_tree_asc, Dir::CHMOD);
             File::write($url, Core::object($item, Core::OBJECT_JSON));
             File::touch($url_binary_tree);;
-
             $this->sync_file([
                 'dir_object' => $dir_object,
                 'dir_binary_tree_asc' => $dir_binary_tree_asc,
