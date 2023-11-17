@@ -50,7 +50,7 @@ You need to provide the option class for the new class name.
 {{else}}
 {{dd($class)}}
 /*
-{{$response = R3m.Io.Node:Object:create(
+{{$response = R3m.Io.Node:Data:create.object(
 $class,
 R3m.Io.Node:Role:role_system(),
 $options
