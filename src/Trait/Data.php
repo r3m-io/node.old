@@ -515,7 +515,7 @@ Trait Data {
             $expose = $this->object_create_expose($object, $name, $item);
             File::write($url_expose, Core::object($expose, Core::OBJECT_JSON));
             $meta = $this->object_create_meta($object, [
-                'name' => $name,
+                'class' => $name,
                 'url' => $url_binary_tree,
             ]);
             if($meta){
@@ -542,7 +542,7 @@ Trait Data {
      */
     public function object_create_meta(App $object, $options=[]): mixed
     {
-        if(!array_key_exists('name', $options)){
+        if(!array_key_exists('class', $options)){
             return false;
         }
         if(!array_key_exists('url', $options)){
@@ -557,10 +557,10 @@ Trait Data {
         $property = [];
         $property[] = 'uuid';
         $key = sha1(Core::object($key, Core::OBJECT_JSON));
-        $meta->set('Sort.' . $options['name'] . '.' . $key . '.property', $property);
-        $meta->set('Sort.' . $options['name'] . '.' . $key . '.lines', 0);
-        $meta->set('Sort.' . $options['name'] . '.' . $key . '.count', 0);
-        $meta->set('Sort.' . $options['name'] . '.' . $key . '.url.asc', $options['url']);
+        $meta->set('Sort.' . $options['class'] . '.' . $key . '.property', $property);
+        $meta->set('Sort.' . $options['class'] . '.' . $key . '.lines', 0);
+        $meta->set('Sort.' . $options['class'] . '.' . $key . '.count', 0);
+        $meta->set('Sort.' . $options['class'] . '.' . $key . '.url.asc', $options['url']);
         $meta->set('Filter', (object) []);
         $meta->set('Where', (object) []);
         $meta->set('Count', (object) []);
