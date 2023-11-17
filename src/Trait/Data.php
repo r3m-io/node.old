@@ -449,7 +449,7 @@ Trait Data {
         }
         $options['relation'] = false;
         if(!Security::is_granted(
-            $class,
+            'Data',
             $role,
             $options
         )){
