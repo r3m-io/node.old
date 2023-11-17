@@ -527,6 +527,7 @@ Trait Data {
                 $type = Cli::read('input', 'Enter the type of the property: ');
             }
             if($type === 'object'){
+                echo 'Please enter the properties of the object.' . PHP_EOL;
                 $has_property_properties = [];
                 while(true){
                     $has_property_name = Cli::read('input', 'Enter the name of the property: ');
