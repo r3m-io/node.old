@@ -468,7 +468,7 @@ Trait Data {
         )){
             return false;
         }
-        $url = $dir_object . '_' . $name . $object->config('extension.json');
+        $url = $dir_object . $name . $object->config('extension.json');
         $dir_binary_tree_asc = $dir_binary_tree_class .
             'Asc' .
             $object->config('ds')
