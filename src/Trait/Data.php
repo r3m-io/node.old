@@ -460,6 +460,7 @@ Trait Data {
             return false;
         }
         $properties = $this->object_create_property($object, $class);
+        d($properties);
         echo 'here we are...';
         die;
 
