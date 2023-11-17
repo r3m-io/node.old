@@ -2,6 +2,7 @@
 
 namespace R3m\Io\Node\Trait;
 
+use R3m\Io\Module\Cli;
 use R3m\Io\Node\Service\Security;
 use SplFileObject;
 
@@ -419,6 +420,9 @@ Trait Data {
         }
     }
 
+    /**
+     * @throws Exception
+     */
     public function object_create($class, $role, $node=[], $options=[])
     {
         $name = Controller::name($class);
@@ -455,6 +459,7 @@ Trait Data {
         )){
             return false;
         }
+        $properties = $this->object_create_property($object, $class);
         echo 'here we are...';
         die;
 
@@ -470,5 +475,78 @@ Trait Data {
             $data['#node'] = $object->config('node.key');
             $data['#node'] = $object->config('node
         */
+    }
+
+    public function object_create_property(App $object, $class){
+        $properties = [];
+        while(true){
+            $name = Cli::read('text', 'Enter the name of the property: ');
+            if(empty($name)){
+                break;
+            }
+            echo 'Available types:' . PHP_EOL;
+            echo '    - string' . PHP_EOL;
+            echo '    - int' . PHP_EOL;
+            echo '    - float' . PHP_EOL;
+            echo '    - boolean' . PHP_EOL;
+            echo '    - array' . PHP_EOL;
+            echo '    - object' . PHP_EOL;
+            echo '    - null' . PHP_EOL;
+            $type = Cli::read('text', 'Enter the type of the property: ');
+            while(!in_array($type, [])){
+                echo 'Available types:' . PHP_EOL;
+                echo '    - string' . PHP_EOL;
+                echo '    - int' . PHP_EOL;
+                echo '    - float' . PHP_EOL;
+                echo '    - boolean' . PHP_EOL;
+                echo '    - array' . PHP_EOL;
+                echo '    - object' . PHP_EOL;
+                echo '    - null' . PHP_EOL;
+                $type = Cli::read('text', 'Enter the type of the property: ');
+            }
+            $has_propery = Cli::read('text', 'Does this property has properties ? (y/n): ');
+            if($has_propery === 'y'){
+                $has_property_properties = [];
+                while(true){
+                    $has_property_name = Cli::read('text', 'Enter the name of the property: ');
+                    if(empty($has_property_name)){
+                        break;
+                    }
+                    echo 'Available types:' . PHP_EOL;
+                    echo '    - string' . PHP_EOL;
+                    echo '    - int' . PHP_EOL;
+                    echo '    - float' . PHP_EOL;
+                    echo '    - boolean' . PHP_EOL;
+                    echo '    - array' . PHP_EOL;
+                    echo '    - object' . PHP_EOL;
+                    echo '    - null' . PHP_EOL;
+                    $has_property_type = Cli::read('text', 'Enter the type of the property: ');
+                    $has_property_has_property = Cli::read('text', 'Does this property has properties ? (y/n): ');
+                    if($has_property_has_property === 'y'){
+                        $has_property_properties[] = [
+                            'name' => $has_property_name,
+                            'type' => $has_property_type,
+                            'property' => $this->object_create_property($object, $class)
+                        ];
+                    } else {
+                        $has_property_properties[] = [
+                            'name' => $has_property_name,
+                            'type' => $has_property_type
+                        ];
+                    }
+                }
+                $properties[] = [
+                    'name' => $name,
+                    'type' => $type,
+                    'property' => $has_property_properties
+                ];
+            } else {
+                $properties[] = [
+                    'name' => $name,
+                    'type' => $type
+                ];
+            }
+        }
+        return $properties;
     }
 }
