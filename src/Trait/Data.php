@@ -444,6 +444,10 @@ Trait Data {
             'Object'.
             $object->config('ds')
         ;
+        $dir_expose = $dir_node .
+            'Expose'.
+            $object->config('ds')
+        ;
         $dir_binary_tree = $dir_node .
             'BinaryTree'.
             $object->config('ds')
@@ -481,7 +485,8 @@ Trait Data {
             $force === true ||
             (
                 !File::exist($url) &&
-                !File::exist($url_binary_tree)
+                !File::exist($url_binary_tree) &&
+                !File::exist($url_expose)
             )
         ){
             $item = [];
@@ -495,18 +500,21 @@ Trait Data {
             $item = (object) $item;
             Dir::create($dir_object, Dir::CHMOD);
             Dir::create($dir_binary_tree_asc, Dir::CHMOD);
+            Dir::create($dir_expose, Dir::CHMOD);
             File::write($url, Core::object($item, Core::OBJECT_JSON));
             File::touch($url_binary_tree);
             $expose = $this->object_create_expose($object, $name, $item);
-            ddd($expose);
+            File::write($url_expose, Core::object($expose, Core::OBJECT_JSON));
             $this->sync_file([
                 'dir_object' => $dir_object,
                 'dir_binary_tree_asc' => $dir_binary_tree_asc,
+                'dir_expose' => $dir_expose,
                 'url' => $url,
                 'url_binary_tree' => $url_binary_tree,
+                'url_expose' => $url_expose,
             ]);
         } else {
-            throw new Exception('Object already exists: ' . $url . ' or ' . $url_binary_tree . '.');
+            throw new Exception('Object already exists: ' . $url . ', ' . $url_expose .' or ' . $url_binary_tree . '.');
         }
     }
 
