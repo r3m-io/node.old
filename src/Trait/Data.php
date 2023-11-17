@@ -456,6 +456,11 @@ Trait Data {
             $options['function'] = str_replace('_', '.', __FUNCTION__);
         }
         $options['relation'] = false;
+        $force = false;
+        if(array_key_exists('force', $options)){
+            $force = $options['force'];
+            unset($options['force']);
+        }
         if(!Security::is_granted(
             'Data',
             $role,
@@ -463,19 +468,45 @@ Trait Data {
         )){
             return false;
         }
-        $item = [];
-        $item['Node'] = [];
-        $item['Node']['#class'] = $name;
-        $item['Node']['type'] = 'object';
-        $item['Node']['property'] = $this->object_create_property($object, $name);
-        $item['sort'] = $this->object_create_sort($object, $name);
-        $item['is.unique'] = $this->object_create_is_unique($object, $name);
-        $item['sync'] = $this->object_create_sync($object, $name);
-        $item = (object) $item;
         $url = $dir_object . '_' . $name . $object->config('extension.json');
-        File::write($url, Core::object($item, Core::OBJECT_JSON));
-        echo 'here we are...';
-        die;
+        $dir_binary_tree_asc = $dir_binary_tree_class .
+            'Asc' .
+            $object->config('ds')
+        ;
+        $url_binary_tree = $dir_binary_tree_asc .
+            'Uuid' .
+            $object->config('extension.btree')
+        ;
+        if(
+            $force === true ||
+            (
+                !File::exist($url) &&
+                !File::exist($url_binary_tree)
+            )
+        ){
+            $item = [];
+            $item['Node'] = [];
+            $item['Node']['#class'] = $name;
+            $item['Node']['type'] = 'object';
+            $item['Node']['property'] = $this->object_create_property($object, $name);
+            $item['sort'] = $this->object_create_sort($object, $name);
+            $item['is.unique'] = $this->object_create_is_unique($object, $name);
+            $item['sync'] = $this->object_create_sync($object, $name);
+            $item = (object) $item;
+            Dir::create($dir_object, Dir::CHMOD);
+            Dir::create($dir_binary_tree_asc, Dir::CHMOD);
+            File::write($url, Core::object($item, Core::OBJECT_JSON));
+            File::touch($url_binary_tree);;
+
+            $this->sync_file([
+                'dir_object' => $dir_object,
+                'dir_binary_tree_asc' => $dir_binary_tree_asc,
+                'url' => $url,
+                'url_binary_tree' => $url_binary_tree,
+            ]);
+        } else {
+            throw new Exception('Object already exists: ' . $url);
+        }
     }
 
     public function object_create_sync(App $object, $class): object
