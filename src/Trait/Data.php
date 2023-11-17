@@ -2,6 +2,7 @@
 
 namespace R3m\Io\Node\Trait;
 
+use R3m\Io\Node\Service\Security;
 use SplFileObject;
 
 use R3m\Io\App;
@@ -416,5 +417,58 @@ Trait Data {
         if(array_key_exists(3, $explode)){
             return $explode[3];
         }
+    }
+
+    public function object_create($class, $role, $node=[], $options=[])
+    {
+        $name = Controller::name($class);
+        $object = $this->object();
+        $object->request('node', (object) $node);
+        $dir_node = $object->config('project.dir.data') .
+            'Node' .
+            $object->config('ds')
+        ;
+        $dir_meta = $dir_node .
+            'Meta'.
+            $object->config('ds')
+        ;
+        $dir_validate = $dir_node .
+            'Validate'.
+            $object->config('ds')
+        ;
+        $dir_binary_tree = $dir_node .
+            'BinaryTree'.
+            $object->config('ds')
+        ;
+        $dir_binary_tree_class = $dir_binary_tree .
+            $name .
+            $object->config('ds')
+        ;
+        if(!array_key_exists('function', $options)){
+            $options['function'] = __FUNCTION__;
+        }
+        $options['relation'] = false;
+        if(!Security::is_granted(
+            $class,
+            $role,
+            $options
+        )){
+            return false;
+        }
+        echo 'here we are...';
+        die;
+
+
+        /*
+        $data = $object->data_read($object->config('project.dir.data') . 'Node' . $object->config('ds') . 'BinaryTree' . $object->config('ds') . $class . $object->config('extension.json'));
+        if($data){
+            $data = $data->data();
+            $data['#class'] = $class;
+            $data['#key'] = $object->config('node.key');
+            $data['uuid'] = Core::uuid();
+            $data['#node'] = $object->config('node.key');
+            $data['#node'] = $object->config('node.key');
+            $data['#node'] = $object->config('node
+        */
     }
 }
