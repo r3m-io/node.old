@@ -459,8 +459,18 @@ Trait Data {
         )){
             return false;
         }
-        $properties = $this->object_create_property($object, $class);
-        d($properties);
+        $item = [];
+        $item['Node'] = [];
+        $item['Node']['#class'] = $class;
+        $item['Node']['type'] = 'object';
+        $item['Node']['property'] = $this->object_create_property($object, $class);
+        $item['sort'] = $this->object_create_sort($object, $class);
+        $item['is.unique'] = $this->object_create_is_unique($object, $class);
+        $item['sync'] = $this->object_create_sync($object, $class);
+
+        $item = (object) $item;
+
+
         echo 'here we are...';
         die;
 
@@ -478,14 +488,60 @@ Trait Data {
         */
     }
 
+    public function object_create_sync(App $object, $class): object
+    {
+        $sync = [];
+        $sync['interval'] = (int) Cli::read('input', 'What is the "sync" interval: ');
+        if($sync['interval'] < 60){
+            $sync['interval'] = 60;
+        }
+        return (object) $sync;
+    }
+
+    /**
+     * @throws ObjectException
+     */
+    public function object_create_sort(App $object, $class): array
+    {
+        $sort = [];
+        echo 'Leave "sort" empty if finished.' . PHP_EOL;
+        while(true){
+            echo 'Enter the property of the "sort"' . PHP_EOL;
+            $name = Cli::read('input', '(use a , to use multiple properties): ');
+            if(empty($name)){
+                break;
+            }
+            $sort[] = $name;
+        }
+        return $sort;
+    }
+
+    /**
+     * @throws ObjectException
+     */
+    public function object_create_is_unique(App $object, $class): array
+    {
+        $is_unique = [];
+        echo 'Leave "is unique" empty if finished.' . PHP_EOL;
+        while(true){
+            echo 'Enter the property of the "is unique"' . PHP_EOL;
+            $name = Cli::read('input', '(use a , to use multiple properties): ');
+            if(empty($name)){
+                break;
+            }
+            $is_unique[] = $name;
+        }
+        return $is_unique;
+    }
+
     /**
      * @throws ObjectException
      */
     public function object_create_property(App $object, $class){
         $properties = [];
-        echo 'Leave name empty if finished.' . PHP_EOL;
+        echo 'Leave "name" empty if finished.' . PHP_EOL;
         while(true){
-            $name = Cli::read('input', 'Enter the name of the property: ');
+            $name = Cli::read('input', 'Enter the "name" of the property: ');
             if(empty($name)){
                 break;
             }
@@ -498,7 +554,7 @@ Trait Data {
             echo '    - object' . PHP_EOL;
             echo '    - string' . PHP_EOL;
             echo '    - uuid' . PHP_EOL;
-            $type = Cli::read('input', 'Enter the type of the property: ');
+            $type = Cli::read('input', 'Enter the "type" of the property: ');
             while(
                 !in_array(
                     $type,
@@ -524,13 +580,13 @@ Trait Data {
                 echo '    - object' . PHP_EOL;
                 echo '    - string' . PHP_EOL;
                 echo '    - uuid' . PHP_EOL;
-                $type = Cli::read('input', 'Enter the type of the property: ');
+                $type = Cli::read('input', 'Enter the "type" of the property: ');
             }
             if($type === 'object'){
-                echo 'Please enter the properties of the object.' . PHP_EOL;
+                echo 'Please enter the "properties" of the object.' . PHP_EOL;
                 $has_property_properties = [];
                 while(true){
-                    $has_property_name = Cli::read('input', 'Enter the name of the property: ');
+                    $has_property_name = Cli::read('input', 'Enter the "name" of the property: ');
                     if(empty($has_property_name)){
                         break;
                     }
@@ -543,7 +599,7 @@ Trait Data {
                     echo '    - object' . PHP_EOL;
                     echo '    - string' . PHP_EOL;
                     echo '    - uuid' . PHP_EOL;
-                    $has_property_type = Cli::read('input', 'Enter the type of the property: ');
+                    $has_property_type = Cli::read('input', 'Enter the "type" of the property: ');
                     if($has_property_type === 'object'){
                         $has_property_properties[] = [
                             'name' => $has_property_name,
