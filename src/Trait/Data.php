@@ -526,15 +526,15 @@ Trait Data {
                 }
             }
         }
-        $expose->set('attributes', $attributes);
-
+        if(!empty($attributes)){
+            $expose->set('attributes', $attributes);
+        }
         $objects = $this->object_create_expose_object($object, $class, $item->get('Node.property'));
 
-        $expose->set('objects', $objects);
-
-
-        ddd($expose->data());
-
+        if(!empty($objects)){
+            $expose->set('objects', $objects);
+        }
+        ddd($expose);
         return $data;
     }
 
