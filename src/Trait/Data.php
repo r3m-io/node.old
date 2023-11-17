@@ -496,7 +496,8 @@ Trait Data {
             Dir::create($dir_object, Dir::CHMOD);
             Dir::create($dir_binary_tree_asc, Dir::CHMOD);
             File::write($url, Core::object($item, Core::OBJECT_JSON));
-            File::touch($url_binary_tree);;
+            File::touch($url_binary_tree);
+            $expose = $this->object_create_expose($object, $name, $item);
             $this->sync_file([
                 'dir_object' => $dir_object,
                 'dir_binary_tree_asc' => $dir_binary_tree_asc,
@@ -506,6 +507,78 @@ Trait Data {
         } else {
             throw new Exception('Object already exists: ' . $url . ' or ' . $url_binary_tree . '.');
         }
+    }
+
+    public function object_create_expose(App $object, $class, $item): Storage
+    {
+        $data = new Storage();
+        $item = new Storage($item);
+        $expose = new Storage();
+        $expose->set('role', 'ROLE_SYSTEM');
+
+        $attributes = [];
+        $properties = $item->get('Node.property');
+        if($properties){
+            foreach($properties as $nr => $property){
+                if(property_exists($property, 'name')){
+                    $attributes[] = $property->name;
+                }
+            }
+        }
+        $expose->set('attributes', $attributes);
+
+        $objects = $this->object_create_expose_object($object, $class, $item->get('Node.property'));
+
+        $expose->set('objects', $objects);
+
+
+        ddd($expose->data());
+
+        return $data;
+    }
+
+    public function object_create_expose_object($object, $class, $properties=[]){
+        $result = [];
+        foreach($properties as $nr => $property){
+            if(
+                property_exists($property, 'name') &&
+                property_exists($property, 'type') &&
+                $property->type === 'object'
+            ){
+                if(property_exists($property, 'property')){
+                    $expose = [];
+                    $objects = [];
+                    foreach($property->property as $object_property){
+                        if(property_exists($object_property, 'name')){
+                            $expose[] = $object_property->name;
+                        }
+                        if(
+                            property_exists($object_property, 'type') &&
+                            $object_property->type === 'object'
+                        ){
+                            $objects[$object_property->name] = $this->object_create_expose_object($object, $class, $object_property->property);
+                        }
+                    }
+                }
+                $multiple = false;
+                if(property_exists($property, 'multiple')){
+                    $multiple = $property->multiple;
+                }
+                if(!empty($objects)){
+                    $result['objects'][$property->name] = [
+                        'multiple' => $multiple,
+                        'expose' => $expose,
+                        'objects' => $objects
+                    ];
+                } else {
+                    $result['objects'][$property->name] = [
+                        'multiple' => $multiple,
+                        'expose' => $expose
+                    ];
+                }
+            }
+        }
+        return $result;
     }
 
     public function object_create_sync(App $object, $class): object
@@ -603,6 +676,12 @@ Trait Data {
                 $type = Cli::read('input', 'Enter the "type" of the property: ');
             }
             if($type === 'object'){
+                $is_multiple = Cli::read('input', 'Are there multiple objects (y/n): ');
+                if($is_multiple === 'y'){
+                    $is_multiple = true;
+                } else {
+                    $is_multiple = false;
+                }
                 echo 'Please enter the "properties" of the object.' . PHP_EOL;
                 $has_property_properties = [];
                 while(true){
@@ -621,10 +700,17 @@ Trait Data {
                     echo '    - uuid' . PHP_EOL;
                     $has_property_type = Cli::read('input', 'Enter the "type" of the property: ');
                     if($has_property_type === 'object'){
+                        $has_property_is_multiple = Cli::read('input', 'Are there multiple objects (y/n): ');
+                        if($has_property_is_multiple === 'y'){
+                            $has_property_is_multiple = true;
+                        } else {
+                            $has_property_is_multiple = false;
+                        }
                         $has_property_properties[] = [
                             'name' => $has_property_name,
                             'type' => $has_property_type,
-                            'property' => $this->object_create_property($object, $class)
+                            'property' => $this->object_create_property($object, $class),
+                            'multiple' => $has_property_is_multiple
                         ];
                     } else {
                         $has_property_properties[] = [
@@ -636,7 +722,8 @@ Trait Data {
                 $properties[] = [
                     'name' => $name,
                     'type' => $type,
-                    'property' => $has_property_properties
+                    'property' => $has_property_properties,
+                    'multiple' => $is_multiple
                 ];
                 echo 'Object added...' . PHP_EOL;
             } else {
