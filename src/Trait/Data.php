@@ -482,6 +482,7 @@ Trait Data {
      */
     public function object_create_property(App $object, $class){
         $properties = [];
+        echo 'Leave empty name when finished.' . PHP_EOL;
         while(true){
             $name = Cli::read('input', 'Enter the name of the property: ');
             if(empty($name)){
@@ -524,8 +525,7 @@ Trait Data {
                 echo '    - uuid' . PHP_EOL;
                 $type = Cli::read('input', 'Enter the type of the property: ');
             }
-            $has_propery = Cli::read('input', 'Does this property has properties ? (y/n): ');
-            if($has_propery === 'y'){
+            if($type === 'object'){
                 $has_property_properties = [];
                 while(true){
                     $has_property_name = Cli::read('input', 'Enter the name of the property: ');
@@ -542,8 +542,7 @@ Trait Data {
                     echo '    - string' . PHP_EOL;
                     echo '    - uuid' . PHP_EOL;
                     $has_property_type = Cli::read('input', 'Enter the type of the property: ');
-                    $has_property_has_property = Cli::read('input', 'Does this property has properties ? (y/n): ');
-                    if($has_property_has_property === 'y'){
+                    if($has_property_type === 'object'){
                         $has_property_properties[] = [
                             'name' => $has_property_name,
                             'type' => $has_property_type,
@@ -561,6 +560,7 @@ Trait Data {
                     'type' => $type,
                     'property' => $has_property_properties
                 ];
+                echo 'Object added...' . PHP_EOL;
             } else {
                 $properties[] = [
                     'name' => $name,
