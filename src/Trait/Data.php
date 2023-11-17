@@ -518,6 +518,7 @@ Trait Data {
 
         $attributes = [];
         $properties = $item->get('Node.property');
+        d($properties);
         if($properties){
             foreach($properties as $nr => $property){
                 if(property_exists($property, 'name')){
