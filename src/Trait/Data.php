@@ -511,15 +511,20 @@ Trait Data {
             Dir::create($dir_binary_tree_asc, Dir::CHMOD);
             Dir::create($dir_expose, Dir::CHMOD);
             File::write($url, Core::object($item, Core::OBJECT_JSON));
+            echo 'Written to:' . PHP_EOL;
+            echo '- ' . $url . PHP_EOL;
             File::touch($url_binary_tree);
+            echo '- ' . $url_binary_tree . PHP_EOL;
             $expose = $this->object_create_expose($object, $name, $item);
             File::write($url_expose, Core::object($expose, Core::OBJECT_JSON));
+            echo '- ' . $url_expose . PHP_EOL;
             $meta = $this->object_create_meta($object, [
                 'class' => $name,
                 'url' => $url_binary_tree,
             ]);
             if($meta){
                 File::write($url_meta, Core::object($meta, Core::OBJECT_JSON));
+                echo '- ' . $url_meta . PHP_EOL;
             }
             $this->sync_file([
                 'dir_object' => $dir_object,
@@ -531,6 +536,8 @@ Trait Data {
                 'url_expose' => $url_expose,
                 'url_meta' => $url_meta,
             ]);
+            echo PHP_EOL . 'You can now synchronise the object with:' . PHP_EOL;
+            echo Core::binary() . ' r3m_io/node object sync -class=' . $name . PHP_EOL;
         } else {
             throw new Exception('Object already exists: ' . $url . ', ' . $url_expose .', ' .  $url_meta .' or ' . $url_binary_tree . '.');
         }
