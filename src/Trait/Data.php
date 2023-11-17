@@ -599,7 +599,7 @@ Trait Data {
                         throw new Exception('Invalid attribute count: ' . $count . '.');
                 }
                 $is_unique[] = (object) [
-                    'class' => $name,
+                    'class' => $options['class'],
                     'url' => $url,
                     'attribute' => $attribute
                 ];
