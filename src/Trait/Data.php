@@ -495,6 +495,7 @@ Trait Data {
             echo '    - array' . PHP_EOL;
             echo '    - object' . PHP_EOL;
             echo '    - null' . PHP_EOL;
+            echo '    - uuid' . PHP_EOL;
             $type = Cli::read('input', 'Enter the type of the property: ');
             while(
                 !in_array(
@@ -506,7 +507,8 @@ Trait Data {
                         'boolean',
                         'array',
                         'object',
-                        'null'
+                        'null',
+                        'uuid',
                     ],
                     true
                 )
@@ -519,6 +521,7 @@ Trait Data {
                 echo '    - array' . PHP_EOL;
                 echo '    - object' . PHP_EOL;
                 echo '    - null' . PHP_EOL;
+                echo '    - uuid' . PHP_EOL;
                 $type = Cli::read('input', 'Enter the type of the property: ');
             }
             $has_propery = Cli::read('input', 'Does this property has properties ? (y/n): ');
@@ -537,6 +540,7 @@ Trait Data {
                     echo '    - array' . PHP_EOL;
                     echo '    - object' . PHP_EOL;
                     echo '    - null' . PHP_EOL;
+                    echo '    - uuid' . PHP_EOL;
                     $has_property_type = Cli::read('input', 'Enter the type of the property: ');
                     $has_property_has_property = Cli::read('input', 'Does this property has properties ? (y/n): ');
                     if($has_property_has_property === 'y'){
