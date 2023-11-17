@@ -481,6 +481,10 @@ Trait Data {
             'Uuid' .
             $object->config('extension.btree')
         ;
+        $url_expose = $dir_expose .
+            $name .
+            $object->config('extension.json')
+        ;
         if(
             $force === true ||
             (
