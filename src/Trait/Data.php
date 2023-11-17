@@ -489,13 +489,18 @@ Trait Data {
             $name .
             $object->config('extension.json')
         ;
+        $url_validate = $dir_validate .
+            $name .
+            $object->config('extension.json')
+        ;
         if(
             $force === true ||
             (
                 !File::exist($url) &&
                 !File::exist($url_binary_tree) &&
                 !File::exist($url_expose) &&
-                !File::exist($url_meta)
+                !File::exist($url_meta) &&
+                !File::exist($url_validate)
             )
         ){
             $item = [];
@@ -526,6 +531,14 @@ Trait Data {
                 File::write($url_meta, Core::object($meta, Core::OBJECT_JSON));
                 echo '- ' . $url_meta . PHP_EOL;
             }
+            $validate = $this->object_create_validate($object, [
+                'class' => $name,
+                'is.unique' => $item['is.unique']
+            ]);
+            if($validate){
+                File::write($url_validate, Core::object($validate, Core::OBJECT_JSON));
+                echo '- ' . $url_validate . PHP_EOL;
+            }
             $this->sync_file([
                 'dir_object' => $dir_object,
                 'dir_binary_tree_asc' => $dir_binary_tree_asc,
@@ -539,8 +552,63 @@ Trait Data {
             echo PHP_EOL . 'You can now synchronise the object with:' . PHP_EOL;
             echo Core::binary() . ' r3m_io/node object sync -class=' . $name . PHP_EOL;
         } else {
-            throw new Exception('Object already exists: ' . $url . ', ' . $url_expose .', ' .  $url_meta .' or ' . $url_binary_tree . '.');
+            throw new Exception('Object already exists: ' . $url . ', ' . $url_expose .', ' .  $url_meta .', ' . $url_validate . ' or ' . $url_binary_tree . '.');
         }
+    }
+
+    /**
+     * @throws ObjectException
+     * @throws Exception
+     */
+    public function object_create_validate(App $object, $options=[]): mixed
+    {
+        if(!array_key_exists('class', $options)){
+            return false;
+        }
+
+        $uuid = [];
+        $uuid[] = (object) [
+            'is.uuid' => true
+        ];
+        $validate = new Storage();
+        $validate->set($options['class'] . '.create.validate.uuid', $uuid);
+        $validate->set($options['class'] . '.put.validate.uuid', $uuid);
+        $validate->set($options['class'] . '.patch.validate.uuid', $uuid);
+        $is_unique = [];
+        if(
+            array_key_exists('is.unique', $options) &&
+            !empty($options['is.unique']) &&
+            is_array($options['is.unique'])
+        ){
+            foreach ($options['is.unique'] as $nr => $string){
+                $attribute = explode(',', $string);
+                foreach($attribute as $attribute_nr => $value){
+                    $attribute[$attribute_nr] = trim($value);
+                }
+                $count = count($attribute);
+                $action = strtolower($attribute[0]);
+                $url = false;
+                switch($count){
+                    case 2:
+                        $url = '{{config(\'project.dir.data\')}}Node/BinaryTree/' . $options['class'] . '/Asc/Asc/' . Controller::name(implode('-', $attribute)) . '.btree';
+                    break;
+                    case 1:
+                        $url = '{{config(\'project.dir.data\')}}Node/BinaryTree/' . $options['class'] . '/Asc/' . Controller::name(implode('-', $attribute)) . '.btree';
+                    break;
+                    default:
+                        throw new Exception('Invalid attribute count: ' . $count . '.');
+                }
+                $is_unique[] = (object) [
+                    'class' => $name,
+                    'url' => $url,
+                    'attribute' => $attribute
+                ];
+            }
+            $validate->set($options['class'] . '.create.validate.' . $action, $is_unique);
+            $validate->set($options['class'] . '.put.validate.' . $action, $is_unique);
+            $validate->set($options['class'] . '.patch.validate.' . $action, $is_unique);
+        }
+        return $validate->data();
     }
 
     /**
