@@ -502,7 +502,7 @@ Trait Data {
                 echo '    - array' . PHP_EOL;
                 echo '    - object' . PHP_EOL;
                 echo '    - null' . PHP_EOL;
-                $type = Cli::read('text', 'Enter the type of the property: ');
+                $type = Cli::read('input', 'Enter the type of the property: ');
             }
             $has_propery = Cli::read('input', 'Does this property has properties ? (y/n): ');
             if($has_propery === 'y'){
