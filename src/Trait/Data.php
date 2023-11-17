@@ -492,8 +492,8 @@ Trait Data {
             echo '    - boolean' . PHP_EOL;
             echo '    - float' . PHP_EOL;
             echo '    - int' . PHP_EOL;
-            echo '    - null' . PHP_EOL
-            echo '    - object' . PHP_EOL;;
+            echo '    - null' . PHP_EOL;
+            echo '    - object' . PHP_EOL;
             echo '    - string' . PHP_EOL;
             echo '    - uuid' . PHP_EOL;
             $type = Cli::read('input', 'Enter the type of the property: ');
