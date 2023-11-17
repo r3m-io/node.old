@@ -510,7 +510,7 @@ Trait Data {
         }
     }
 
-    public function object_create_expose(App $object, $class, $item): Storage
+    public function object_create_expose(App $object, $class, $item): mixed
     {
         $data = new Storage();
         $item = new Storage($item);
@@ -540,10 +540,11 @@ Trait Data {
         $data->set($class . '.create.expose', $expose);
         $data->set($class . '.put.expose', $expose);
         $data->set($class . '.patch.expose', $expose);
-        return $data;
+        return $data->data();
     }
 
-    public function object_create_expose_object($object, $class, $properties=[]){
+    public function object_create_expose_object($object, $class, $properties=[]): array
+    {
         $result = [];
         foreach($properties as $nr => $property){
             if(
