@@ -498,6 +498,7 @@ Trait Data {
             File::write($url, Core::object($item, Core::OBJECT_JSON));
             File::touch($url_binary_tree);
             $expose = $this->object_create_expose($object, $name, $item);
+            ddd($expose);
             $this->sync_file([
                 'dir_object' => $dir_object,
                 'dir_binary_tree_asc' => $dir_binary_tree_asc,
@@ -518,7 +519,6 @@ Trait Data {
 
         $attributes = [];
         $properties = $item->get('Node.property');
-        d($properties);
         if($properties){
             foreach($properties as $nr => $property){
                 if(property_exists($property, 'name')){
@@ -530,11 +530,16 @@ Trait Data {
             $expose->set('attributes', $attributes);
         }
         $objects = $this->object_create_expose_object($object, $class, $item->get('Node.property'));
-
         if(!empty($objects)){
             $expose->set('objects', $objects);
         }
-        ddd($expose);
+        $data->set($class . '.sync.expose', $expose);
+        $data->set($class . '.list.expose', $expose);
+        $data->set($class . '.read.expose', $expose);
+        $data->set($class . '.record.expose', $expose);
+        $data->set($class . '.create.expose', $expose);
+        $data->set($class . '.put.expose', $expose);
+        $data->set($class . '.patch.expose', $expose);
         return $data;
     }
 
