@@ -485,12 +485,17 @@ Trait Data {
             $name .
             $object->config('extension.json')
         ;
+        $url_meta = $dir_meta .
+            $name .
+            $object->config('extension.json')
+        ;
         if(
             $force === true ||
             (
                 !File::exist($url) &&
                 !File::exist($url_binary_tree) &&
-                !File::exist($url_expose)
+                !File::exist($url_expose) &&
+                !File::exist($url_meta)
             )
         ){
             $item = [];
@@ -509,19 +514,62 @@ Trait Data {
             File::touch($url_binary_tree);
             $expose = $this->object_create_expose($object, $name, $item);
             File::write($url_expose, Core::object($expose, Core::OBJECT_JSON));
+            $meta = $this->object_create_meta($object, [
+                'name' => $name,
+                'url' => $url_binary_tree,
+            ]);
+            if($meta){
+                File::write($url_meta, Core::object($meta, Core::OBJECT_JSON));
+            }
             $this->sync_file([
                 'dir_object' => $dir_object,
                 'dir_binary_tree_asc' => $dir_binary_tree_asc,
                 'dir_expose' => $dir_expose,
+                'dir_meta' => $dir_meta,
                 'url' => $url,
                 'url_binary_tree' => $url_binary_tree,
                 'url_expose' => $url_expose,
+                'url_meta' => $url_meta,
             ]);
         } else {
-            throw new Exception('Object already exists: ' . $url . ', ' . $url_expose .' or ' . $url_binary_tree . '.');
+            throw new Exception('Object already exists: ' . $url . ', ' . $url_expose .', ' .  $url_meta .' or ' . $url_binary_tree . '.');
         }
     }
 
+    /**
+     * @throws ObjectException
+     * @throws Exception
+     */
+    public function object_create_meta(App $object, $options=[]): mixed
+    {
+        if(!array_key_exists('name', $options)){
+            return false;
+        }
+        if(!array_key_exists('url', $options)){
+            return false;
+        }
+        $meta = new Storage();
+        $key = [
+            'property' => [
+                'uuid'
+            ]
+        ];
+        $property = [];
+        $property[] = 'uuid';
+        $key = sha1(Core::object($key, Core::OBJECT_JSON));
+        $meta->set('Sort.' . $options['name'] . '.' . $key . '.property', $property);
+        $meta->set('Sort.' . $options['name'] . '.' . $key . '.lines', 0);
+        $meta->set('Sort.' . $options['name'] . '.' . $key . '.count', 0);
+        $meta->set('Sort.' . $options['name'] . '.' . $key . '.url.asc', $options['url']);
+        $meta->set('Filter', (object) []);
+        $meta->set('Where', (object) []);
+        $meta->set('Count', (object) []);
+        return $meta->data();
+    }
+
+    /**
+     * @throws Exception
+     */
     public function object_create_expose(App $object, $class, $item): mixed
     {
         $data = new Storage();
@@ -600,6 +648,9 @@ Trait Data {
         return $result;
     }
 
+    /**
+     * @throws ObjectException
+     */
     public function object_create_sync(App $object, $class): object
     {
         $sync = [];
