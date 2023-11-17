@@ -445,7 +445,7 @@ Trait Data {
             $object->config('ds')
         ;
         if(!array_key_exists('function', $options)){
-            $options['function'] = __FUNCTION__;
+            $options['function'] = str_replace('_', '.', __FUNCTION__);
         }
         $options['relation'] = false;
         if(!Security::is_granted(
