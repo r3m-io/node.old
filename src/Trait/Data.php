@@ -656,6 +656,8 @@ Trait Data {
         $expose->set('role', 'ROLE_SYSTEM');
 
         $attributes = [];
+        $attributes[] = 'uuid';
+        $attributes[] = '#class';
         $properties = $item->get('Node.property');
         if($properties){
             foreach($properties as $nr => $property){
