@@ -661,7 +661,10 @@ Trait Data {
         $properties = $item->get('Node.property');
         if($properties){
             foreach($properties as $nr => $property){
-                if(property_exists($property, 'name')){
+                if(
+                    property_exists($property, 'name') &&
+                    !in_array($property->name, $attributes, true)
+                ){
                     $attributes[] = $property->name;
                 }
             }
