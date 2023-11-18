@@ -2,6 +2,7 @@
 
 namespace R3m\Io\Node\Trait\Data;
 
+use R3m\Io\Module\Cache;
 use R3m\Io\Node\Service\Security;
 use SplFileObject;
 
@@ -153,6 +154,9 @@ Trait NodeList {
             $object->config('extension.connect')
         ;
         $object->logger($object->config('project.log.node'))->info('url2:', [ $properties_connect, $url, $url_uuid, $url_connect_property ]);
+        if(!array_key_exists('ttl', $options)){
+            $options['ttl'] = Cache::TEN_MINUTES;
+        }
         $ramdisk_url = false;
         if(
             File::exist($url) &&
@@ -185,7 +189,8 @@ Trait NodeList {
                 'parse' => $options['parse'],
                 'page' => $options['page'] ?? 1,
                 'limit' => $options['limit'] ?? 1000,
-                'mtime' => $mtime
+                'mtime' => $mtime,
+                'ttl' => $options['ttl']
             ];
             $ramdisk_key = sha1(Core::object($ramdisk_key, Core::OBJECT_JSON));
             $ramdisk_url = $ramdisk_dir .
@@ -223,6 +228,7 @@ Trait NodeList {
             $result['relation'] = $options['relation'];
             $result['parse'] = $options['parse'];
             $result['mtime'] = $mtime;
+            $result['ttl'] = $options['ttl'];
             return $result;
         }
         if($mtime === false) {
@@ -250,7 +256,8 @@ Trait NodeList {
                     'sort' => $options['sort'],
                     'page' => $options['page'] ?? 1,
                     'limit' => $options['limit'] ?? 1000,
-                    'mtime' => $mtime
+                    'mtime' => $mtime,
+                    'ttl' => $options['ttl'],
                 ];
                 $key = sha1(Core::object($key, Core::OBJECT_JSON));
                 $lines = $meta->get('Filter.' . $name . '.' . $key . '.lines');
@@ -322,7 +329,8 @@ Trait NodeList {
                                 'name' => $name,
                                 'ramdisk' => $options['ramdisk'] ?? false,
                                 'parse' => $options['parse'],
-                                'mtime' => $mtime
+                                'mtime' => $mtime,
+                                'ttl' => $options['ttl'],
                             ]
                         );
                     }
@@ -337,6 +345,7 @@ Trait NodeList {
                 $result['relation'] = $options['relation'];
                 $result['parse'] = $options['parse'];
                 $result['mtime'] = $mtime;
+                $result['ttl'] = $options['ttl'];
                 if($ramdisk_url){
                     $ramdisk_data = new Storage($result);
                     $ramdisk_data->write($ramdisk_url);
@@ -358,7 +367,8 @@ Trait NodeList {
                     'sort' => $options['sort'],
                     'page' => $options['page'] ?? 1,
                     'limit' => $options['limit'] ?? 1000,
-                    'mtime' => $mtime
+                    'mtime' => $mtime,
+                    'ttl' => $options['ttl'],
                 ];
                 $key = sha1(Core::object($key, Core::OBJECT_JSON));
                 $lines = $meta->get('Where.' . $name . '.' . $key . '.lines');
@@ -411,7 +421,8 @@ Trait NodeList {
                             'name' => $name,
                             'ramdisk' => $options['ramdisk'] ?? false,
                             'parse' => $options['parse'],
-                            'mtime' => $mtime
+                            'mtime' => $mtime,
+                            'ttl' => $options['ttl'],
                         ]
                     );
                 } else {
@@ -454,7 +465,8 @@ Trait NodeList {
                                 'name' => $name,
                                 'ramdisk' => $options['ramdisk'] ?? false,
                                 'parse' => $options['parse'],
-                                'mtime' => $mtime
+                                'mtime' => $mtime,
+                                'ttl' => $options['ttl']
                             ]
                         );
                     }
@@ -469,6 +481,7 @@ Trait NodeList {
                 $result['relation'] = $options['relation'];
                 $result['parse'] = $options['parse'];
                 $result['mtime'] = $mtime;
+                $result['ttl'] = $options['ttl'];
                 if($ramdisk_url){
                     $ramdisk_data = new Storage($result);
                     $ramdisk_data->write($ramdisk_url);
@@ -500,6 +513,7 @@ Trait NodeList {
                 $sort_key = sha1(Core::object($sort_key, Core::OBJECT_JSON));
                 $url = $meta->get('Sort.' . $name . '.' . $sort_key . '.'. $url_key);
                 $lines = $meta->get('Sort.' . $name . '.' . $sort_key . '.lines');
+                //@todo remove these 3 lines...
                 if($object->config('project.volume.dir.node')) {
                     $url = str_replace('/mnt/d/Vps2/Data/', $object->config('project.volume.dir.data'), $url);
                     $url = str_replace('/Application/Data/', $object->config('project.volume.dir.data'), $url);
@@ -547,7 +561,8 @@ Trait NodeList {
                             'name' => $name,
                             'ramdisk' => $options['ramdisk'] ?? false,
                             'parse' => $options['parse'],
-                            'mtime' => $mtime
+                            'mtime' => $mtime,
+                            'ttl' => $options['ttl'],
                         ]
                     );
                     $result = [];
@@ -559,6 +574,7 @@ Trait NodeList {
                     $result['relation'] = $options['relation'];
                     $result['parse'] = $options['parse'];
                     $result['mtime'] = $mtime;
+                    $result['ttl'] = $options['ttl'];
                     if($ramdisk_url){
                         $ramdisk_data = new Storage($result);
                         $ramdisk_data->write($ramdisk_url);
