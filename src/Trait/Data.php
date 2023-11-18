@@ -676,13 +676,13 @@ Trait Data {
         if(!empty($objects)){
             $expose->set('objects', $objects);
         }
-        $data->set($class . '.sync.expose', $expose->data());
-        $data->set($class . '.list.expose', $expose->data());
-        $data->set($class . '.read.expose', $expose->data());
-        $data->set($class . '.record.expose', $expose->data());
-        $data->set($class . '.create.expose', $expose->data());
-        $data->set($class . '.put.expose', $expose->data());
-        $data->set($class . '.patch.expose', $expose->data());
+        $data->set($class . '.sync.expose', [ $expose->data() ]);
+        $data->set($class . '.list.expose', [ $expose->data() ]);
+        $data->set($class . '.read.expose', [ $expose->data() ]);
+        $data->set($class . '.record.expose', [ $expose->data() ]);
+        $data->set($class . '.create.expose', [ $expose->data() ]);
+        $data->set($class . '.put.expose', [ $expose->data() ]);
+        $data->set($class . '.patch.expose', [ $expose->data() ]);
         return $data->data();
     }
 
