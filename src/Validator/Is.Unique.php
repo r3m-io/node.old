@@ -46,6 +46,9 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
                     }
                     */
                     $value[$nr] = $object->request('node.' . trim($explode[0]));
+                    if($value[$nr] === null){
+                        return false;
+                    }
                 }
             }
         }
