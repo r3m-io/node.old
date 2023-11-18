@@ -659,11 +659,9 @@ Trait Create {
                         $name,
                         $name . '.' . __FUNCTION__ . '.expose'
                     );
-                    d($expose);
                     $node = new Storage();
                     $node->data($object->request('node'));
                     $node->set('#class', $name);
-                    d($node);
                     if (
                         $expose &&
                         $role
@@ -677,7 +675,6 @@ Trait Create {
                         );
                     }
                 }
-                ddd($record->data());
                 if (
                     $record->has('uuid') &&
                     !empty($record->get('uuid'))
