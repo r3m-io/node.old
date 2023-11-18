@@ -7,6 +7,7 @@ use R3m\Io\App;
 use R3m\Io\Config;
 use R3m\Io\Exception\FileWriteException;
 use R3m\Io\Exception\ObjectException;
+use R3m\Io\Module\Cache;
 use R3m\Io\Module\Controller;
 use R3m\Io\Module\Core;
 use R3m\Io\Module\Data as Storage;
@@ -117,6 +118,7 @@ Trait BinaryTree {
                 'page' => $options['page'] ?? 1,
                 'limit' => $options['limit'] ?? 1000,
                 'mtime' => $mtime,
+                'ttl' => $options['ttl'] ?? Cache::TEN_MINUTES,
             ];
             $key = sha1(Core::object($key, Core::OBJECT_JSON));
             $file = new SplFileObject($url_property);
@@ -157,7 +159,8 @@ Trait BinaryTree {
                     'relation' => $options['relation'],
                     'name' => $name,
                     'ramdisk' => $options['ramdisk'] ?? false,
-                    'mtime' => $mtime
+                    'mtime' => $mtime,
+                    'ttl' => $options['ttl'] ?? Cache::TEN_MINUTES,
                 ]
             );
             if(!empty($filter_list)){
@@ -201,6 +204,7 @@ Trait BinaryTree {
                 $meta->set('Filter.' . $name . '.' . $key . '.count', $count);
                 $meta->set('Filter.' . $name . '.' . $key . '.limit', $limit);
                 $meta->set('Filter.' . $name . '.' . $key . '.mtime', $mtime);
+                $meta->set('Filter.' . $name . '.' . $key . '.ttl', $options['ttl'] ?? Cache::TEN_MINUTES);
                 $meta->set('Filter.' . $name . '.' . $key . '.filter', $options['filter']);
                 $meta->set('Filter.' . $name . '.' . $key . '.sort', $options['sort']);
                 $this->sync_file([
@@ -218,6 +222,7 @@ Trait BinaryTree {
                 'page' => $options['page'] ?? 1,
                 'limit' => $options['limit'] ?? 1000,
                 'mtime' => $mtime,
+                'ttl' => $options['ttl'] ?? Cache::TEN_MINUTES,
             ];
             $key = sha1(Core::object($key, Core::OBJECT_JSON));
             $file = new SplFileObject($url_property);
@@ -255,7 +260,8 @@ Trait BinaryTree {
                     'relation' => $options['relation'],
                     'name' => $name,
                     'ramdisk' => $options['ramdisk'] ?? false,
-                    'mtime' => $mtime
+                    'mtime' => $mtime,
+                    'ttl' => $options['ttl'] ?? Cache::TEN_MINUTES,
                 ]
             );
             if(!empty($where_list)){
@@ -299,6 +305,7 @@ Trait BinaryTree {
                 $meta->set('Where.' . $name . '.' . $key . '.count', $count);
                 $meta->set('Where.' . $name . '.' . $key . '.limit', $limit);
                 $meta->set('Where.' . $name . '.' . $key . '.mtime', $mtime);
+                $meta->set('Where.' . $name . '.' . $key . '.ttl', $options['ttl'] ?? Cache::TEN_MINUTES);
                 $meta->set('Where.' . $name . '.' . $key . '.where', $options['where']);
                 $meta->set('Where.' . $name . '.' . $key . '.sort', $options['sort']);
                 $this->sync_file([
