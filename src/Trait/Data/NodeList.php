@@ -163,6 +163,7 @@ Trait NodeList {
             array_key_exists('ramdisk', $options) &&
             $options['ramdisk'] === true
         ){
+            ddd($url);
             $mtime = File::mtime($url);
             $user_dir = $object->config('ramdisk.url') .
                 $object->config(Config::POSIX_ID) .
