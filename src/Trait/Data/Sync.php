@@ -455,6 +455,7 @@ Trait Sync {
                         foreach ($sort as $key => $subList) {
                             foreach ($subList as $nr => $node) {
                                 $node_data->data($node);
+                                d($properties);
                                 ddd($node_data);
                                 if(
                                     $node_data->has('uuid') &&
