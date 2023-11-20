@@ -455,8 +455,6 @@ Trait Sync {
                         foreach ($sort as $key => $subList) {
                             foreach ($subList as $nr => $node) {
                                 $node_data->data($node);
-                                d($properties);
-                                ddd($node_data);
                                 if(
                                     $node_data->has('uuid') &&
                                     $node_data->has($properties[0]) &&
@@ -474,6 +472,8 @@ Trait Sync {
                                 $index++;
                             }
                         }
+                        d($properties);
+                        d($url_property_asc);
                         Dir::create($dir_property_asc, Dir::CHMOD);
                         $connect_asc_lines = File::write($url_connect_asc, implode(PHP_EOL, $connect_property_uuid), 'lines');
                         File::touch($url_connect_asc, $mtime);
