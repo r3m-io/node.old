@@ -544,10 +544,12 @@ Trait Data {
                 'dir_binary_tree_asc' => $dir_binary_tree_asc,
                 'dir_expose' => $dir_expose,
                 'dir_meta' => $dir_meta,
+                'dir_validate' => $dir_validate,
                 'url' => $url,
                 'url_binary_tree' => $url_binary_tree,
                 'url_expose' => $url_expose,
                 'url_meta' => $url_meta,
+                'url_validate' => $url_validate,
             ]);
             echo PHP_EOL . 'You can now synchronise the object with:' . PHP_EOL;
             echo Core::binary() . ' r3m_io/node object sync -class=' . $name . PHP_EOL;
