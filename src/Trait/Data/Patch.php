@@ -233,6 +233,7 @@ Trait Patch {
                 substr($value, -1, 1) === '}'
             ){
                 d($value);
+                dd(Core::object($value, Core::OBJECT_OBJECT));
                 die;
                 $node->set($attribute, Core::object_merge($node->get($attribute), Core::object($value, Core::OBJECT_OBJECT)));
                 $node->remove_null();
