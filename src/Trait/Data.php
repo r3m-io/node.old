@@ -793,7 +793,7 @@ Trait Data {
             $name = Cli::read('input', 'Enter the "name" of the property: ');
             if(empty($name)){
                 if($deep > 1){
-                    echo 'Leave "name" empty if finished.' . PHP_EOL;
+                    echo 'Object added...' . PHP_EOL;
                 }
                 break;
             }
