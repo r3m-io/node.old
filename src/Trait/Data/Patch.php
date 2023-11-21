@@ -109,8 +109,6 @@ Trait Patch {
         if(is_array($record)){
             $record = Core::object($record, Core::OBJECT_OBJECT);
         }
-        d($options);
-        ddd($record);
         if(!array_key_exists('function', $options)){
             $options['function'] = __FUNCTION__;
         }
@@ -130,6 +128,7 @@ Trait Patch {
         $name = Controller::name($class);
         $record->{'#class'} = $name;
         $object = $this->object();
+        ddd($object->request());
         $dir_node = $object->config('project.dir.data') .
             'Node' .
             $object->config('ds')
