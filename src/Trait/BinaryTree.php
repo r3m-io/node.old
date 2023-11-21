@@ -1014,7 +1014,7 @@ Trait BinaryTree {
                     $record_data = $this->where($record_data, $options['where'], $options);
                 }
                 if($record_data){
-                    $record->{'#index'} = $record_index;
+                    $record_data->{'#index'} = $record_index;
                     $page[] = $record_data;
                     $record_index++;
                     $counter++;
@@ -1059,6 +1059,7 @@ Trait BinaryTree {
                 $object->logger($object->config('project.log.node'))->info('Duration: (2) ' . round($duration, 2) . ' sec url: ' . $options['url']);
             }
         }
+        ddd($page);
         return $page;
     }
 
