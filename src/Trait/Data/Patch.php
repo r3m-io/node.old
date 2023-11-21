@@ -232,6 +232,8 @@ Trait Patch {
                 substr($value, 0, 1) === '{' &&
                 substr($value, -1, 1) === '}'
             ){
+                d($value);
+                die;
                 $node->set($attribute, Core::object_merge($node->get($attribute), Core::object($value, Core::OBJECT_OBJECT)));
                 $node->remove_null();
             } else {
