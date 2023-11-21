@@ -168,6 +168,7 @@ Trait Patch {
         $flags = new Storage(App::flags($object));
         $is_array_prepend = $flags->get('array.prepend') ?? false;
         $is_array_empty = $flags->get('array.empty') ?? false;
+        ddd($patch->data(());
         foreach($patch->data() as $attribute => $value){
             if(is_array($value)){
                 $list = $node->get($attribute);
