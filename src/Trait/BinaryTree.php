@@ -1018,20 +1018,19 @@ Trait BinaryTree {
 
                     foreach($record_data as $key => $value){
                         foreach($object_data->get('relation') as $relation){
-                            ddd($relation);
                             if(
+                                property_exists($relation, 'attribute') &&
+                                $relation->attribute === $key &&
                                 is_object($value) &&
                                 property_exists($value, 'where') &&
                                 property_exists($value, 'sort') &&
                                 property_exists($value, 'limit') &&
                                 property_exists($value, 'page')
                             ){
-
                                 d($value);
                                 ddd($key);
                             }
                         }
-
                     }
                     $page[] = $record_data;
                     $record_index++;
