@@ -57,6 +57,8 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
             }
         }
     }
+    d($attribute);
+    ddd($value);
     if (
         is_array($attribute) &&
         is_array($value)
