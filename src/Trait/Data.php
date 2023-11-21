@@ -785,12 +785,15 @@ Trait Data {
     /**
      * @throws ObjectException
      */
-    public function object_create_property(App $object, $class){
+    public function object_create_property(App $object, $class, $deep=1){
         $properties = [];
         echo 'Leave "name" empty if finished.' . PHP_EOL;
         while(true){
             $name = Cli::read('input', 'Enter the "name" of the property: ');
             if(empty($name)){
+                if($deep > 1){
+                    echo 'Leave "name" empty if finished.' . PHP_EOL;
+                }
                 break;
             }
             echo 'Available types:' . PHP_EOL;
@@ -802,6 +805,7 @@ Trait Data {
             echo '    - object' . PHP_EOL;
             echo '    - string' . PHP_EOL;
             echo '    - uuid' . PHP_EOL;
+            echo '    - relation' . PHP_EOL;
             $type = Cli::read('input', 'Enter the "type" of the property: ');
             while(
                 !in_array(
@@ -815,6 +819,7 @@ Trait Data {
                         'object',
                         'string',
                         'uuid',
+                        'relation',
                     ],
                     true
                 )
@@ -828,9 +833,33 @@ Trait Data {
                 echo '    - object' . PHP_EOL;
                 echo '    - string' . PHP_EOL;
                 echo '    - uuid' . PHP_EOL;
+                echo '    - relation' . PHP_EOL;
                 $type = Cli::read('input', 'Enter the "type" of the property: ');
             }
-            if($type === 'object'){
+            if($type === 'relation'){
+                $is_multiple_relation = Cli::read('input', 'Are there multiple relations (y/n): ');
+                if($is_multiple_relation === 'y'){
+                    $is_multiple_relation = true;
+                } else {
+                    $is_multiple_relation = false;
+                }
+                if($is_multiple_relation){
+                    $properties[] = (object) [
+                        'name' => $name,
+                        'type' => 'array',
+                        'relation' => true,
+                        'is_multiple' => $is_multiple_relation,
+                    ];
+                } else {
+                    $properties[] = (object) [
+                        'name' => $name,
+                        'type' => 'uuid',
+                        'relation' => true,
+                        'is_multiple' => $is_multiple_relation,
+                    ];
+                }
+            }
+            elseif($type === 'object'){
                 $is_multiple = Cli::read('input', 'Are there multiple objects (y/n): ');
                 if($is_multiple === 'y'){
                     $is_multiple = true;
@@ -853,6 +882,7 @@ Trait Data {
                     echo '    - object' . PHP_EOL;
                     echo '    - string' . PHP_EOL;
                     echo '    - uuid' . PHP_EOL;
+                    echo '    - relation' . PHP_EOL;
                     $has_property_type = Cli::read('input', 'Enter the "type" of the property: ');
                     if($has_property_type === 'object'){
                         $has_property_is_multiple = Cli::read('input', 'Are there multiple objects (y/n): ');
@@ -864,7 +894,7 @@ Trait Data {
                         $has_property_properties[] = (object) [
                             'name' => $has_property_name,
                             'type' => $has_property_type,
-                            'property' => $this->object_create_property($object, $class),
+                            'property' => $this->object_create_property($object, $class, ++$deep),
                             'multiple' => $has_property_is_multiple
                         ];
                     } else {
