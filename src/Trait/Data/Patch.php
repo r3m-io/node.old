@@ -128,7 +128,6 @@ Trait Patch {
         $name = Controller::name($class);
         $record->{'#class'} = $name;
         $object = $this->object();
-        ddd($object->request());
         $dir_node = $object->config('project.dir.data') .
             'Node' .
             $object->config('ds')
@@ -202,7 +201,13 @@ Trait Patch {
                          * these uuids need to be unique in the list
                          * only if item is uuid
                          */
-                        if(!in_array($item, $list, true)){
+                        if(
+                            !in_array(
+                                $item,
+                                $list,
+                                true
+                            )
+                        ){
                             if($is_array_prepend){
                                 array_unshift($list, $item);
                             } else {
