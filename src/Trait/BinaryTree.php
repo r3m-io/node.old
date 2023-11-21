@@ -1017,16 +1017,21 @@ Trait BinaryTree {
                     $record_data->{'#index'} = $record_index;
 
                     foreach($record_data as $key => $value){
-                        if(
-                            is_object($value) &&
-                            property_exists($value, 'where') &&
-                            property_exists($value, 'sort') &&
-                            property_exists($value, 'limit') &&
-                            property_exists($value, 'page')
-                        ){
-                            d($value);
-                            ddd($key);
+                        foreach($object_data->get('relation') as $relation){
+                            ddd($relation);
+                            if(
+                                is_object($value) &&
+                                property_exists($value, 'where') &&
+                                property_exists($value, 'sort') &&
+                                property_exists($value, 'limit') &&
+                                property_exists($value, 'page')
+                            ){
+
+                                d($value);
+                                ddd($key);
+                            }
                         }
+
                     }
                     $page[] = $record_data;
                     $record_index++;
