@@ -1015,6 +1015,19 @@ Trait BinaryTree {
                 }
                 if($record_data){
                     $record_data->{'#index'} = $record_index;
+
+                    foreach($record_data as $key => $value){
+                        if(
+                            is_object($value) &&
+                            property_exists($value, 'where') &&
+                            property_exists($value, 'sort') &&
+                            property_exists($value, 'limit') &&
+                            property_exists($value, 'page') &&
+                        ){
+                            d($value);
+                            ddd($key);
+                        }
+                    }
                     $page[] = $record_data;
                     $record_index++;
                     $counter++;
@@ -1059,7 +1072,6 @@ Trait BinaryTree {
                 $object->logger($object->config('project.log.node'))->info('Duration: (2) ' . round($duration, 2) . ' sec url: ' . $options['url']);
             }
         }
-        ddd($page);
         return $page;
     }
 
