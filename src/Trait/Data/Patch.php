@@ -162,6 +162,7 @@ Trait Patch {
             return false;
         }
         $object->request('node', $record);
+        ddd($object->request());
         $validate = $this->validate($object, $validate_url,  $name . '.' . __FUNCTION__);
         $node = new Storage($response['node']);
         $patch = new Storage($record);
