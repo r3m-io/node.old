@@ -229,7 +229,16 @@ Trait Patch {
                 $node->remove_null();
             }
             else {
-                $node->set($attribute, $value);
+                if(
+                    is_string($value) &&
+                    substr($value, 0, 1) === '{' &&
+                    substr($value, -1, 1) === '}'
+                ){
+                    $node->set($attribute, Core::object_merge($node->get($attribute), Core::object($value, Core::OBJECT_OBJECT)));
+                    $node->remove_null();
+                } else {
+                    $node->set($attribute, $value);
+                }
             }
         }
         $response = [];
