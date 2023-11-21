@@ -109,6 +109,8 @@ Trait Patch {
         if(is_array($record)){
             $record = Core::object($record, Core::OBJECT_OBJECT);
         }
+        d($options);
+        ddd($record);
         if(!array_key_exists('function', $options)){
             $options['function'] = __FUNCTION__;
         }
@@ -162,7 +164,6 @@ Trait Patch {
             return false;
         }
         $object->request('node', $record);
-        ddd($object->request());
         $validate = $this->validate($object, $validate_url,  $name . '.' . __FUNCTION__);
         $node = new Storage($response['node']);
         $patch = new Storage($record);
@@ -226,7 +227,6 @@ Trait Patch {
                 $node->set($attribute, $value);
             }
         }
-        $node->set('#class', $name);
         $response = [];
         if($validate){
             if($validate->success === true){
