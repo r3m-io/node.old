@@ -54,8 +54,6 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
             }
         }
     }
-    d($attribute);
-    d($value);
     if (
         is_array($attribute) &&
         is_array($value)
@@ -128,9 +126,15 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
         $options['ramdisk'] = true;
     }
     $response = $unique->record($class, $unique->role_system(), $options);
-    d($response);
-    ddd($object->request());
     if (empty($response)) {
+        return true;
+    }
+    $uuid = $object->request('node.uuid');
+    if(
+        array_key_exists('node', $response) &&
+        property_exists($response['node'], 'uuid') &&
+        $uuid === $response['node']->uuid
+    ){
         return true;
     }
     return false;
