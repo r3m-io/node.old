@@ -1022,7 +1022,7 @@ Trait BinaryTree {
                             property_exists($value, 'where') &&
                             property_exists($value, 'sort') &&
                             property_exists($value, 'limit') &&
-                            property_exists($value, 'page') &&
+                            property_exists($value, 'page')
                         ){
                             d($value);
                             ddd($key);
