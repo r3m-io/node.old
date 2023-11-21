@@ -495,6 +495,7 @@ Trait Create {
         $name = Controller::name($class);
         $object = $this->object();
         $object->request('node', (object) $node);
+        $object->request('node.#class', $name);
         $dir_node = $object->config('project.dir.data') .
             'Node' .
             $object->config('ds')

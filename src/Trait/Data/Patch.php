@@ -126,6 +126,7 @@ Trait Patch {
         }
 //        unset($record->uuid);
         $name = Controller::name($class);
+        $record->{'#class'} = $name;
         $object = $this->object();
         $dir_node = $object->config('project.dir.data') .
             'Node' .

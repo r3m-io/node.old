@@ -27,8 +27,6 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
 {
     $url = false;
     $class = false;
-    d($validate);
-    d($object->request());
     if (is_object($validate)) {
         if (property_exists($validate, 'url')) {
             $url = $validate->url;
@@ -45,10 +43,7 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
                     foreach($explode as $explode_nr => $explode_value){
                         $explode[$explode_nr] = trim($explode_value);
                     }
-                    $value[$nr] = $object->request(trim($explode[0]));
-                    if($value[$nr] === null){
-                        $value[$nr] = $object->request('node.' . trim($explode[0]));
-                    }
+                    $value[$nr] = $object->request('node.' . trim($explode[0]));
                     if(
                         $value[$nr] === null ||
                         $value[$nr] === ''
