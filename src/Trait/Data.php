@@ -785,7 +785,8 @@ Trait Data {
     /**
      * @throws ObjectException
      */
-    public function object_create_property(App $object, $class, $deep=1){
+    public function object_create_property(App $object, $class, $deep=1): array
+    {
         $properties = [];
         echo 'Leave "name" empty if finished.' . PHP_EOL;
         while(true){
