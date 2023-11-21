@@ -233,12 +233,12 @@ Trait Patch {
                 substr($value, -1, 1) === '}'
             ){
                 $node_value = $node->get($attribute);
-                d($node_value);
-                d($value);
-                dd(Core::object($value, Core::OBJECT_OBJECT));
-                die;
-                $node->set($attribute, Core::object_merge($node->get($attribute), Core::object($value, Core::OBJECT_OBJECT)));
-                $node->remove_null();
+                if(is_object($node_value)){
+                    $node->set($attribute, Core::object_merge($node->get($attribute), Core::object($value, Core::OBJECT_OBJECT)));
+                    $node->remove_null();
+                } else {
+                    $node->set($attribute, Core::object($value, Core::OBJECT_OBJECT));
+                }
             } else {
                 $node->set($attribute, $value);
             }
