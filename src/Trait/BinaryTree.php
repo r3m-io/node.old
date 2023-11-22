@@ -752,7 +752,7 @@ Trait BinaryTree {
                                                 $one_many->page = $page;
                                                 $response = $this->list(
                                                     $relation->class,
-                                                    $event->role_system(),
+                                                    $this->role_system(),
                                                     $one_many
                                                 );
                                                 if(
