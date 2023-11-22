@@ -130,6 +130,8 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
         return true;
     }
     $uuid = $object->request('node.uuid');
+    d($uuid);
+    d($response);
     if(
         array_key_exists('node', $response) &&
         property_exists($response['node'], 'uuid') &&
