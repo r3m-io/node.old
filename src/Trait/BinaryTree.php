@@ -755,20 +755,17 @@ Trait BinaryTree {
                                                     $this->role_system(),
                                                     $one_many
                                                 );
-//                                                d($response);
                                                 if(
                                                     $response &&
                                                     array_key_exists('list', $response) &&
                                                     !empty($response['list'])
                                                 ){
-                                                    d($response);
                                                     foreach($response['list'] as $list_node){
                                                         $list[] = $list_node;
                                                     }
                                                 }
                                             }
                                             $node->set($relation->attribute, $list);
-                                            ddd($list);
                                         } else {
                                             $response = $this->list(
                                                 $relation->class,
