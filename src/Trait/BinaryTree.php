@@ -573,8 +573,6 @@ Trait BinaryTree {
         if(!property_exists($one_many, 'sort')){
             throw new Exception('Sort not found');
         }
-        d($relation);
-
         $meta_url = $object->config('project.dir.data') .
             'Node' .
             $object->config('ds') .
@@ -951,7 +949,6 @@ Trait BinaryTree {
                                     }
                                     $list = $this->list_select_all($object, $relation, $one_many);
                                     $node->set($relation->attribute, $list);
-                                    ddd('found2');
                                     break;
                                 }
                                 elseif(!is_array($one_many)){
