@@ -1235,7 +1235,6 @@ Trait BinaryTree {
                     $record_data = $this->where($record_data, $options['where'], $options);
                 }
                 if($record_data){
-                    d('yes');
                     $record_data->{'#index'} = $record_index;
 
                     $page[] = $record_data;
