@@ -618,68 +618,72 @@ Trait BinaryTree {
                                 if(!is_string($uuid)){
                                     break;
                                 }
-                                $relation_url = $object->config('project.dir.data') .
-                                    'Node' .
-                                    $object->config('ds') .
-                                    'Storage' .
-                                    $object->config('ds') .
-                                    substr($uuid, 0, 2) .
-                                    $object->config('ds') .
-                                    $uuid .
-                                    $object->config('extension.json')
-                                ;
-                                $relation_data = $object->data_read($relation_url, sha1($relation_url));
-                                if($relation_data) {
-                                    $relation_object_url = $object->config('project.dir.data') .
+                                if($uuid === '*'){
+                                    ddd('found');
+                                } else {
+                                    $relation_url = $object->config('project.dir.data') .
                                         'Node' .
                                         $object->config('ds') .
-                                        'Object' .
+                                        'Storage' .
                                         $object->config('ds') .
-                                        $relation_data->get('#class') .
-                                        $object->config('extension.json');
-                                    $relation_object_data = $object->data_read($relation_object_url, sha1($relation_object_url));
-                                    if (
-                                        $relation_object_data &&
-                                        $relation_object_data->has('relation')
-                                    ) {
-                                        $relation_object_relation = $relation_object_data->get('relation');
-                                        if (is_array($relation_object_relation)) {
-                                            foreach ($relation_object_relation as $relation_nr => $relation_relation) {
-                                                if (
-                                                    property_exists($relation_relation, 'type') &&
-                                                    property_exists($relation_relation, 'class') &&
-                                                    property_exists($record, '#class') &&
-                                                    $relation_relation->type === 'many-one' &&
-                                                    $relation_relation->class === $record->{'#class'}
-                                                ) {
-                                                    //don't need cross-reference, parent is this.
-                                                    continue;
-                                                }
-                                                if (
-                                                    property_exists($relation_relation, 'type') &&
-                                                    property_exists($relation_relation, 'class') &&
-                                                    property_exists($record, '#class') &&
-                                                    $relation_relation->type === 'one-one' &&
-                                                    $relation_relation->class === $record->{'#class'}
-                                                ) {
-                                                    //don't need cross-reference, parent is this.
-                                                    continue;
-                                                }
-                                                if (
-                                                    property_exists($relation_relation, 'attribute')
-                                                ) {
-                                                    $relation_data_data = $relation_data->get($relation_relation->attribute);
-                                                    $relation_data_data = $this->binary_tree_relation_inner($relation_relation, $relation_data_data, $options);
-                                                    $relation_data->set($relation_relation->attribute, $relation_data_data);
+                                        substr($uuid, 0, 2) .
+                                        $object->config('ds') .
+                                        $uuid .
+                                        $object->config('extension.json')
+                                    ;
+                                    $relation_data = $object->data_read($relation_url, sha1($relation_url));
+                                    if($relation_data) {
+                                        $relation_object_url = $object->config('project.dir.data') .
+                                            'Node' .
+                                            $object->config('ds') .
+                                            'Object' .
+                                            $object->config('ds') .
+                                            $relation_data->get('#class') .
+                                            $object->config('extension.json');
+                                        $relation_object_data = $object->data_read($relation_object_url, sha1($relation_object_url));
+                                        if (
+                                            $relation_object_data &&
+                                            $relation_object_data->has('relation')
+                                        ) {
+                                            $relation_object_relation = $relation_object_data->get('relation');
+                                            if (is_array($relation_object_relation)) {
+                                                foreach ($relation_object_relation as $relation_nr => $relation_relation) {
+                                                    if (
+                                                        property_exists($relation_relation, 'type') &&
+                                                        property_exists($relation_relation, 'class') &&
+                                                        property_exists($record, '#class') &&
+                                                        $relation_relation->type === 'many-one' &&
+                                                        $relation_relation->class === $record->{'#class'}
+                                                    ) {
+                                                        //don't need cross-reference, parent is this.
+                                                        continue;
+                                                    }
+                                                    if (
+                                                        property_exists($relation_relation, 'type') &&
+                                                        property_exists($relation_relation, 'class') &&
+                                                        property_exists($record, '#class') &&
+                                                        $relation_relation->type === 'one-one' &&
+                                                        $relation_relation->class === $record->{'#class'}
+                                                    ) {
+                                                        //don't need cross-reference, parent is this.
+                                                        continue;
+                                                    }
+                                                    if (
+                                                        property_exists($relation_relation, 'attribute')
+                                                    ) {
+                                                        $relation_data_data = $relation_data->get($relation_relation->attribute);
+                                                        $relation_data_data = $this->binary_tree_relation_inner($relation_relation, $relation_data_data, $options);
+                                                        $relation_data->set($relation_relation->attribute, $relation_data_data);
+                                                    }
                                                 }
                                             }
-                                        }
-                                        if ($relation_data) {
-                                            $node->set($relation->attribute, $relation_data->data());
-                                        }
-                                    } else {
-                                        if ($relation_data) {
-                                            $node->set($relation->attribute, $relation_data->data());
+                                            if ($relation_data) {
+                                                $node->set($relation->attribute, $relation_data->data());
+                                            }
+                                        } else {
+                                            if ($relation_data) {
+                                                $node->set($relation->attribute, $relation_data->data());
+                                            }
                                         }
                                     }
                                 }
@@ -744,7 +748,7 @@ Trait BinaryTree {
                                                 $node->set($relation->attribute, $list);
                                                 break;
                                             }
-                                            $one_many->limit = 1;
+                                            $one_many->limit = 4096; // config strtolower($relation->class) .limit for example
                                             $page_max = ceil($count / $one_many->limit);
                                             $index = 0;
                                             for($page = 1; $page <= $page_max; $page++){
@@ -913,7 +917,13 @@ Trait BinaryTree {
                                     }
                                     */
                                 }
-                                if(!is_array($one_many)){
+                                elseif(
+                                    is_string($one_many) &&
+                                    $one_many === '*'
+                                ){
+                                    ddd('found2');
+                                }
+                                elseif(!is_array($one_many)){
                                     break;
                                 }
                                 foreach($one_many as $nr => $uuid){
