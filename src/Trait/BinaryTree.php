@@ -732,6 +732,16 @@ Trait BinaryTree {
                                             if(!$meta){
                                                 throw new Exception('Meta data not found in: ' . $meta_url);
                                             }
+                                            $properties = [];
+                                            foreach($one_many->sort as $key => $order){
+                                                $properties[] = $key;
+                                            }
+                                            $sort_key = [
+                                                'property' => $properties,
+                                            ];
+                                            $sort_key = sha1(Core::object($sort_key, Core::OBJECT_JSON));
+                                            $count = $meta->get('Sort.' . $name . '.' . $sort_key . '.count');
+                                            d($count);
                                             d($meta);
 //                                            d($data);
                                             d($one_many);
