@@ -1158,8 +1158,8 @@ Trait BinaryTree {
                 'url_uuid' => $options['url_uuid'],
                 'url_connect_property' => $options['url_connect_property'],
             ]);
-            d($options);
-            d($record_data);
+//            d($options);
+//            d($record_data);
             if(
                 $record_data
             ){
