@@ -408,7 +408,7 @@ Trait NodeList {
                         $counter,
                         [
                             'where' => $where,
-                            'page' => $options['page'] ?? 1,
+                            'page' => 1, //always 1 here because where is already filtered
                             'limit' => $options['limit'] ?? 1000,
                             'lines'=> $lines,
                             'counter' => 0,
