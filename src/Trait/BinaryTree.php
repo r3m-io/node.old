@@ -1021,21 +1021,18 @@ Trait BinaryTree {
                                                 $this->role_system(),
                                                 $node
                                             );
-                                            d($response);
-                                            d($node);
-                                            ddd('current');
-                                            //list with limit & page
+                                            $record_data->{$relation->attribute} = $response['list'];
                                         }
-
                                         break;
                                 }
                             }
                             elseif(is_string($record_data->{$relation->attribute})){
                                 //is_uuid
                                 //is_*
+                                d($relation);
+                                ddd($record_data);
                             }
-                            d($relation);
-                            ddd($record_data);
+
                         }
                     }
                 }
