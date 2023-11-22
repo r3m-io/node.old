@@ -699,8 +699,6 @@ Trait BinaryTree {
                                         property_exists($relation, 'type')
                                     ){
                                         if(!property_exists($one_many, 'limit')){
-                                            d($node);
-                                            d($record_data);
                                             throw new Exception('Relation: ' . $relation->attribute . ' has no limit');
                                         }
                                         if(!property_exists($one_many, 'page')){
@@ -748,6 +746,7 @@ Trait BinaryTree {
                                             }
                                             $one_many->limit = 1;
                                             $page_max = ceil($count / $one_many->limit);
+                                            $index = 0;
                                             for($page = 1; $page <= $page_max; $page++){
                                                 $one_many->page = $page;
                                                 $response = $this->list(
@@ -761,6 +760,7 @@ Trait BinaryTree {
                                                     !empty($response['list'])
                                                 ){
                                                     foreach($response['list'] as $list_node){
+                                                        $list_node->index = $index;
                                                         $list[] = $list_node;
                                                     }
                                                 }
