@@ -732,8 +732,14 @@ Trait BinaryTree {
                                                         $this->role_system(),
                                                         $one_many
                                                     );
-                                                    $node->set($relation->attribute, $response['list']);
-//                                                    $record_data->{$relation->attribute} = $response['list'];
+                                                    if(
+                                                        !empty($response) &&
+                                                        array_key_exists('list', $response)
+                                                    ){
+                                                        $node->set($relation->attribute, $response['list']);
+                                                    } else {
+                                                        $node->set($relation->attribute, []);
+                                                    }
                                                 }
                                                 break 2;
                                         }
