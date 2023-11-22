@@ -760,7 +760,12 @@ Trait BinaryTree {
                                                     !empty($response['list'])
                                                 ){
                                                     foreach($response['list'] as $list_node){
-                                                        $list_node->index = $index;
+                                                        if(is_object($list_node)){
+                                                            $list_node->index = $index;
+                                                        }
+                                                        elseif(is_array($list_node)){
+                                                            $list_node['index'] = $index;
+                                                        }
                                                         $list[] = $list_node;
                                                     }
                                                 }
