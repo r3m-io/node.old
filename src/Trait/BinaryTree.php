@@ -741,11 +741,30 @@ Trait BinaryTree {
                                             ];
                                             $sort_key = sha1(Core::object($sort_key, Core::OBJECT_JSON));
                                             $count = $meta->get('Sort.' . $relation->class . '.' . $sort_key . '.count');
-                                            d($count);
-                                            d($meta);
-//                                            d($data);
-                                            d($one_many);
-                                            ddd('need chunks of 4096 and get it in chunks');
+                                            $list = [];
+                                            if($count === 0){
+                                                $node->set($relation->attribute, $list);
+                                                break;
+                                            }
+                                            $one_many->limit = 1;
+                                            $page_max = ceil($count / $one_many->limit);
+                                            for($page = 1; $page <= $page_max; $page++){
+                                                $one_many->page = $page;
+                                                $response = $event->list(
+                                                    $relation->class,
+                                                    $event->role_system(),
+                                                    $one_many
+                                                );
+                                                if(
+                                                    $response &&
+                                                    array_key_exists('list', $response)
+                                                ){
+                                                    foreach($response['list'] as $list_node){
+                                                        $list[] = $list_node;
+                                                    }
+                                                }
+                                            }
+                                            $node->set($relation->attribute, $list);
                                         } else {
                                             $response = $this->list(
                                                 $relation->class,
