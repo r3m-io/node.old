@@ -1194,8 +1194,6 @@ Trait BinaryTree {
         $record_index = $index;
         for($i = $start; $i < $end; $i++){
             $record_data = $this->binary_tree_index($file, $file_uuid, $file_connect_property, [
-//                'page' => $options['page'],
-//                'limit' => $options['limit'],
                 'lines'=> $options['lines'],
                 'counter' => 0,
                 'index' => $i,
@@ -1204,8 +1202,6 @@ Trait BinaryTree {
                 'url_uuid' => $options['url_uuid'],
                 'url_connect_property' => $options['url_connect_property'],
             ]);
-//            d($options);
-//            d($record_data);
             if(
                 $record_data
             ){
@@ -1279,7 +1275,6 @@ Trait BinaryTree {
                 }
                 if($record_data){
                     $record_data->{'#index'} = $record_index;
-
                     $page[] = $record_data;
                     $record_index++;
                     $counter++;
