@@ -758,7 +758,8 @@ Trait BinaryTree {
 //                                                d($response);
                                                 if(
                                                     $response &&
-                                                    array_key_exists('list', $response)
+                                                    array_key_exists('list', $response) &&
+                                                    !empty($response['list'])
                                                 ){
                                                     d($response);
                                                     foreach($response['list'] as $list_node){
