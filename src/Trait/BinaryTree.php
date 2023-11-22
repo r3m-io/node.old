@@ -687,6 +687,7 @@ Trait BinaryTree {
                                     break;
                                 }
                                 if($uuid === '*'){
+                                    d($relation);
                                     ddd('found');
                                 } else {
                                     $relation_url = $object->config('project.dir.data') .
