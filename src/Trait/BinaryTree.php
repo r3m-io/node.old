@@ -692,6 +692,132 @@ Trait BinaryTree {
                                 $node->has($relation->attribute)
                             ){
                                 $one_many = $node->get($relation->attribute);
+                                if(is_object($one_many)){
+                                    ddd($one_many);
+                                    /*
+                                    if(
+                                        property_exists($relation, 'class') &&
+                                        property_exists($relation, 'attribute') &&
+                                        property_exists($relation, 'type') &&
+                                        property_exists($one_many, $relation->attribute) &&
+                                        !empty($record_data->{$relation->attribute})
+                                    ){
+                                        if(is_object($record_data->{$relation->attribute})){
+                                            //limit => * - int
+                                            $node = $record_data->{$relation->attribute};
+                                            if(!property_exists($node, 'limit')){
+                                                d($node);
+                                                d($record_data);
+                                                throw new Exception('Relation: ' . $relation->attribute . ' has no limit');
+                                            }
+                                            if(!property_exists($node, 'page')){
+                                                $node->page = 1;
+                                            }
+                                            if($node->limit === '*'){
+                                                $node->page = 1;
+                                            }
+                                            if(!property_exists($node, 'sort')){
+                                                if(property_exists($relation, 'sort')){
+                                                    $onode->sort = $relation->sort;
+                                                } else {
+                                                    $node->sort = [
+                                                        'uuid' => 'ASC'
+                                                    ];
+                                                }
+                                            }
+                                            switch($relation->type){
+                                                case 'one-one':
+                                                    throw new Exception('use * as value and update it.');
+                                                    break;
+                                                case 'one-many':
+                                                    if($node->limit === '*'){
+                                                        //list all uuid's
+                                                        dd('need chunks of 4096 and get it in chunks');
+                                                    } else {
+                                                        $response = $this->list(
+                                                            $relation->class,
+                                                            $this->role_system(),
+                                                            $node
+                                                        );
+                                                        $record_data->{$relation->attribute} = $response['list'];
+                                                    }
+                                                    break;
+                                            }
+                                        }
+                                        elseif(is_string($record_data->{$relation->attribute})){
+                                            //is_uuid
+                                            //is_*
+                                            d($relation);
+                                            ddd($record_data);
+                                        }
+
+                                    }
+                                }
+                                    /*
+                                    $relations = $object_data->get('relation');
+                                    if(is_array($relations)){
+                                        foreach($relations as $relation){
+                                            if(
+                                                property_exists($relation, 'class') &&
+                                                property_exists($relation, 'attribute') &&
+                                                property_exists($relation, 'type') &&
+                                                property_exists($record_data, $relation->attribute) &&
+                                                !empty($record_data->{$relation->attribute})
+                                            ){
+                                                if(is_object($record_data->{$relation->attribute})){
+                                                    //limit => * - int
+                                                    $node = $record_data->{$relation->attribute};
+                                                    if(!property_exists($node, 'limit')){
+                                                        d($node);
+                                                        d($record_data);
+                                                        throw new Exception('Relation: ' . $relation->attribute . ' has no limit');
+                                                    }
+                                                    if(!property_exists($node, 'page')){
+                                                        $node->page = 1;
+                                                    }
+                                                    if($node->limit === '*'){
+                                                        $node->page = 1;
+                                                    }
+                                                    if(!property_exists($node, 'sort')){
+                                                        if(property_exists($relation, 'sort')){
+                                                            $onode->sort = $relation->sort;
+                                                        } else {
+                                                            $node->sort = [
+                                                                'uuid' => 'ASC'
+                                                            ];
+                                                        }
+                                                    }
+                                                    switch($relation->type){
+                                                        case 'one-one':
+                                                            throw new Exception('use * as value and update it.');
+                                                            break;
+                                                        case 'one-many':
+                                                            if($node->limit === '*'){
+                                                                //list all uuid's
+                                                                dd('need chunks of 4096 and get it in chunks');
+                                                            } else {
+                                                                $response = $this->list(
+                                                                    $relation->class,
+                                                                    $this->role_system(),
+                                                                    $node
+                                                                );
+                                                                $record_data->{$relation->attribute} = $response['list'];
+                                                            }
+                                                            break;
+                                                    }
+                                                }
+                                                elseif(is_string($record_data->{$relation->attribute})){
+                                                    //is_uuid
+                                                    //is_*
+                                                    d($relation);
+                                                    ddd($record_data);
+                                                }
+
+                                            }
+                                        }
+                                    }
+                                    */
+                                }
                                 if(!is_array($one_many)){
                                     break;
                                 }
@@ -976,68 +1102,6 @@ Trait BinaryTree {
                     $record_data->{'#class'},
                     $record_data->{'#class'} . '.' . $options['function'] . '.expose'
                 );
-                $relations = $object_data->get('relation');
-                if(is_array($relations)){
-                    foreach($relations as $relation){
-                        if(
-                            property_exists($relation, 'class') &&
-                            property_exists($relation, 'attribute') &&
-                            property_exists($relation, 'type') &&
-                            property_exists($record_data, $relation->attribute) &&
-                            !empty($record_data->{$relation->attribute})
-                        ){
-                            if(is_object($record_data->{$relation->attribute})){
-                                //limit => * - int
-                                $node = $record_data->{$relation->attribute};
-                                if(!property_exists($node, 'limit')){
-                                    d($node);
-                                    d($record_data);
-                                    throw new Exception('Relation: ' . $relation->attribute . ' has no limit');
-                                }
-                                if(!property_exists($node, 'page')){
-                                    $node->page = 1;
-                                }
-                                if($node->limit === '*'){
-                                    $node->page = 1;
-                                }
-                                if(!property_exists($node, 'sort')){
-                                    if(property_exists($relation, 'sort')){
-                                        $onode->sort = $relation->sort;
-                                    } else {
-                                        $node->sort = [
-                                            'uuid' => 'ASC'
-                                        ];
-                                    }
-                                }
-                                switch($relation->type){
-                                    case 'one-one':
-                                        throw new Exception('use * as value and update it.');
-                                        break;
-                                    case 'one-many':
-                                        if($node->limit === '*'){
-                                            //list all uuid's
-                                            dd('need chunks of 4096 and get it in chunks');
-                                        } else {
-                                            $response = $this->list(
-                                                $relation->class,
-                                                $this->role_system(),
-                                                $node
-                                            );
-                                            $record_data->{$relation->attribute} = $response['list'];
-                                        }
-                                        break;
-                                }
-                            }
-                            elseif(is_string($record_data->{$relation->attribute})){
-                                //is_uuid
-                                //is_*
-                                d($relation);
-                                ddd($record_data);
-                            }
-
-                        }
-                    }
-                }
                 $record = new Storage($record_data);
                 //add parse
                 // add role to parse
