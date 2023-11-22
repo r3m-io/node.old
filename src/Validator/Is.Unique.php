@@ -49,7 +49,7 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
                         $value[$nr] === null ||
                         $value[$nr] === ''
                     ){
-                        throw exception('Is.Unique: ' . $explode[0] . ' is empty');
+                        throw new Exception('Is.Unique: ' . $explode[0] . ' is empty');
                     }
                 }
             }
