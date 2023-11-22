@@ -740,7 +740,7 @@ Trait BinaryTree {
                                                 'property' => $properties,
                                             ];
                                             $sort_key = sha1(Core::object($sort_key, Core::OBJECT_JSON));
-                                            $count = $meta->get('Sort.' . $name . '.' . $sort_key . '.count');
+                                            $count = $meta->get('Sort.' . $relation->class . '.' . $sort_key . '.count');
                                             d($count);
                                             d($meta);
 //                                            d($data);
