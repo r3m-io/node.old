@@ -705,6 +705,7 @@ Trait BinaryTree {
                                     } else {
                                         $node->set($relation->attribute, false);
                                     }
+                                    d($response);
                                     ddd('found');
                                 } else {
                                     $relation_url = $object->config('project.dir.data') .
