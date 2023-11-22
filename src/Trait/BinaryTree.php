@@ -1220,8 +1220,6 @@ Trait BinaryTree {
                     $role
                 );
                 $record_data = $record->data();
-                d($options);
-                d($record_data);
                 //need object file, so need $class
                 //relations loaded so we can filter / where on them
                 if(
@@ -1237,6 +1235,7 @@ Trait BinaryTree {
                     $record_data = $this->where($record_data, $options['where'], $options);
                 }
                 if($record_data){
+                    d('yes');
                     $record_data->{'#index'} = $record_index;
 
                     $page[] = $record_data;
