@@ -718,31 +718,25 @@ Trait BinaryTree {
                                                 ];
                                             }
                                         }
-                                        switch($relation->type){
-                                            case 'one-one':
-                                                throw new Exception('use * as value and update it.');
-                                                break 2;
-                                            case 'one-many':
-                                                if($one_many->limit === '*'){
-                                                    //list all uuid's
-                                                    dd('need chunks of 4096 and get it in chunks');
-                                                } else {
-                                                    $response = $this->list(
-                                                        $relation->class,
-                                                        $this->role_system(),
-                                                        $one_many
-                                                    );
-                                                    if(
-                                                        !empty($response) &&
-                                                        array_key_exists('list', $response)
-                                                    ){
-                                                        $node->set($relation->attribute, $response['list']);
-                                                    } else {
-                                                        $node->set($relation->attribute, []);
-                                                    }
-                                                }
-                                                break 2;
+                                        if($one_many->limit === '*'){
+                                            //list all uuid's
+                                            dd('need chunks of 4096 and get it in chunks');
+                                        } else {
+                                            $response = $this->list(
+                                                $relation->class,
+                                                $this->role_system(),
+                                                $one_many
+                                            );
+                                            if(
+                                                !empty($response) &&
+                                                array_key_exists('list', $response)
+                                            ){
+                                                $node->set($relation->attribute, $response['list']);
+                                            } else {
+                                                $node->set($relation->attribute, []);
+                                            }
                                         }
+                                        break;
                                     }
                                     /*
                                     if(

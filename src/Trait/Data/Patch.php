@@ -168,6 +168,7 @@ Trait Patch {
         $flags = new Storage(App::flags($object));
         $is_array_prepend = $flags->get('array.prepend') ?? false;
         $is_array_empty = $flags->get('array.empty') ?? false;
+        $is_object_empty = $flags->get('object.empty') ?? false;
         foreach($patch->data() as $attribute => $value){
             if(is_array($value)){
                 $list = $node->get($attribute);
@@ -224,7 +225,11 @@ Trait Patch {
                 $node->set($attribute, $list);
             }
             elseif(is_object($value)){
-                $node->set($attribute, Core::object_merge($node->get($attribute), $value));
+                if($is_object_empty){
+                    $node->set($attribute, $value);
+                } else {
+                    $node->set($attribute, Core::object_merge($node->get($attribute), $value));
+                }
                 $node->remove_null();
             }
             elseif(
@@ -234,7 +239,11 @@ Trait Patch {
             ){
                 $node_value = $node->get($attribute);
                 if(is_object($node_value)){
-                    $node->set($attribute, Core::object_merge($node->get($attribute), Core::object($value, Core::OBJECT_OBJECT)));
+                    if($is_object_empty){
+                        $node->set($attribute, Core::object($value, Core::OBJECT_OBJECT));
+                    } else {
+                        $node->set($attribute, Core::object_merge($node->get($attribute), Core::object($value, Core::OBJECT_OBJECT)));
+                    }
                     $node->remove_null();
                 } else {
                     $node->set($attribute, Core::object($value, Core::OBJECT_OBJECT));
