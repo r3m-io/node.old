@@ -720,8 +720,20 @@ Trait BinaryTree {
                                         }
                                         if($one_many->limit === '*'){
                                             //list all uuid's
-
-                                            d($data);
+                                            $meta_url = $object->config('project.dir.data') .
+                                                'Node' .
+                                                $object->config('ds') .
+                                                'Meta' .
+                                                $object->config('ds') .
+                                                $name .
+                                                $object->config('extension.json')
+                                            ;
+                                            $meta = $object->data_read($meta_url, sha1($meta_url));
+                                            if(!$meta){
+                                                throw new Exception('Meta data not found in: ' . $meta_url);
+                                            }
+                                            d($meta);
+//                                            d($data);
                                             d($one_many);
                                             ddd('need chunks of 4096 and get it in chunks');
                                         } else {
