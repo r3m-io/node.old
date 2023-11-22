@@ -750,7 +750,7 @@ Trait BinaryTree {
                                             $page_max = ceil($count / $one_many->limit);
                                             for($page = 1; $page <= $page_max; $page++){
                                                 $one_many->page = $page;
-                                                $response = $event->list(
+                                                $response = $this->list(
                                                     $relation->class,
                                                     $event->role_system(),
                                                     $one_many
