@@ -1119,6 +1119,7 @@ Trait BinaryTree {
                 $key .
                 $object->config('extension.json')
             ;
+            $url = false;
 //            echo 'binarytree:ramdisk:url: ' . $url . PHP_EOL;
             if(
                 File::exist($url) &&
