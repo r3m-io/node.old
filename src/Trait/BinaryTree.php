@@ -725,7 +725,7 @@ Trait BinaryTree {
                                                 $object->config('ds') .
                                                 'Meta' .
                                                 $object->config('ds') .
-                                                $name .
+                                                $relation->class .
                                                 $object->config('extension.json')
                                             ;
                                             $meta = $object->data_read($meta_url, sha1($meta_url));
