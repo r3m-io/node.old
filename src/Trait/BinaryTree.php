@@ -1094,7 +1094,6 @@ Trait BinaryTree {
             array_key_exists('limit', $options)
         ){
             $index = ($options['page'] * $options['limit']) - $options['limit'];
-            d($index);
         }
         $time_start = microtime(true);
         $url = false;
@@ -1122,7 +1121,7 @@ Trait BinaryTree {
                 $key .
                 $object->config('extension.json')
             ;
-            $url = false;
+            $url = false; //debug mode
 //            echo 'binarytree:ramdisk:url: ' . $url . PHP_EOL;
             if(
                 File::exist($url) &&
@@ -1167,6 +1166,7 @@ Trait BinaryTree {
             if(
                 $record_data
             ){
+                d($record_data);
                 $read = $object->data_read($record_data->{'#read'}->url, sha1($record_data->{'#read'}->url));
                 if(!$read){
                     ///deleted record ?
