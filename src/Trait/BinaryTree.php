@@ -693,7 +693,50 @@ Trait BinaryTree {
                             ){
                                 $one_many = $node->get($relation->attribute);
                                 if(is_object($one_many)){
-                                    ddd($one_many);
+                                    if(
+                                        property_exists($relation, 'class') &&
+                                        property_exists($relation, 'attribute') &&
+                                        property_exists($relation, 'type')
+                                    ){
+                                        if(!property_exists($one_many, 'limit')){
+                                            d($node);
+                                            d($record_data);
+                                            throw new Exception('Relation: ' . $relation->attribute . ' has no limit');
+                                        }
+                                        if(!property_exists($one_many, 'page')){
+                                            $node->page = 1;
+                                        }
+                                        if($one_many->limit === '*'){
+                                            $one_many->page = 1;
+                                        }
+                                        if(!property_exists($one_many, 'sort')){
+                                            if(property_exists($relation, 'sort')){
+                                                $one_many->sort = $relation->sort;
+                                            } else {
+                                                $one_many->sort = [
+                                                    'uuid' => 'ASC'
+                                                ];
+                                            }
+                                        }
+                                        switch($relation->type){
+                                            case 'one-one':
+                                                throw new Exception('use * as value and update it.');
+                                                break;
+                                            case 'one-many':
+                                                if($one_many->limit === '*'){
+                                                    //list all uuid's
+                                                    dd('need chunks of 4096 and get it in chunks');
+                                                } else {
+                                                    $response = $this->list(
+                                                        $relation->class,
+                                                        $this->role_system(),
+                                                        $one_many
+                                                    );
+                                                    $record_data->{$relation->attribute} = $response['list'];
+                                                }
+                                                break;
+                                        }
+                                    }
                                     /*
                                     if(
                                         property_exists($relation, 'class') &&
