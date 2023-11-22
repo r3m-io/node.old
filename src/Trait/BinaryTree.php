@@ -721,7 +721,7 @@ Trait BinaryTree {
                                         switch($relation->type){
                                             case 'one-one':
                                                 throw new Exception('use * as value and update it.');
-                                                break;
+                                                break 2;
                                             case 'one-many':
                                                 if($one_many->limit === '*'){
                                                     //list all uuid's
@@ -734,7 +734,7 @@ Trait BinaryTree {
                                                     );
                                                     $record_data->{$relation->attribute} = $response['list'];
                                                 }
-                                                break;
+                                                break 2;
                                         }
                                     }
                                     /*
