@@ -55,8 +55,6 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
             }
         }
     }
-    d($attribute);
-    d($value);
     if (
         is_array($attribute) &&
         is_array($value)
@@ -133,9 +131,6 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
         return true;
     }
     $uuid = $object->request('node.uuid');
-    d($options);
-    d($uuid);
-    d($response);
     if(
         array_key_exists('node', $response) &&
         property_exists($response['node'], 'uuid') &&
