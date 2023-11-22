@@ -687,7 +687,24 @@ Trait BinaryTree {
                                     break;
                                 }
                                 if($uuid === '*'){
-                                    d($relation);
+                                    $one_one = [
+                                        'sort' => [
+                                            'uuid' => 'ASC'
+                                        ],
+                                    ];
+                                    $response = $this->record(
+                                        $relation->class,
+                                        $this->role_system(),
+                                        $one_one
+                                    );
+                                    if(
+                                        !empty($response) &&
+                                        array_key_exists('node', $response)
+                                    ){
+                                        $node->set($relation->attribute, $response['node']);
+                                    } else {
+                                        $node->set($relation->attribute, false);
+                                    }
                                     ddd('found');
                                 } else {
                                     $relation_url = $object->config('project.dir.data') .
