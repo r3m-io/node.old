@@ -720,7 +720,10 @@ Trait BinaryTree {
                                         }
                                         if($one_many->limit === '*'){
                                             //list all uuid's
-                                            dd('need chunks of 4096 and get it in chunks');
+
+                                            d($data);
+                                            d($one_many);
+                                            ddd('need chunks of 4096 and get it in chunks');
                                         } else {
                                             $response = $this->list(
                                                 $relation->class,
