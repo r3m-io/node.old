@@ -999,6 +999,16 @@ Trait BinaryTree {
                     $role
                 );
                 $record_data = $record->data();
+                foreach($object_data->get('relation') as $relation){
+                    if(
+                        property_exists($relation, 'attribute') &&
+                        property_exists($record_data, $relation->attribute) &&
+                        !empty($record_data->{$relation->attribute})
+                    ){
+                        d($relation);
+                        ddd($record_data);
+                    }
+                }
                 //need object file, so need $class
                 //relations loaded so we can filter / where on them
                 if(
@@ -1016,16 +1026,6 @@ Trait BinaryTree {
                 if($record_data){
                     $record_data->{'#index'} = $record_index;
 
-                    foreach($object_data->get('relation') as $relation){
-                        if(
-                            property_exists($relation, 'attribute') &&
-                            property_exists($record_data, $relation->attribute) &&
-                            !empty($record_data->{$relation->attribute})
-                        ){
-                            d($relation);
-                            ddd($record_data);
-                        }
-                    }
                     $page[] = $record_data;
                     $record_index++;
                     $counter++;
