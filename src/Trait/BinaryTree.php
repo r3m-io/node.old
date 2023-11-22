@@ -1166,7 +1166,6 @@ Trait BinaryTree {
             if(
                 $record_data
             ){
-                d($record_data);
                 $read = $object->data_read($record_data->{'#read'}->url, sha1($record_data->{'#read'}->url));
                 if(!$read){
                     ///deleted record ?
@@ -1221,6 +1220,7 @@ Trait BinaryTree {
                     $role
                 );
                 $record_data = $record->data();
+                d($record_data);
                 //need object file, so need $class
                 //relations loaded so we can filter / where on them
                 if(
