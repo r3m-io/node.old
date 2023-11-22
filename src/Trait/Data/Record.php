@@ -33,7 +33,6 @@ Trait Record {
         )){
             return null;
         }
-        d($options);
         $list = $this->list($class, $role, $options);
         if(
             is_array($list) &&
