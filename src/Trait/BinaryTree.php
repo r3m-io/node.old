@@ -1001,76 +1001,48 @@ Trait BinaryTree {
                 $record_data = $record->data();
                 foreach($object_data->get('relation') as $relation){
                     if(
+                        property_exists($relation, 'class') &&
                         property_exists($relation, 'attribute') &&
+                        property_exists($relation, 'type') &&
                         property_exists($record_data, $relation->attribute) &&
                         !empty($record_data->{$relation->attribute})
                     ){
-                        $sort = [
-                            'uuid' => 'ASC'
-                        ];
-                        if(property_exists($relation, 'sort')){
-                            $sort = $relation->sort;
-                        }
                         if(is_object($record_data->{$relation->attribute})){
                             //limit => * - int
                             $node = $record_data->{$relation->attribute};
                             if(!property_exists($node, 'limit')){
                                 throw new Exception('Relation: ' . $relation->attribute . ' has no limit');
                             }
-                            $limit = $node->limit;
-                            $page = 1;
-                            if(property_exists($node, 'page')){
-                                $page = $node->page;
+                            if(!property_exists($node, 'page')){
+                                $node->page = 1;
                             }
-                            if(property_exists($node, 'sort')){
-                                $sort = $node->sort;
+                            if($node->limit === '*'){
+                                $node->page = 1;
                             }
-                            $where = false;
-                            if(property_exists($node, 'where')){
-                                $where = $node->where;
-                            }
-                            $filter = false;
-                            if(property_exists($node, 'filter')){
-                                $filter = $node->filter;
+                            if(!property_exists($node, 'sort')){
+                                if(property_exists($relation, 'sort')){
+                                    $onode->sort = $relation->sort;
+                                } else {
+                                    $node->sort = [
+                                        'uuid' => 'ASC'
+                                    ];
+                                }
                             }
                             switch($relation->type){
                                 case 'one-one':
                                     throw new Exception('use * as value and update it.');
                                 break;
                                 case 'one-many':
-                                    if($limit === '*'){
+                                    if($options['limit'] === '*'){
                                         //list all uuid's
-                                        if(
-                                            empty($where) &&
-                                            empty($filter)
-                                        ){
-                                            //use count from meta and list
-                                        }
-                                        elseif(!empty($where)){
-                                            //use count and list
-                                        }
-                                        elseif(!empty($filter)){
-                                            //use count and list
-                                        }
+                                        dd('need chunks of 4096 and get it in chunks');
                                     } else {
-                                        if(
-                                            empty($where) &&
-                                            empty($filter)
-                                        ){
-                                            //use limit & page to list
-                                        }
-                                        elseif(!empty($where)){
-                                            //use count and list
-                                            d($limit);
-                                            d($where);
-                                            d($filter);
-                                            d($sort);
-                                            d($relation);
-                                            ddd('current');
-                                        }
-                                        elseif(!empty($filter)){
-                                            //use count and list
-                                        }
+                                        $response = $this->list(
+                                            $relation->class,
+                                            $this->role_system(),
+                                            $options
+                                        );
+                                        ddd('current');
                                         //list with limit & page
                                     }
 
