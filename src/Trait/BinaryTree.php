@@ -573,6 +573,8 @@ Trait BinaryTree {
         if(!property_exists($one_many, 'sort')){
             throw new Exception('Sort not found');
         }
+        d($relation);
+
         $meta_url = $object->config('project.dir.data') .
             'Node' .
             $object->config('ds') .
