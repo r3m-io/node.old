@@ -1033,15 +1033,17 @@ Trait BinaryTree {
                                     throw new Exception('use * as value and update it.');
                                 break;
                                 case 'one-many':
-                                    if($options['limit'] === '*'){
+                                    if($node->limit === '*'){
                                         //list all uuid's
                                         dd('need chunks of 4096 and get it in chunks');
                                     } else {
                                         $response = $this->list(
                                             $relation->class,
                                             $this->role_system(),
-                                            $options
+                                            $node
                                         );
+                                        d($response);
+                                        d($node);
                                         ddd('current');
                                         //list with limit & page
                                     }
