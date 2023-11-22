@@ -27,6 +27,7 @@ function validate_is_unique(App $object, $value='', $attribute='', $validate='')
 {
     $url = false;
     $class = false;
+    d($validate);
     if (is_object($validate)) {
         if (property_exists($validate, 'url')) {
             $url = $validate->url;
