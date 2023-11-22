@@ -1092,6 +1092,7 @@ Trait BinaryTree {
         ){
             $index = ($options['page'] * $options['limit']) - $options['limit'];
         }
+        d($index);
         $time_start = microtime(true);
         $url = false;
         if(
