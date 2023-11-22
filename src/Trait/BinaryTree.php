@@ -748,6 +748,7 @@ Trait BinaryTree {
                                             }
                                             $one_many->limit = 1;
                                             $page_max = ceil($count / $one_many->limit);
+                                            ddd($page_max);
                                             for($page = 1; $page <= $page_max; $page++){
                                                 $one_many->page = $page;
                                                 $response = $this->list(
