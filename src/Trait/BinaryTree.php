@@ -1235,7 +1235,6 @@ Trait BinaryTree {
                     !empty($options['where'])
                 ){
                     $record_data = $this->where($record_data, $options['where'], $options);
-                    d($record_data);
                 }
                 if($record_data){
                     $record_data->{'#index'} = $record_index;

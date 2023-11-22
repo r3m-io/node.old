@@ -425,6 +425,7 @@ Trait NodeList {
                             'ttl' => $options['ttl'],
                         ]
                     );
+                    d($list);
                 } else {
                     $sort_key = [
                         'property' => $properties,
