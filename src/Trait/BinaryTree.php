@@ -760,6 +760,7 @@ Trait BinaryTree {
                                                     $response &&
                                                     array_key_exists('list', $response)
                                                 ){
+                                                    d($response);
                                                     foreach($response['list'] as $list_node){
                                                         $list[] = $list_node;
                                                     }
