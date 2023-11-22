@@ -755,7 +755,7 @@ Trait BinaryTree {
                                                     $this->role_system(),
                                                     $one_many
                                                 );
-                                                d($response);
+//                                                d($response);
                                                 if(
                                                     $response &&
                                                     array_key_exists('list', $response)
@@ -766,6 +766,7 @@ Trait BinaryTree {
                                                 }
                                             }
                                             $node->set($relation->attribute, $list);
+                                            ddd($list);
                                         } else {
                                             $response = $this->list(
                                                 $relation->class,
