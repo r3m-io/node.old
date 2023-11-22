@@ -565,6 +565,74 @@ Trait BinaryTree {
      * @throws FileWriteException
      * @throws Exception
      */
+    private function list_select_all(App $object, $relation, $one_many){
+        //list all uuid's
+        if(!property_exists($relation, 'class')){
+            throw new Exception('Relation class not found');
+        }
+        if(!property_exists($one_many, 'sort')){
+            throw new Exception('Sort not found');
+        }
+        $meta_url = $object->config('project.dir.data') .
+            'Node' .
+            $object->config('ds') .
+            'Meta' .
+            $object->config('ds') .
+            $relation->class .
+            $object->config('extension.json')
+        ;
+        $meta = $object->data_read($meta_url, sha1($meta_url));
+        if(!$meta){
+            throw new Exception('Meta data not found in: ' . $meta_url);
+        }
+        $properties = [];
+        foreach($one_many->sort as $key => $order){
+            $properties[] = $key;
+        }
+        $sort_key = [
+            'property' => $properties,
+        ];
+        $sort_key = sha1(Core::object($sort_key, Core::OBJECT_JSON));
+        $count = $meta->get('Sort.' . $relation->class . '.' . $sort_key . '.count');
+        $list = [];
+        if($count === 0){
+            return $list;
+        }
+        $one_many->limit = 4096; // config strtolower($relation->class) .limit for example
+        $page_max = ceil($count / $one_many->limit);
+        $index = 0;
+        for($page = 1; $page <= $page_max; $page++){
+            $one_many->page = $page;
+            $response = $this->list(
+                $relation->class,
+                $this->role_system(),
+                $one_many
+            );
+            if(
+                $response &&
+                array_key_exists('list', $response) &&
+                !empty($response['list'])
+            ){
+                foreach($response['list'] as $list_node){
+                    if(is_object($list_node)){
+                        $list_node->{'#index'} = $index;
+                    }
+                    elseif(is_array($list_node)){
+                        $list_node['#index'] = $index;
+                    }
+                    $list[] = $list_node;
+                    $index++;
+                }
+            }
+        }
+        return $list;
+    }
+
+    /**
+     * @throws ObjectException
+     * @throws FileWriteException
+     * @throws Exception
+     */
     private function binary_tree_relation($record, $data, $role, $options=[]){
         $object = $this->object();
         if(!$role){
@@ -706,7 +774,7 @@ Trait BinaryTree {
                                             throw new Exception('Relation: ' . $relation->attribute . ' has no limit');
                                         }
                                         if(!property_exists($one_many, 'page')){
-                                            $node->page = 1;
+                                            $one_many->page = 1;
                                         }
                                         if($one_many->limit === '*'){
                                             $one_many->page = 1;
@@ -721,60 +789,7 @@ Trait BinaryTree {
                                             }
                                         }
                                         if($one_many->limit === '*'){
-                                            //list all uuid's
-                                            $meta_url = $object->config('project.dir.data') .
-                                                'Node' .
-                                                $object->config('ds') .
-                                                'Meta' .
-                                                $object->config('ds') .
-                                                $relation->class .
-                                                $object->config('extension.json')
-                                            ;
-                                            $meta = $object->data_read($meta_url, sha1($meta_url));
-                                            if(!$meta){
-                                                throw new Exception('Meta data not found in: ' . $meta_url);
-                                            }
-                                            $properties = [];
-                                            foreach($one_many->sort as $key => $order){
-                                                $properties[] = $key;
-                                            }
-                                            $sort_key = [
-                                                'property' => $properties,
-                                            ];
-                                            $sort_key = sha1(Core::object($sort_key, Core::OBJECT_JSON));
-                                            $count = $meta->get('Sort.' . $relation->class . '.' . $sort_key . '.count');
-                                            $list = [];
-                                            if($count === 0){
-                                                $node->set($relation->attribute, $list);
-                                                break;
-                                            }
-                                            $one_many->limit = 4096; // config strtolower($relation->class) .limit for example
-                                            $page_max = ceil($count / $one_many->limit);
-                                            $index = 0;
-                                            for($page = 1; $page <= $page_max; $page++){
-                                                $one_many->page = $page;
-                                                $response = $this->list(
-                                                    $relation->class,
-                                                    $this->role_system(),
-                                                    $one_many
-                                                );
-                                                if(
-                                                    $response &&
-                                                    array_key_exists('list', $response) &&
-                                                    !empty($response['list'])
-                                                ){
-                                                    foreach($response['list'] as $list_node){
-                                                        if(is_object($list_node)){
-                                                            $list_node->{'#index'} = $index;
-                                                        }
-                                                        elseif(is_array($list_node)){
-                                                            $list_node['#index'] = $index;
-                                                        }
-                                                        $list[] = $list_node;
-                                                        $index++;
-                                                    }
-                                                }
-                                            }
+                                            $list = $this->list_select_all($object, $relation, $one_many);
                                             $node->set($relation->attribute, $list);
                                         } else {
                                             $response = $this->list(
@@ -921,7 +936,21 @@ Trait BinaryTree {
                                     is_string($one_many) &&
                                     $one_many === '*'
                                 ){
+                                    $one_many = (object) [
+                                        'limit' => '*',
+                                        'page' => 1,
+                                    ];
+                                    if(property_exists($relation, 'sort')){
+                                        $one_many->sort = $relation->sort;
+                                    } else {
+                                        $one_many->sort = [
+                                            'uuid' => 'ASC'
+                                        ];
+                                    }
+                                    $list = $this->list_select_all($object, $relation, $one_many);
+                                    $node->set($relation->attribute, $list);
                                     ddd('found2');
+                                    break;
                                 }
                                 elseif(!is_array($one_many)){
                                     break;
