@@ -990,6 +990,8 @@ Trait BinaryTree {
                                 //limit => * - int
                                 $node = $record_data->{$relation->attribute};
                                 if(!property_exists($node, 'limit')){
+                                    d($node);
+                                    d($record_data);
                                     throw new Exception('Relation: ' . $relation->attribute . ' has no limit');
                                 }
                                 if(!property_exists($node, 'page')){
