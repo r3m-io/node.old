@@ -153,7 +153,7 @@ Trait Count {
                     ];
                     $count_key = sha1(Core::object($count_key, Core::OBJECT_JSON));
                     $count = $meta->get('Count.' . $name . '.' . $count_key . '.count');
-                    if($count){
+                    if($count || $count === 0){
                         return $count;
                     } else {
                         $count = $this->binary_tree_count(
@@ -209,22 +209,21 @@ Trait Count {
                         $meta->set('Count.' . $name . '.' . $count_key . '.count', $count);
                         $meta->set('Count.' . $name . '.' . $count_key . '.mtime', $mtime);
                         $meta->set('Count.' . $name . '.' . $count_key . '.ttl', $options['ttl']);
-                        d($meta_url);
-                        ddd($meta);
                         $meta->write($meta_url);
                     }
                 } else {
                     $count_key = [
                         'properties' => $properties,
-                        'mtime' => $mtime
+                        'mtime' => $mtime,
+                        'ttl' => $options['ttl']
                     ];
                     $count_key = sha1(Core::object($count_key, Core::OBJECT_JSON));
                     $count = $meta->get('Count.' . $name . '.' . $count_key . '.count');
                     $sort_count = $meta->get('Sort.' . $name . '.' . $sort_key . '.count');
-                    if($count){
+                    if($count || $count === 0){
                         return $count;
                     }
-                    elseif($sort_count){
+                    elseif($sort_count || $sort_count === 0){
                         return $sort_count;
                     } else {
                         $count = $this->binary_tree_count(
@@ -238,11 +237,13 @@ Trait Count {
                                 'url_uuid' => $url_uuid,
                                 'url_connect_property' => $url_connect_property,
                                 'function' => $options['function'],
-                                'relation' => $options['relation']
+                                'relation' => $options['relation'],
+                                'ttl' => $options['ttl']
                             ]
                         );
                         $meta->set('Count.' . $name . '.' . $count_key . '.count', $count);
                         $meta->set('Count.' . $name . '.' . $count_key . '.mtime', $mtime);
+                        $meta->set('Count.' . $name . '.' . $count_key . '.ttl', $options['ttl']);
                         $meta->write($meta_url);
                     }
                 }
