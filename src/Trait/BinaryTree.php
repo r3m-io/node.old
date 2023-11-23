@@ -888,7 +888,7 @@ Trait BinaryTree {
                                 $node->has($relation->attribute)
                             ){
                                 $one_many = $node->get($relation->attribute);
-                                ddd($one_many);
+                                d($one_many);
                                 if(is_object($one_many)){
                                     if(
                                         property_exists($relation, 'class') &&
