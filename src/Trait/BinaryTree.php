@@ -573,6 +573,21 @@ Trait BinaryTree {
         if(!property_exists($options, 'sort')){
             throw new Exception('Sort not found');
         }
+        if(
+            property_exists($options, 'chunk') &&
+            !empty($options->chunk)
+        ){
+            $chunk = (int) $options->chunk + 0;
+        }
+        elseif(
+            property_exists($relation, 'chunk') &&
+            !empty($relation->chunk)
+        ){
+            $chunk = (int) $relation->chunk + 0;
+        }
+        else {
+            $chunk = 4096;
+        }
         $meta_url = $object->config('project.dir.data') .
             'Node' .
             $object->config('ds') .
@@ -595,17 +610,17 @@ Trait BinaryTree {
         $sort_key = sha1(Core::object($sort_key, Core::OBJECT_JSON));
         $count = $meta->get('Sort.' . $relation->class . '.' . $sort_key . '.count');
         $list = [];
-        if($count === 0){
+        if(empty($count)){
             return $list;
         }
-        d($relation);
-        ddd($options);
 
-        $options->limit = 4096; // config strtolower($relation->class) .limit for example
+        $options->limit = $chunk; // config strtolower($relation->class) .limit for example
         $page_max = ceil($count / $options->limit);
         $index = 0;
         for($page = 1; $page <= $page_max; $page++){
             $options->page = $page;
+            d($relation);
+            ddd($options);
             $response = $this->list(
                 $relation->class,
                 $this->role_system(),
