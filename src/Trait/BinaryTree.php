@@ -649,18 +649,11 @@ Trait BinaryTree {
             $count_options = clone $options;
             unset($count_options->limit);
             unset($count_options->page);
-            $response = $this->count(
+            $count = $this->count(
                 $relation->class,
                 $this->role_system(),
                 $count_options
             );
-            d($response);
-            //make count
-            // need count example
-            d($relation);
-            d($options);
-            d($filter);
-            ddd($where);
         }
         $list = [];
         if(empty($count)){
