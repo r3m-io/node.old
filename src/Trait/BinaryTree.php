@@ -768,6 +768,7 @@ Trait BinaryTree {
                     property_exists($relation, 'attribute')
                 ){
                     $is_allowed = false;
+                    $output_filter = false;
                     $options_relation = $options['relation'] ?? [];
                     if(is_bool($options_relation) && $options_relation === true){
                         $is_allowed = true;
@@ -914,6 +915,16 @@ Trait BinaryTree {
                                                 ];
                                             }
                                         }
+                                        if(
+                                            property_exists($one_many, 'output') &&
+                                            !empty($one_many->output) &&
+                                            is_object($one_many->output) &&
+                                            property_exists($one_many->output, 'filter') &&
+                                            !empty($one_many->output->filter) &&
+                                            is_array($one_many->output->filter)
+                                        ){
+                                            $output_filter = $one_many->output->filter;
+                                        }
                                         if($one_many->limit === '*'){
                                             //need count if where or filter
                                             $list = $this->list_select_all($object, $relation, $one_many);
@@ -1018,8 +1029,6 @@ Trait BinaryTree {
                                         }
                                         if($one_many->limit === '*'){
                                             $list = $this->list_select_all($object, $relation, $one_many);
-                                            d($relation);
-                                            d($list);
                                             $node->set($relation->attribute, $list);
                                         } else {
                                             $response = $this->list(
@@ -1031,8 +1040,6 @@ Trait BinaryTree {
                                                 !empty($response) &&
                                                 array_key_exists('list', $response)
                                             ){
-                                                d($relation);
-                                                ddd($response['list']);
                                                 $node->set($relation->attribute, $response['list']);
                                             } else {
                                                 $node->set($relation->attribute, []);
@@ -1120,8 +1127,6 @@ Trait BinaryTree {
                                         }
                                     }
                                 }
-                                d($relation);
-                                ddd($one_many);
                                 $node->set($relation->attribute, $one_many);
                             }
                             $record = $node->data();
@@ -1210,8 +1215,8 @@ Trait BinaryTree {
                             $record = $node->data();
                             break;
                     }
-                    ddd($relation);
-                    d($record);
+                    d($relation);
+                    ddd($record);
                 }
             }
         }
