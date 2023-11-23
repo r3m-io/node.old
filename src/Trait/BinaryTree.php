@@ -1107,15 +1107,30 @@ Trait BinaryTree {
                                         if($one_many->limit === '*'){
                                             $one_many->page = 1;
                                         }
-                                        if(property_exists($relation, 'sort')){
+                                        if(
+                                            property_exists($relation, 'sort') &&
+                                            !empty($relation->sort)
+                                        ){
                                             $one_many->sort = $relation->sort;
                                         } else {
                                             $one_many->sort = [
                                                 'uuid' => 'ASC'
                                             ];
                                         }
+                                        if(
+                                            property_exists($relation, 'where') &&
+                                            !empty($relation->where)
+                                        ){
+                                            $one_many->where = $relation->where;
+                                        }
+                                        if(
+                                            property_exists($relation, 'filter') &&
+                                            !empty($relation->filter) &&
+                                            is_array($relation->filter)
+                                        ){
+                                            $one_many->filter = $relation->filter;
+                                        }
                                         if($one_many->limit === '*'){
-                                            //need count if where or filter
                                             $list = $this->list_select_all($object, $relation, $one_many);
                                             $node->set($relation->attribute, $list);
                                         } else {
