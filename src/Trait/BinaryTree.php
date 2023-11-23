@@ -1385,11 +1385,11 @@ Trait BinaryTree {
                 }
             }
         }
-        $start = $index;
-        $end = $start + $options['limit'];
+//        $start = $index;
+        $end = $index + $options['limit'];
         $page = [];
         $record_index = $index;
-        for($i = $start; $i < $end; $i++){
+        for($i = 0; $i < $end; $i++){
             d('index: ' . $i);
             $record_data = $this->binary_tree_index($file, $file_uuid, $file_connect_property, [
                 'lines'=> $options['lines'],
@@ -1473,10 +1473,12 @@ Trait BinaryTree {
                 }
                 d($record_data);
                 if($record_data){
-                    $record_data->{'#index'} = $record_index;
-                    $page[] = $record_data;
-                    $record_index++;
-                    $counter++;
+                    if($i >= $index){
+                        $record_data->{'#index'} = $record_index;
+                        $page[] = $record_data;
+                        $record_index++;
+                        $counter++;
+                    }
                 } else {
                     /*
                      * does break the code...
