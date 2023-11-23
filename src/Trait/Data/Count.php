@@ -176,10 +176,12 @@ Trait Count {
                     $count_key = [
                         'properties' => $properties,
                         'where' => $options['where'],
-                        'mtime' => $mtime
+                        'mtime' => $mtime,
+//                        'ttl' => $options['ttl']
                     ];
                     $count_key = sha1(Core::object($count_key, Core::OBJECT_JSON));
                     $count = $meta->get('Count.' . $name . '.' . $count_key . '.count');
+                    d($options);
                     d($meta_url);
                     d($meta);
                     ddd($count);
