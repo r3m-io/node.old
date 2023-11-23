@@ -199,6 +199,8 @@ Trait Count {
                         );
                         $meta->set('Count.' . $name . '.' . $count_key . '.count', $count);
                         $meta->set('Count.' . $name . '.' . $count_key . '.mtime', $mtime);
+                        d($meta_url);
+                        ddd($meta);
                         $meta->write($meta_url);
                     }
                 } else {
