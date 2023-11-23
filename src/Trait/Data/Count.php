@@ -2,6 +2,7 @@
 
 namespace R3m\Io\Node\Trait\Data;
 
+use R3m\Io\Module\Cache;
 use SplFileObject;
 
 use R3m\Io\Module\Data as Storage;
@@ -41,6 +42,9 @@ Trait Count {
             $object->config('ds')
         ;
         $url_uuid = $dir . 'Asc' . $object->config('ds') . 'Uuid' . $object->config('extension.btree');
+        if(!array_key_exists('ttl', $options)){
+            $options['ttl'] = Cache::TEN_MINUTES;
+        }
         if(!array_key_exists('where', $options)){
             $options['where'] = [];
         }
@@ -144,7 +148,8 @@ Trait Count {
                     $count_key = [
                         'properties' => $properties,
                         'filter' => $options['filter'],
-                        'mtime' => $mtime
+                        'mtime' => $mtime,
+                        'ttl' => $options['ttl']
                     ];
                     $count_key = sha1(Core::object($count_key, Core::OBJECT_JSON));
                     $count = $meta->get('Count.' . $name . '.' . $count_key . '.count');
@@ -163,7 +168,8 @@ Trait Count {
                                 'url_uuid' => $url_uuid,
                                 'url_connect_property' => $url_connect_property,
                                 'function' => $options['function'],
-                                'relation' => $options['relation']
+                                'relation' => $options['relation'],
+                                'ttl' => $options['ttl']
                             ]
                         );
                         $meta->set('Count.' . $name . '.' . $count_key . '.count', $count);
@@ -177,14 +183,10 @@ Trait Count {
                         'properties' => $properties,
                         'where' => $options['where'],
                         'mtime' => $mtime,
-//                        'ttl' => $options['ttl']
+                        'ttl' => $options['ttl']
                     ];
                     $count_key = sha1(Core::object($count_key, Core::OBJECT_JSON));
                     $count = $meta->get('Count.' . $name . '.' . $count_key . '.count');
-                    d($options);
-                    d($meta_url);
-                    d($meta);
-                    ddd($count);
                     if($count || $count === 0){
                         return $count;
                     } else {
@@ -200,11 +202,13 @@ Trait Count {
                                 'url_uuid' => $url_uuid,
                                 'url_connect_property' => $url_connect_property,
                                 'function' => $options['function'],
-                                'relation' => $options['relation']
+                                'relation' => $options['relation'],
+                                'ttl' => $options['ttl']
                             ]
                         );
                         $meta->set('Count.' . $name . '.' . $count_key . '.count', $count);
                         $meta->set('Count.' . $name . '.' . $count_key . '.mtime', $mtime);
+                        $meta->set('Count.' . $name . '.' . $count_key . '.ttl', $options['ttl']);
                         d($meta_url);
                         ddd($meta);
                         $meta->write($meta_url);
