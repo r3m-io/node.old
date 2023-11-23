@@ -1077,6 +1077,9 @@ Trait BinaryTree {
                                     $node->set($relation->attribute, $list);
                                     break;
                                 }
+                                elseif($one_many === '' || $one_many === false){
+                                    ddd($relation);
+                                }
                                 elseif(!is_array($one_many)){
                                     break;
                                 }
