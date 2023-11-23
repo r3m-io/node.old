@@ -1114,9 +1114,27 @@ Trait BinaryTree {
                                                 'uuid' => 'ASC'
                                             ];
                                         }
+                                        if($one_many->limit === '*'){
+                                            //need count if where or filter
+                                            $list = $this->list_select_all($object, $relation, $one_many);
+                                            $node->set($relation->attribute, $list);
+                                        } else {
+                                            $response = $this->list(
+                                                $relation->class,
+                                                $this->role_system(),
+                                                $one_many
+                                            );
+                                            if(
+                                                !empty($response) &&
+                                                array_key_exists('list', $response)
+                                            ){
+                                                $node->set($relation->attribute, $response['list']);
+                                            } else {
+                                                $node->set($relation->attribute, []);
+                                            }
+                                        }
+                                        break;
                                     }
-                                    d($one_many);
-                                    ddd($relation);
                                 }
                                 elseif(!is_array($one_many)){
                                     break;
