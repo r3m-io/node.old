@@ -173,6 +173,7 @@ Trait Count {
                         );
                         $meta->set('Count.' . $name . '.' . $count_key . '.count', $count);
                         $meta->set('Count.' . $name . '.' . $count_key . '.mtime', $mtime);
+                        $meta->set('Count.' . $name . '.' . $count_key . '.ttl', $options['ttl']);
                         $meta->write($meta_url);
                     }
                 }
