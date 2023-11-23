@@ -656,7 +656,6 @@ Trait BinaryTree {
                 $this->role_system(),
                 $count_options
             );
-            d($count);
         }
         $list = [];
         if(empty($count)){
@@ -696,6 +695,7 @@ Trait BinaryTree {
         }
         $options->page = $page_max;
         $options->limit = $last_page_count;
+        ddd($options);
         $response = $this->list(
             $relation->class,
             $this->role_system(),
