@@ -180,6 +180,8 @@ Trait Count {
                     ];
                     $count_key = sha1(Core::object($count_key, Core::OBJECT_JSON));
                     $count = $meta->get('Count.' . $name . '.' . $count_key . '.count');
+                    d($meta_url);
+                    d($meta);
                     ddd($count);
                     if($count || $count === 0){
                         return $count;
