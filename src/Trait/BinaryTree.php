@@ -588,32 +588,73 @@ Trait BinaryTree {
         else {
             $chunk = 4096;
         }
-        $meta_url = $object->config('project.dir.data') .
-            'Node' .
-            $object->config('ds') .
-            'Meta' .
-            $object->config('ds') .
-            $relation->class .
-            $object->config('extension.json')
-        ;
-        $meta = $object->data_read($meta_url, sha1($meta_url));
-        if(!$meta){
-            throw new Exception('Meta data not found in: ' . $meta_url);
+        if(
+            property_exists($options, 'where') &&
+            !empty($options->where)
+        ){
+            $where = $options->where;
         }
-        $properties = [];
-        foreach($options->sort as $key => $order){
-            $properties[] = $key;
+        elseif(
+            property_exists($relation, 'where') &&
+            !empty($relation->where)
+        ){
+            $where = $relation->where;
         }
-        $sort_key = [
-            'property' => $properties,
-        ];
-        $sort_key = sha1(Core::object($sort_key, Core::OBJECT_JSON));
-        $count = $meta->get('Sort.' . $relation->class . '.' . $sort_key . '.count');
+        else {
+            $where = false;
+        }
+        if(
+            property_exists($options, 'filter') &&
+            !empty($options->filter) &&
+            is_array($options->filter)
+        ){
+            $filter = $options->filter;
+        }
+        elseif(
+            property_exists($relation, 'filter') &&
+            !empty($relation->filter) &&
+            is_array($relation->fitler)
+        ){
+            $filter = $relation->filter;
+        }
+        else {
+            $filter = false;
+        }
+        if(
+            $where === false &&
+            $filter === false
+        ){
+            $meta_url = $object->config('project.dir.data') .
+                'Node' .
+                $object->config('ds') .
+                'Meta' .
+                $object->config('ds') .
+                $relation->class .
+                $object->config('extension.json')
+            ;
+            $meta = $object->data_read($meta_url, sha1($meta_url));
+            if(!$meta){
+                throw new Exception('Meta data not found in: ' . $meta_url);
+            }
+            $properties = [];
+            foreach($options->sort as $key => $order){
+                $properties[] = $key;
+            }
+            $sort_key = [
+                'property' => $properties,
+            ];
+            $sort_key = sha1(Core::object($sort_key, Core::OBJECT_JSON));
+            $count = $meta->get('Sort.' . $relation->class . '.' . $sort_key . '.count');
+        } else {
+            d($relation);
+            d($options);
+            d($filter);
+            ddd($where);
+        }
         $list = [];
         if(empty($count)){
             return $list;
         }
-
         $options->limit = $chunk; // config strtolower($relation->class) .limit for example
         $page_max = ceil($count / $options->limit);
         $index = 0;
