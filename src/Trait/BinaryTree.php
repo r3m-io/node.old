@@ -1210,7 +1210,7 @@ Trait BinaryTree {
                             $record = $node->data();
                             break;
                     }
-                    d($relation);
+                    ddd($relation);
                     d($record);
                 }
             }
