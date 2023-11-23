@@ -656,6 +656,7 @@ Trait BinaryTree {
                 $this->role_system(),
                 $count_options
             );
+            d($count);
         }
         $list = [];
         if(empty($count)){
