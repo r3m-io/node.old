@@ -1471,7 +1471,6 @@ Trait BinaryTree {
                 ){
                     $record_data = $this->where($record_data, $options['where'], $options);
                 }
-                d($record_data);
                 if($record_data){
                     if($i >= $index){
                         $record_data->{'#index'} = $record_index;
@@ -1480,15 +1479,6 @@ Trait BinaryTree {
                         $counter++;
                     }
                 } else {
-                    /*
-                     * does break the code...
-                    if(!empty($options['filter'])){
-                        break;
-                    }
-                    elseif(!empty($options['where'])){
-                        break;
-                    }
-                    */
                     $end++;
                 }
             } else {
