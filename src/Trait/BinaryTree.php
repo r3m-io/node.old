@@ -1210,6 +1210,7 @@ Trait BinaryTree {
                             $record = $node->data();
                             break;
                     }
+                    ddd($record);
                 }
             }
         }
@@ -1283,7 +1284,6 @@ Trait BinaryTree {
         $page = [];
         $record_index = $index;
         for($i = 0; $i < $end; $i++){
-            d('index: ' . $i);
             $record_data = $this->binary_tree_index($file, $file_uuid, $file_connect_property, [
                 'lines'=> $options['lines'],
                 'counter' => 0,
