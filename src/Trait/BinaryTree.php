@@ -565,12 +565,12 @@ Trait BinaryTree {
      * @throws FileWriteException
      * @throws Exception
      */
-    private function list_select_all(App $object, $relation, $one_many){
+    private function list_select_all(App $object, $relation, $options){
         //list all uuid's
         if(!property_exists($relation, 'class')){
             throw new Exception('Relation class not found');
         }
-        if(!property_exists($one_many, 'sort')){
+        if(!property_exists($options, 'sort')){
             throw new Exception('Sort not found');
         }
         $meta_url = $object->config('project.dir.data') .
@@ -586,7 +586,7 @@ Trait BinaryTree {
             throw new Exception('Meta data not found in: ' . $meta_url);
         }
         $properties = [];
-        foreach($one_many->sort as $key => $order){
+        foreach($options->sort as $key => $order){
             $properties[] = $key;
         }
         $sort_key = [
@@ -598,17 +598,18 @@ Trait BinaryTree {
         if($count === 0){
             return $list;
         }
-        ddd($one_many);
+        d($relation);
+        ddd($options);
 
-        $one_many->limit = 4096; // config strtolower($relation->class) .limit for example
-        $page_max = ceil($count / $one_many->limit);
+        $options->limit = 4096; // config strtolower($relation->class) .limit for example
+        $page_max = ceil($count / $options->limit);
         $index = 0;
         for($page = 1; $page <= $page_max; $page++){
-            $one_many->page = $page;
+            $options->page = $page;
             $response = $this->list(
                 $relation->class,
                 $this->role_system(),
-                $one_many
+                $options
             );
             if(
                 $response &&
