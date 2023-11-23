@@ -1050,7 +1050,7 @@ Trait BinaryTree {
                                         break;
                                     }
                                 }
-                                elseif(!is_array($one_many)){
+                                if(!is_array($one_many)){
                                     break;
                                 }
                                 foreach($one_many as $nr => $uuid){
