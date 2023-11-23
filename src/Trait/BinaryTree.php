@@ -662,13 +662,16 @@ Trait BinaryTree {
         if(empty($count)){
             return $list;
         }
-        $options->limit = $chunk; // config strtolower($relation->class) .limit for example
+        if($count < $chunk){
+            $options->limit = $count;
+        } else {
+            $options->limit = $chunk; // config strtolower($relation->class) .limit for example
+        }
         $page_max = ceil($count / $options->limit);
+        $last_page_count = $count - (($page_max - 1) * $options->limit);
         $index = 0;
-        for($page = 1; $page <= $page_max; $page++){
+        for($page = 1; $page < $page_max; $page++){
             $options->page = $page;
-            d($relation);
-            ddd($options);
             $response = $this->list(
                 $relation->class,
                 $this->role_system(),
@@ -689,6 +692,29 @@ Trait BinaryTree {
                     $list[] = $list_node;
                     $index++;
                 }
+            }
+        }
+        $options->page = $page_max;
+        $options->limit = $last_page_count;
+        $response = $this->list(
+            $relation->class,
+            $this->role_system(),
+            $options
+        );
+        if(
+            $response &&
+            array_key_exists('list', $response) &&
+            !empty($response['list'])
+        ){
+            foreach($response['list'] as $list_node){
+                if(is_object($list_node)){
+                    $list_node->{'#index'} = $index;
+                }
+                elseif(is_array($list_node)){
+                    $list_node['#index'] = $index;
+                }
+                $list[] = $list_node;
+                $index++;
             }
         }
         return $list;
