@@ -888,7 +888,6 @@ Trait BinaryTree {
                                 $node->has($relation->attribute)
                             ){
                                 $one_many = $node->get($relation->attribute);
-                                d($one_many);
                                 if(is_object($one_many)){
                                     if(
                                         property_exists($relation, 'class') &&
@@ -1078,6 +1077,45 @@ Trait BinaryTree {
                                     break;
                                 }
                                 elseif($one_many === '' || $one_many === false){
+                                    if(
+                                        property_exists($relation, 'limit') &&
+                                        !empty($relation->limit) &&
+                                        (
+                                            $relation->limit === '*' ||
+                                            (
+                                                is_int($relation->limit) ||
+                                                is_float($relation->limit)
+                                            )
+
+                                        )
+                                    ){
+                                        if(
+                                            property_exists($relation, 'page') &&
+                                            (
+                                                is_int($relation->page) ||
+                                                is_float($relation->page)
+                                            )
+                                        ){
+                                            $page = $relation->page;
+                                        } else {
+                                            $page = 1;
+                                        }
+                                        $one_many = (object) [
+                                            'limit' => $relation->limit,
+                                            'page' => $page,
+                                        ];
+                                        if($one_many->limit === '*'){
+                                            $one_many->page = 1;
+                                        }
+                                        if(property_exists($relation, 'sort')){
+                                            $one_many->sort = $relation->sort;
+                                        } else {
+                                            $one_many->sort = [
+                                                'uuid' => 'ASC'
+                                            ];
+                                        }
+                                    }
+                                    d($one_many);
                                     ddd($relation);
                                 }
                                 elseif(!is_array($one_many)){
