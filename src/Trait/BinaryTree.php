@@ -646,6 +646,17 @@ Trait BinaryTree {
             $sort_key = sha1(Core::object($sort_key, Core::OBJECT_JSON));
             $count = $meta->get('Sort.' . $relation->class . '.' . $sort_key . '.count');
         } else {
+            $count_options = clone $options;
+            unset($count_options->limit);
+            unset($count_options->page);
+            $response = $this->count(
+                $relation->class,
+                $this->role_system(),
+                $count_options
+            );
+            d($response);
+            //make count
+            // need count example
             d($relation);
             d($options);
             d($filter);
