@@ -589,6 +589,21 @@ Trait BinaryTree {
             $chunk = 4096;
         }
         if(
+            property_exists($options, 'ttl') &&
+            !empty($options->ttl)
+        ){
+            $ttl = (int) $options->ttl + 0;
+        }
+        elseif(
+            property_exists($relation, 'ttl') &&
+            !empty($relation->ttl)
+        ){
+            $ttl = (int) $relation->ttl + 0;
+        }
+        else {
+            $ttl = Cache::TEN_MINUTES;
+        }
+        if(
             property_exists($options, 'where') &&
             !empty($options->where)
         ){
@@ -651,6 +666,7 @@ Trait BinaryTree {
             unset($count_options->page);
             $count_options->where = $where;
             $count_options->filter = $filter;
+            $count_options->ttl = $ttl;
             $count = $this->count(
                 $relation->class,
                 $this->role_system(),
