@@ -1229,6 +1229,8 @@ Trait BinaryTree {
                                         }
                                     }
                                 }
+                                d($relation);
+                                ddd($one_many);
                                 $node->set($relation->attribute, $one_many);
                             }
                             $record = $node->data();
