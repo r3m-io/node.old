@@ -14,6 +14,7 @@ use R3m\Io\Module\Data as Storage;
 use R3m\Io\Module\Dir;
 use R3m\Io\Module\File;
 use R3m\Io\Module\Parse;
+use R3m\Io\Module\Route;
 use SplFileObject;
 use stdClass;
 
@@ -1214,6 +1215,26 @@ Trait BinaryTree {
                             }
                             $record = $node->data();
                             break;
+                    }
+                    if(
+                        empty($output_filter) &&
+                        property_exists($relation, 'output') &&
+                        !empty($relation->output) &&
+                        is_object($relation->output) &&
+                        property_exists($relation->output, 'filter') &&
+                        !empty($relation->output->filter) &&
+                        is_array($relation->output->filter)
+                    ){
+                        $output_filter = $relation->output->filter;
+                    }
+                    if($output_filter){
+                        foreach($output_filter as $output_filter_nr => $output_filter_data){
+                            $route = (object) [
+                                'controller' => $output_filter_data
+                            ];
+                            $route = Route::controller($route);
+                            ddd($route);
+                        }
                     }
                     d($relation);
                     ddd($record);
