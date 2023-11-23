@@ -1238,8 +1238,6 @@ Trait BinaryTree {
                             }
                         }
                     }
-                    d($relation);
-                    ddd($record);
                 }
             }
         }
