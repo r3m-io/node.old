@@ -25,6 +25,7 @@ Trait Count {
     public function count($class, $role, $options=[]): int
     {
         $options = Core::object($options, Core::OBJECT_ARRAY);
+        d($options);
         $count = 0;
         $name = Controller::name($class);
         if(!array_key_exists('function', $options)){
