@@ -1479,6 +1479,7 @@ Trait BinaryTree {
                         $counter++;
                     }
                 } else {
+                    $index++;
                     $end++;
                 }
             } else {
