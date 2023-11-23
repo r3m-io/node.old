@@ -1019,7 +1019,7 @@ Trait BinaryTree {
                                         if($one_many->limit === '*'){
                                             $list = $this->list_select_all($object, $relation, $one_many);
                                             d($relation);
-                                            ddd($list);
+                                            d($list);
                                             $node->set($relation->attribute, $list);
                                         } else {
                                             $response = $this->list(
