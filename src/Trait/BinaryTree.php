@@ -598,6 +598,8 @@ Trait BinaryTree {
         if($count === 0){
             return $list;
         }
+        ddd($one_many);
+
         $one_many->limit = 4096; // config strtolower($relation->class) .limit for example
         $page_max = ceil($count / $one_many->limit);
         $index = 0;
@@ -806,6 +808,7 @@ Trait BinaryTree {
                                             }
                                         }
                                         if($one_many->limit === '*'){
+                                            //need count if where or filter
                                             $list = $this->list_select_all($object, $relation, $one_many);
                                             $node->set($relation->attribute, $list);
                                         } else {
