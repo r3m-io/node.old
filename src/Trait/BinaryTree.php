@@ -968,8 +968,6 @@ Trait BinaryTree {
                                         ];
                                     }
                                     $list = $this->list_select_all($object, $relation, $one_many);
-                                    d($relation);
-                                    ddd($list);
                                     $node->set($relation->attribute, $list);
                                     $record = $node->data();
                                     break;
