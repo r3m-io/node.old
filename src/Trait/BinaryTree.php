@@ -1305,6 +1305,8 @@ Trait BinaryTree {
         }
 //        $start = $index;
         $end = $index + $options['limit'];
+        $page_current = 1;
+        $page_counter = 0;
         $page = [];
         $record_index = $index;
         for($i = 0; $i < $end; $i++){
@@ -1389,11 +1391,19 @@ Trait BinaryTree {
                     $record_data = $this->where($record_data, $options['where'], $options);
                 }
                 if($record_data){
+                    $page_counter++;
+                    if($page_counter > $options['limit']){
+                        $page_current++;
+                        $page_counter = 0;
+                    }
                     if($i >= $index){
-                        $record_data->{'#index'} = $record_index;
-                        $page[] = $record_data;
+                        $record_data->{'#index'} = $index; //was record_index
+                        $page[$page_current][] = $record_data;
                         $record_index++;
                         $counter++;
+                    } else {
+                        $record_data->{'#index'} = $index; //was record_index
+                        $page[$page_current][] = $record_data;
                     }
                 } else {
                     $index++;
@@ -1410,7 +1420,7 @@ Trait BinaryTree {
             $url
         ){
             $cache = new Storage();
-            $cache->set('page', $page);
+            $cache->set('page', $page[$options['page']]);
             $cache->set('input', $options);
             $cache->set('output.count', $counter);
             $cache->set('output.page', $options['page']);
@@ -1428,7 +1438,7 @@ Trait BinaryTree {
                 $object->logger($object->config('project.log.node'))->info('Duration: (2) ' . round($duration, 2) . ' sec url: ' . $options['url']);
             }
         }
-        return $page;
+        return $page[$options['page']];
     }
 
     /**
