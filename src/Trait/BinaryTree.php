@@ -1305,112 +1305,207 @@ Trait BinaryTree {
         }
 //        $start = $index;
         $end = $index + $options['limit'];
-        $page_current = 1;
-        $page_counter = 0;
         $page = [];
         $record_index = $index;
-        for($i = 0; $i < $end; $i++){
-            $record_data = $this->binary_tree_index($file, $file_uuid, $file_connect_property, [
-                'lines'=> $options['lines'],
-                'counter' => 0,
-                'index' => $i,
-                'search' => [],
-                'url' => $options['url'],
-                'url_uuid' => $options['url_uuid'],
-                'url_connect_property' => $options['url_connect_property'],
-            ]);
-            if(
-                $record_data
-            ){
-                $read = $object->data_read($record_data->{'#read'}->url, sha1($record_data->{'#read'}->url));
-                if(!$read){
-                    ///deleted record ?
-                    $end++;
-                    continue;
-                }
-                $record_data = Core::object_merge($record_data, $read->data());
-                if(!property_exists($record_data, '#class')){
-                    $end++;
-                    //need to trigger sync
-                    //delete file ?
-                    continue;
-                }
-                $object_url = $object->config('project.dir.data') .
+        if(
+            !empty($options['filter']) ||
+            !empty($options['where'])
+        ){
+            $page_current = 1;
+            $page_counter = 0;
+            for($i = 0; $i < $end; $i++) {
+                $record_data = $this->binary_tree_index($file, $file_uuid, $file_connect_property, [
+                    'lines' => $options['lines'],
+                    'counter' => 0,
+                    'index' => $i,
+                    'search' => [],
+                    'url' => $options['url'],
+                    'url_uuid' => $options['url_uuid'],
+                    'url_connect_property' => $options['url_connect_property'],
+                ]);
+                if (
+                    $record_data
+                ) {
+                    $read = $object->data_read($record_data->{'#read'}->url, sha1($record_data->{'#read'}->url));
+                    if (!$read) {
+                        ///deleted record ?
+                        $end++;
+                        continue;
+                    }
+                    $record_data = Core::object_merge($record_data, $read->data());
+                    if (!property_exists($record_data, '#class')) {
+                        $end++;
+                        //need to trigger sync
+                        //delete file ?
+                        continue;
+                    }
+                    $object_url = $object->config('project.dir.data') .
                     'Node' .
                     $object->config('ds') .
                     'Object' .
                     $object->config('ds') .
                     $options['name'] .
                     $object->config('extension.json') ??
-                    ucfirst($record_data->{'#class'}) .
-                    $object->config('extension.json')
-                ;
-                $options_json = Core::object($options, Core::OBJECT_JSON);
-                $object_data = $object->data_read($object_url, sha1($object_url . '.' . $options_json));
-                $record_data = $this->binary_tree_relation($record_data, $object_data, $role, $options);
-                $expose = $this->expose_get(
-                    $object,
-                    $record_data->{'#class'},
-                    $record_data->{'#class'} . '.' . $options['function'] . '.expose'
-                );
-                $record = new Storage($record_data);
-                //add parse
-                // add role to parse
-                if(
-                    array_key_exists('parse', $options) &&
-                    $options['parse'] === true
-                ){
-                    $record->set('R3m\Io', $object->data('R3m\Io'));
-                    $parse = new Parse($object);
-                    $record->set('#role', $role);
-                    //add #role, #user to record ?
-                    $record_data = $parse->compile($record_data, $record);
-                    unset($record_data->{'#role'});
+                        ucfirst($record_data->{'#class'}) .
+                        $object->config('extension.json');
+                    $options_json = Core::object($options, Core::OBJECT_JSON);
+                    $object_data = $object->data_read($object_url, sha1($object_url . '.' . $options_json));
+                    $record_data = $this->binary_tree_relation($record_data, $object_data, $role, $options);
+                    $expose = $this->expose_get(
+                        $object,
+                        $record_data->{'#class'},
+                        $record_data->{'#class'} . '.' . $options['function'] . '.expose'
+                    );
                     $record = new Storage($record_data);
-                }
-                $record = $this->expose(
-                    $record,
-                    $expose,
-                    $record_data->{'#class'},
-                    $options['function'],
-                    $role
-                );
-                $record_data = $record->data();
-                //need object file, so need $class
-                //relations loaded so we can filter / where on them
-                if(
-                    !empty($record_data) &&
-                    !empty($options['filter'])
-                ){
-                    $record_data = $this->filter($record_data, $options['filter'], $options);
-                }
-                elseif(
-                    !empty($record_data) &&
-                    !empty($options['where'])
-                ){
-                    $record_data = $this->where($record_data, $options['where'], $options);
-                }
-                if($record_data){
-                    $page_counter++;
-                    if($page_counter > $options['limit']){
-                        $page_current++;
-                        $page_counter = 0;
+                    //add parse
+                    // add role to parse
+                    if (
+                        array_key_exists('parse', $options) &&
+                        $options['parse'] === true
+                    ) {
+                        $record->set('R3m\Io', $object->data('R3m\Io'));
+                        $parse = new Parse($object);
+                        $record->set('#role', $role);
+                        //add #role, #user to record ?
+                        $record_data = $parse->compile($record_data, $record);
+                        unset($record_data->{'#role'});
+                        $record = new Storage($record_data);
                     }
-                    if($i >= $index){
-                        $record_data->{'#index'} = $index; //was record_index
-                        $page[$page_current][] = $record_data;
-                        $record_index++;
-                        $counter++;
+                    $record = $this->expose(
+                        $record,
+                        $expose,
+                        $record_data->{'#class'},
+                        $options['function'],
+                        $role
+                    );
+                    $record_data = $record->data();
+                    //need object file, so need $class
+                    //relations loaded so we can filter / where on them
+                    if (
+                        !empty($record_data) &&
+                        !empty($options['filter'])
+                    ) {
+                        $record_data = $this->filter($record_data, $options['filter'], $options);
+                    } elseif (
+                        !empty($record_data) &&
+                        !empty($options['where'])
+                    ) {
+                        $record_data = $this->where($record_data, $options['where'], $options);
+                    }
+                    if ($record_data) {
+                        $page_counter++;
+                        if ($page_counter > $options['limit']) {
+                            $page_current++;
+                            $page_counter = 0;
+                        }
+                        if ($i >= $index) {
+                            $record_data->{'#index'} = $index; //was record_index
+                            $page[$page_current][] = $record_data;
+                            $record_index++;
+                            $counter++;
+                        } else {
+                            $record_data->{'#index'} = $index; //was record_index
+                            $page[$page_current][] = $record_data;
+                        }
                     } else {
-                        $record_data->{'#index'} = $index; //was record_index
-                        $page[$page_current][] = $record_data;
+                        $index++;
+                        $end++;
                     }
                 } else {
-                    $index++;
-                    $end++;
+                    break;
                 }
-            } else {
-                break;
+            }
+        } else {
+            $page_current = $options['page'];
+            $page_counter = 0;
+            for($i = $index; $i < $end; $i++) {
+                $record_data = $this->binary_tree_index($file, $file_uuid, $file_connect_property, [
+                    'lines' => $options['lines'],
+                    'counter' => 0,
+                    'index' => $i,
+                    'search' => [],
+                    'url' => $options['url'],
+                    'url_uuid' => $options['url_uuid'],
+                    'url_connect_property' => $options['url_connect_property'],
+                ]);
+                if (
+                    $record_data
+                ) {
+                    $read = $object->data_read($record_data->{'#read'}->url, sha1($record_data->{'#read'}->url));
+                    if (!$read) {
+                        ///deleted record ?
+                        $end++;
+                        continue;
+                    }
+                    $record_data = Core::object_merge($record_data, $read->data());
+                    if (!property_exists($record_data, '#class')) {
+                        $end++;
+                        //need to trigger sync
+                        //delete file ?
+                        continue;
+                    }
+                    $object_url = $object->config('project.dir.data') .
+                    'Node' .
+                    $object->config('ds') .
+                    'Object' .
+                    $object->config('ds') .
+                    $options['name'] .
+                    $object->config('extension.json') ??
+                        ucfirst($record_data->{'#class'}) .
+                        $object->config('extension.json');
+                    $options_json = Core::object($options, Core::OBJECT_JSON);
+                    $object_data = $object->data_read($object_url, sha1($object_url . '.' . $options_json));
+                    $record_data = $this->binary_tree_relation($record_data, $object_data, $role, $options);
+                    $expose = $this->expose_get(
+                        $object,
+                        $record_data->{'#class'},
+                        $record_data->{'#class'} . '.' . $options['function'] . '.expose'
+                    );
+                    $record = new Storage($record_data);
+                    //add parse
+                    // add role to parse
+                    if (
+                        array_key_exists('parse', $options) &&
+                        $options['parse'] === true
+                    ) {
+                        $record->set('R3m\Io', $object->data('R3m\Io'));
+                        $parse = new Parse($object);
+                        $record->set('#role', $role);
+                        //add #role, #user to record ?
+                        $record_data = $parse->compile($record_data, $record);
+                        unset($record_data->{'#role'});
+                        $record = new Storage($record_data);
+                    }
+                    $record = $this->expose(
+                        $record,
+                        $expose,
+                        $record_data->{'#class'},
+                        $options['function'],
+                        $role
+                    );
+                    $record_data = $record->data();
+                    if ($record_data) {
+                        $page_counter++;
+                        if ($page_counter > $options['limit']) {
+                            $page_current++;
+                            $page_counter = 0;
+                        }
+                        if ($i >= $index) {
+                            $record_data->{'#index'} = $index; //was record_index
+                            $page[$page_current][] = $record_data;
+                            $record_index++;
+                            $counter++;
+                        } else {
+                            $record_data->{'#index'} = $index; //was record_index
+                            $page[$page_current][] = $record_data;
+                        }
+                    } else {
+                        $index++;
+                        $end++;
+                    }
+                } else {
+                    break;
+                }
             }
         }
         if(
@@ -1438,6 +1533,7 @@ Trait BinaryTree {
                 $object->logger($object->config('project.log.node'))->info('Duration: (2) ' . round($duration, 2) . ' sec url: ' . $options['url']);
             }
         }
+        ddd($page);
         return $page[$options['page']];
     }
 
