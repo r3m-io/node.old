@@ -1233,7 +1233,11 @@ Trait BinaryTree {
                                 'controller' => $output_filter_data
                             ];
                             $route = Route::controller($route);
-                            if(property_exists($route, 'controller') && property_exists($route, 'function')){
+                            if(
+                                property_exists($route, 'controller') &&
+                                property_exists($route, 'function') &&
+                                property_exists($record, $relation->attribute)
+                            ){
                                 $record->{$relation->attribute} = $route->controller::{$route->function}($object, $record->{$relation->attribute});
                             }
                         }
