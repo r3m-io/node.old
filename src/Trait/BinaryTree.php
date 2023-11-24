@@ -943,6 +943,7 @@ Trait BinaryTree {
                                             } else {
                                                 $node->set($relation->attribute, []);
                                             }
+                                            ddd($response);
                                         }
                                         $record = $node->data();
                                         break;
@@ -1438,7 +1439,6 @@ Trait BinaryTree {
                         continue;
                     }
                     $record_data = Core::object_merge($record_data, $read->data());
-                    d($record_data);
                     if (!property_exists($record_data, '#class')) {
                         $end++;
                         //need to trigger sync
