@@ -982,7 +982,6 @@ Trait BinaryTree {
                                                 is_int($relation->limit) ||
                                                 is_float($relation->limit)
                                             )
-
                                         )
                                     ){
                                         if(
