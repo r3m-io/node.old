@@ -927,10 +927,7 @@ Trait BinaryTree {
                                             $output_filter = $one_many->output->filter;
                                         }
                                         if($one_many->limit === '*'){
-                                            //need count if where or filter
                                             $list = $this->list_select_all($object, $relation, $one_many);
-                                            d($relation);
-                                            ddd($list);
                                             $node->set($relation->attribute, $list);
                                         } else {
                                             $response = $this->list(
