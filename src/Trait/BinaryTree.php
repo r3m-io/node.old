@@ -1534,7 +1534,9 @@ Trait BinaryTree {
             }
         }
         d($page);
-        return $page[$options['page']];
+        if(array_key_exists($options['page'], $page)){
+            return $page[$options['page']];
+        }
     }
 
     /**
