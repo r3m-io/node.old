@@ -1400,12 +1400,12 @@ Trait BinaryTree {
                             $page_counter = 0;
                         }
                         if ($i >= $index) {
-                            $record_data->{'#index'} = $index; //was record_index
+                            $record_data->{'#index'} = $i; //was record_index
                             $page[$page_current][] = $record_data;
                             $record_index++;
                             $counter++;
                         } else {
-                            $record_data->{'#index'} = $index; //was record_index
+                            $record_data->{'#index'} = $i; //was record_index
                             $page[$page_current][] = $record_data;
                         }
                     } else {
