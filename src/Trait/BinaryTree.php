@@ -939,13 +939,12 @@ Trait BinaryTree {
                                                 !empty($response) &&
                                                 array_key_exists('list', $response)
                                             ){
-                                                d($relation);
-                                                ddd($response['list']);
                                                 $node->set($relation->attribute, $response['list']);
                                             } else {
                                                 $node->set($relation->attribute, []);
                                             }
                                         }
+                                        $record = $node->data();
                                         break;
                                     }
                                 }
