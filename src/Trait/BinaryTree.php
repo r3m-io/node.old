@@ -943,7 +943,7 @@ Trait BinaryTree {
                                             } else {
                                                 $node->set($relation->attribute, []);
                                             }
-                                            ddd($response);
+                                            d($response);
                                         }
                                         $record = $node->data();
                                         break;
