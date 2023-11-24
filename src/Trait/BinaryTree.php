@@ -1457,6 +1457,7 @@ Trait BinaryTree {
                     $options_json = Core::object($options, Core::OBJECT_JSON);
                     $object_data = $object->data_read($object_url, sha1($object_url . '.' . $options_json));
                     $record_data = $this->binary_tree_relation($record_data, $object_data, $role, $options);
+                    d($record_data);
                     $expose = $this->expose_get(
                         $object,
                         $record_data->{'#class'},
